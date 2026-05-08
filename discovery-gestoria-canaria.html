@@ -1,1 +1,939 @@
-~)^�+-zo�
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario Discovery · Gestoría · iAgusto</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --carbon: #1C1C1A;
+    --carbon-suave: #2D2D2A;
+    --ocre: #B5732A;
+    --ocre-claro: #D89856;
+    --ocre-suave: #F4E4D0;
+    --blanco-roto: #F4F1EB;
+    --blanco-papel: #FAF8F3;
+    --gris-piedra: #6B6862;
+    --gris-arena: #C9C3B6;
+    --linea: #1C1C1A;
+    --rojo-suave: #A0392E;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Georgia', 'Cambria', serif;
+    background: var(--blanco-roto);
+    color: var(--carbon);
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(181, 115, 42, 0.04) 0, transparent 35%),
+      radial-gradient(circle at 80% 80%, rgba(28, 28, 26, 0.03) 0, transparent 40%);
+  }
+  .header {
+    background: var(--carbon);
+    color: var(--blanco-papel);
+    padding: 60px 24px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--ocre) 0%, var(--ocre-claro) 50%, var(--ocre) 100%);
+  }
+  .header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px);
+    pointer-events: none;
+  }
+  .header-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .header .eyebrow {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ocre-claro);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: var(--ocre-claro);
+  }
+  .header p {
+    max-width: 580px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    color: var(--gris-arena);
+    line-height: 1.7;
+  }
+  .container {
+    max-width: 820px;
+    margin: -40px auto 60px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  form {
+    background: var(--blanco-papel);
+    border: 1px solid var(--carbon);
+    box-shadow: 8px 8px 0 var(--carbon);
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--gris-arena);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--ocre);
+    width: 0;
+    transition: width 0.3s ease;
+  }
+  .section {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--gris-arena);
+    position: relative;
+  }
+  .section:last-of-type { border-bottom: none; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 8px;
+  }
+  .section-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--ocre);
+    text-transform: uppercase;
+  }
+  .section h2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--carbon);
+    letter-spacing: -0.01em;
+    flex: 1;
+  }
+  .section-desc {
+    color: var(--gris-piedra);
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--gris-arena);
+    font-style: italic;
+  }
+  .field { margin-bottom: 24px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label.field-label {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--carbon);
+    margin-bottom: 8px;
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
+  }
+  .field .help {
+    font-size: 0.85rem;
+    color: var(--gris-piedra);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="tel"],
+  .field input[type="number"],
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: none;
+    border-bottom: 1.5px solid var(--carbon);
+    background: transparent;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--carbon);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--ocre);
+    background: var(--ocre-suave);
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 80px;
+    border: 1.5px solid var(--carbon);
+    padding: 12px 14px;
+  }
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 640px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .section { padding: 30px 24px; }
+    .header { padding: 40px 20px 50px; }
+    .header h1 { font-size: 1.7rem; }
+    form { box-shadow: 4px 4px 0 var(--carbon); }
+  }
+  .checkbox-group, .radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 640px) {
+    .checkbox-group, .radio-group { grid-template-columns: 1fr; }
+  }
+  .checkbox-group.single-col, .radio-group.single-col {
+    grid-template-columns: 1fr;
+  }
+  .checkbox-group label, .radio-group label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--gris-arena);
+    background: var(--blanco-roto);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    color: var(--carbon-suave);
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .checkbox-group label:hover, .radio-group label:hover {
+    border-color: var(--ocre);
+    background: var(--ocre-suave);
+  }
+  .checkbox-group input, .radio-group input {
+    accent-color: var(--ocre);
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .checkbox-group input:checked + span,
+  .radio-group input:checked + span {
+    font-weight: 600;
+  }
+  /* Ramas condicionales */
+  .conditional {
+    display: none;
+    margin-top: 20px;
+    padding: 22px 26px;
+    background: var(--ocre-suave);
+    border-left: 4px solid var(--ocre);
+    position: relative;
+  }
+  .conditional.visible {
+    display: block;
+    animation: slideDown 0.35s ease;
+  }
+  .conditional::before {
+    content: "↳";
+    position: absolute;
+    top: 18px;
+    left: -2px;
+    background: var(--ocre);
+    color: var(--blanco-papel);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    transform: translateX(-50%);
+  }
+  .conditional .conditional-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ocre);
+    margin-bottom: 14px;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Slider */
+  .slider-wrap {
+    padding: 8px 0;
+  }
+  .slider-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .slider-display .slider-value {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--ocre);
+    font-family: 'Inter', sans-serif;
+  }
+  .slider-display .slider-label-text {
+    font-size: 0.85rem;
+    color: var(--gris-piedra);
+    font-family: 'Inter', sans-serif;
+  }
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: var(--gris-arena);
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: var(--ocre);
+    cursor: pointer;
+    border: 2px solid var(--carbon);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    background: var(--ocre);
+    cursor: pointer;
+    border: 2px solid var(--carbon);
+  }
+  /* Botones */
+  .submit-area {
+    padding: 40px 48px 50px;
+    background: var(--carbon);
+    color: var(--blanco-papel);
+    text-align: center;
+    position: relative;
+  }
+  .submit-area::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--ocre) 50%, transparent 100%);
+  }
+  .submit-area p {
+    font-size: 0.95rem;
+    margin-bottom: 22px;
+    color: var(--gris-arena);
+    font-style: italic;
+  }
+  button[type="submit"] {
+    background: var(--ocre);
+    color: var(--carbon);
+    border: 2px solid var(--ocre);
+    padding: 16px 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  button[type="submit"]:hover {
+    background: var(--blanco-papel);
+    color: var(--carbon);
+  }
+  button[type="submit"]:active {
+    transform: translate(2px, 2px);
+  }
+  button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .footer-mark {
+    margin-top: 28px;
+    font-size: 0.75rem;
+    color: var(--gris-piedra);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .footer-mark span { color: var(--ocre-claro); }
+  .required {
+    color: var(--ocre);
+    margin-left: 3px;
+  }
+  /* Mensaje de éxito */
+  .success-msg {
+    display: none;
+    background: var(--blanco-papel);
+    border: 1px solid var(--carbon);
+    box-shadow: 8px 8px 0 var(--carbon);
+    padding: 60px 48px;
+    text-align: center;
+    margin: 40px 0;
+  }
+  .success-msg .check {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 24px;
+    border: 3px solid var(--ocre);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--ocre);
+  }
+  .success-msg h2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--carbon);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .success-msg p {
+    color: var(--gris-piedra);
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  /* Highlight box */
+  .highlight-box {
+    background: var(--ocre-suave);
+    border-left: 3px solid var(--ocre);
+    padding: 16px 20px;
+    margin: 18px 0;
+    font-size: 0.92rem;
+    color: var(--carbon-suave);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="eyebrow">iAgusto · Discovery</div>
+    <h1>Cuestionario inicial para vuestra <em>gestoría</em></h1>
+    <p>Antes de prepararos una propuesta de automatización a medida, necesitamos entender cómo trabajáis hoy: vuestra cartera, vuestro equipo y los pequeños detalles que os ocupan más tiempo del que deberían.</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div id="success" class="success-msg">
+    <div class="check">✓</div>
+    <h2>Cuestionario recibido</h2>
+    <p>Lo revisaremos con detalle y te contactaremos en menos de 48 horas laborables para concertar la sesión de discovery y preparar una propuesta ajustada a vuestra operativa real.</p>
+  </div>
+
+  <form id="formulario" action="https://formspree.io/f/xqenkjpv" method="POST">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+    <input type="hidden" name="_subject" value="Nuevo discovery · Gestoría">
+    <input type="hidden" name="_origen" value="discovery-gestoria">
+
+    <!-- 1. Despacho -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>El despacho</h2>
+      </div>
+      <p class="section-desc">Datos básicos para empezar a conoceros.</p>
+
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">Nombre del despacho<span class="required">*</span></label>
+          <input type="text" name="despacho" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Persona de contacto<span class="required">*</span></label>
+          <input type="text" name="contacto_nombre" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Cargo</label>
+          <input type="text" name="contacto_cargo" placeholder="Socio, gerente, responsable...">
+        </div>
+        <div class="field">
+          <label class="field-label">Email<span class="required">*</span></label>
+          <input type="email" name="contacto_email" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Teléfono</label>
+          <input type="tel" name="contacto_telefono">
+        </div>
+        <div class="field">
+          <label class="field-label">Localidad / isla</label>
+          <input type="text" name="localidad" placeholder="Ej: Las Palmas, Tenerife, Lanzarote...">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Volumen y equipo -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2>Volumen y equipo</h2>
+      </div>
+      <p class="section-desc">Para dimensionar correctamente el proyecto y entender el reparto de carga interno.</p>
+
+      <div class="field">
+        <label class="field-label">Nº aproximado de clientes activos</label>
+        <div class="slider-wrap">
+          <div class="slider-display">
+            <span class="slider-value" id="num_clientes_display">800</span>
+            <span class="slider-label-text">empresas en cartera</span>
+          </div>
+          <input type="range" name="num_clientes" id="num_clientes" min="50" max="3000" value="800" step="50">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Nº de personas en el equipo</label>
+        <div class="slider-wrap">
+          <div class="slider-display">
+            <span class="slider-value" id="num_equipo_display">8</span>
+            <span class="slider-label-text">personas trabajando</span>
+          </div>
+          <input type="range" name="num_equipo" id="num_equipo" min="1" max="40" value="8" step="1">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Cuántos clientes lleva de media cada persona técnica?</label>
+        <div class="slider-wrap">
+          <div class="slider-display">
+            <span class="slider-value" id="ratio_display">200</span>
+            <span class="slider-label-text">clientes por técnico</span>
+          </div>
+          <input type="range" name="ratio_clientes" id="ratio_clientes" min="20" max="500" value="200" step="10">
+        </div>
+        <div class="help">Esto nos da una idea muy clara de la presión operativa de cada técnico.</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿La cartera está creciendo, estable o decreciente?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="evolucion_cartera" value="creciendo"><span>Creciendo de forma constante</span></label>
+          <label><input type="radio" name="evolucion_cartera" value="estable"><span>Estable, mantenemos número</span></label>
+          <label><input type="radio" name="evolucion_cartera" value="rotacion"><span>Estable pero con mucha rotación</span></label>
+          <label><input type="radio" name="evolucion_cartera" value="decreciente"><span>Está bajando</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Perfil de cartera -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>Perfil de la cartera</h2>
+      </div>
+      <p class="section-desc">Cada tipo de cliente tiene sus propias caducidades, modelos y rutinas. Esto nos permite enfocar bien las automatizaciones.</p>
+
+      <div class="field">
+        <label class="field-label">Tipos de cliente predominantes</label>
+        <div class="help">Marca todos los que representen al menos un 5% de la cartera.</div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="perfil[]" value="autonomos_modulos" data-trigger="rama-modulos"><span>Autónomos en módulos</span></label>
+          <label><input type="checkbox" name="perfil[]" value="autonomos_directa"><span>Autónomos en estimación directa</span></label>
+          <label><input type="checkbox" name="perfil[]" value="agricultores" data-trigger="rama-agricultura"><span>Agricultores</span></label>
+          <label><input type="checkbox" name="perfil[]" value="pesca" data-trigger="rama-pesca"><span>Pesca artesanal / barcos pequeños</span></label>
+          <label><input type="checkbox" name="perfil[]" value="pymes_sl"><span>Pymes (SL pequeñas)</span></label>
+          <label><input type="checkbox" name="perfil[]" value="cb"><span>Comunidades de bienes</span></label>
+          <label><input type="checkbox" name="perfil[]" value="profesionales"><span>Profesionales (médicos, arquitectos…)</span></label>
+          <label><input type="checkbox" name="perfil[]" value="comercio"><span>Comercio minorista</span></label>
+          <label><input type="checkbox" name="perfil[]" value="hosteleria"><span>Hostelería / restauración</span></label>
+          <label><input type="checkbox" name="perfil[]" value="zec"><span>Sociedades en ZEC / Régimen especial</span></label>
+        </div>
+
+        <div class="conditional" id="rama-agricultura">
+          <div class="conditional-title">Rama: Agricultura</div>
+          <div class="field">
+            <label class="field-label">¿Qué procesos del sector agrícola gestionáis?</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="agri_procesos[]" value="pac"><span>Solicitud y seguimiento PAC</span></label>
+              <label><input type="checkbox" name="agri_procesos[]" value="rega"><span>REGA y declaraciones censales</span></label>
+              <label><input type="checkbox" name="agri_procesos[]" value="sigpac"><span>Modificaciones SIGPAC</span></label>
+              <label><input type="checkbox" name="agri_procesos[]" value="seg_social_agraria"><span>Seguridad Social Agraria</span></label>
+              <label><input type="checkbox" name="agri_procesos[]" value="ayudas_canarias"><span>Ayudas POSEI / FEAGA Canarias</span></label>
+              <label><input type="checkbox" name="agri_procesos[]" value="igic_agri"><span>Liquidaciones IGIC agrícola</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="conditional" id="rama-pesca">
+          <div class="conditional-title">Rama: Pesca</div>
+          <div class="field">
+            <label class="field-label">¿Qué gestionáis del sector pesquero?</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="pesca_procesos[]" value="cofradias"><span>Coordinación con cofradías de pescadores</span></label>
+              <label><input type="checkbox" name="pesca_procesos[]" value="seg_social_mar"><span>Régimen especial del mar (ISM)</span></label>
+              <label><input type="checkbox" name="pesca_procesos[]" value="cuotas_pesca"><span>Cuotas / capturas / ventas en lonja</span></label>
+              <label><input type="checkbox" name="pesca_procesos[]" value="ayudas_fempa"><span>Ayudas FEMPA / pesca artesanal</span></label>
+              <label><input type="checkbox" name="pesca_procesos[]" value="igic_pesca"><span>IGIC tipo cero / exenciones pesca</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="conditional" id="rama-modulos">
+          <div class="conditional-title">Rama: Módulos</div>
+          <div class="field">
+            <label class="field-label">¿Cuántos clientes en módulos lleváis aproximadamente?</label>
+            <input type="text" name="num_modulos" placeholder="Ej: unos 200, o 'el 30% de la cartera'">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Dashboard interno - NÚCLEO -->
+    <div class="section" style="background: linear-gradient(180deg, var(--blanco-papel) 0%, rgba(244, 228, 208, 0.3) 100%);">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2>Dashboard de control interno</h2>
+      </div>
+      <p class="section-desc">Esta es la parte más importante: el panel que vuestro equipo abrirá cada mañana para no perder ningún detalle.</p>
+
+      <div class="highlight-box">
+        Pensad en todas esas pequeñas cosas que hoy se controlan "de memoria" o con Excels paralelos: caducidades, renovaciones, certificados, plazos por cliente. Cuanto más nos contéis, mejor podremos diseñar el panel.
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Qué tipos de alertas y caducidades necesitáis controlar por cliente?</label>
+        <div class="checkbox-group single-col">
+          <label><input type="checkbox" name="alertas[]" value="firma_digital"><span><strong>Firma / certificado digital</strong> próximo a caducar (cliente y propio del despacho)</span></label>
+          <label><input type="checkbox" name="alertas[]" value="cl@ve"><span><strong>Cl@ve y representación AEAT</strong> de cliente próximas a vencer</span></label>
+          <label><input type="checkbox" name="alertas[]" value="ds_aeat"><span><strong>Notificaciones DEHú / AEAT</strong> nuevas por cliente</span></label>
+          <label><input type="checkbox" name="alertas[]" value="ds_atc"><span><strong>Notificaciones ATC</strong> (Hacienda Canaria) nuevas por cliente</span></label>
+          <label><input type="checkbox" name="alertas[]" value="ss_notificaciones"><span><strong>Notificaciones de Seguridad Social</strong> y aplazamientos</span></label>
+          <label><input type="checkbox" name="alertas[]" value="modelos_pendientes"><span><strong>Modelos pendientes</strong> de presentar este mes/trimestre por cliente</span></label>
+          <label><input type="checkbox" name="alertas[]" value="contratos_lab"><span><strong>Contratos laborales</strong> que vencen / pasan a indefinido</span></label>
+          <label><input type="checkbox" name="alertas[]" value="cuentas_anuales"><span><strong>Cuentas anuales</strong> próximas a depósito</span></label>
+          <label><input type="checkbox" name="alertas[]" value="documentacion_falta"><span><strong>Documentación pendiente</strong> de aportar por el cliente</span></label>
+          <label><input type="checkbox" name="alertas[]" value="renovaciones_subv"><span><strong>Renovaciones de subvenciones / ayudas</strong> activas</span></label>
+          <label><input type="checkbox" name="alertas[]" value="impagados"><span><strong>Impagados</strong> de la cuota de la gestoría</span></label>
+          <label><input type="checkbox" name="alertas[]" value="cumple"><span><strong>Cumpleaños / aniversarios</strong> con la gestoría (CRM)</span></label>
+        </div>
+        <div class="field" style="margin-top: 18px;">
+          <label class="field-label">¿Hay alguna otra alerta crítica que controláis hoy y que no aparece arriba?</label>
+          <textarea name="alertas_otras" placeholder="Ej: caducidad de tarjetas de transporte, certificados específicos del sector pesquero, notificaciones de capitanía marítima..."></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Cómo controláis hoy estas caducidades y plazos?</label>
+        <div class="radio-group single-col">
+          <label><input type="radio" name="control_actual" value="excel"><span>Excels paralelos por técnico (cada uno el suyo)</span></label>
+          <label><input type="radio" name="control_actual" value="excel_compartido"><span>Un Excel/Google Sheet compartido del despacho</span></label>
+          <label><input type="radio" name="control_actual" value="software"><span>Lo que trae el software (A3, ContaSOL...)</span></label>
+          <label><input type="radio" name="control_actual" value="memoria"><span>Mucho de memoria y revisión manual cada mes</span></label>
+          <label><input type="radio" name="control_actual" value="agendas"><span>Agendas / calendarios individuales</span></label>
+          <label><input type="radio" name="control_actual" value="herramienta_propia"><span>Una herramienta propia que ya hicimos en su día</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Qué información te gustaría ver en la pantalla principal del dashboard, en cuanto un técnico abre el navegador?</label>
+        <textarea name="vista_principal" rows="4" placeholder="Ej: 'Quiero que cada técnico vea en una sola pantalla todas las alertas críticas de sus 300 clientes, ordenadas por urgencia, con un click rápido para marcar como hecha o avisar al cliente.'"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Quién debe poder ver qué dentro del despacho?</label>
+        <div class="radio-group single-col">
+          <label><input type="radio" name="permisos" value="cada_uno_lo_suyo"><span>Cada técnico solo sus clientes; jefes ven todo</span></label>
+          <label><input type="radio" name="permisos" value="todos_todo"><span>Todos pueden ver todo (despacho pequeño)</span></label>
+          <label><input type="radio" name="permisos" value="por_areas"><span>Por áreas (fiscal, laboral, contable…)</span></label>
+          <label><input type="radio" name="permisos" value="aun_definir"><span>Eso aún tenemos que pensarlo</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Comunicación con cliente final -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2>Avisos al cliente final</h2>
+      </div>
+      <p class="section-desc">Cómo llegáis al cliente cuando hay que recordarle que renueve su firma, aporte una factura o llegue un plazo.</p>
+
+      <div class="field">
+        <label class="field-label">¿Cómo avisáis hoy al cliente final?</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="canales_aviso[]" value="email"><span>Email</span></label>
+          <label><input type="checkbox" name="canales_aviso[]" value="llamada"><span>Llamada de teléfono</span></label>
+          <label><input type="checkbox" name="canales_aviso[]" value="whatsapp" data-trigger="rama-wa"><span>WhatsApp manual</span></label>
+          <label><input type="checkbox" name="canales_aviso[]" value="sms"><span>SMS</span></label>
+          <label><input type="checkbox" name="canales_aviso[]" value="presencial"><span>Cuando viene a la oficina</span></label>
+          <label><input type="checkbox" name="canales_aviso[]" value="no_avisamos"><span>No avisamos, esperamos a que pregunte</span></label>
+        </div>
+
+        <div class="conditional" id="rama-wa">
+          <div class="conditional-title">Rama: WhatsApp</div>
+          <div class="field">
+            <label class="field-label">¿Cuántas personas del equipo usan WhatsApp con clientes desde su móvil?</label>
+            <input type="text" name="wa_personas" placeholder="Ej: 4 técnicos cada uno con su número personal">
+          </div>
+          <div class="field">
+            <label class="field-label">¿Os preocupa la trazabilidad / control de esas conversaciones?</label>
+            <div class="radio-group">
+              <label><input type="radio" name="wa_trazabilidad" value="mucho"><span>Sí, mucho</span></label>
+              <label><input type="radio" name="wa_trazabilidad" value="algo"><span>Algo</span></label>
+              <label><input type="radio" name="wa_trazabilidad" value="poco"><span>Poco</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Os gustaría que esos avisos saliesen automáticamente desde el dashboard?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="avisos_auto" value="si_total"><span>Sí, totalmente automáticos</span></label>
+          <label><input type="radio" name="avisos_auto" value="si_revision"><span>Sí, pero con revisión humana antes de enviar</span></label>
+          <label><input type="radio" name="avisos_auto" value="no"><span>Preferimos seguir avisando manualmente</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Cuántas horas semanales se pierden hoy "persiguiendo" clientes para que aporten documentación o renueven cosas?</label>
+        <input type="text" name="horas_perseguir" placeholder="Estimación general: ej: '15 horas en el equipo entre todos'">
+      </div>
+    </div>
+
+    <!-- 6. Stack tecnológico -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2>Software actual</h2>
+      </div>
+      <p class="section-desc">Qué herramientas usáis hoy. Esto nos ayuda a saber con qué hay que integrar el dashboard.</p>
+
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">Software contable principal</label>
+          <input type="text" name="sw_contable" placeholder="A3, ContaSOL, Sage, ContaPlus…">
+        </div>
+        <div class="field">
+          <label class="field-label">Software fiscal</label>
+          <input type="text" name="sw_fiscal" placeholder="Si es distinto del contable">
+        </div>
+        <div class="field">
+          <label class="field-label">Software laboral / nóminas</label>
+          <input type="text" name="sw_laboral" placeholder="A3 NOM, Sage Nóminas, Nominasol…">
+        </div>
+        <div class="field">
+          <label class="field-label">Gestor documental</label>
+          <input type="text" name="sw_documental" placeholder="OneDrive, Drive, Dropbox, propio…">
+        </div>
+        <div class="field">
+          <label class="field-label">CRM o sistema de cliente</label>
+          <input type="text" name="sw_crm" placeholder="O 'no usamos ninguno'">
+        </div>
+        <div class="field">
+          <label class="field-label">Email / suite ofimática</label>
+          <input type="text" name="sw_email" placeholder="Microsoft 365, Google Workspace…">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Tenéis ya algún portal o área privada para vuestros clientes?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="portal_actual" value="si_propio"><span>Sí, propio</span></label>
+          <label><input type="radio" name="portal_actual" value="si_software"><span>Sí, el del software</span></label>
+          <label><input type="radio" name="portal_actual" value="no"><span>No tenemos</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Particularidades canarias -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <h2>Régimen Económico y Fiscal de Canarias</h2>
+      </div>
+      <p class="section-desc">Las particularidades canarias afectan a buena parte del calendario y de los modelos de los clientes.</p>
+
+      <div class="field">
+        <label class="field-label">¿Qué áreas del REF os generan más carga operativa?</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="ref[]" value="igic_periodicas"><span>IGIC: liquidaciones periódicas (modelo 412/420/425)</span></label>
+          <label><input type="checkbox" name="ref[]" value="igic_resumen"><span>IGIC: resumen anual (modelo 415/425)</span></label>
+          <label><input type="checkbox" name="ref[]" value="aiem"><span>AIEM (Arbitrio sobre Importaciones)</span></label>
+          <label><input type="checkbox" name="ref[]" value="ric"><span>RIC (Reserva para Inversiones en Canarias)</span></label>
+          <label><input type="checkbox" name="ref[]" value="dic"><span>Deducción por inversiones en Canarias</span></label>
+          <label><input type="checkbox" name="ref[]" value="zec"><span>Sociedades en ZEC</span></label>
+          <label><input type="checkbox" name="ref[]" value="atc_general"><span>Trámites generales con la ATC</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Hay algún trámite canario muy específico de vuestro perfil de cliente que os tenga "atascados" hoy?</label>
+        <textarea name="ref_dolor" placeholder="Cuéntanoslo con tus palabras"></textarea>
+      </div>
+    </div>
+
+    <!-- 8. Prioridades y siguientes pasos -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">08</span>
+        <h2>Prioridades</h2>
+      </div>
+      <p class="section-desc">Para acertar con el orden del proyecto.</p>
+
+      <div class="field">
+        <label class="field-label">Si tuvieras que elegir UNA cosa para resolver primero, ¿cuál sería?<span class="required">*</span></label>
+        <textarea name="prioridad" required rows="3" placeholder="La que más os duela día a día"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Qué objetivo concreto te gustaría conseguir en 6 meses con este proyecto?</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="objetivos[]" value="reducir_horas"><span>Reducir horas administrativas</span></label>
+          <label><input type="checkbox" name="objetivos[]" value="dejar_de_perder"><span>Dejar de perder cosas / olvidar plazos</span></label>
+          <label><input type="checkbox" name="objetivos[]" value="crecer"><span>Poder coger más clientes sin contratar</span></label>
+          <label><input type="checkbox" name="objetivos[]" value="bajar_estres"><span>Bajar el estrés del equipo</span></label>
+          <label><input type="checkbox" name="objetivos[]" value="mejor_imagen"><span>Dar una imagen más profesional al cliente</span></label>
+          <label><input type="checkbox" name="objetivos[]" value="diferenciacion"><span>Diferenciarnos comercialmente</span></label>
+          <label><input type="checkbox" name="objetivos[]" value="datos"><span>Tener datos reales para tomar decisiones</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Cuándo te gustaría tenerlo en marcha?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="cuando" value="urgente"><span>Lo antes posible</span></label>
+          <label><input type="radio" name="cuando" value="3meses"><span>En 2-3 meses</span></label>
+          <label><input type="radio" name="cuando" value="6meses"><span>Antes de fin de año</span></label>
+          <label><input type="radio" name="cuando" value="explorando"><span>Solo estamos explorando</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">¿Algo más que quieras contarnos antes de la reunión?</label>
+        <textarea name="comentarios" rows="4"></textarea>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <p>Enviaremos el cuestionario a <strong style="color: var(--blanco-papel);">cesarmoyah@gmail.com</strong>.<br>Te contactaremos en menos de 48 horas laborables.</p>
+      <button type="submit">Enviar cuestionario</button>
+      <div class="footer-mark">iAgusto<span>·</span>app</div>
+    </div>
+  </form>
+</div>
+
+<script>
+(function() {
+  // Sliders dinámicos
+  const sliders = [
+    { input: 'num_clientes', display: 'num_clientes_display' },
+    { input: 'num_equipo', display: 'num_equipo_display' },
+    { input: 'ratio_clientes', display: 'ratio_clientes_display' }
+  ];
+  sliders.forEach(s => {
+    const inp = document.getElementById(s.input);
+    const disp = document.getElementById(s.display);
+    if (inp && disp) {
+      const update = () => {
+        const v = parseInt(inp.value);
+        disp.textContent = v.toLocaleString('es-ES');
+      };
+      inp.addEventListener('input', update);
+      update();
+    }
+  });
+
+  // Ramas condicionales
+  const triggers = document.querySelectorAll('[data-trigger]');
+  triggers.forEach(t => {
+    t.addEventListener('change', () => {
+      const targetId = t.dataset.trigger;
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      // checkbox: se muestra mientras esté marcada al menos una con ese trigger
+      const all = document.querySelectorAll('[data-trigger="' + targetId + '"]');
+      const anyChecked = Array.from(all).some(el => el.checked);
+      target.classList.toggle('visible', anyChecked);
+    });
+  });
+
+  // Barra de progreso
+  const form = document.getElementById('formulario');
+  const progress = document.getElementById('progress');
+  const updateProgress = () => {
+    const fields = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
+    const checks = form.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked');
+    let filled = 0, total = 0;
+    fields.forEach(f => {
+      total++;
+      if (f.value && f.value.trim() !== '') filled++;
+    });
+    // Cuenta también si hay al menos 1 check/radio en grupos
+    const seenGroups = new Set();
+    checks.forEach(c => {
+      if (!seenGroups.has(c.name)) { seenGroups.add(c.name); filled++; }
+    });
+    total += 8; // grupos clave de checks/radios
+    const pct = Math.min(100, Math.round((filled / total) * 100));
+    progress.style.width = pct + '%';
+  };
+  form.addEventListener('input', updateProgress);
+  form.addEventListener('change', updateProgress);
+  updateProgress();
+
+  // Submit
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const data = new FormData(form);
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        alert('Hubo un problema al enviar. Inténtalo de nuevo en unos segundos.');
+        btn.disabled = false;
+        btn.textContent = 'Enviar cuestionario';
+      }
+    } catch (err) {
+      alert('Error de conexión. Inténtalo de nuevo.');
+      btn.disabled = false;
+      btn.textContent = 'Enviar cuestionario';
+    }
+  });
+})();
+</script>
+</body>
+</html>
