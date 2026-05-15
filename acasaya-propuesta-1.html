@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Casa Ya — Propuesta iAgusto × Simplex</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1A3A5C;
+  --orange: #E87722;
+  --orange-light: #FF9A4D;
+  --cream: #FFF8F0;
+  --dark: #0D1F33;
+  --mid: #2A4A6C;
+  --text: #1A2A3A;
+  --muted: #6B8099;
+  --white: #FFFFFF;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --phone-bg: #0D1F33;
+  --phone-screen: #1A2A3A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  background: var(--dark);
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(232,119,34,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 80% at 20% 30%, rgba(26,58,92,0.8) 0%, transparent 70%);
+}
+
+.grid-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(232,119,34,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,119,34,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(232,119,34,0.15);
+  border: 1px solid rgba(232,119,34,0.3);
+  color: var(--orange-light);
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+}
+
+.hero-badge span { width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.0;
+  margin-bottom: 24px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--orange);
+  display: block;
+}
+
+.hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+  margin-bottom: 48px;
+  max-width: 460px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--orange);
+  color: white;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 16px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(232,119,34,0.4); }
+
+.btn-ghost {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.8);
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 16px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+
+/* ===== PHONE MOCKUP ===== */
+.phone-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.phone-glow {
+  position: absolute;
+  width: 300px; height: 400px;
+  background: radial-gradient(ellipse, rgba(232,119,34,0.25) 0%, transparent 70%);
+  filter: blur(40px);
+}
+
+.phone {
+  width: 280px;
+  background: #0a0a0a;
+  border-radius: 40px;
+  border: 2px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 40px 80px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.03),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.phone-notch {
+  width: 80px; height: 24px;
+  background: #0a0a0a;
+  border-radius: 0 0 14px 14px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.phone-screen {
+  background: var(--phone-screen);
+  min-height: 560px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* SCREENS */
+.screen { position: absolute; inset: 0; transition: opacity 0.5s ease, transform 0.5s ease; opacity: 0; transform: translateY(20px); pointer-events: none; }
+.screen.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+
+/* Screen: Inicio */
+.screen-home {
+  background: linear-gradient(160deg, #1A2A3A 0%, #0D1F33 100%);
+  padding: 20px 16px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.app-logo-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--orange);
+}
+
+.app-logo-sub {
+  font-size: 9px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+}
+
+.app-cart-btn {
+  width: 32px; height: 32px;
+  background: rgba(232,119,34,0.15);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, var(--orange) 0%, #C85A00 100%);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-banner::after {
+  content: '🥘';
+  position: absolute;
+  right: -4px; bottom: -8px;
+  font-size: 52px;
+  opacity: 0.3;
+}
+
+.hero-banner h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.hero-banner p {
+  font-size: 10px;
+  color: rgba(255,255,255,0.8);
+}
+
+.section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.product-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.product-card:active { transform: scale(0.96); background: rgba(232,119,34,0.1); }
+
+.product-emoji { font-size: 24px; margin-bottom: 6px; display: block; }
+.product-name { font-size: 10px; font-weight: 500; color: white; margin-bottom: 2px; }
+.product-price { font-size: 11px; font-weight: 700; color: var(--orange); }
+.product-time { font-size: 8px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+.order-btn-wrap { margin-top: 8px; }
+.order-btn {
+  width: 100%;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 11px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Screen: Checkout */
+.screen-checkout {
+  background: #0D1F33;
+  padding: 16px;
+}
+
+.screen-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.screen-subtitle {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 16px;
+}
+
+.order-summary {
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.order-item:last-child { border-bottom: none; }
+
+.order-item-name { font-size: 11px; color: rgba(255,255,255,0.8); }
+.order-item-qty { font-size: 10px; color: var(--orange); background: rgba(232,119,34,0.15); padding: 2px 6px; border-radius: 4px; }
+.order-item-price { font-size: 11px; font-weight: 600; color: white; }
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  margin-top: 4px;
+  border-top: 1px solid rgba(232,119,34,0.3);
+}
+.total-label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); }
+.total-amount { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--orange); }
+
+.input-group { margin-bottom: 8px; }
+.input-label { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.input-mock {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.8);
+  width: 100%;
+}
+
+.payment-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.payment-opt {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+}
+.payment-opt.selected {
+  border-color: var(--orange);
+  background: rgba(232,119,34,0.1);
+  color: var(--orange);
+  font-weight: 600;
+}
+
+/* Screen: Confirmación */
+.screen-confirm {
+  background: #0D1F33;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.confirm-icon {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 40px rgba(34,197,94,0.4);
+  animation: popIn 0.5s ease;
+}
+
+@keyframes popIn { 0%{transform:scale(0)} 70%{transform:scale(1.1)} 100%{transform:scale(1)} }
+
+.confirm-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.confirm-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.confirm-detail {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 10px;
+}
+.confirm-row span:first-child { color: rgba(255,255,255,0.4); }
+.confirm-row span:last-child { color: white; font-weight: 500; }
+
+.whatsapp-btn {
+  width: 100%;
+  background: #25D366;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 11px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Screen: Admin */
+.screen-admin {
+  background: #0D1F33;
+  padding: 16px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.admin-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: white; }
+.admin-badge { background: rgba(34,197,94,0.15); color: #22C55E; font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 100px; border: 1px solid rgba(34,197,94,0.3); }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.stat-num { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--orange); }
+.stat-label { font-size: 8px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+.orders-list { }
+.orders-label { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+
+.order-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  margin-bottom: 5px;
+  border-left: 3px solid transparent;
+}
+.order-row.pending { border-left-color: var(--warning); }
+.order-row.confirmed { border-left-color: var(--success); }
+.order-row.delivering { border-left-color: #60A5FA; }
+
+.order-row-info { flex: 1; min-width: 0; }
+.order-row-name { font-size: 10px; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.order-row-detail { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 1px; }
+.order-row-price { font-size: 11px; font-weight: 700; color: var(--orange); white-space: nowrap; }
+.order-status { font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+.status-pending { background: rgba(245,158,11,0.15); color: var(--warning); }
+.status-confirmed { background: rgba(34,197,94,0.15); color: var(--success); }
+.status-delivering { background: rgba(96,165,250,0.15); color: #60A5FA; }
+
+/* ===== SCREEN TABS ===== */
+.screen-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: rgba(26,58,92,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active, .tab-btn:hover {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: white;
+}
+
+/* ===== SECTIONS ===== */
+section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+}
+.section-tag::before { content: ''; width: 24px; height: 2px; background: var(--orange); border-radius: 1px; }
+
+h2.big {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+h2.big span { color: var(--orange); }
+
+.lead {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 560px;
+  margin-bottom: 60px;
+}
+
+/* ===== MODULES GRID ===== */
+.modules-section { background: var(--dark); padding: 100px 0; }
+.modules-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 60px;
+}
+
+.module-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--orange), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.module-card:hover { border-color: rgba(232,119,34,0.2); transform: translateY(-4px); }
+.module-card:hover::before { opacity: 1; }
+
+.module-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--orange);
+  opacity: 0.6;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.module-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.module-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.module-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.6;
+}
+
+.module-card.alert-card {
+  background: rgba(245,158,11,0.05);
+  border-color: rgba(245,158,11,0.2);
+}
+
+.module-card.alert-card .module-title { color: #FCD34D; }
+
+.alert-note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(245,158,11,0.1);
+  border-radius: 8px;
+  font-size: 11px;
+  color: rgba(252,211,77,0.7);
+  line-height: 1.5;
+}
+
+.module-card.ok-card {
+  background: rgba(34,197,94,0.04);
+  border-color: rgba(34,197,94,0.15);
+}
+
+.module-card.ok-card .module-title { color: #86EFAC; }
+
+/* ===== PRICING ===== */
+.pricing-section { background: white; }
+.pricing-section .modules-inner { padding: 100px 48px; }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 60px;
+}
+
+.pricing-card {
+  border-radius: 20px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-card.main {
+  background: var(--dark);
+  border: 1px solid rgba(232,119,34,0.2);
+}
+
+.pricing-card.monthly {
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.pricing-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pricing-card.main .pricing-label { color: var(--orange); }
+.pricing-card.monthly .pricing-label { color: rgba(255,255,255,0.4); }
+
+.pricing-amount {
+  font-family: 'Syne', sans-serif;
+  margin-bottom: 8px;
+}
+
+.pricing-amount .num {
+  font-size: 64px;
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+}
+
+.pricing-amount .sym { font-size: 28px; color: var(--orange); vertical-align: super; }
+.pricing-amount .period { font-size: 14px; color: rgba(255,255,255,0.4); }
+
+.pricing-note {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 32px;
+}
+
+.pricing-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin-bottom: 28px;
+}
+
+.pricing-items { list-style: none; }
+.pricing-items li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.4;
+}
+
+.pricing-items li::before {
+  content: '✓';
+  color: var(--success);
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pricing-accent {
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(232,119,34,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pricing-partidas {
+  margin-top: 40px;
+}
+
+.partidas-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.partidas-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.partidas-table tr {
+  border-bottom: 1px solid rgba(26,58,92,0.08);
+  transition: background 0.15s;
+}
+.partidas-table tr:hover { background: rgba(232,119,34,0.04); }
+.partidas-table td {
+  padding: 12px 8px;
+  font-size: 14px;
+  color: var(--text);
+}
+.partidas-table td:last-child {
+  text-align: right;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  color: var(--navy);
+}
+.partidas-table tr.total-row td {
+  border-top: 2px solid var(--orange);
+  padding-top: 16px;
+  color: var(--navy);
+  font-weight: 700;
+}
+.partidas-table tr.total-row td:last-child {
+  font-size: 22px;
+  color: var(--orange);
+}
+
+/* ===== TIMELINE ===== */
+.timeline-section { background: var(--cream); }
+
+.timeline {
+  margin-top: 60px;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--orange), rgba(232,119,34,0.1));
+}
+
+.timeline-item {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 48px;
+  padding-left: 68px;
+  position: relative;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  width: 48px; height: 48px;
+  background: var(--navy);
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--orange);
+  flex-shrink: 0;
+}
+
+.timeline-content { padding-top: 4px; }
+
+.timeline-phase {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.timeline-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.timeline-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.timeline-duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(26,58,92,0.08);
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-top: 10px;
+}
+
+/* ===== FOOTER CTA ===== */
+.footer-cta {
+  background: var(--dark);
+  padding: 100px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-cta::before {
+  content: '';
+  position: absolute;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(232,119,34,0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.footer-cta h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800;
+  color: white;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.footer-cta p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.footer-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.footer-brand {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.3);
+}
+
+.footer-sep { color: rgba(255,255,255,0.15); font-size: 20px; }
+
+.contact-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.contact-item {
+  text-align: center;
+}
+.contact-item .c-label { font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; font-family: 'Syne', sans-serif; font-weight: 700; }
+.contact-item .c-value { font-size: 15px; color: rgba(255,255,255,0.75); font-weight: 500; }
+
+/* ===== ANIMATED ENTRANCE ===== */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up:nth-child(2) { transition-delay: 0.1s; }
+.fade-up:nth-child(3) { transition-delay: 0.2s; }
+.fade-up:nth-child(4) { transition-delay: 0.3s; }
+.fade-up:nth-child(5) { transition-delay: 0.4s; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 60px 24px;
+    text-align: center;
+  }
+  .hero-sub { max-width: 100%; }
+  .hero-ctas { justify-content: center; }
+  .modules-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  section { padding: 70px 24px; }
+  .modules-inner { padding: 70px 24px; }
+  .footer-cta { padding: 70px 24px; }
+  .footer-logos { flex-wrap: wrap; gap: 16px; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  /* Base: evitar desbordamiento */
+  *, *::before, *::after { max-width: 100%; }
+  html, body { overflow-x: hidden; width: 100%; }
+
+  /* Hero */
+  .hero { min-height: auto; padding: 0; }
+  .hero-content {
+    grid-template-columns: 1fr;
+    padding: 48px 20px 40px;
+    gap: 36px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .hero h1 { font-size: 32px; line-height: 1.1; word-break: break-word; }
+  .hero-sub { font-size: 15px; margin-bottom: 32px; }
+  .hero-badge {
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .hero-ctas { flex-direction: column; align-items: stretch; gap: 12px; }
+  .btn-primary, .btn-ghost {
+    font-size: 14px;
+    padding: 14px 20px;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* Phone */
+  .phone-wrap { width: 100%; }
+  .phone { width: 230px; margin: 0 auto; }
+  .phone-screen { min-height: 460px; }
+  .screen-tabs { gap: 5px; padding: 0 4px; }
+  .tab-btn { font-size: 10px; padding: 6px 9px; }
+
+  /* Sections */
+  section { padding: 48px 20px; }
+  .modules-inner { padding: 48px 20px; }
+  h2.big { font-size: 26px; }
+  .lead { font-size: 15px; margin-bottom: 40px; }
+  .section-tag { font-size: 9px; }
+
+  /* Modules */
+  .modules-grid { grid-template-columns: 1fr; gap: 12px; }
+  .module-card { padding: 20px; }
+  .module-title { font-size: 14px; }
+  .module-desc { font-size: 12px; }
+
+  /* Pricing */
+  .pricing-card { padding: 24px 20px; }
+  .pricing-amount .num { font-size: 44px; }
+  .pricing-items li { font-size: 12px; }
+  .partidas-table td { font-size: 11px; padding: 9px 4px; }
+  .partidas-table tr.total-row td:last-child { font-size: 16px; }
+  .partidas-title { font-size: 13px; }
+
+  /* Timeline */
+  .timeline-item { padding-left: 52px; gap: 14px; margin-bottom: 36px; }
+  .timeline-title { font-size: 16px; }
+  .timeline-desc { font-size: 13px; }
+  .timeline-duration { font-size: 11px; }
+  .timeline-dot { width: 40px; height: 40px; font-size: 13px; }
+
+  /* Footer */
+  .footer-cta { padding: 48px 20px; }
+  .footer-cta h2 { font-size: 24px; }
+  .footer-cta p { font-size: 14px; margin-bottom: 32px; }
+  .contact-grid { flex-direction: column; gap: 16px; align-items: center; margin-bottom: 32px; }
+  #form-wrap { padding: 0; width: 100%; box-sizing: border-box; }
+  #form-wrap input {
+    font-size: 14px;
+    padding: 13px 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #form-wrap .btn-primary {
+    font-size: 14px !important;
+    padding: 15px 20px !important;
+    width: 100% !important;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .footer-logos { flex-direction: column; gap: 8px; }
+  .footer-logos span:last-child { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+
+  <div class="hero-content">
+    <div>
+      <div class="hero-badge"><span></span>Propuesta de Proyecto · Mayo 2026</div>
+      <h1>
+        Tu restaurante,
+        <em>en modo digital.</em>
+      </h1>
+      <p class="hero-sub">
+        App de pedidos online para A Casa Ya — integrada con tu TPV Glop, pago con tarjeta y entrega a domicilio en tu zona.
+      </p>
+      <div class="hero-ctas">
+        <a href="#inversion" class="btn-primary">Ver propuesta económica →</a>
+        <a href="#modulos" class="btn-ghost">¿Qué incluye?</a>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone-glow"></div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+
+          <!-- SCREEN 1: Home -->
+          <div class="screen screen-home active" id="screen-0">
+            <div class="app-header">
+              <div>
+                <div class="app-logo-text">🥘 A Casa Ya</div>
+                <div class="app-logo-sub">PEDIDOS ONLINE</div>
+              </div>
+              <div class="app-cart-btn">🛒</div>
+            </div>
+
+            <div class="hero-banner">
+              <h3>Paellas para hoy</h3>
+              <p>Pide antes de las 11:00 h · Entrega a domicilio</p>
+            </div>
+
+            <div class="section-label">Carta del día</div>
+            <div class="products-grid">
+              <div class="product-card">
+                <span class="product-emoji">🥘</span>
+                <div class="product-name">Paella Valenciana</div>
+                <div class="product-price">12,50 €/pers</div>
+                <div class="product-time">⏱ Mín. 4 h</div>
+              </div>
+              <div class="product-card">
+                <span class="product-emoji">🍤</span>
+                <div class="product-name">Fideuà de Mariscos</div>
+                <div class="product-price">14,00 €/pers</div>
+                <div class="product-time">⏱ Mín. 4 h</div>
+              </div>
+              <div class="product-card">
+                <span class="product-emoji">🍚</span>
+                <div class="product-name">Arroz al Horno</div>
+                <div class="product-price">11,00 €/pers</div>
+                <div class="product-time">⏱ Mín. 4 h</div>
+              </div>
+              <div class="product-card">
+                <span class="product-emoji">🍮</span>
+                <div class="product-name">Postres del día</div>
+                <div class="product-price">3,50 €</div>
+                <div class="product-time">⏱ Mín. 1 h</div>
+              </div>
+            </div>
+            <div class="order-btn-wrap">
+              <button class="order-btn" onclick="showScreen(1)">
+                🛒 Ver carrito · <strong>2 artículos</strong>
+              </button>
+            </div>
+          </div>
+
+          <!-- SCREEN 2: Checkout -->
+          <div class="screen screen-checkout" id="screen-1">
+            <div class="screen-title">Tu pedido</div>
+            <div class="screen-subtitle">Eliana · Entrega a domicilio</div>
+
+            <div class="order-summary">
+              <div class="order-item">
+                <span class="order-item-name">Paella Valenciana</span>
+                <span class="order-item-qty">×4</span>
+                <span class="order-item-price">50,00 €</span>
+              </div>
+              <div class="order-item">
+                <span class="order-item-name">Fideuà de Mariscos</span>
+                <span class="order-item-qty">×2</span>
+                <span class="order-item-price">28,00 €</span>
+              </div>
+              <div class="order-item">
+                <span class="order-item-name">Postres del día</span>
+                <span class="order-item-qty">×3</span>
+                <span class="order-item-price">10,50 €</span>
+              </div>
+              <div class="order-item">
+                <span class="order-item-name" style="color:rgba(255,255,255,0.4)">Envío a domicilio</span>
+                <span class="order-item-qty" style="background:transparent;color:rgba(255,255,255,0.4)"></span>
+                <span class="order-item-price" style="color:rgba(255,255,255,0.5)">5,00 €</span>
+              </div>
+              <div class="order-total">
+                <span class="total-label">Total</span>
+                <span class="total-amount">93,50 €</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">Dirección de entrega</div>
+              <div class="input-mock">Calle Mayor 12, Eliana</div>
+            </div>
+
+            <div class="input-label" style="font-size:9px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Pago</div>
+            <div class="payment-options">
+              <div class="payment-opt selected">💳 Tarjeta</div>
+              <div class="payment-opt">📱 Bizum</div>
+            </div>
+
+            <button class="order-btn" onclick="showScreen(2)">
+              🔒 Pagar 93,50 €
+            </button>
+          </div>
+
+          <!-- SCREEN 3: Confirmación -->
+          <div class="screen screen-confirm" id="screen-2">
+            <div class="confirm-icon" id="confirmIcon">✓</div>
+            <div class="confirm-title">¡Pedido confirmado!</div>
+            <div class="confirm-sub">Te avisamos por WhatsApp cuando salga a repartir</div>
+
+            <div class="confirm-detail">
+              <div class="confirm-row"><span>Pedido nº</span><span>#ACY-2847</span></div>
+              <div class="confirm-row"><span>Entrega aprox.</span><span>13:30 – 14:00 h</span></div>
+              <div class="confirm-row"><span>Dirección</span><span>C/ Mayor 12, Eliana</span></div>
+              <div class="confirm-row"><span>Pago</span><span>✓ Tarjeta confirmado</span></div>
+            </div>
+
+            <button class="whatsapp-btn" onclick="showScreen(3)">
+              💬 Seguimiento por WhatsApp
+            </button>
+          </div>
+
+          <!-- SCREEN 4: Admin -->
+          <div class="screen screen-admin" id="screen-3">
+            <div class="admin-header">
+              <div>
+                <div class="admin-title">Panel Admin</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">Enric · A Casa Ya</div>
+              </div>
+              <div class="admin-badge">● En directo</div>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat-card">
+                <div class="stat-num" id="statPedidos">7</div>
+                <div class="stat-label">Pedidos hoy</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="statIngresos">524€</div>
+                <div class="stat-label">Ingresos</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="statPend">2</div>
+                <div class="stat-label">Pendientes</div>
+              </div>
+            </div>
+
+            <div class="orders-label">Pedidos recientes</div>
+            <div class="order-row confirmed">
+              <div class="order-row-info">
+                <div class="order-row-name">María G. — Paella ×6</div>
+                <div class="order-row-detail">C/ Riu Túria, Ribarroja</div>
+              </div>
+              <div>
+                <div class="order-row-price">78,00 €</div>
+                <div class="order-status status-confirmed">Confirmado</div>
+              </div>
+            </div>
+            <div class="order-row delivering">
+              <div class="order-row-info">
+                <div class="order-row-name">Carlos R. — Fideuà ×4</div>
+                <div class="order-row-detail">Urb. La Cañada</div>
+              </div>
+              <div>
+                <div class="order-row-price">56,00 €</div>
+                <div class="order-status status-delivering">En reparto</div>
+              </div>
+            </div>
+            <div class="order-row pending">
+              <div class="order-row-info">
+                <div class="order-row-name">Ana M. — Arroz ×3</div>
+                <div class="order-row-detail">C/ Major, La Pobla</div>
+              </div>
+              <div>
+                <div class="order-row-price">33,00 €</div>
+                <div class="order-status status-pending">Pendiente</div>
+              </div>
+            </div>
+            <div class="order-row pending">
+              <div class="order-row-info">
+                <div class="order-row-name">Josep V. — Paella ×8</div>
+                <div class="order-row-detail">Av. Constitució, Eliana</div>
+              </div>
+              <div>
+                <div class="order-row-price">100,00 €</div>
+                <div class="order-status status-pending">Pendiente</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="screen-tabs">
+        <button class="tab-btn active" onclick="showScreen(0)" id="tab-0">🏠 Carta</button>
+        <button class="tab-btn" onclick="showScreen(1)" id="tab-1">🛒 Pedido</button>
+        <button class="tab-btn" onclick="showScreen(2)" id="tab-2">✅ Confirmación</button>
+        <button class="tab-btn" onclick="showScreen(3)" id="tab-3">⚙️ Admin</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MÓDULOS ===== -->
+<div class="modules-section" id="modulos">
+  <div class="modules-inner">
+    <div class="section-tag">Alcance del proyecto</div>
+    <h2 class="big" style="color:white;">Todo lo que incluye<br><span>tu nueva app.</span></h2>
+    <p class="lead" style="color:rgba(255,255,255,0.45);">Siete módulos diseñados para que A Casa Ya reciba pedidos online sin cambiar cómo trabajas.</p>
+
+    <div class="modules-grid">
+      <div class="module-card fade-up">
+        <div class="module-num">01</div>
+        <span class="module-icon">📱</span>
+        <div class="module-title">App web de pedidos</div>
+        <div class="module-desc">Carta online con fotos, precios y antelación mínima por producto. Funciona en móvil, tablet y ordenador sin descargar nada.</div>
+      </div>
+
+      <div class="module-card ok-card fade-up">
+        <div class="module-num">02</div>
+        <span class="module-icon">💳</span>
+        <div class="module-title">Stripe + Redsys ✓ Sin riesgo</div>
+        <div class="module-desc">Pago con tarjeta, Apple Pay y Google Pay vía Stripe. Redsys disponible si prefieres pasarela bancaria española (requiere TPV virtual BBVA).</div>
+      </div>
+
+      <div class="module-card alert-card fade-up">
+        <div class="module-num">03</div>
+        <span class="module-icon">🖨️</span>
+        <div class="module-title">Integración Glop TPV ⚠️ Pendiente confirmar</div>
+        <div class="module-desc">Volcado automático del pedido al TPV del local al recibir el pago.</div>
+        <div class="alert-note">
+          ⚠️ Glop instalado en PC local (no Cloud) — necesitamos confirmar con tu técnico de Glop si disponen de API o acceso a BD. Si no es posible, se sustituye por notificación WhatsApp + impresión directa desde la app, sin coste adicional.
+        </div>
+      </div>
+
+      <div class="module-card fade-up">
+        <div class="module-num">04</div>
+        <span class="module-icon">⏱️</span>
+        <div class="module-title">Gestión de horarios y antelación</div>
+        <div class="module-desc">Paellas: mínimo 4 h o día anterior. Resto de platos: mínimo 1 h. Fuera de horario, la app avisa automáticamente y no deja pedir.</div>
+      </div>
+
+      <div class="module-card fade-up">
+        <div class="module-num">05</div>
+        <span class="module-icon">🛠️</span>
+        <div class="module-title">Panel de administración</div>
+        <div class="module-desc">Gestiona platos, precios, stock, zonas de reparto y pedidos en tiempo real desde el móvil o el PC del local.</div>
+      </div>
+
+      <div class="module-card fade-up">
+        <div class="module-num">06</div>
+        <span class="module-icon">💬</span>
+        <div class="module-title">WhatsApp Business</div>
+        <div class="module-desc">Migración gratuita al número 640 775 050. Confirmaciones automáticas al cliente y al local. Aprovecha tu lista de 190 habituales.</div>
+      </div>
+
+      <div class="module-card fade-up" style="grid-column: 1 / -1; background: rgba(232,119,34,0.04); border-color: rgba(232,119,34,0.15);">
+        <div class="module-num">07</div>
+        <span class="module-icon">🌐</span>
+        <div class="module-title">Publicación y dominio</div>
+        <div class="module-desc">Disponible desde el primer día en <strong style="color:var(--orange-light)">acasaya.iagusto.app</strong> o en el dominio propio que elijas. SSL incluido. Sin configuraciones técnicas para ti.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRICING ===== -->
+<div class="pricing-section" id="inversion">
+  <div class="modules-inner" style="max-width:1200px;margin:0 auto;">
+    <div class="section-tag" style="color:var(--orange)">Inversión</div>
+    <h2 class="big">Precio claro,<br><span>sin sorpresas.</span></h2>
+    <p class="lead">Sin desglose por horas. Precio fijo por entregable. Pagas lo que ves.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card main">
+        <div class="pricing-accent"></div>
+        <div class="pricing-label">Desarrollo — Pago único</div>
+        <div class="pricing-amount">
+          <span class="sym">€</span><span class="num">2.800</span>
+        </div>
+        <div class="pricing-note">+ IVA · Pago en dos mitades: inicio y entrega</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-items">
+          <li>App web de pedidos completa</li>
+          <li>Integración Stripe + Redsys</li>
+          <li>Integración Glop TPV local</li>
+          <li>Panel de administración</li>
+          <li>Configuración WhatsApp Business</li>
+          <li>Publicación y puesta en marcha</li>
+          <li>Formación para el equipo incluida</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card monthly">
+        <div class="pricing-label">Mantenimiento mensual</div>
+        <div class="pricing-amount">
+          <span class="sym">€</span><span class="num">300</span><span class="period">/mes</span>
+        </div>
+        <div class="pricing-note">Desde el mes siguiente a la puesta en marcha · Permanencia mínima 6 meses</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-items">
+          <li>Hosting, base de datos y SSL</li>
+          <li>Actualizaciones de carta y precios</li>
+          <li>Soporte prioritario WhatsApp + email</li>
+          <li>Copias de seguridad diarias</li>
+          <li>Mejoras menores incluidas</li>
+          <li>Monitorización 24 h</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pricing-partidas fade-up">
+      <div class="partidas-title">Desglose del desarrollo por partidas</div>
+      <table class="partidas-table">
+        <tr>
+          <td>App web de pedidos (React + Supabase)</td>
+          <td>1.200 €</td>
+        </tr>
+        <tr>
+          <td>Integración pasarela de pago Stripe + Redsys</td>
+          <td>400 €</td>
+        </tr>
+        <tr>
+          <td>Integración Glop TPV local</td>
+          <td>600 €</td>
+        </tr>
+        <tr>
+          <td>Panel de administración + gestión de horarios</td>
+          <td>300 €</td>
+        </tr>
+        <tr>
+          <td>Configuración WhatsApp Business + avisos automáticos</td>
+          <td>200 €</td>
+        </tr>
+        <tr>
+          <td>Publicación, dominio/subdominio y formación</td>
+          <td>100 €</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>TOTAL DESARROLLO</strong></td>
+          <td><strong>2.800 €</strong></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TIMELINE ===== -->
+<div class="timeline-section">
+  <section>
+    <div class="section-tag">Plazos</div>
+    <h2 class="big">De cero a primer pedido<br><span>en 4 semanas.</span></h2>
+
+    <div class="timeline">
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Fase 1</div>
+          <div class="timeline-title">Configuración y diseño de carta</div>
+          <div class="timeline-desc">Configuración del entorno técnico, diseño visual de la app con los colores de A Casa Ya, alta de todos los platos con fotos y precios en el panel.</div>
+          <div class="timeline-duration">📅 1 semana</div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Fase 2</div>
+          <div class="timeline-title">App + Stripe / Redsys</div>
+          <div class="timeline-desc">Desarrollo completo de la app de pedidos con carrito, checkout, gestión de antelación mínima y pago integrado con Stripe y Redsys.</div>
+          <div class="timeline-duration">📅 1–2 semanas</div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Fase 3</div>
+          <div class="timeline-title">Integración Glop + pruebas</div>
+          <div class="timeline-desc">Coordinación con el técnico de Glop para conectar el TPV del local. Pruebas completas de pedidos reales antes de abrir al público.</div>
+          <div class="timeline-duration">📅 1 semana · ⚠️ Depende del técnico Glop</div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot">4</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Fase 4</div>
+          <div class="timeline-title">WhatsApp, formación y lanzamiento</div>
+          <div class="timeline-desc">Migración a WhatsApp Business, configuración de avisos automáticos, formación presencial para Enric y equipo. Primer pedido en vivo.</div>
+          <div class="timeline-duration">📅 3–5 días</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== FOOTER CTA ===== -->
+<div class="footer-cta">
+  <h2>¿Empezamos, Enric?</h2>
+  <p>Solo necesitamos tu confirmación, el contacto de tu técnico Glop y el logo.</p>
+
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="c-label">Tu contacto</div>
+      <div class="c-value">Enric Bailén · 640 775 050</div>
+    </div>
+    <div class="contact-item">
+      <div class="c-label">iAgusto.app</div>
+      <div class="c-value">www.iagusto.app</div>
+    </div>
+    <div class="contact-item">
+      <div class="c-label">Simplex</div>
+      <div class="c-value">contacto@simplexms.com</div>
+    </div>
+  </div>
+
+  <div style="position:relative;max-width:480px;margin:0 auto;" id="form-wrap">
+    <form id="accept-form" action="https://formspree.io/f/xqenkjpv" method="POST" style="display:flex;flex-direction:column;gap:12px;">
+      <input type="hidden" name="proyecto" value="A Casa Ya — Aceptación de propuesta">
+      <input type="hidden" name="importe" value="2.800 € + 300 €/mes">
+      <input
+        type="text"
+        name="nombre"
+        placeholder="Tu nombre (Enric Bailén…)"
+        required
+        style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:white;font-family:'DM Sans',sans-serif;font-size:15px;padding:16px 20px;border-radius:8px;outline:none;"
+      >
+      <input
+        type="tel"
+        name="telefono"
+        placeholder="Tu teléfono / WhatsApp"
+        style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:white;font-family:'DM Sans',sans-serif;font-size:15px;padding:16px 20px;border-radius:8px;outline:none;"
+      >
+      <input
+        type="text"
+        name="tecnico_glop"
+        placeholder="Nombre o teléfono de tu técnico Glop (opcional)"
+        style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:white;font-family:'DM Sans',sans-serif;font-size:15px;padding:16px 20px;border-radius:8px;outline:none;"
+      >
+      <button type="submit" class="btn-primary" style="font-size:17px;padding:20px 48px;border:none;cursor:pointer;justify-content:center;">
+        Acepto la propuesta — Arranquemos 🚀
+      </button>
+    </form>
+
+    <div id="form-ok" style="display:none;text-align:center;padding:32px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:16px;">
+      <div style="font-size:48px;margin-bottom:12px;">✅</div>
+      <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:white;margin-bottom:8px;">¡Confirmación recibida!</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.5);">Nos ponemos en contacto contigo en menos de 24 h para arrancar.</div>
+    </div>
+  </div>
+
+  <div class="footer-logos">
+    <span class="footer-brand">iAgusto.app</span>
+    <span class="footer-sep">×</span>
+    <span class="footer-brand">Simplex</span>
+    <span class="footer-sep" style="margin-left:20px">·</span>
+    <span style="font-size:12px;color:rgba(255,255,255,0.2)">Propuesta válida hasta el 15/06/2026 · Precios sin IVA</span>
+  </div>
+</div>
+
+<script>
+// ===== SCREEN SWITCHER =====
+function showScreen(idx) {
+  document.querySelectorAll('.screen').forEach((s, i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+  });
+  // Re-trigger confirm animation
+  if (idx === 2) {
+    const icon = document.getElementById('confirmIcon');
+    icon.style.animation = 'none';
+    void icon.offsetWidth;
+    icon.style.animation = 'popIn 0.5s ease';
+  }
+}
+
+// ===== LIVE STATS ANIMATION =====
+function animateStats() {
+  const targets = { statPedidos: 7, statIngresos: 524, statPend: 2 };
+  Object.entries(targets).forEach(([id, target]) => {
+    const el = document.getElementById(id);
+    const isEuros = id === 'statIngresos';
+    let current = 0;
+    const step = target / 30;
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = isEuros ? Math.round(current) + '€' : Math.round(current);
+      if (current >= target) clearInterval(interval);
+    }, 30);
+  });
+}
+
+// ===== SCROLL OBSERVER =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Auto-cycle screens every 4s (can be overridden by manual click)
+let autoPlay = true;
+let currentScreen = 0;
+const autoInterval = setInterval(() => {
+  if (!autoPlay) return;
+  currentScreen = (currentScreen + 1) % 4;
+  showScreen(currentScreen);
+  if (currentScreen === 3) animateStats();
+}, 4000);
+
+// Stop autoplay on manual interaction
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    autoPlay = false;
+    clearInterval(autoInterval);
+  });
+});
+
+// ===== FORMSPREE SUBMIT =====
+const form = document.getElementById('accept-form');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector('button[type="submit"]');
+  btn.textContent = 'Enviando…';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('form-ok').style.display = 'block';
+    } else {
+      btn.textContent = 'Error — inténtalo de nuevo';
+      btn.style.opacity = '1';
+      btn.disabled = false;
+    }
+  } catch {
+    btn.textContent = 'Error de red — inténtalo de nuevo';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+  }
+});
+</script>
+
+</body>
+</html>
