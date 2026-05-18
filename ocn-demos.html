@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>OCN Grupo · Demos IA — Dept. Estudios</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ocn:#1A3A5C;--ocn2:#E87722;--ocn-light:#EAF1FA;
+    --bg:#f4f6f9;--card:#fff;--border:#dde3ec;
+    --text:#1a2332;--muted:#6b7a8d;--green:#1a7a4a;--red:#c0392b;--amber:#b8680a;
+  }
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:230px;min-width:230px;background:var(--ocn);display:flex;flex-direction:column;overflow-y:auto}
+  .sidebar-logo{padding:18px 16px 12px;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .sidebar-logo .brand{font-size:15px;font-weight:700;color:#fff}
+  .sidebar-logo .sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
+  .nav-section{padding:14px 12px 4px;font-size:10px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase}
+  .nav-item{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;color:rgba(255,255,255,.7);font-size:12.5px;transition:all .15s;border-left:3px solid transparent}
+  .nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+  .nav-item.active{background:rgba(232,119,34,.18);color:#fff;border-left:3px solid var(--ocn2)}
+  .nav-item .badge{margin-left:auto;background:var(--ocn2);color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:8px}
+  .main{flex:1;overflow-y:auto;padding:28px 32px}
+  .page-header{margin-bottom:20px}
+  .page-title{font-size:22px;font-weight:700;color:var(--ocn)}
+  .page-subtitle{font-size:13px;color:var(--muted);margin-top:3px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px}
+  .card-title{font-size:13px;font-weight:600;color:var(--ocn);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+  .kpi-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .kpi-value{font-size:26px;font-weight:700;color:var(--ocn);margin-top:4px}
+  .kpi-value.orange{color:var(--ocn2)}
+  .kpi-value.green{color:var(--green)}
+  .kpi-value.red{color:var(--red)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:var(--ocn);color:#fff;padding:8px 12px;text-align:left;font-weight:600;font-size:12px}
+  td{padding:8px 12px;border-bottom:1px solid var(--border)}
+  tr:hover td{background:#f8fafc}
+  .badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+  .badge.green{background:#d4f0df;color:var(--green)}
+  .badge.amber{background:#fde9c7;color:var(--amber)}
+  .badge.red{background:#fde0de;color:var(--red)}
+  .badge.blue{background:var(--ocn-light);color:var(--ocn)}
+  .badge.gray{background:#eee;color:#555}
+  input,select,textarea{border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:13px;width:100%;outline:none;color:var(--text);background:var(--card)}
+  input:focus,select:focus{border-color:var(--ocn2)}
+  .input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .input-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+  label{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:4px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+  .btn-primary{background:var(--ocn);color:#fff}
+  .btn-orange{background:var(--ocn2);color:#fff}
+  .btn-outline{background:#fff;color:var(--ocn);border:1px solid var(--ocn)}
+  .btn-sm{padding:5px 11px;font-size:12px}
+  .btn-row{display:flex;gap:8px;margin-top:12px}
+  .mail-item{display:flex;align-items:flex-start;gap:12px;padding:12px;border-bottom:1px solid var(--border);cursor:pointer}
+  .mail-item:hover{background:#f8fafc}
+  .mail-avatar{width:36px;height:36px;border-radius:50%;background:var(--ocn);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+  .mail-avatar.orange{background:var(--ocn2)}
+  .mail-avatar.green{background:#1a7a4a}
+  .mail-subject{font-weight:600;font-size:13px;margin-bottom:2px}
+  .mail-preview{font-size:12px;color:var(--muted)}
+  .mail-meta{margin-left:auto;text-align:right;flex-shrink:0}
+  .mail-date{font-size:11px;color:var(--muted)}
+  .comp-header{display:grid;gap:8px;align-items:center;padding:8px 12px;background:var(--ocn);color:#fff;border-radius:8px 8px 0 0;font-size:12px;font-weight:700}
+  .comp-row{display:grid;gap:8px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+  .comp-row:hover{background:#f8fafc}
+  .comp-best{font-weight:700;color:var(--green)}
+  .comp-high{color:var(--red)}
+  .chart-bars{display:flex;align-items:flex-end;gap:10px;height:120px;padding:0 4px}
+  .bar-wrap{display:flex;flex-direction:column;align-items:center;flex:1;gap:4px}
+  .bar{width:100%;background:var(--ocn);border-radius:4px 4px 0 0}
+  .bar.orange{background:var(--ocn2)}
+  .bar-label{font-size:10px;color:var(--muted);text-align:center}
+  .bar-val{font-size:11px;font-weight:700;color:var(--ocn)}
+  .check-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border)}
+  .check-circle{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px}
+  .check-circle.ok{background:#d4f0df;border-color:#1a7a4a;color:#1a7a4a}
+  .check-circle.warn{background:#fde9c7;border-color:var(--amber);color:var(--amber)}
+  .check-circle.fail{background:#fde0de;border-color:var(--red);color:var(--red)}
+  .timeline{display:flex;gap:0;margin:8px 0}
+  .tl-step{flex:1;position:relative}
+  .tl-step::after{content:'';position:absolute;top:14px;left:50%;right:-50%;height:2px;background:var(--border)}
+  .tl-step:last-child::after{display:none}
+  .tl-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin:0 auto;position:relative;z-index:1}
+  .tl-dot.done{background:var(--green);border-color:var(--green);color:#fff}
+  .tl-dot.active{background:var(--ocn2);border-color:var(--ocn2);color:#fff}
+  .tl-dot.pending{color:var(--muted)}
+  .tl-label{font-size:10px;color:var(--muted);text-align:center;margin-top:6px}
+  .flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0}
+  .flow-box{background:var(--ocn-light);border:1px solid #b3cce0;border-radius:7px;padding:7px 12px;font-size:12px;font-weight:600;color:var(--ocn)}
+  .flow-arrow{color:var(--ocn2);font-size:18px;font-weight:700}
+  .flow-box.orange{background:#fef0e3;border-color:#f4c08a;color:#8a4400}
+  .flow-box.green{background:#d4f0df;border-color:#7ec8a0;color:#0f5230}
+  .info-box{background:var(--ocn-light);border-left:3px solid var(--ocn2);border-radius:0 7px 7px 0;padding:10px 14px;margin-bottom:12px;font-size:12.5px;color:var(--ocn)}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .score-bar{height:8px;background:#e0e6ef;border-radius:4px;overflow:hidden;margin-top:4px}
+  .score-fill{height:100%;border-radius:4px}
+  .tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:var(--ocn-light);color:var(--ocn);margin:2px}
+  .page{display:none}
+  .page.active{display:block}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">OCN Grupo · IA</div>
+    <div class="sub">Demos Dept. Estudios</div>
+  </div>
+  <div class="nav-section">Correos</div>
+  <div class="nav-item active" onclick="show('correos-extraccion',this)">📧 Extracción de datos<span class="badge">C-01</span></div>
+  <div class="nav-item" onclick="show('correos-org',this)">📂 Organización + BD<span class="badge">C-02</span></div>
+  <div class="nav-item" onclick="show('correos-noadj',this)">📤 No adjudicación<span class="badge">C-03</span></div>
+  <div class="nav-section">Petición de Ofertas</div>
+  <div class="nav-item" onclick="show('po-proceso',this)">📦 Proceso completo<span class="badge">PO-01</span></div>
+  <div class="nav-item" onclick="show('po-recepcion',this)">📥 Recepción y archivo<span class="badge">PO-04</span></div>
+  <div class="nav-item" onclick="show('po-comparativo',this)">📊 Comparativo Excel<span class="badge">PO-05</span></div>
+  <div class="nav-section">Coste Directo</div>
+  <div class="nav-item" onclick="show('cd-comparativo',this)">⚖️ Comparativo ofertas<span class="badge">CD-01</span></div>
+  <div class="nav-item" onclick="show('cd-descompuestos',this)">🧱 Descompuestos auto<span class="badge">CD-03</span></div>
+  <div class="nav-section">Estudio de Proyecto</div>
+  <div class="nav-item" onclick="show('ep-checklist',this)">✅ Checklist doc.<span class="badge">EP-03</span></div>
+  <div class="nav-item" onclick="show('ep-incongruencias',this)">⚠️ Incongruencias DF<span class="badge">EP-02</span></div>
+  <div class="nav-item" onclick="show('ep-notas',this)">📄 Partidas NOTAS OCN<span class="badge">EP-04</span></div>
+  <div class="nav-item" onclick="show('ep-auditoria',this)">🔍 Auditoría mediciones<span class="badge">EP-05</span></div>
+  <div class="nav-section">SIS</div>
+  <div class="nav-item" onclick="show('sis-nuevo',this)">🏗️ Nuevo proyecto<span class="badge">SIS-01</span></div>
+  <div class="nav-item" onclick="show('sis-chatbot',this)">💬 Chatbot precios<span class="badge">SIS-04</span></div>
+  <div class="nav-item" onclick="show('sis-partes',this)">🕐 Partes de trabajo<span class="badge">SIS-03</span></div>
+  <div class="nav-item" onclick="show('sis-traspaso',this)">🔄 Informe traspaso<span class="badge">SIS-06</span></div>
+  <div class="nav-section">Estimación / Predim.</div>
+  <div class="nav-item" onclick="show('est-predim',this)">📐 Predimensionado<span class="badge">PR-01</span></div>
+  <div class="nav-item" onclick="show('est-ss',this)">🦺 Seg. y Salud<span class="badge">EC-02</span></div>
+  <div class="nav-item" onclick="show('est-ayudas',this)">🔋 Ayudas instalac.<span class="badge">EC-01</span></div>
+  <div class="nav-section">Proveedores</div>
+  <div class="nav-item" onclick="show('prv-scoring',this)">🏅 Scoring proveedores<span class="badge">PRV-01</span></div>
+  <div class="nav-item" onclick="show('prv-registro',this)">📋 Registro por obra<span class="badge">PRV-02</span></div>
+  <div class="nav-section">Planning / BIM</div>
+  <div class="nav-item" onclick="show('pt-planning',this)">📅 Planning licitación<span class="badge">PT-01</span></div>
+  <div class="nav-item" onclick="show('bim-ifc',this)">🧊 Extracción IFC<span class="badge">BIM-04</span></div>
+  <div class="nav-section">Seguimiento</div>
+  <div class="nav-item" onclick="show('seg-dashboard',this)">📈 Dashboard flujo oferta<span class="badge">OT-02</span></div>
+  <div class="nav-item" onclick="show('ot-informe',this)">🏢 Estudio vs Obra real<span class="badge">OT-01</span></div>
+  <div class="nav-section">BD Precios</div>
+  <div class="nav-item" onclick="show('bd-precios',this)">💰 Base de precios<span class="badge">BD-01</span></div>
+</nav>
+
+<main class="main" id="main">
+
+<!-- C-01 -->
+<div class="page active" id="page-correos-extraccion">
+  <div class="page-header"><div class="page-title">📧 Extracción automática de datos de correos</div><div class="page-subtitle">C-01 · Mailhook N8N → Claude extrae → Excel + carpeta Drive</div></div>
+  <div class="flow"><div class="flow-box">📨 Email proveedor</div><div class="flow-arrow">→</div><div class="flow-box">🤖 N8N Mailhook</div><div class="flow-arrow">→</div><div class="flow-box">🧠 Claude extrae</div><div class="flow-arrow">→</div><div class="flow-box orange">📊 Excel</div><div class="flow-arrow">→</div><div class="flow-box green">📁 Drive</div></div>
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Emails procesados hoy</div><div class="kpi-value">47</div></div><div class="kpi"><div class="kpi-label">Adjuntos guardados</div><div class="kpi-value orange">83</div></div><div class="kpi"><div class="kpi-label">Registros en Excel</div><div class="kpi-value green">212</div></div><div class="kpi"><div class="kpi-label">Errores</div><div class="kpi-value red">2</div></div></div>
+  <div class="card"><div class="card-title">📥 Últimos emails procesados</div>
+    <div class="mail-item"><div class="mail-avatar">AT</div><div><div class="mail-subject">Tarifa aluminio 2025 — Aluminis Treballs S.L.</div><div class="mail-preview">Extraído: empresa, tarifa, fecha, 2 adjuntos PDF → /Comerciales/Aluminio/AT</div></div><div class="mail-meta"><div class="mail-date">10:34</div><span class="badge green">OK</span></div></div>
+    <div class="mail-item"><div class="mail-avatar orange">FV</div><div><div class="mail-subject">Oferta saneamiento — Fontanería Vidal</div><div class="mail-preview">Extraído: empresa, capítulos, importe 34.200€, plazo 15 días</div></div><div class="mail-meta"><div class="mail-date">09:51</div><span class="badge green">OK</span></div></div>
+    <div class="mail-item"><div class="mail-avatar green">RC</div><div><div class="mail-subject">Catálogo estructuras metálicas — Roig Construccions</div><div class="mail-preview">Extraído: empresa, tipo, 3 PDF → /Catálogos/Estructuras</div></div><div class="mail-meta"><div class="mail-date">09:12</div><span class="badge green">OK</span></div></div>
+    <div class="mail-item"><div class="mail-avatar" style="background:#888">??</div><div><div class="mail-subject">Re: visita comercial julio</div><div class="mail-preview">Clasificación dudosa — requiere revisión manual</div></div><div class="mail-meta"><div class="mail-date">08:44</div><span class="badge amber">Revisar</span></div></div>
+  </div>
+  <div class="card"><div class="card-title">📊 Excel generado automáticamente</div>
+    <table><tr><th>Empresa</th><th>Tipo</th><th>Capítulo</th><th>Importe</th><th>Plazo</th><th>Adjuntos</th><th>Fecha</th></tr>
+    <tr><td>Aluminis Treballs S.L.</td><td>Tarifa</td><td>Carp. Aluminio</td><td>—</td><td>—</td><td>2 PDF</td><td>16/05/25</td></tr>
+    <tr><td>Fontanería Vidal</td><td>Oferta</td><td>Saneamiento</td><td>34.200€</td><td>15 días</td><td>1 PDF</td><td>16/05/25</td></tr>
+    <tr><td>Roig Construccions</td><td>Catálogo</td><td>Estructuras</td><td>—</td><td>—</td><td>3 PDF</td><td>16/05/25</td></tr></table>
+  </div>
+</div>
+
+<!-- C-02 -->
+<div class="page" id="page-correos-org">
+  <div class="page-header"><div class="page-title">📂 Organización emails + BD industriales</div><div class="page-subtitle">C-02 · N8N clasifica → respuesta automática → BD proveedores</div></div>
+  <div class="two-col">
+    <div class="card"><div class="card-title">📤 Respuesta automática generada</div>
+      <div style="background:#f4f6f9;border-radius:8px;padding:12px;font-size:12.5px;line-height:1.7"><b>Para:</b> comercial@fontaneriaherrero.com<br><b>Asunto:</b> Re: Solicitud de tarifa — OCN Grupo<br><br>Estimados Sres.,<br><br>Gracias por ponerse en contacto. Les solicitamos nos remitan su tarifa actualizada y condiciones de descuento para fontanería y saneamiento, incluyendo plazo de entrega habitual.<br><br>Dpto. de Estudios · OCN Grupo</div>
+      <div class="btn-row"><button class="btn btn-primary btn-sm">✉ Enviado automáticamente</button></div>
+    </div>
+    <div class="card"><div class="card-title">🗄️ BD industriales</div>
+      <table><tr><th>Empresa</th><th>Especialidad</th><th>Tarifa</th><th>Desc.</th></tr>
+      <tr><td>Fontanería Herrero</td><td>Fontanería</td><td>2024</td><td>18%</td></tr>
+      <tr><td>Elec. Mascarell</td><td>Electricidad</td><td>2025</td><td>22%</td></tr>
+      <tr><td>Aislam. Prats S.L.</td><td>Aislamientos</td><td>2023</td><td>15%</td></tr>
+      <tr><td>Aluminis Treballs</td><td>Carp. Alum.</td><td>2025</td><td>20%</td></tr></table>
+    </div>
+  </div>
+</div>
+
+<!-- C-03 -->
+<div class="page" id="page-correos-noadj">
+  <div class="page-header"><div class="page-title">📤 Email automático de no adjudicación</div><div class="page-subtitle">C-03 · Trigger SIS → email personalizado a industriales no adjudicados</div></div>
+  <div class="card"><div class="card-title">⚙️ Configurar envío</div>
+    <div class="input-row"><div><label>Proyecto</label><input value="Hotel Castellón — H23-044" readonly/></div><div><label>Paquete</label><input value="08 · Carpintería Exterior Aluminio"/></div></div>
+    <div class="input-row"><div><label>Adjudicatario</label><input value="Aluminis Treballs S.L."/></div><div><label>Fecha envío</label><input type="date" value="2025-05-20"/></div></div>
+    <div style="margin-bottom:12px"><label>Industriales a notificar</label>
+      <div style="background:#f4f6f9;border-radius:8px;padding:10px;display:flex;flex-wrap:wrap;gap:6px"><span class="tag">Carpintería Navarro ✕</span><span class="tag">Alum. Mediterráneo ✕</span><span class="tag">Ventanas Martínez ✕</span><span class="tag">ServiAlum SL ✕</span></div>
+    </div>
+    <div style="background:#f4f6f9;border-radius:8px;padding:12px;font-size:12.5px;line-height:1.7;margin-bottom:12px"><b>Vista previa:</b><br><br>Estimados Sres. <b>[nombre_empresa]</b>,<br><br>Les agradecemos su participación en el proceso de licitación del paquete <i>08 · Carpintería Exterior Aluminio</i> del proyecto <i>Hotel Castellón H23-044</i>. En esta ocasión hemos optado por otra oferta. Queda anotada su empresa para futuras licitaciones.<br><br>Atentamente, OCN Grupo.</div>
+    <div class="btn-row"><button class="btn btn-orange">📤 Enviar a 4 industriales</button><button class="btn btn-outline">👁 Vista previa</button></div>
+  </div>
+</div>
+
+<!-- PO-01 -->
+<div class="page" id="page-po-proceso">
+  <div class="page-header"><div class="page-title">📦 Proceso completo petición de ofertas</div><div class="page-subtitle">PO-01 · Paquetización → PDFs → planos → envío CCO → archivo</div></div>
+  <div class="timeline" style="margin-bottom:20px">
+    <div class="tl-step"><div class="tl-dot done">1</div><div class="tl-label">Leer presupuesto</div></div>
+    <div class="tl-step"><div class="tl-dot done">2</div><div class="tl-label">Paquetizar</div></div>
+    <div class="tl-step"><div class="tl-dot active">3</div><div class="tl-label">Generar PDFs</div></div>
+    <div class="tl-step"><div class="tl-dot pending">4</div><div class="tl-label">Adjuntar planos</div></div>
+    <div class="tl-step"><div class="tl-dot pending">5</div><div class="tl-label">Envío CCO</div></div>
+    <div class="tl-step"><div class="tl-dot pending">6</div><div class="tl-label">Archivar</div></div>
+  </div>
+  <div class="card"><div class="card-title">📦 Paquetes — Hotel Castellón H23-044</div>
+    <table><tr><th>Paquete</th><th>Partidas</th><th>Planos</th><th>PDF</th><th>Industriales</th><th>Estado</th></tr>
+    <tr><td>01 · Cimentación</td><td>24</td><td>P-01, P-02</td><td>✅</td><td>3</td><td><span class="badge green">Enviado</span></td></tr>
+    <tr><td>05 · Cerramientos</td><td>38</td><td>P-08, P-09</td><td>✅</td><td>5</td><td><span class="badge green">Enviado</span></td></tr>
+    <tr><td>08 · Carp. Aluminio</td><td>17</td><td>P-12, P-14</td><td>⏳</td><td>4</td><td><span class="badge amber">En curso</span></td></tr>
+    <tr><td>11 · Electricidad</td><td>52</td><td>P-20 a P-28</td><td>—</td><td>6</td><td><span class="badge gray">Pendiente</span></td></tr>
+    <tr><td>14 · Fontanería</td><td>31</td><td>P-30, P-31</td><td>—</td><td>4</td><td><span class="badge gray">Pendiente</span></td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">▶ Continuar con paquete 08</button></div>
+  </div>
+</div>
+
+<!-- PO-04 -->
+<div class="page" id="page-po-recepcion">
+  <div class="page-header"><div class="page-title">📥 Recepción y archivo de ofertas</div><div class="page-subtitle">PO-04 · Mailhook → clasifica por paquete/proveedor → carpeta automática</div></div>
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Ofertas recibidas</div><div class="kpi-value">18</div></div><div class="kpi"><div class="kpi-label">Paquetes con 2+ ofertas</div><div class="kpi-value green">4</div></div><div class="kpi"><div class="kpi-label">Paquetes pendientes</div><div class="kpi-value orange">3</div></div><div class="kpi"><div class="kpi-label">Errores clasificación</div><div class="kpi-value red">1</div></div></div>
+  <div class="card"><div class="card-title">📨 Ofertas recibidas hoy</div>
+    <div class="mail-item"><div class="mail-avatar">FV</div><div><div class="mail-subject">Oferta fontanería H23-044 — Fontanería Vidal</div><div class="mail-preview">Paquete 14 · 34.200€ → /H23-044/Ofertas/14-Fontaneria/Vidal/</div></div><div class="mail-meta"><div class="mail-date">11:22</div><span class="badge green">Archivado</span></div></div>
+    <div class="mail-item"><div class="mail-avatar orange">AT</div><div><div class="mail-subject">Re: oferta carpintería ext. aluminio</div><div class="mail-preview">Paquete 08 · 87.400€ → /H23-044/Ofertas/08-Carp-Alum/Treballs/</div></div><div class="mail-meta"><div class="mail-date">10:48</div><span class="badge green">Archivado</span></div></div>
+    <div class="mail-item"><div class="mail-avatar" style="background:#888">??</div><div><div class="mail-subject">Presupuesto solicitud</div><div class="mail-preview">Sin referencia de proyecto — clasificación manual requerida</div></div><div class="mail-meta"><div class="mail-date">09:30</div><span class="badge amber">Revisar</span></div></div>
+  </div>
+</div>
+
+<!-- PO-05 -->
+<div class="page" id="page-po-comparativo">
+  <div class="page-header"><div class="page-title">📊 Comparativo de ofertas por capítulos</div><div class="page-subtitle">PO-05 · Claude extrae datos de PDFs → Excel comparativo estructurado</div></div>
+  <div class="info-box">🧠 Proyecto: Hotel Castellón H23-044 · Paquete 08 · Carpintería Exterior Aluminio · 4 ofertas</div>
+  <div class="card"><div class="card-title">⚖️ Comparativo paquete 08</div>
+    <div class="comp-header" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr"><span>Partida</span><span>Treballs</span><span>Navarro</span><span>Alum.Med.</span><span>ServiAlum</span></div>
+    <div class="comp-row" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr"><span>08.01 Ventanas PVC T-70</span><span class="comp-best">41.200€</span><span>44.800€</span><span>43.100€</span><span class="comp-high">47.500€</span></div>
+    <div class="comp-row" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr"><span>08.02 Puertas balconeras</span><span>18.600€</span><span class="comp-best">17.900€</span><span>19.200€</span><span>20.100€</span></div>
+    <div class="comp-row" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr"><span>08.03 Lucernarios</span><span>12.800€</span><span>13.400€</span><span class="comp-best">11.900€</span><span>14.200€</span></div>
+    <div class="comp-row" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr"><span>08.04 Perfiles y sellado</span><span class="comp-best">14.800€</span><span>15.100€</span><span>15.400€</span><span>16.000€</span></div>
+    <div class="comp-row" style="font-weight:700;background:#f0f5fa;grid-template-columns:2fr 1fr 1fr 1fr 1fr"><span>TOTAL</span><span class="comp-best">87.400€</span><span>91.200€</span><span>89.600€</span><span class="comp-high">97.800€</span></div>
+    <div class="info-box" style="margin-top:12px">💡 <b>Recomendación IA:</b> Treballs es más económica en 3 de 4 partidas. Diferencia con 2ª mejor: 2.200€. Adjudicar a Treballs salvo criterio técnico.</div>
+    <div class="btn-row"><button class="btn btn-orange">📥 Exportar Excel</button><button class="btn btn-outline">📨 Notificar no adjudicados</button></div>
+  </div>
+</div>
+
+<!-- CD-01 -->
+<div class="page" id="page-cd-comparativo">
+  <div class="page-header"><div class="page-title">⚖️ Comparativo automático de ofertas PDF/BC3</div><div class="page-subtitle">CD-01 · Claude lee PDFs + BC3 → detecta diferencias → recomendación</div></div>
+  <div class="card"><div class="card-title">📤 Ofertas cargadas — Hotel Mallorca HM-012 · Cap. 11 Electricidad</div>
+    <div style="display:flex;gap:10px;margin-bottom:16px">
+      <div style="flex:1;border:2px dashed var(--border);border-radius:8px;padding:14px;text-align:center;font-size:12px;color:var(--muted)">📄 Elec. Mascarell.pdf<br><span class="badge green" style="margin-top:6px">Procesado</span></div>
+      <div style="flex:1;border:2px dashed var(--border);border-radius:8px;padding:14px;text-align:center;font-size:12px;color:var(--muted)">📄 Instal. Roca.bc3<br><span class="badge green" style="margin-top:6px">Procesado</span></div>
+      <div style="flex:1;border:2px dashed var(--border);border-radius:8px;padding:14px;text-align:center;font-size:12px;color:var(--muted)">📄 Bosch Elect.pdf<br><span class="badge green" style="margin-top:6px">Procesado</span></div>
+    </div>
+    <div class="comp-header" style="grid-template-columns:2fr 1fr 1fr 1fr"><span>Partida</span><span>Mascarell</span><span>Instal.Roca</span><span>Bosch</span></div>
+    <div class="comp-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span>11.01 Cuadro gral. BT</span><span>8.400€</span><span class="comp-best">7.900€</span><span>8.800€</span></div>
+    <div class="comp-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span>11.02 Líneas y cableado</span><span class="comp-best">12.200€</span><span>13.400€</span><span>12.900€</span></div>
+    <div class="comp-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span>11.03 Mecanismos</span><span>5.100€</span><span>4.900€</span><span class="comp-best">4.700€</span></div>
+    <div class="comp-row" style="font-weight:700;background:#f0f5fa;grid-template-columns:2fr 1fr 1fr 1fr"><span>TOTAL</span><span class="comp-best">25.700€</span><span>26.200€</span><span>26.400€</span></div>
+  </div>
+</div>
+
+<!-- CD-03 -->
+<div class="page" id="page-cd-descompuestos">
+  <div class="page-header"><div class="page-title">🧱 Generación automática de descompuestos</div><div class="page-subtitle">CD-03 · Claude + BD facturas históricas → descompuestos básicos por partida</div></div>
+  <div class="card"><div class="card-title">🧠 Descompuesto generado</div>
+    <div class="info-box">Partida: <b>05.12 — Tabique ladrillo hueco doble 9cm, recibido con mortero M-7.5</b> · Histórico OCN: 38.40 €/m²</div>
+    <table><tr><th>Código</th><th>Descripción</th><th>Ud</th><th>Rendim.</th><th>P. unit.</th><th>Importe</th></tr>
+    <tr><td>MO001</td><td>Oficial 1ª albañilería</td><td>h</td><td>0.420</td><td>19.80€</td><td>8.32€</td></tr>
+    <tr><td>MO002</td><td>Peón ordinario</td><td>h</td><td>0.210</td><td>17.20€</td><td>3.61€</td></tr>
+    <tr><td>MT-LHD9</td><td>Ladrillo hueco doble 9cm</td><td>ud</td><td>30.000</td><td>0.38€</td><td>11.40€</td></tr>
+    <tr><td>MT-M75</td><td>Mortero M-7.5</td><td>m³</td><td>0.025</td><td>84.20€</td><td>2.11€</td></tr>
+    <tr><td>%CI</td><td>Costes indirectos 6%</td><td>%</td><td>—</td><td>—</td><td>1.53€</td></tr>
+    <tr style="font-weight:700;background:#f0f5fa"><td colspan="5">TOTAL DESCOMPUESTO</td><td>38.40 €/m²</td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">📤 Exportar BC3</button><button class="btn btn-outline">♻ Regenerar</button></div>
+  </div>
+</div>
+
+<!-- EP-03 -->
+<div class="page" id="page-ep-checklist">
+  <div class="page-header"><div class="page-title">✅ Checklist automático de documentación</div><div class="page-subtitle">EP-03 · Claude compara documentos recibidos → semáforo OK/NOK por ítem</div></div>
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Ítems revisados</div><div class="kpi-value">22</div></div><div class="kpi"><div class="kpi-label">OK</div><div class="kpi-value green">15</div></div><div class="kpi"><div class="kpi-label">Incompletos</div><div class="kpi-value orange">5</div></div><div class="kpi"><div class="kpi-label">Ausentes</div><div class="kpi-value red">2</div></div></div>
+  <div class="card"><div class="card-title">📋 Proyecto: Hotel Valencia HV-031</div>
+    <div class="check-item"><div class="check-circle ok">✓</div><div><b>Memoria descriptiva</b> — Completa, 48 páginas</div></div>
+    <div class="check-item"><div class="check-circle ok">✓</div><div><b>Planos de planta</b> — 12 planos, escala 1:100</div></div>
+    <div class="check-item"><div class="check-circle ok">✓</div><div><b>Mediciones y presupuesto</b> — BC3 recibido, 214 partidas</div></div>
+    <div class="check-item"><div class="check-circle ok">✓</div><div><b>Pliego de condiciones</b> — Presente</div></div>
+    <div class="check-item"><div class="check-circle warn">!</div><div><b>Planos de instalaciones</b> — Solo eléctrica y fontanería. Falta climatización</div></div>
+    <div class="check-item"><div class="check-circle warn">!</div><div><b>Detalles constructivos</b> — 3 de 8 secciones tipo. Faltan fachada y cubierta</div></div>
+    <div class="check-item"><div class="check-circle warn">!</div><div><b>Estudio geotécnico</b> — Fecha 2019, puede estar desactualizado</div></div>
+    <div class="check-item"><div class="check-circle fail">✗</div><div><b>Reportaje fotográfico del solar</b> — No recibido</div></div>
+    <div class="check-item"><div class="check-circle fail">✗</div><div><b>Estudio de seguridad y salud</b> — No incluido en la documentación</div></div>
+    <div class="btn-row"><button class="btn btn-orange">📄 Generar Word para DF</button><button class="btn btn-outline">📨 Enviar aclaraciones</button></div>
+  </div>
+</div>
+
+<!-- EP-02 -->
+<div class="page" id="page-ep-incongruencias">
+  <div class="page-header"><div class="page-title">⚠️ Detección de incongruencias para la DF</div><div class="page-subtitle">EP-02 · Claude analiza documentación → Word de incongruencias → email a DF</div></div>
+  <div class="info-box">🔍 Proyecto HV-031 · Documentos analizados: memoria, mediciones (214 partidas), 12 planos</div>
+  <div class="card"><div class="card-title">⚠️ Incongruencias detectadas (7)</div>
+    <table><tr><th>#</th><th>Tipo</th><th>Descripción</th><th>Plano/Doc</th><th>Gravedad</th></tr>
+    <tr><td>1</td><td>Dimensión</td><td>Sala polivalente: memoria 120m², plano P-03 marca 104m²</td><td>P-03 / Mem. §4.2</td><td><span class="badge red">Alta</span></td></tr>
+    <tr><td>2</td><td>Medición</td><td>Forjado planta 3: medición con 3 forjados, edificio tiene 4 plantas</td><td>Med. cap.03</td><td><span class="badge red">Alta</span></td></tr>
+    <tr><td>3</td><td>Instalación</td><td>Climatización en memoria pero sin planos ni medición</td><td>Mem. §7</td><td><span class="badge amber">Media</span></td></tr>
+    <tr><td>4</td><td>Sección</td><td>Detalle D-04 (fachada) no coincide con sección S-02</td><td>D-04 / S-02</td><td><span class="badge amber">Media</span></td></tr>
+    <tr><td>5</td><td>Definición</td><td>Partida 08.14 "Mampara baños" sin especificación de material</td><td>Med. §08</td><td><span class="badge gray">Baja</span></td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">📝 Generar Word para DF</button><button class="btn btn-primary">📨 Enviar a DF</button></div>
+  </div>
+</div>
+
+<!-- EP-04 -->
+<div class="page" id="page-ep-notas">
+  <div class="page-header"><div class="page-title">📄 Extracción de partidas con NOTAS OCN</div><div class="page-subtitle">EP-04 · Lee presupuesto → filtra NOTAS OCN → PDF sin tag</div></div>
+  <div class="card"><div class="card-title">⚙️ Configuración</div>
+    <div class="input-row"><div><label>Proyecto</label><input value="Hotel Mallorca HM-012"/></div><div><label>Archivo</label><input value="HM012_presupuesto_v4.bc3" readonly/></div></div>
+    <div class="btn-row" style="margin-bottom:12px"><button class="btn btn-primary">🔍 Escanear partidas</button></div>
+    <div class="card-title">📋 Partidas con NOTAS OCN encontradas (6)</div>
+    <table><tr><th>Código</th><th>Título</th><th>Nota</th><th>Cap.</th></tr>
+    <tr><td>03.04</td><td>Losa cimentación HA-30</td><td>Confirmar nivel freático con geotécnico</td><td>03</td></tr>
+    <tr><td>05.07</td><td>Cerramiento fachada ventilada</td><td>Pendiente especificación por DF</td><td>05</td></tr>
+    <tr><td>08.14</td><td>Mampara baños tipo spa</td><td>Pedir catálogo a Innovate Glass antes oferta</td><td>08</td></tr>
+    <tr><td>11.03</td><td>Cuadro eléctrico general</td><td>Revisar potencia contratada con compañía</td><td>11</td></tr>
+    <tr><td>14.08</td><td>Bomba de calor aerotermia</td><td>Confirmar modelo según BREEAM</td><td>14</td></tr>
+    <tr><td>16.01</td><td>Ascensores panorámicos</td><td>Solicitar homologación CE y plazo fabricación</td><td>16</td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">📄 Generar PDF sin tag NOTAS OCN</button></div>
+  </div>
+</div>
+
+<!-- EP-05 -->
+<div class="page" id="page-ep-auditoria">
+  <div class="page-header"><div class="page-title">🔍 Auditoría de mediciones</div><div class="page-subtitle">EP-05 · Claude cruza mediciones con planos → informe de desviaciones</div></div>
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Partidas auditadas</div><div class="kpi-value">214</div></div><div class="kpi"><div class="kpi-label">Sin desviación</div><div class="kpi-value green">187</div></div><div class="kpi"><div class="kpi-label">Desv. &lt;5%</div><div class="kpi-value orange">19</div></div><div class="kpi"><div class="kpi-label">Desv. &gt;5%</div><div class="kpi-value red">8</div></div></div>
+  <div class="card"><div class="card-title">🚨 Desviaciones críticas (&gt;5%)</div>
+    <table><tr><th>Partida</th><th>Descripción</th><th>Med. doc.</th><th>Med. planos</th><th>Desv.</th></tr>
+    <tr><td>03.01</td><td>Excavación general</td><td>1.240 m³</td><td>1.418 m³</td><td><span class="badge red">+14.4%</span></td></tr>
+    <tr><td>05.03</td><td>Aislamiento fachada</td><td>2.180 m²</td><td>2.034 m²</td><td><span class="badge amber">−6.7%</span></td></tr>
+    <tr><td>12.05</td><td>Solado porcelánico</td><td>1.820 m²</td><td>1.955 m²</td><td><span class="badge red">+7.4%</span></td></tr>
+    <tr><td>08.02</td><td>Ventanas patio interior</td><td>48 ud</td><td>56 ud</td><td><span class="badge red">+16.7%</span></td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">📄 Exportar informe completo</button></div>
+  </div>
+</div>
+
+<!-- SIS-01 -->
+<div class="page" id="page-sis-nuevo">
+  <div class="page-header"><div class="page-title">🏗️ Creación automática de proyecto en SIS</div><div class="page-subtitle">SIS-01 · API REST SiS Construcción → alta proyecto + condiciones + BC3</div></div>
+  <div class="flow"><div class="flow-box">📋 Datos básicos</div><div class="flow-arrow">→</div><div class="flow-box">🔗 API SIS REST</div><div class="flow-arrow">→</div><div class="flow-box orange">🏗️ Proyecto creado</div><div class="flow-arrow">→</div><div class="flow-box green">📦 BC3 + Capítulos</div></div>
+  <div class="card"><div class="card-title">📝 Alta rápida de proyecto</div>
+    <div class="input-row"><div><label>Código proyecto</label><input value="HM-013"/></div><div><label>Nombre</label><input value="Hotel Boutique Palma de Mallorca"/></div></div>
+    <div class="input-row"><div><label>Cliente</label><input value="Palma Invest S.A."/></div><div><label>Fecha recepción</label><input type="date" value="2025-05-20"/></div></div>
+    <div class="input-row"><div><label>Jefe de estudios</label><select><option>Pedro R.</option><option>Héctor V.</option></select></div><div><label>Plazo oferta</label><input value="15 días hábiles"/></div></div>
+    <div class="input-row"><div><label>Archivo BC3</label><input value="HM013_proyecto_arq.bc3" readonly/></div><div><label>Capítulos automáticos</label><input value="CI · GG · SS · Riesgo"/></div></div>
+    <div class="info-box">✅ Condiciones generales estándar OCN cargadas automáticamente: <b>Hotel / Obra nueva</b></div>
+    <div class="btn-row"><button class="btn btn-orange">🚀 Crear proyecto en SIS</button><button class="btn btn-outline">👁 Vista previa</button></div>
+  </div>
+</div>
+
+<!-- SIS-04 -->
+<div class="page" id="page-sis-chatbot">
+  <div class="page-header"><div class="page-title">💬 Chatbot de precios históricos SIS</div><div class="page-subtitle">SIS-04 · RAG sobre histórico OCN → Claude responde → fallback CYPE/IVE</div></div>
+  <div class="card"><div class="card-title">🔍 Consulta de precio histórico</div>
+    <div style="background:#f4f6f9;border-radius:10px;padding:14px;height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:10px">
+      <div style="align-self:flex-end;background:var(--ocn);color:#fff;border-radius:12px 12px 2px 12px;padding:10px 14px;font-size:13px;max-width:75%">Busco precio de tabique ladrillo hueco doble 9cm con mortero M-7.5</div>
+      <div style="align-self:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px 12px 12px 2px;padding:10px 14px;font-size:13px;max-width:85%">🔍 Encontré <b>14 coincidencias</b> en histórico OCN:<br><br>• Precio medio: <b>38.40 €/m²</b> (rango 35.20–41.80€)<br>• Última aparición: HV-031 · Oct 2024 · 37.90€/m²<br>• Proveedor habitual: Cerámicas Gomis S.L.<br><br>¿Quieres el descompuesto completo?</div>
+      <div style="align-self:flex-end;background:var(--ocn);color:#fff;border-radius:12px 12px 2px 12px;padding:10px 14px;font-size:13px;max-width:75%">Precio losa HA-30/B/20/IIIa e=30cm con malla electrosoldada</div>
+      <div style="align-self:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px 12px 12px 2px;padding:10px 14px;font-size:13px;max-width:85%">⚠️ Sin coincidencias exactas en histórico OCN.<br>Consultando <b>CYPE / IVE</b>...<br><br>• CYPE (CV): <b>98.40 €/m²</b><br>• IVE: <b>94.20 €/m²</b><br><br>Recomiendo usar 95–97€/m² como referencia.</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px"><input placeholder="Buscar partida o descripción..." style="flex:1"/><button class="btn btn-orange">Consultar</button></div>
+  </div>
+</div>
+
+<!-- SIS-03 -->
+<div class="page" id="page-sis-partes">
+  <div class="page-header"><div class="page-title">🕐 Partes de trabajo en SIS</div><div class="page-subtitle">SIS-03 · Imputación de horas a múltiples proyectos en un formulario</div></div>
+  <div class="card"><div class="card-title">📝 Parte semanal — Elena Colera · 12–16 Mayo 2025</div>
+    <table><tr><th>Proyecto</th><th>Fase</th><th>Tarea</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Total</th></tr>
+    <tr><td>HV-031</td><td>Estudio</td><td>Mediciones</td><td>2h</td><td>3h</td><td>—</td><td>—</td><td>—</td><td><b>5h</b></td></tr>
+    <tr><td>HM-012</td><td>Ofertas</td><td>Comparativos</td><td>—</td><td>1h</td><td>4h</td><td>2h</td><td>—</td><td><b>7h</b></td></tr>
+    <tr><td>HC-044</td><td>Petición</td><td>Paquetización</td><td>2h</td><td>—</td><td>—</td><td>2h</td><td>3h</td><td><b>7h</b></td></tr>
+    <tr style="font-weight:700;background:#f0f5fa"><td colspan="8">TOTAL SEMANA</td><td>19h</td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">💾 Guardar en SIS</button><button class="btn btn-outline">+ Añadir proyecto</button></div>
+  </div>
+</div>
+
+<!-- SIS-06 -->
+<div class="page" id="page-sis-traspaso">
+  <div class="page-header"><div class="page-title">🔄 Informe de traspaso Estudios → Producción</div><div class="page-subtitle">SIS-06 · Claude lee carpeta → genera informe Word estructurado</div></div>
+  <div class="info-box">📁 Carpeta: <b>/H23-044/Traspaso/</b> · 23 archivos · Hotel Castellón H23-044</div>
+  <div class="card"><div class="card-title">📄 Informe generado</div>
+    <div style="background:#f9fafb;border:1px solid var(--border);border-radius:8px;padding:16px;font-size:12.5px;line-height:1.9">
+      <div style="font-weight:700;font-size:14px;color:var(--ocn);border-bottom:2px solid var(--ocn2);padding-bottom:6px;margin-bottom:12px">INFORME DE TRASPASO A PRODUCCIÓN — H23-044</div>
+      <b>1. Datos generales</b><br>Cliente: Meliá Hoteles · Importe oferta: 4.820.000€ · Plazo: 18 meses · Traspaso: 20/05/2025<br><br>
+      <b>2. Aspectos críticos del estudio</b><br>• Nivel freático alto en cimentación (confirmado geotécnico mayo 2025)<br>• Climatización pendiente de definición por DF (aclaración enviada 12/05)<br>• Partida 08.14 mamparas: solicitar homologación antes fabricación<br><br>
+      <b>3. Industriales adjudicados</b><br>Estructura: Prefabricados Martín · Alum: Aluminis Treballs · Eléctrica: Elec. Mascarell<br><br>
+      <b>4. Documentación adjunta</b><br>✅ BC3 definitivo · ✅ Planos rev.4 · ✅ Comparativos · ⚠️ ESS pendiente
+    </div>
+    <div class="btn-row"><button class="btn btn-orange">📥 Descargar Word</button><button class="btn btn-outline">📨 Enviar a Producción</button></div>
+  </div>
+</div>
+
+<!-- PR-01 -->
+<div class="page" id="page-est-predim">
+  <div class="page-header"><div class="page-title">📐 Predimensionado con histórico OCN + IVE</div><div class="page-subtitle">PR-01 · Skill Claude + histórico OCN + base IVE → estimación por capítulos</div></div>
+  <div class="card"><div class="card-title">📊 Estimación — Hotel Boutique Palma</div>
+    <div class="input-row-3"><div><label>Tipo de obra</label><select><option>Hotel · Obra nueva</option></select></div><div><label>Superficie construida</label><input value="6.400 m²"/></div><div><label>Nº plantas</label><input value="7"/></div></div>
+    <div class="input-row-3"><div><label>Ubicación</label><input value="Palma de Mallorca"/></div><div><label>Calidad</label><select><option>Alta (4★+)</option></select></div><div><label>Año ref.</label><input value="2025"/></div></div>
+    <div class="btn-row" style="margin-bottom:12px"><button class="btn btn-orange">🧠 Generar predimensionado</button></div>
+    <table><tr><th>Capítulo</th><th>Estimación OCN</th><th>Ref. IVE</th><th>Desviación</th></tr>
+    <tr><td>01 Mov. tierras</td><td>124.000€</td><td>118.000€</td><td><span class="badge amber">+5.1%</span></td></tr>
+    <tr><td>03 Cimentación + Estr.</td><td>892.000€</td><td>860.000€</td><td><span class="badge amber">+3.7%</span></td></tr>
+    <tr><td>05 Cerramientos</td><td>680.000€</td><td>710.000€</td><td><span class="badge green">−4.2%</span></td></tr>
+    <tr><td>08 Carpintería</td><td>510.000€</td><td>440.000€</td><td><span class="badge red">+15.9% ⚠ Insular</span></td></tr>
+    <tr><td>11 Electricidad</td><td>340.000€</td><td>320.000€</td><td><span class="badge amber">+6.3%</span></td></tr>
+    <tr style="font-weight:700;background:#f0f5fa"><td>TOTAL</td><td>4.890.000€</td><td>4.610.000€</td><td><span class="badge amber">+6.1%</span></td></tr></table>
+    <div class="info-box" style="margin-top:12px">💡 Desviación típica OCN vs IVE en Baleares: +5–8% por coste insular. Cap. 08 especialmente afectado.</div>
+  </div>
+</div>
+
+<!-- EC-02 -->
+<div class="page" id="page-est-ss">
+  <div class="page-header"><div class="page-title">🦺 Estimación detallada Seguridad y Salud</div><div class="page-subtitle">EC-02 · Claude + parámetros proyecto → SS desglosada por concepto real</div></div>
+  <div class="card"><div class="card-title">⚙️ Parámetros</div>
+    <div class="input-row"><div><label>PEM</label><input value="4.820.000 €"/></div><div><label>Duración obra</label><input value="18 meses"/></div></div>
+    <div class="input-row"><div><label>Trabajadores pico</label><input value="45"/></div><div><label>Altura máx.</label><input value="24 m (7 plantas)"/></div></div>
+    <div class="btn-row" style="margin-bottom:12px"><button class="btn btn-orange">🧠 Calcular SS detallada</button></div>
+    <table><tr><th>Concepto</th><th>Criterio</th><th>Importe</th></tr>
+    <tr><td>Instalaciones provisionales</td><td>45 trabaj. × 18 meses</td><td>38.400€</td></tr>
+    <tr><td>EPI y vestuario colectivo</td><td>45 × 1.200€/año × 1.5a</td><td>18.000€</td></tr>
+    <tr><td>Andamiaje y accesos altura</td><td>Fachada 980m² × 3 meses</td><td>42.000€</td></tr>
+    <tr><td>Señalización y balizamiento</td><td>Perímetro 140ml</td><td>8.200€</td></tr>
+    <tr><td>Primeros auxilios + formación</td><td>Coste fijo</td><td>4.800€</td></tr>
+    <tr><td>Vigilancia de seguridad</td><td>8 meses fase activa</td><td>12.800€</td></tr>
+    <tr style="font-weight:700;background:#f0f5fa"><td colspan="2">TOTAL SS estimado</td><td>124.200€</td></tr>
+    <tr><td colspan="2" style="color:var(--muted);font-size:12px">% sobre PEM</td><td style="color:var(--muted);font-size:12px">2.58%</td></tr></table>
+  </div>
+</div>
+
+<!-- EC-01 -->
+<div class="page" id="page-est-ayudas">
+  <div class="page-header"><div class="page-title">🔋 Calculadora de ayudas a instalaciones</div><div class="page-subtitle">EC-01 · Webapp con lógica de cálculo + Claude interpreta tipología</div></div>
+  <div class="card"><div class="card-title">⚙️ Datos de la instalación</div>
+    <div class="input-row"><div><label>Tipo</label><select><option>Aerotermia (bomba calor)</option><option>Fotovoltaica</option><option>Geotermia</option></select></div><div><label>Potencia (kW)</label><input value="180"/></div></div>
+    <div class="input-row"><div><label>Comunidad Autónoma</label><select><option>Comunitat Valenciana</option><option>Illes Balears</option></select></div><div><label>Presupuesto instalación</label><input value="320.000 €"/></div></div>
+    <div class="btn-row" style="margin-bottom:12px"><button class="btn btn-orange">🧠 Calcular ayudas disponibles</button></div>
+    <table><tr><th>Convocatoria</th><th>Organismo</th><th>%</th><th>Importe est.</th><th>Plazo</th></tr>
+    <tr><td>PERTE VEC — Aerotermia</td><td>MITECO</td><td>35%</td><td>112.000€</td><td>Jun 2025</td></tr>
+    <tr><td>Plan Renova GVA 2025</td><td>IVACE</td><td>20%</td><td>64.000€</td><td>Sep 2025</td></tr>
+    <tr><td>Deducción IS art.38</td><td>AEAT</td><td>15%</td><td>48.000€</td><td>—</td></tr>
+    <tr style="font-weight:700;background:#f0f5fa"><td colspan="3">TOTAL AYUDA ESTIMADA</td><td>176.000€</td><td>55% PEM</td></tr></table>
+  </div>
+</div>
+
+<!-- PRV-01 -->
+<div class="page" id="page-prv-scoring">
+  <div class="page-header"><div class="page-title">🏅 Scoring automático de proveedores</div><div class="page-subtitle">PRV-01 · BD histórica → Claude puntúa por precio, plazo, calidad, incidencias</div></div>
+  <div class="card"><div class="card-title">🏆 Ranking — Carpintería Aluminio</div>
+    <table><tr><th>Proveedor</th><th>Precio</th><th>Plazo</th><th>Calidad</th><th>Incid.</th><th>Score</th><th></th></tr>
+    <tr><td><b>Aluminis Treballs</b></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:88%;background:var(--green)"></div></div><span style="font-size:11px">88</span></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:90%;background:var(--green)"></div></div><span style="font-size:11px">90</span></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:85%;background:var(--ocn)"></div></div><span style="font-size:11px">85</span></td>
+      <td><span class="badge green">0</span></td><td><b style="color:var(--green);font-size:18px">88</b></td><td><span class="badge green">★ Top</span></td></tr>
+    <tr><td><b>Carp. Navarro</b></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:75%;background:var(--ocn2)"></div></div><span style="font-size:11px">75</span></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:80%;background:var(--green)"></div></div><span style="font-size:11px">80</span></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:78%;background:var(--ocn)"></div></div><span style="font-size:11px">78</span></td>
+      <td><span class="badge amber">1</span></td><td><b style="color:var(--ocn2);font-size:18px">78</b></td><td></td></tr>
+    <tr><td><b>ServiAlum SL</b></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:60%;background:var(--red)"></div></div><span style="font-size:11px">60</span></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:55%;background:var(--red)"></div></div><span style="font-size:11px">55</span></td>
+      <td><div class="score-bar"><div class="score-fill" style="width:70%;background:var(--ocn)"></div></div><span style="font-size:11px">70</span></td>
+      <td><span class="badge red">3</span></td><td><b style="color:var(--red);font-size:18px">62</b></td><td></td></tr></table>
+  </div>
+</div>
+
+<!-- PRV-02 -->
+<div class="page" id="page-prv-registro">
+  <div class="page-header"><div class="page-title">📋 Registro de proveedores por obra</div><div class="page-subtitle">PRV-02 · N8N extrae de emails → actualiza Excel PROVEEDORES POR OBRA</div></div>
+  <div class="card"><div class="card-title">📊 Excel PROVEEDORES — H23-044</div>
+    <table><tr><th>Proveedor</th><th>Especialidad</th><th>Oferta enviada</th><th>Importe</th><th>Respuesta</th><th>Estado</th></tr>
+    <tr><td>Aluminis Treballs</td><td>Carp. Aluminio</td><td>02/05/2025</td><td>87.400€</td><td>08/05/2025</td><td><span class="badge green">Adjudicado</span></td></tr>
+    <tr><td>Carp. Navarro</td><td>Carp. Aluminio</td><td>02/05/2025</td><td>91.200€</td><td>07/05/2025</td><td><span class="badge amber">No adj.</span></td></tr>
+    <tr><td>Elec. Mascarell</td><td>Electricidad</td><td>05/05/2025</td><td>25.700€</td><td>10/05/2025</td><td><span class="badge green">Adjudicado</span></td></tr>
+    <tr><td>Fontanería Vidal</td><td>Fontanería</td><td>05/05/2025</td><td>34.200€</td><td>09/05/2025</td><td><span class="badge green">Adjudicado</span></td></tr>
+    <tr><td>Estructura Prats</td><td>Estructuras</td><td>01/05/2025</td><td>—</td><td>—</td><td><span class="badge gray">Pendiente</span></td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">📥 Exportar Excel</button><button class="btn btn-outline">+ Añadir proveedor</button></div>
+  </div>
+</div>
+
+<!-- PT-01 -->
+<div class="page" id="page-pt-planning">
+  <div class="page-header"><div class="page-title">📅 Planning automático de licitación</div><div class="page-subtitle">PT-01 · Claude + proyectos similares + condiciones → tabla exportable</div></div>
+  <div class="card"><div class="card-title">📅 Planning — Hotel Castellón H23-044 · 18 meses</div>
+    <table style="font-size:12px"><tr><th>Actividad</th><th>Rendim.</th><th>Duración</th><th>Inicio</th><th>Fin</th><th>Equipo</th><th>Importe</th></tr>
+    <tr><td>01 Mov. tierras</td><td>—</td><td>3 sem</td><td>Jun-25</td><td>Jul-25</td><td>2 retro + 4 peones</td><td>124.000€</td></tr>
+    <tr><td>02 Cimentación</td><td>12 m³/día</td><td>5 sem</td><td>Jul-25</td><td>Ago-25</td><td>1 grúa + 8 of.</td><td>210.000€</td></tr>
+    <tr><td>03 Estructura HA</td><td>1 forjado/sem</td><td>8 sem</td><td>Ago-25</td><td>Oct-25</td><td>2 equipos</td><td>680.000€</td></tr>
+    <tr><td>04 Cerramientos</td><td>80 m²/sem</td><td>10 sem</td><td>Oct-25</td><td>Dic-25</td><td>6 of. alba.</td><td>320.000€</td></tr>
+    <tr><td>05 Instalaciones</td><td>—</td><td>16 sem</td><td>Nov-25</td><td>Mar-26</td><td>Subcontrata</td><td>890.000€</td></tr>
+    <tr><td>06 Acabados interiores</td><td>—</td><td>12 sem</td><td>Feb-26</td><td>May-26</td><td>Subcontrata</td><td>1.200.000€</td></tr>
+    <tr><td>07 Exteriores + entrega</td><td>—</td><td>4 sem</td><td>May-26</td><td>Jun-26</td><td>—</td><td>180.000€</td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">📥 Exportar Excel</button><button class="btn btn-outline">📄 Generar PDF</button></div>
+  </div>
+</div>
+
+<!-- BIM-04 -->
+<div class="page" id="page-bim-ifc">
+  <div class="page-header"><div class="page-title">🧊 Extracción de mediciones de IFC</div><div class="page-subtitle">BIM-04 · IfcOpenShell Python → extrae quantities → Excel estructurado</div></div>
+  <div class="flow"><div class="flow-box">📁 Archivo .ifc</div><div class="flow-arrow">→</div><div class="flow-box">🐍 IfcOpenShell</div><div class="flow-arrow">→</div><div class="flow-box">🧠 Claude valida</div><div class="flow-arrow">→</div><div class="flow-box green">📊 Excel</div></div>
+  <div class="card"><div class="card-title">📤 HM013_arquitectura_v3.ifc — IFC4 · 2.847 elementos</div>
+    <div class="info-box">✅ IFC válido · Parámetros mínimos OCN: OK · Sin errores de geometría</div>
+    <table><tr><th>Tipo elemento</th><th>Cantidad</th><th>Superficie (m²)</th><th>Volumen (m³)</th><th>Familia</th></tr>
+    <tr><td>IfcWall (muros)</td><td>284</td><td>3.840</td><td>—</td><td>Hormigón / Fábrica</td></tr>
+    <tr><td>IfcSlab (forjados)</td><td>8</td><td>6.400</td><td>1.280</td><td>HA-30</td></tr>
+    <tr><td>IfcColumn (pilares)</td><td>96</td><td>—</td><td>148</td><td>HA-30/35</td></tr>
+    <tr><td>IfcDoor (puertas)</td><td>312</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>IfcWindow (ventanas)</td><td>248</td><td>1.240</td><td>—</td><td>Aluminio</td></tr></table>
+    <div class="btn-row"><button class="btn btn-orange">📥 Exportar Excel mediciones</button><button class="btn btn-outline">📄 Exportar BC3</button></div>
+  </div>
+</div>
+
+<!-- OT-02 -->
+<div class="page" id="page-seg-dashboard">
+  <div class="page-header"><div class="page-title">📈 Dashboard flujo de creación de oferta</div><div class="page-subtitle">OT-02 · KPIs por fase y proyecto · Power BI / Webapp</div></div>
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Proyectos activos</div><div class="kpi-value">7</div></div><div class="kpi"><div class="kpi-label">Ofertas enviadas (mes)</div><div class="kpi-value green">4</div></div><div class="kpi"><div class="kpi-label">En pet. ofertas</div><div class="kpi-value orange">2</div></div><div class="kpi"><div class="kpi-label">Retrasados</div><div class="kpi-value red">1</div></div></div>
+  <div class="card"><div class="card-title">📊 Estado por proyecto</div>
+    <table style="font-size:12px"><tr><th>Proyecto</th><th>Estudio</th><th>Paquetiz.</th><th>Pet. Ofertas</th><th>Recep.</th><th>Precios CD</th><th>Envío</th></tr>
+    <tr><td><b>H23-044 Castellón</b></td><td><span class="badge green">✓</span></td><td><span class="badge green">✓</span></td><td><span class="badge amber">70%</span></td><td><span class="badge amber">50%</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">—</span></td></tr>
+    <tr><td><b>HV-031 Valencia</b></td><td><span class="badge green">✓</span></td><td><span class="badge green">✓</span></td><td><span class="badge green">✓</span></td><td><span class="badge green">✓</span></td><td><span class="badge amber">80%</span></td><td><span class="badge gray">—</span></td></tr>
+    <tr><td><b>HM-012 Mallorca</b></td><td><span class="badge green">✓</span></td><td><span class="badge amber">40%</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">—</span></td></tr>
+    <tr><td><b>HM-013 Palma</b></td><td><span class="badge amber">20%</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">—</span></td></tr></table>
+  </div>
+  <div class="card"><div class="card-title">⏱ Tiempo medio por fase (días hábiles)</div>
+    <div class="chart-bars">
+      <div class="bar-wrap"><div class="bar-val">8d</div><div class="bar" style="height:80px"></div><div class="bar-label">Estudio</div></div>
+      <div class="bar-wrap"><div class="bar-val">3d</div><div class="bar" style="height:30px"></div><div class="bar-label">Paquetiz.</div></div>
+      <div class="bar-wrap"><div class="bar-val">12d</div><div class="bar orange" style="height:120px"></div><div class="bar-label">Pet.Ofertas</div></div>
+      <div class="bar-wrap"><div class="bar-val">4d</div><div class="bar" style="height:40px"></div><div class="bar-label">Recep.</div></div>
+      <div class="bar-wrap"><div class="bar-val">5d</div><div class="bar" style="height:50px"></div><div class="bar-label">Precios CD</div></div>
+      <div class="bar-wrap"><div class="bar-val">2d</div><div class="bar" style="height:20px"></div><div class="bar-label">Envío</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- OT-01 -->
+<div class="page" id="page-ot-informe">
+  <div class="page-header"><div class="page-title">🏢 Informe estudio vs obra real</div><div class="page-subtitle">OT-01 · Claude cruza BC3 oferta vs liquidación → desviaciones + lecciones</div></div>
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Ofertado</div><div class="kpi-value">4.820k€</div></div><div class="kpi"><div class="kpi-label">Coste real</div><div class="kpi-value orange">5.140k€</div></div><div class="kpi"><div class="kpi-label">Desviación global</div><div class="kpi-value red">+6.6%</div></div><div class="kpi"><div class="kpi-label">Cap. con &gt;10% desv.</div><div class="kpi-value red">3</div></div></div>
+  <div class="card"><div class="card-title">📊 Desviación por capítulos</div>
+    <table><tr><th>Capítulo</th><th>Ofertado</th><th>Real</th><th>Desviación</th><th>Motivo</th></tr>
+    <tr><td>03 Cimentación</td><td>210.000€</td><td>248.000€</td><td><span class="badge red">+18.1%</span></td><td>Nivel freático mayor del previsto</td></tr>
+    <tr><td>08 Carpintería Alum.</td><td>87.400€</td><td>96.200€</td><td><span class="badge amber">+10.1%</span></td><td>Retraso fabricación + acopio</td></tr>
+    <tr><td>14 Fontanería</td><td>34.200€</td><td>37.800€</td><td><span class="badge amber">+10.5%</span></td><td>Cambio sistema DF planta 5</td></tr>
+    <tr><td>05 Cerramientos</td><td>320.000€</td><td>328.000€</td><td><span class="badge green">+2.5%</span></td><td>Leve sobrecosto material</td></tr>
+    <tr><td>11 Electricidad</td><td>25.700€</td><td>24.900€</td><td><span class="badge green">−3.1%</span></td><td>Buena gestión de compras</td></tr></table>
+    <div class="info-box" style="margin-top:12px">🎯 <b>Lección aprendida:</b> En proyectos 5+ plantas en Castellón, aumentar cimentación +15% sobre IVE por riesgo freático. Cap.08 en zonas costeras/islas: +10% por logística.</div>
+  </div>
+</div>
+
+<!-- BD-01 -->
+<div class="page" id="page-bd-precios">
+  <div class="page-header"><div class="page-title">💰 Base de datos de precios históricos</div><div class="page-subtitle">BD-01 · N8N → Claude parsea facturas → BD actualizada automáticamente</div></div>
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Precios en BD</div><div class="kpi-value">1.847</div></div><div class="kpi"><div class="kpi-label">Facturas procesadas</div><div class="kpi-value orange">312</div></div><div class="kpi"><div class="kpi-label">Actualizado</div><div class="kpi-value green" style="font-size:14px">Hace 2h</div></div><div class="kpi"><div class="kpi-label">Proyectos fuente</div><div class="kpi-value">18</div></div></div>
+  <div class="card"><div class="card-title">🔍 Consulta de precio histórico</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px"><input placeholder="Buscar partida... ej: solera hormigón, tabique ladrillo..." style="flex:1"/><button class="btn btn-orange">Buscar</button></div>
+    <table><tr><th>Partida</th><th>Ud</th><th>Mín.</th><th>Medio</th><th>Máx.</th><th>Últ. factura</th><th>Proveedor</th></tr>
+    <tr><td>Tabique LHD 9cm mort.M75</td><td>m²</td><td>35.20€</td><td><b>38.40€</b></td><td>41.80€</td><td>Oct 2024</td><td>Ceram.Gomis</td></tr>
+    <tr><td>Solera HA-25 e=15cm</td><td>m²</td><td>28.40€</td><td><b>31.20€</b></td><td>34.10€</td><td>Feb 2025</td><td>Hormig.Nos</td></tr>
+    <tr><td>Ventana alum. RPT</td><td>m²</td><td>310€</td><td><b>345€</b></td><td>390€</td><td>Mar 2025</td><td>Alum.Treballs</td></tr>
+    <tr><td>Cableado BT 2.5mm RZ1</td><td>ml</td><td>1.80€</td><td><b>2.10€</b></td><td>2.40€</td><td>Abr 2025</td><td>Mascarell</td></tr>
+    <tr><td>Puerta paso 0.82m lisa</td><td>ud</td><td>180€</td><td><b>215€</b></td><td>240€</td><td>Ene 2025</td><td>Carpint.Font</td></tr></table>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('main').scrollTop = 0;
+}
+</script>
+</body>
+</html>
