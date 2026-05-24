@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario de Requisitos · App 1 Vialterra · iAgusto.app</title>
+<meta name="description" content="Cuestionario de requisitos para la App de gestión inteligente de certificaciones y facturas medioambientales de Vialterra Infraestructuras.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cuestionario de Requisitos · App 1 Vialterra">
+<meta property="og:description" content="Definición de alcance de la App de gestión inteligente de certificaciones y facturas medioambientales.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="iAgusto.app">
+<meta name="theme-color" content="#1A3A5C">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A3A5C; --navy-dark:#0f2338; --navy-light:#2a5080;
+  --orange:#E87722; --orange-light:#F4955A; --orange-pale:#FEF0E6;
+  --grey:#f4f5f7; --border:#dde1e7; --text:#2b2f36;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--grey);color:var(--text);line-height:1.6;}
+.wrap{max-width:780px;margin:0 auto;background:#fff;}
+
+/* HEADER */
+header{background:var(--navy);color:#fff;padding:32px 40px;display:flex;align-items:center;gap:20px;}
+header img{height:64px;width:auto;}
+header .htxt h1{font-family:'DM Serif Display',serif;font-size:1.55rem;font-weight:400;line-height:1.2;}
+header .htxt p{color:var(--orange-light);font-size:.92rem;margin-top:4px;}
+
+/* HERO STRIP */
+.hero{background:var(--navy-dark);color:#fff;padding:22px 40px;border-top:3px solid var(--orange);}
+.hero h2{font-family:'DM Serif Display',serif;font-weight:400;font-size:1.2rem;margin-bottom:6px;}
+.hero p{font-size:.9rem;color:#c4cdd9;}
+
+form{padding:32px 40px 48px;}
+
+/* SECTION */
+.section{margin-bottom:34px;}
+.section-title{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+.section-title .num{background:var(--orange);color:#fff;font-weight:700;font-size:.85rem;
+  width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex:0 0 30px;}
+.section-title h3{font-family:'DM Serif Display',serif;font-weight:400;font-size:1.15rem;color:var(--navy);}
+.section-note{font-size:.84rem;color:#6b727d;margin:0 0 16px 42px;}
+
+/* GUION DEL CONSULTOR - solo lo ve Cesar */
+.cnote{background:#eef2f6;border:1px dashed var(--navy-light);border-radius:8px;
+  padding:11px 14px;margin:8px 0 18px 42px;font-size:.83rem;color:#3a4654;line-height:1.6;}
+.cnote .tag{display:inline-block;background:var(--navy);color:#fff;font-size:.62rem;
+  font-weight:700;letter-spacing:.6px;padding:3px 8px;border-radius:4px;
+  text-transform:uppercase;margin-bottom:7px;}
+.cnote strong{color:var(--navy);}
+.cnote .crit{color:var(--orange);font-weight:700;}
+@media (max-width:640px){ .cnote{margin-left:0;} }
+
+/* BLOQUE PLANTEAMIENTO DE LA APP */
+.planteamiento{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:24px;}
+.planteamiento .ph{background:var(--navy);color:#fff;padding:11px 16px;
+  font-family:'DM Serif Display',serif;font-size:1.05rem;border-bottom:3px solid var(--orange);}
+.planteamiento .pb{padding:14px 16px;font-size:.88rem;color:var(--text);line-height:1.65;background:#fff;}
+.planteamiento .pb strong{color:var(--navy);}
+
+/* FIELD */
+.field{margin-bottom:18px;}
+label{display:block;font-weight:600;font-size:.92rem;color:var(--navy);margin-bottom:6px;}
+label .req{color:var(--orange);}
+input[type=text],input[type=email],input[type=number],select,textarea{
+  width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:7px;
+  font-family:'DM Sans',sans-serif;font-size:.92rem;color:var(--text);background:#fff;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-pale);}
+textarea{resize:vertical;min-height:70px;}
+.hint{font-size:.79rem;color:#8a909b;margin-top:4px;}
+
+/* checkbox / radio groups */
+.opts{display:flex;flex-direction:column;gap:7px;margin-top:4px;}
+.opt{display:flex;align-items:flex-start;gap:9px;font-size:.9rem;font-weight:400;color:var(--text);
+  background:var(--grey);border:1px solid var(--border);border-radius:7px;padding:9px 12px;cursor:pointer;}
+.opt input{margin-top:3px;flex:0 0 auto;}
+.opt:hover{border-color:var(--orange-light);}
+
+/* info box */
+.infobox{background:var(--orange-pale);border-left:4px solid var(--orange);
+  padding:13px 16px;border-radius:0 7px 7px 0;font-size:.86rem;margin-bottom:24px;}
+.infobox strong{color:var(--navy);}
+
+/* submit */
+.submit-wrap{text-align:center;margin-top:30px;}
+button{background:var(--orange);color:#fff;border:none;font-family:'DM Sans',sans-serif;
+  font-weight:700;font-size:1rem;padding:15px 44px;border-radius:9px;cursor:pointer;
+  transition:background .15s;}
+button:hover{background:#cf6716;}
+
+/* footer */
+footer{background:var(--navy-dark);color:#9aa6b4;text-align:center;padding:22px 40px;font-size:.8rem;}
+footer img{height:30px;opacity:.9;margin-bottom:8px;}
+footer .copy{display:block;margin-top:4px;}
+
+@media (max-width:640px){
+  header,.hero,form,footer{padding-left:22px;padding-right:22px;}
+  header{flex-direction:column;text-align:center;gap:12px;}
+  .section-note{margin-left:0;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAGQCAYAAAAHh0qmAAA5lElEQVR4nO3deXxU1d0/8M/dZs3MZF8Ia0BApIKkCnWLW9WfItUqVsW9VetDLVLXWlsEl8e2WsWtlSoP7hq0iiKiiBIsJULYBAKEEJaELDOT2de7nd8fM5NMksmG4ff0+T3f9+s1MJl77rnn3nvuueeee+65ACGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEL+d+CGMqJhS2+8Q7GIxZD1tCk8wCf/1nkAepdJ0BO/8GlzJP7mk9MzTU3FC+i63mVqRjyfjCd9wYCejItPxdCRPD05nQcPPe13dIsjlfhUgM6U6MnV1pGWPj2Z5tQs3VapSwy8nra9eln/LmG7hkgkKX3+nuuf6Te9Y3f1WOFkML5j60DnkzEn15EHdJ3PkFo9uT/1jk0G8OBFHlxIifA1u15sWbIlknmBgyMORSQAoAOco1C6O1RgnghZS5uSOmZY538cl/y/2++p4Izr/1BjADjWdb6MYbhuP3T7nbHkvL0tMJXQtAUxhh7rlUo3OoN1xA8umVauc1p6lN2j6/69x2/JHzqS1D2NaQnoWFfWLaJU2tKDpy2EIS3dqe/dok9fXMd8vey7HuvCASIHY5secSjmZQD+vTI0AOg6onpMQdcSuvtGzrTxu+tv+rEYyLK7ZdzuRwuHrpkgY7yZltNbDu01x/byvbc0ZloWOudLFSCD2qbdl5tp+gDi49K+dDmAOEDlwHQ9wsWiQ7azhzRDg+ckSHzm/ZCSKql625+96XFcpM3EpZeefSy7Y96076lwXebptrM6ziipEp7rusz0Ei19wT2Wlb5TkxN7KVh7yBgmtey0SDLk537zZvd4O5LIdZ7BMh0vXfZft/3aLYkZ10vkwXEw9JOqQRnSDG0OyrsYNEVXEmvUUYNjLFlv4npunLSSg+c46Mm/+eQW0JNheK5r7bHzHJBeZeF6Zj4APDjojHWJo8fpkTHwXKIuoPMsETB50PDJzKinMi4HpIJkLHw71i31I9e5LaADXLK+ygA+lanT40/bNnxalUnvvr5c58L55Ax6cn3T50ksm6X9zqCnDi4uwzZNbu+ONKFrLb4z7Yl06plOWmlJ5bnuE5ITRQGGoOozRFQVQ6S/cnFQ2BDHR/534LqW6YSQlONeoi5evHiSqqrSdddd1+J2u43PP/98+5IlS4bkira7v/71r6VZWVlFHo+HSZKEYDDY9sADDzQfj2X9T7b4T4vHKrxiv+SSS1pHjhyJP//5z8GFCxeGhno5Tz/9dKndbi+ORCL6/6v9MbQXhd188sknV5SXT3tHVTXJ4XD4A4FA9cknn3x1f/NVVlaOGTdu3ERJkkq9Xm+pwWAIWK3WI21tbXsuuOCCOgAZ61wTJkwYPmr0qK9MJrOZA0MoFD6oKMrZDz/88NHBpPuJJ57Iq6io+FFpaelUr9c7xmg0xk0WU7PH7dn+xRdfbHzooYfaBxPfQG3atGlCdna2RVEUAMC2bds8119//eGhXMa6dV+cUFY2cSPH87kOhyPg8Xj2FhUVzQIQAoD58+ebr7322onZ2dlwuVyIRDrLHkmSIEkSrFYrZFnGzp07/T//+c8PoZdG6xNOOKFo4okT19qybHYGhnD42PbHv4X77rvPVl9fvysajbJwOMQOHzkcfP3116f0Nc/atWsv3Ldv36qWlpaAz+djkUgk+QmzYCjI2pzOWEPDwc0bNmyYO2vWLFumOKqqqh6JRCPM7/ezeDzONtVsemWgaa6oqDCtX7/+d42NjUd8Pj+LxmIslvbxB/yssfHIkX9u3Pi7iooK02C3SV9eeeWVYY2NjS6Pp113Ott0j8er7969e8fFF19sHMLF8Nu3b18Rl+MsGAwyp8ulrl69+sfpAR5++OFT6urqtPb2dr2lpUVvbmnWm5sTn5aWFr21tVVvc7bqbW2telNjY6i+vn7j2rVr7wQgZVrgF198cU8oHGKBQGJ/bNm2ZcD749/K3r1750aiEeb1elkoFGLV1dV39Bb2nnvusW7ZtuXvLrebRZMZx+v1MK/Xm/wkvqcyeTgcZnv37t3+2WefTese14wZM8w7duz4NhKNMJ/Px1rb2uSqqqoe4bp74YUXsvbt2/dRJBJhoVCoY3nBUJAFg0Hm9/s61iUSibC9e/d+WllZ6fi+2ynliy++mBeJRJjPl1hnv9/P2tvd7N13371oqJaxZs2aC1xuF/P5fCwWi7GaLVte6h7m4YcfPqX+wAEWCAaY15fYBp0fb5eP3+9nkWiUhUIhtmvXrjVPP/10aYbFSt99991X0ViU+fx+5nS55Jqamn73x7Hq967xsfjwww+zc3Nz52uqBqPRCI/Xu3Hp0qVLM4WtrKzMmjdv3tuTT5r8C0kUEY1EAAaYzGaIogiO5yEIIkwmE0RRRCwWQzwex6jRo6bMmDHj46NOZ5eNU11dHa2rq/t1MBCMA0C2wyGNGTPq/v7S/KPTT39+TFnZT+LxOGRZhtFkQiwWU0PB0AFVVXdGIlHVaDRCURTEYjGUlZVdMn369L/Pnj1bGIJNJhQXF1+XaAJjYIxB03VYrVkYO3bs9UMQPwAIo0aPfiDLmgVBEOByu9o2b9r0ePdABoMBAGNM18GS7XFGkxFGoxFGoynxMSU+oigiHotBURSMHz/hgiuuuOLNyspKc7colfZg8NexWCwAAHabTSoZVtLv/jhWx6UOnVdYeGOWzTY2HotB13Xsrzvw7JIlS5Tu4SoqKsQpU6YsLS4umhUKhQEAJpMJXq832FzXsqqppfHLkD8UsNvtyM/Pn1pYWHhlSUnJeFVVEY1EYTKZSiPR6Mfvv//+uVddddX+VLyzZ8/+9sCBA0vtDvudsVgMJrPlipUrV06dOXPm9kzpfeONN6YNKymZE41EwBiDJEnYV1f3+eGDBxds27Zt5znnnCO73e7yCRMmPDR69KhZmqYjHA4jPz9v9iOPPPLJ8uXL3/g+22vZsmXl+fn55XJcBgcOgiRAVVTIioL8/PxL/vSnPxXff//9rd9nGatXry53OOznxeNxGI1GHGw4+M6dd97Zoy4rWSzgk+3koiiivb29pa6+bonAOJboipKYZjQazTm5uT8eMXz4NF3XEQoFMWzYsHPKysrmA3giPc5zzzhjV11d3XsjR468LRaPQZIMV3y48sPyK2ZeseX7rNP/E5MmTTLU7qndGomEWSgcYvUNDfvmz5/f/agFAFT9s+qXoXCYeb1e5vF4WCQSYXV1dV/1VteeM2eOvXpT9SKXy6X5/X4WDAYZY4xt3rz5ne5h169fP6mtrS3m8/tYLB5n27dvf7a3NFd9883vY7Eo83g8LBwOsz17dtcUFRVZMwTla/fuXRqNJU6zuq6xffv2foXv2VpUU1Pzx2gsyrxeL2ttbdV27trl9vl9zOv1sFAoxDZs2HD794kfABoONTwRi8WY3x9gLS0t4ddee218pnBPPfXUKQ0NDbrf72PhcJgdbDhY00e0xq1btz4fDIWYx5NIa11dXfP8+fNzuwf89NNPf+hyueI+n4/F4jFW/W31i993nTIZ8irHvHnzTnHYHVNkRYEoCPD7vCueeeaZaPdwd911V0FpSenvgMQp1mQ2wePxrHr55Zcvu/HGG3dkivutt94KzDhtxh8aGxsf4Hke4Uh4f11d3UKv17uoe9izzz67NhQK/dNgMEJVFJjM5ivnzJljzxRvtsM+CeDAcYAgCFAUbUVbW1s4Q1C98fDhB31eX0s0Gt1dX3/gwd27a2/D97gx8PLLL1ty83Kv0lQVyaatgxv/9a8HVFUFwIHneQwbPrzflqG+LKisNJgMpstUVYUkiVB1/cubbrqprrfwLO0blyiueztg43/5y18edLtcDZIkQVEV5OTklEyfPr1HHfnSSy/d4nK5thkMBqiqirzcvIuvv/76TIXG9zLkGfqkk06qyMnN4cGAUDCEhgMNX2YKN3PmzJ8WFRUNl2UZgijA4/EEqqur73r66aczZaQuVqxY8dzGjRsvXfZfy06dMGHCIxdeeOGeTOF8gcBHYAyqqiLb4SidOXPm5EzhFFXhGBgYAxhj4HkuY+kFABdddJFz69at57zwwgunjR8//o8//elPD/SX3r784Ac/OD83J7dMUVSIogh/MLhqwYIF7/i8vqOiJEJRZFgt5jM/++yzk451GReWlp4kSuKJqqqC4ziosvx533N03l7n+jn3vPnmm2FwqBFFEWAMJpMJRUVF+Zki9fl8K8BxUFUVVqu17Lzzzuuz1etYDHmGdjgcMzguUbL4A4HA+vXrazOFKyoqulIURIABBskAp8v97lVXXdUwkGUsXLhQvvDCC1c9+OCD/r7CNdTXV3t9XgYOsNltXGFx8fRM4TxeT/K0yhCPx1FUVHRVVVXVTb3Fe+mll9YtXLhwSG4OlZSUzDGZjAAHBINB3e10vtvS0hJRFOUjSZSgaTrsNoexpKTkhmNdBi/xP8rKyhIYYwiFw6ylpSXjGRAAFEXp6GvFAAQCwaIpU6b03ZrDmDXxX+JPTdMyBmtubq4OhYIAAxwOO0aMHj31mFaoD0OdoTmzxTxG13QIggBZlhuff/75Hhcz9913n83hcHSUGJFIBE536/tDnBasWbNmfzgcaRZ4ATzPIy8nZ1KmcPu3ffdeS3NLm8lkgq7rMBiNpsmTJy+rr6//fOfOnT9btWrVWABD0ZrRRWVlZanJZLooLsuQJAPi8fj2f/zjH5sBwOVyfRiJRhK9LFUFVqv1mvvuuy9j23t/JF46hecF8AIPRZYDfr+/14JDkiRwHAcOHBJnLWbMzs7utfHg9ddfH2c0ms6UZRk8zyMUCuHw4cNNmcJWV1fvCQaCXkEQwAsCbFbrMZ91ejOkGXrevHkODlyRruvgeA6xWKwFGe7qTZ06tVQySIW6rqc2QnjPzj37M0T5vSxZssQfDoePCIKQ6FjGc2WZws29997GvfX1twaCobDZbEbigOQxbNiwC0ePGfPutGnlOw4ebNhUV1f3pw0bNsx88MEH84Yiffn5+dc7HI5sTdUgCDziSnx5qjVo27Zt/4xEorWSwQBFVZFfUDDq1FNPveRYlmMwGIYzpkPgeMiy7H7xxRf7PLMlMHCJ3pF6VVVVj2sgAPj7a6+dWFFR8arDYXdoWuIaIBAI7P/666+3ZQr/1FNPuWVZPsrziS7G2Q57ybGsT1+GtNnu8ssvFy1Wq0HXdYicBJ6HO1O4CRMmWAySwaCzREnOGItEo9HgUKYlhefQyPHcj3RNh9FkzkMvPdMvufDCVe++++6Vp5122nMlJSXjdV2HLMfBGGA2m6xZtqxpgiBMKywquq+0tLTx4ksuefXxRx99as2aNf3W+TMpLy+XCgsL5zAw8DwPn9en1O6qXZmaPm/evPgFF1ywIj8vb5Isy7CYLSgbW3YtgPcGuSgOQDHTExVis9XqX7ly5YCqS5qmwW6zmz///PPn4/G4leM48AIPo8GA4uJim93uOCM3L9cei8sQeAEMDE5ny5Nvvvlmb9tE9fl8sVGjRoExhlAkPAJD/DTHkGZom80GnuNY4sBmXR/jS2MWzQwcl7zk4JJ1tcBQJqWDIIg6l7yyMRmNvaQo4Zprrvn8lltuOfPuu++ek5eXd4vJbJ6clWXlNU2DIiuQ43FwHIf8/PwRRcVFjyxZsmRaOByeM3ny5EF37PnNb35zekFhwUmKLMNgMKKtrW3zZZdd1uV64+DBgyvyCwruNxoMgizLKCgoPPeFF14Y9atf/WpQ/Tu4tCs7pmmJDtq9ZCJFUcCSkzRNQ3Z2dtbZZ599S8+QDIqS2CYGgwGiIKK1tXXxWWeds6yvpGiMMY7jwBiDyAsZb5d/H0Na5Vi3bh1isRgSCQY0Xc90tYude3fqcjzOeABgDKLAG8vKyjK2VX9fGmN5qdIpOICD5r/+679cU6ZMeXb+/PmnHm1qOuPI4ab/dDld38XiMd1sNoMXeMiyjFg0iuHDh88yGAxPHUu6xo8ff53Dbud1xqDrGpzO1qXo1sln5syZm9rd7gZRFKGqKvLz8+3lp5VfPthlqboe73jEkLG+muGSgYBUnmeMQdXUxEdVEY/HEY1GEY3GoKoaeF5AwB9w1tbW3jNmzJj53dehu7ycHJExlmwiFdsxxH2hhzRDv/POO35V05w8L0DXGYwGqSjTMrZv396kqIqbF3homgaT2WwvKCiYMJRpARI3ecxGwyhd18BzHFRdb8IAN+Dy5cvlKVOmVI8fP+6h0aNHn7rhnxvO+O67714IhcJBUZLAGEMkEoHVar112bJlg7q4eeaZZ7Jz83JnKYoKDhwikSjMlqwZ69evf37NmjXvff311+9VVVW99+VXX77LGLPresfzPijMK7wWg9tvjGNsP8/x0HUdiqKU/P3vf88eyIwcxyMWi6lHDh9xHzl8xN3U1OQORyI6n3xk3WA04mjz0drnnntuenl5+V/Qz7a96aabHKIkFWuaBi5xN7JxEOsxIEOaobds2aJEI5HDAs9D1zWYzebiuXPn5nQP9+STT7ZHI9FdoiiCMR1Z1iyMGzfux5ni/D5+9atfDTeZzMNVVQPHAaFQ4FgvPOUrr7yyevr06XfVHzx4sSzHfYIgQtc1ZGdnSwUFBecOJrJTTz31ovz8gmJVVRK32kURJ06c+ItTTz31V2eeeebVM2bMuPq00067+owfnXH18BHDi1RVBTgOsiLD4XCc8uWXVVMHmf7tjDHoug5JknKHlw3v52IskS8NBgNCkciee+65Z9IDjz1w4qJFi07cX1//W0EUOlpfSkqGjbjooovGDiQR55133hirxVyg6RoYYwgGg/sGuR79GvJ26Gg0ugkcoGkqsrJseRUVFRlvUjQ2N37Okqc2JdFn4aa333572ECWMWfOHPv27dvf2rNnz12VlZXjegs3ceLEH2XnZFt0piMel+F2ujdlCjdu3DhjVVXVtMbGxt+uWrXq5L6WXXHGGf9SFeUrg0ECYwDP8zAajUUDSXdKcUnJtQZJSrW8wGBM9BDVdT3xYcmPrkMURRgMhsQ1iaYjKyvLMGbsyJ8NZnmiKH4bi8XAGIPNZhPHjZyQsfkSSNah055rFHleWb16tWvlOyvd77zzjvucs89+yuvxrjSbLdA1DSaj0TZq1OglTz31VMbqZboTysrOyM5OVDnC4TCcTufmwazHQAx5hm5ra6sKBUNgAOx2O18yvOScTOF27N3xutPldEoGCaqqwuFwFJ9yyrQlJ598cr+3Q+fPn3/vpEmTrhs1etRz55577rbNmze/UVFR0eMCt7i4+P8YJAMEQYS73R3Zvn37t93DrFu37qdVVVXbJkycsGn48OFPFBcXP4F+6piMIY8lHzDVNA2yLB/qL80pK1euHGXLyjpXluVU06bWdLTpu+bm5m3NzU3bmpqbtjUfbU58WhL/O51tB1K37BRVhSQIP1u8eHHG2/iZ1NbW1sZisRZBFCCKAjiezRzQjIk7p6mLyBR9x44dv3G5XAFJMiAWi2FY6bCys8466+n+orNlZ1/OcRxEQYTX621fv3799oGuw3+bOXPm2Pfu3dsYCoVYOBJm++v3V6OXmxI1NTV3R6LRjs5JoXCIfffdrtW9dZyZOXOmZdOmTYs8nnbV50t03lEUhW3cuPGJ7mFXrFhR1NTU1B4IBFgsFmPbduz4DBky6sqVK6c7nU4WDAY7+iGvWbPm2d7Wr7q6+m6/3696vV4WCARYc0tL4J133hmdmr5gwYLsb7755oENGza8VllZeUX3+Tdv3vxANJroCBWNRdnBgweXJ7cP19vn2WefLWppbW1KpTEQCLAVK1Z0v5MprFy58vqampqnv/jii1sWLFjQpbA6ePDgu7FYjAUCAdbY2Nj2+OOPZzyrLFq06JT99ft1n9/HwuEQO9DQsDXTdlv1+efzU+nx+bzM7XZrX69f3+uB8v4n75/Q2toS9vv9LBaLsU2bNg22+fG/z8aNG56JxWLMm1hRtaamZkamcJWVlcKRI0cq43KceTwe5k32uGtpaW4/cuTI6wcOHPjFv77919V79+69uqGhYcGRxiPbgqEQ8/l8zONpZ/F4nDU0NPxrwYIFWd3jPnTo0NzUwRII+NmuXbsu7i29W7dufVmWZebxeJjP52N+v58daTqyvKam5sKqqqqSzz//vHDDhg1n1+3fv8zldut+n595PB4mKzJrbGx8IRXP4sWLjbW1u1fLsszi8Thzupzsq6++6qgeXHzxxca9+/buCkcSDz74/D62Z8+eAXXg37dv3wuxWCxxIESjbOvWrV36yKz9eu1vQ6EQi8fjLBqNsrq6ukfTp2/evPkn/oCfeX1eFomEWVVV1d2ZlrNo0aJT6vfXJ3vbhdjhw4e3IPMZS9ixY8cnqTSFwyF2tPlo/Zo1azLedNq/f/+iWCzGfD4fc7vd+ocff3z+QNb738KKFSvGtbS2BPwBP4tGo+zgwYO93taurKx0fLdzZ1U0FmV+v495PB7m9yfmi0QiLBAMsFAoxKKxGAuFw8zj9TCv18Pi8Tjbu2/vkUx16CdfftlxtPlofSgUZOFwmDU1NW1ZvHhxr48yLViwIH/Pnj1bZFlOPh3jYZFohHm8HuZ0Oj1Op9PtcrlY4iBNpDEej7MDBw8c+uCDD4an4lm/fv3JTpczecB5WCweZ1u3bv0qNf3DDz883+12J56ECQbZ4cOHD7z88suWgWzT1StXn+50OrWOA+7IkfDzzz+fOpNxe/bs2Z4q+cOhEDt06FDLXXfd1VEtWbBggWV//f594XCyW++BA/sz3UpftGjRKfX19brf72fhcIg1NDTsQnl5xvbil156qayxqakllOw+GovF2L59+17tHq6ysrLU6XS2BgIBFo1G2dGjjWtwnB4uOW5279n9QjweY16vl7nb3fqqVasu6y3srbNutW3YsOFvbc62eCweZ6lSuPMRrMQnkMzogUCA7dy1a80f//jHEzLFV11d/VgkWQoGg0G2c+fOfi+inn766dJdtbVrUo9YpR478vv9zB/wd/wdCoVYLBZjdXV1tS+//HKXbpIrV64sO3r0aCz1CJeqaWz79u+Wpabv2rXrDU1TWTAYZIqisF27dv1xoNuzvLxc2rNnz1ZFkRPzqwqrqan5fXIyt2fP7pp4PN5Rgh8+fHj/TTfd1OW5x88+/3xuKm3hcJitW7fuoe7Leeyxx6YdPnyYRSIRFo/H2bbt2zzjx4/v9YJv48aN16S2SygUYsFggK1bt+7G9DDbtm17JZo8Y7d72vWtW7deMND1/rexatWq4c2tzW3BYKKU3F+/v/6JJ57osw/EqlVrTq2vr3+hzenc7XQ6o+0eD/P7ExnJ5XIxp9PpPnr06KqamprZ6OWhzA8++GBGS0tLJFXK79u3b+Ps2bMHOtyU9O233/6iubl5o9vtjgWCQRaNRlk0GmXBUJC53W7F5WrfXVtb+/sHH3ywR3MkAGzevPl3Ho8n4PV6tcONjTs/+uijSQCwYMGCwpqamroDB+pd++v2u/bu3dv66aef/nCA6QIAfP3117cdOnTIVVdX5zp06JCrunrjutS6ffbZZ9e2t7e3h0Ih5nK5opme4Zw5c6Zlz969WyPRCAsEAqy1tcX9z3/+s0uT2+OPPz5p69atrQcOHHAdPHjQ9c033+yeMmVKdl/p2rFjx9KmpibXgQMHXI2NR1w1NTW7XnvttTwA+Oijj65InVlisRjbvWfPJziOpfNxHZdj48aN90ybNu0pxhiMRiO2bNny2SeffHJVf10vFy9ebJw8efLo/Pz8wubmxhJF0bXRo0cfPnLkSNPMmTN7fRTpgw8+GD516tQNZWVlIxVFgbu9Xd5SU3PWZZddlrG5rg98dXX1RJ7nT7RkWXK97V67zWY7pGna/nXr1u2/5557MnbWSamqqhozcuRIx/vvv7//vvvuCwPA7bffLkUikRyfz6fbbDY4nU62du3awQ6HwF177bUdhUJ+fj6Xm5vbvnDhQj21XADTQqFQ3aWXXrozUwRffvnluVOmTllrt9k5g8GAw4cPb16xYsWl8+bNcwHAggUL+IaGhhyz2cwBQDweV1977TVfP+kSFixYkBMMJrrj2EpKeIRCvsmTJ0/84amn/XPkiOE2XdfR2toaWvvN2hk3X3fz7kGu94Ad1ww9e/Zs8z333DPXbrdbGWNcTI7xH3/08bKFCxcOqN/zYK1cuXL6uHHjZsbjcc1oNLKmlpbdF5x77pB3S/2f7ptvvvl5UVHR8Hg0ynGCIFZVVa2YO3fukLcJr/zss0tPHD9+ejQa1QwmE/bW1u6YNWvWR0O9HEL+vzXUJTQ3pD1NyP/3+Awjbn8fQ5ahGcAVvnrj21ErPwGynnmc4vS3K+jJVz2kvx6hl9c7JP7MPJhuhoFeO179kDZzhg6TacvobQzjjFs6/fUa6Lxl1CNshvhT3wGApaWrY/7kULup772tXypMl3VKe/VEx+88wOkAS0tHx0QdHOMzrGL35ergwPcc/prTk49q8R1husyfvgs5JNPQdZ05kYMYVNx89aEr25f+a0j6ww9pf+hosWlyKEecDDl9M/UYDDpNLzmIQ9og3t1H2E6fr6/4uozG3Xf49FdbZExXLwbcNb23Eb/7Cj/ItPTM4d3i6CvOgY6EnmFZXfbVQOZNzs8lxoc2uaKB7GDEBODfL0MDUKDogKKj6+j0vRV/PPrPpKlpx3JiGsiG7iPejtkHs8MyHTR9Zba+0jPQDNqXTCOxZ4qre8HDZQjTm/Tp3dKfOiuw5PMcHVGzRIGtM5kThX/PJ1Z4xpk5k5hWPUjqXktKvcSm490fqd+ROQOlXo3Q/XUOHd+BrqVG2obr/l6PTPosQAeYeVJxpEqsLieLbpkq4ztPBnCAMXRuu8GmryM413WbdD+BddkOrOe69FhuLxsv/aVMqfCpM2FqmsCDZ4qFqdqQVX2HLEPzABvmjj/Lx5RiyHpnTTdTlbf7m8rQ+XqwjDGn18vSf86kz2VlfD9bL7/2JhG6x6vL+lhO5xx6x9+dr5ZDx/VEl63QEV+Gumm35PBIdN7v+lvii95xrdJ9DdBjW/HJZXb8nJ6G7vH02Ifpa5b+MrtM1z58x39SQIlwUeGYnsskhBBCCPlvMuS3visWVIhbMCwbyY6JQjCi+heu8A00PVm3V+ShJPkklg3I/vZguGl5dZ99J76PSbMrslwXTpyiZItTRcEwUguGizmLqR6qstt6JF7d+MDSft8JUvAfFVnRApsplWizS425Xlre59AGeffNssUtujE1j/WAO9r2Zu9jfAybe35etHz0BZzNeprCYbiocy5d4rYbG1y7TrznrZqqzK/p4G1zL89h+Wrnfj6GxrHyLUFfVVVVr69eKzr5ZKv+i1Omxkqzx0qKNgbgoZi4g1ktoQOGvfW7Dy+u8g1+qcdmyMeHPpA/4UStzLFWNQocRB5WT2wnA87nBnApnvvk9RdEpg57SxN4DoyBM4kIDC9cjeXVxzyuW2/yH/7pCcqkYT8/mGe+UjUZxmkWCYzjAGSDAwOv6AgXqe22FfeuNtS1LG6/761e+zro0ybeL5+QfyeLq+BMEkyNwWfxEnoMJp5OPmXEM3Jp9k9YTAVvFCGPcszDm2ve7h4up7zMwe48727vyNyfK3bTCE0UOhoWOJ0hmmPWa1bduzl3r/Mpz29e79JvZfiC2dne8pEbZIuUB00DEmMhZb4zwJAY/Kvj5gvA8RzEsMr2SEfORxV6dHYaMfeCYcGzJ/08kG26TjOKE1WLofOlhDpDPCcL3An5jfYfnbzWsLvxBfejHx338aCHPENrgKRmGQsUkwCIPOSoOuBhs2Ij7DfGC20FLJ4cG13gweUaLy/+3U9HtT7+j8NDlETO9uLN84MnFDys5Gbl6JoOqDoQ7yyAUjc1VbOYJztMcww26Sr70jsWBm59+Y/I0CDChuWqit2Uz2IKeJMEzq70O4CKYjU6FLspnxkU8JIAudDaowTMvevi4bEzyj6Ijy08TdMYoGqJtCabvRhjkCWBlwuM0xWrcXn2sl/+3nfz3x5Lza8hyismqVBxmHKg9tGO09u9K44DE2TEBbXH+jgW33Cra3zJo0q+dZim64m0yV1XQRZ5wGgaIedYbjYUWK62jbn9mfG3Llm4Begx+P1QGfJ+qZyuMqgag6YDmg5OR+ahKLvJm3vBMDXHcgmLK0jNC1mFmm3JkicNv3yIksfbX/vlM9Fpo56O2y05ekxJZBCRB2eSwBtF8AYRvEkCDInhYVlURtwsGSOTip+wvXL7Y5ki1QNRB5dKs6qD07R+z0acznSonfN030rl5ZBiM0Yvi44vOk2T1UQYgwhREGCQNWbQGXijlOgqEFchG3iETyhY5Hj19ltScTBZ5QAmQODR48OhczurevLVsBnC8QIkXUzP8rzjtV8+ETll1KuxXPMwLa4AipYofEwSeLMhcVAbpcT8qg4WVRC3GCyRycN+V/fOr94rmVk+oKd0jsXQv5JCUY6pu4k8cdhsLc+aC0VLlEAcB2g6NMYQzzHdWH57+Utblmz5Xkd21t9u/X1kQvE8VdcALXHrVVR1iK7QTmNIWa+ZpW28yRDm2oOTFYvhfCXbOEMxGwBFg8rziI0veCD35Z9v89zx6vL0eDWPfwSQ1t9/4I3avaq/fs4ZyvDc81lMBRgHQeBgbAl8Y/CEX7bL4h5F4qwhE/uxnGu9U86x5DNFhSLyXHyY/dm8h2f9q/2xj/cpqiFm9sS+lWQ9X9dS/Ws48IxBEVAs51hKkmMxQIrEfYaIelDnEtMBQOc4CBFF41TFl0qX/YWbfx8+ofC3KscSGZnnIAg8RG+0zRCKV/OyugcANB5TlGzLNDXHWqTpiQNH01VExhdewd945h+xcstd338r9XQcMnT6HwO+5hS0Isd1Gp/IyEJMVYSoHJFzrQ6oOuQsaerh8mmnA1uqjjVZ2b+bdXZkbMHvVLBEaWQQYfTHW80Nbfc77li6/DAQ6zbLH7L/csNl0fFFL8aLbaUcA5hB5JnV/OtJkyatqK2tlTtTz3c5hAednzNsJpaXNVPLMgFRGZxBhKnJtz7rzncuaWtrC/s6g33jePDyFThn/Ip4rqUUAPR8m50rLrgawKPtf/44COBClmEJlj9fu4A/e8ICXVHBGQSIbu2L0Kynr8mQNJa6unUsvPrc6ISi36kcOgoEQ0wNGxvdTxm+3r+kfemXXS6gC26qKI6dd9IN8VLHQ3KWIRuqBi2uIFpsn+t45uav/fOX/WOwm6o/x/dBxQGW1Dm/v/w0JddSDkUDJAHGSHy79WjgCV5IdC5ULRIfy7Hc0n9MvVNOKn1IybFIUDVAFGAMxlttO49c6rtj6RsZMjMA6L7fvLHC+PWuK6yt4QOWtvBHtt0t1xi2Hb2ytra2y2HLpPRRGjgMaLOm53rG9ahyyDbTKJbcfhzPwaDjrUyvyfA/+dEWS1PgXnNMC1vbo59l7Wq9WgsFnksPwyWW0PXDi51dIhnAKUrGcKk4ysvLJWV8/p/kbLMEVQcEHoaQHLLUHLoueMNfH+memQHA9VpVa/Cml/6ctd95kTEst0LkAZ1BNgmcMtrxn3mzTj+m8a77MuQltJz+B8dBH0CmVsYWzVEdZgFxFTzHQwzKH2fvbn0tPDbvD7JVsjJVh2IzzMqbe8Gw9hd7brj+5Cy68qRwof0cJieqM6Kmw7zfeZ/7N29t7W/ewNOrN086Ep1au7wq1GubmtB1/EN+KOocQudBwRiDqirnAViSKejJjXvePxrWN9fPW3JgoPeQda1b/4l+qv2Hrp98hlySXQ5ZA3hA1AHTQfe9vnvf+ri/ZXnufHVTzku3ztcmF7+lCgIPRYVc5BhvvGD8Jfj4X0M6PsdxKKEVdBzYAyigh8+ekavkWi9nGgN4DmIoJnMNbSsPPvdJmxCIVUMUAFWHmmPJ0U4eM/tYUqSNLjpXc5iN0HVAEiC1h7aN/eWrA96Qtcur+mxT1tM7DHGdXaX70jU3MXAC32VrGb2Rto7WDFlDtDT7KvuyXz6dc/NZI7rHVbWwSq2ft+QY3vXS2bGI1/o+CGNF1uu1LGNiWFlJhNQW2HbCbX/P+O7JTLz/sfRdqS3wDaREs6NmEKAU2a4cfJr7NuQZ2iBJXaPtJ1OHzj/pEjXfWgotURUQA7Ft/oeXfwcAUlvgH0KyuUnjOSiFWTdi0qSBPsHdQc+STtOTmYPneUgyqxzSpiO+W0f+ARTQLO1fAGCy3OVsKbWHlhp80ThEIVHtEnghPKn4N5Grp2+zvv0fn2S/evvc0mdvPmH2sb4qg08luH/l5eWSnmWazpIdoAQAkis46G0oukKvC8mLU6bp0K3GKeMuHjeUr34+Ti+v57r93wdlWPYcTRKBuAKB4yA6gyuQzBJiXdsKYXTeY1q2OQeKBiXbNDX35z+c6rmndjBPcXMyjzEs2R9XUDSYw7FdmUaKLrl9piWIYO9NSlmJKp89LrLmFz/yptLZtecnG2AxoSN9Q2mHXF2GE3D/5q2t9qV33MvGFjwvm0RA0aDJKrRcS55cYJvJ62xmJBKPrPr8wb3Z4djXhsbQ+855r1QPZMmdOvtB93UMNs8scWgmqRha4vKSj8hM8Ee/GdyyAONB9/bY2AKm2UwcdAbVLOSFzjrFjtX1rsHG1Zvjk6HTSh6+j0yd8+Q1J4WthnOhqADPQ/RHI4Ym1wep6Z5nPj1qOXV0lZKfdTmLK1CyzLxW4rgOwIAzNANg4fisVJJ4RWN5eUVNbRnC8hef9GvFzt3DZDVDP30ukVEFAaFAvH24c8bpTcurPT0iGWDDTpd7GRwD47ke+yJw68sv2J+7sV2YMOxJOc8yUtN1QNHAVAUaAM0oWmSrMI3Ls0yTcqzzbR/M/8S0uf5e15Of1A82Fd27sHdRPh66Uezo181iCuIt7kG/tSDS2M5YXAHsibHtmSQw7gcjhqxzP3A86tCS1KUjfV8XhWqJ4wbVbjJCZ4AkwKDon7sXftTlhZBiS2A5H1eTpykNcq5lVvmCmYNsmE/1qE+kRYmGMp7mouHgFDkvK1/OtebLeZZ8OS/1vyVfzjXny9nmfDnHnK8ahSI1GOs81Xc/agdS5eiyWTgIRinjhgr8+vV3stZ8N926z/kHszf6naTqOm8yJG78AICsgsVkyEaeD43J/Un4zHFf5f52Vq/D5XYkOZGK3hLUVRCAzjqaRDieh2QwDTrvGBwmvaN6BiQeRRxix6cdegDHXO7Fp9nDDvM1qY7pgqbD0OhbWzKzvMuwU7Et+3eK4wv8Wn6WA6oGxWEac2jC2AsA9Ht1DSSOAxPH2lN5WjUKnEuTxwHoMbQuY8wMkQendu5uDokXcnbc1k28wcmZVR/qrLUwnetcZw4Db4lONstxAGcUet25rqdWtQJ4dNKkSX903336NLnIca5iFC5WJOFUzW4ya6oOaBpYJI7osJwR/NRRfwFwKXo0BnbSB1GWGb7Yooo/O01RzSKgMsBq4MQC+ygA2wYcCQA2PDcHFgPAdIDnIcRVxbD2QK+dno7FcalyDOSw0358wvlaXtYoqIltrisqwsPsiyK3nfsI66gfcABjTLVKVuiJ3zSRR8yAOzHADA0AUkQ+EOe48xgAneehC9yFAN7qHk6IsXWG/W1FLCIbOzoAAWACJ6jFjsm6QeTBceCY3lBfXx9PzcfH1c6dwgEDOvFxXUd84BjX746tra2VcXttNYBqDvjPnCdvOFEZbr82PszxS9kiFkDVwWIq5FxLxchHrx955PdvHuwtLr77nu/tDU8ADr1W5bdcdWotBL4Yqg7NKCJeZDsfwEf9pTmdVuSo0K1GLnG/gQevsAOHFq/wD2UxPfQZWgLYAFKolubcoJkNQCzRcs04DrF8S27PZ+sSt8A76m+KCsVuOjf3t7Mmef7z44xvqe2OiytreUW7TQPAVA1xm/HywrsvLXM++2mXEZzct//tWQDPolsV1/7k7KsjI/Le0QHwHAdDXPs2vb1X4IW61CmbMSCmKf2+ooEJnLFjDXUGZjL0mvkyzg/A8+AbewD8wfbn6zbq5SM/Vo2iCKYDRtGkmDEOQO9x8ult56zPAVU4gNmD0S/jxbbzdAC6qkHJy7qq6Jc/frTtb2ucA0lvQcWkrGCB7YaOh7A4DlJYWT+QXpiDcRzq0IZkJ8Xe5c6/tFTNsZzDlGShlOzYwgkCOJFPfoTERxDAGUVAEoDkbWs1x2JUJwwbcJu0ucH1tRiItUEUAE2Hkme1R2aUPdFHKlMVbpZ3zenD5JNGLFClxJ0OMRJXzf74ii6BQ9E9QrIXHNM0aFnG0ytuqjBlihgARt1UYYIkTkm0GnDgZQ1Gd7DjOrVgweyska/eNSnvvbvm2lbfvyb3pVtv7Wv9pPve3iC0R7wQhI7USwZjn+MH8iKPzlycaXyOroz7nMtFXzSY6nCk5GcVRy846clMt9Uzid1Wcb9c4hib6qsj+mNMaPJ8NJB5B+O43PpmYH0ed+oPhv9EzbbkQEveQvVHXPZ9rZX2OmelfW9r2sdZaa9rq7Tvba00HfVt45J3z3SmQ8k1Xz3QNsy2hR86Dc7QUj41v6whNirnZ1nv/OqvIy89M6e3+XLvv+TEyKypn8QLHZOgqOCMIgze6LrbfvG3HenhxIbWnXwgKoPnAFWHnG0eu+PM8fN7i9d75viblGzzGKiJzj1cJO7ljzg7BjDUHKYrnePsO3xleS8Ei7IuiIzLfyL/oSum9Rafet//Ga87TPbEg6w8oKiBUCBwqM+NIqbvetZvrnQtXF5vcIde55MXo7qiIFLquMX+zq8X550+oddb2OMAo/31O34bHZX7kK4nntznjCIkV3CN557Xh7x/9PFptusjMy8A+D8X2manbrzyggDTEd+L/ttfWdhXlPb7Zv1Qu3hStWKWBCg6VLtlkveC6Wdidf3aAaWpet/TBrN0dWx07ljEFKg6EB6b/0v1jtPOz7pi4jLxqPcbFgg0ASawIssJWpHjp+FC+7VyXpadyQog8JD8UVWsbX10YberPs/Tq/dZysdulfOzZiCmQGMM4bK8x+xLbzfwX+5cNu/tjY0A8NzNZ5WqM064JlaW9weNB6ABnCRA8kTXu5/9vCUVX/zQ0dVsYlGzZpZGIiwj7jAXsbNO+NT+3M2Pm2uPVrb+bY2LA+CoGOXQLz/jR/K44idVh8kIWQdnEmEIKjWeh5f32UWAT29tGGAl1rB255OaZdrM6LDsUYgpUKEjUpZzl3r/JefZGme8IjV7vzDuPOoEgPDEAgdXmn9W0zDHfygjck7VUlVHgwijJ9Ju3NM2P9zHReuxOk43VjrHcuC7jYWx5C9zpipW6QyoiT60ki8SMexv6fGkRneBP3+8zTR99BbFlnsaZBWq1QC5rPAKAAPK0MEX17Y7RhZfzRyWj+M5plLEFOiyimiR7QS+2P64UJYHpuqJqrFBtGpWI5ia6JMNgYPEOBhbg/f6fvv2+gzRa4ZG9+PKMMcKxSDy0HUoZonXJ5U8IhZmzf/j7NMOceCgG8RRao4lW0v1RRZ4SMG4Iu1veyY9svBzX7Xl/GDM/brd9LbCczyTNcRzzMXqD0c+Hx9X8HvzRScdNek64pJQoNpNw9VkF1cIHMSYAqHB+RKGuG4KAJ5Xqpryp4z5qe6wfhzPkkoRU6ApGqIl9pOEYtszfLAoHj29LAhwUI2SmWUZraooAIqauLgwiDDG9bD1cOCW9oXLB3T9M1hDX+UwoOezPWnChbYbVZtJgp7sfhhR1rj//OlA3h+oCW2Bt4Vk2cg0DYrNePnI/7yu1ypDd/4H3tpq29s+y9waPMSbko8LKRp0WYViNEC1ma2qzWRVJREsrnaUKFJch+Ww58HgnBcX9xa374H3VlpbQ4tEgUeqV5mmaojnZTlipTlToqXZU+K5luxU32CIAkRwMDX5/uBbsLxHt1jvba++Z653L5IYAIMAqBo0XUc8x1QYG5Z9Smxk7imxQttwVRISmVnkIQoijAfbn/Xf82b/3TJ5scvF+0Au5AHAfdeyrbZ9zllmZ3g/bzIkOlEpGjRVh2I1GqP59vxogS1fsRmtakdzJwfOJMHoi/rMda7r2m/76ycDW9rgDXmGZjLHcwaJ48wSOJMEAB2vPC6+5eIC2W6+GaIAzmSAxHGQZPW1gcZt2tK0XHSHQlyWEZwoQCu0lYbLCgf1zj73XUu2mj797mzzvrY3DDE1zpskwCgmMiEHgOMBKXGRKogCzM5Qnbnm0HX+a5/v9/URvmuee9T0XfMfDBHVn7j5IaQ9GaIlvhtE8CYDjCHZb/qu6YHADS/9qbf4Ajf/7VHz1qO/NvnizYJBAozJm1Z68lEsAJAST9gYw6rfuq/1gdCNf/0NBlA6Czwv8SYJvEkCb5bARH7AfSrcdyzZanl/6zmWhvYXDFHFzxvFzidUUgcGzwGSAN4kwRBXVcsB92fmdXsqfL/424CbW4/FkFc5DKHI0dyW8COqRQREEUa/1ppqmjHlWiyOmLZYafDpPM9DkBVZ3Xzoy/7iTGlf+mVz4enjf6mLhnGQVXBGiTPLcA92GHzvX79oxF+/uDH/saufVccVXxZ3GKcLvDBSU9QijudlTuKbWVzdZ3CFPs//cuuK+rc2Zer6kYkeum3Jo/lP3fBefGT+TXq28SymY6wicQYOgKgjwmn6YdEX+0ZqaH3N/dB7df3FF7hr6fN5c2d9oJ1ddoXiMF0EnhuvcCwPAESNRQBuv+QOfysdcQ4kvg7WMFtjbIsqekwFTAqkENs9mOGL2pd+2YylX96Vv+Bnzyvj8n6i5Fpn8KI4VlOVEgbwokFq02Sl1RCIbRLd/n+03/VGzSCiP2ZDfuvxf6rbAemTmeUOicla46c7vUNRAeUAjLjuzBxPxQjBFrTBuu2IfOCt1YHvE3dFxShT3Tk/yArabCjedkA+8Nam7xXfUKoEhLsvPzWbmXXusjr4l2z5fo/MEUIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQ8r/E/wVWv8819R8JPgAAAABJRU5ErkJggg==" alt="iAgusto.app">
+  <div class="htxt">
+    <h1>Cuestionario de Requisitos</h1>
+    <p>App 1 &middot; Gesti&oacute;n inteligente de certificaciones y facturas medioambientales</p>
+  </div>
+</header>
+
+<div class="hero">
+  <h2>Vialterra Infraestructuras</h2>
+  <p>Esta informaci&oacute;n nos permite cerrar el alcance funcional del desarrollo y arrancar sin malentendidos. Resp&oacute;ndelo con el mayor detalle posible.</p>
+</div>
+
+<form action="https://formspree.io/f/xqenkjpv" method="POST">
+<input type="hidden" name="_subject" value="Cuestionario Requisitos - App 1 Vialterra">
+
+<div class="planteamiento">
+  <div class="ph">El planteamiento de la App 1</div>
+  <div class="pb">App que <strong>automatiza la revisi&oacute;n de los certificados</strong> que acompa&ntilde;an a las facturas de proveedores. Las facturas entran por el buz&oacute;n <strong>doc.ambiental@vialterra.com</strong>; la IA las lee, clasifica el tipo (residuos, gas, materiales o consumibles), <strong>valida</strong> que el certificado trae los datos que exige la normativa y archiva todo en Dropbox con el nombre normalizado. Si falta el certificado o llega mal, el sistema escribe solo al proveedor con un <strong>enlace a un portal web</strong> donde lo rellena guiado y sin login. Cada paso queda registrado para auditor&iacute;a. Resultado: se elimina la revisi&oacute;n manual y queda <strong>trazabilidad ambiental completa</strong> de cada obra.</div>
+</div>
+
+<div class="infobox">
+  <strong>Antes de empezar:</strong> el punto m&aacute;s cr&iacute;tico es que nos hag&aacute;is llegar <strong>PDFs reales de muestra</strong> de cada tipo de documento y de varios proveedores distintos. Sin ejemplos reales el motor de extracci&oacute;n con IA no se puede afinar. Pod&eacute;is adjuntarlos en el email de respuesta o envi&aacute;rnoslos aparte.
+</div>
+
+<!-- DATOS -->
+<div class="section">
+  <div class="section-title"><span class="num">0</span><h3>Datos de contacto</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>Un &uacute;nico interlocutor t&eacute;cnico es lo que mantiene el proyecto &aacute;gil: una sola persona centraliza los accesos y las dudas durante el desarrollo, sin tener que ir preguntando a varias. Con un punto de contacto claro el proyecto avanza mucho m&aacute;s r&aacute;pido.</div>
+  <div class="field">
+    <label>Persona que rellena el cuestionario <span class="req">*</span></label>
+    <input type="text" name="0_nombre" required>
+  </div>
+  <div class="field">
+    <label>Email de contacto <span class="req">*</span></label>
+    <input type="email" name="_replyto" required>
+  </div>
+  <div class="field">
+    <label>Interlocutor t&eacute;cnico del proyecto</label>
+    <input type="text" name="0_interlocutor">
+    <div class="hint">Persona que coordinar&aacute; accesos y dudas t&eacute;cnicas durante el desarrollo.</div>
+  </div>
+</div>
+
+<!-- 1 ENTRADA -->
+<div class="section">
+  <div class="section-title"><span class="num">1</span><h3>Entrada de documentos por email</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>Este buz&oacute;n va a ser <strong>la puerta de entrada de todo el sistema</strong>: cada factura que llegue ah&iacute; la procesa la IA autom&aacute;ticamente, sin que nadie tenga que abrir ni reenviar nada a mano. El m&eacute;todo de acceso determina que el sistema reaccione <strong>al instante</strong> y no horas despu&eacute;s. <span class="crit">El c&oacute;digo de obra que administraci&oacute;n a&ntilde;ade al reenviar es la etiqueta que permite archivar cada factura en su obra;</span> sin un formato fijo, la IA no puede saber a qu&eacute; obra pertenece.</div>
+  <p class="section-note">C&oacute;mo llegan las facturas y certificaciones al sistema.</p>
+  <div class="field">
+    <label>&iquest;Usaremos un buz&oacute;n dedicado nuevo o uno existente? Indicad la direcci&oacute;n.</label>
+    <input type="text" name="1_buzon">
+  </div>
+  <div class="field">
+    <label>&iquest;C&oacute;mo nos dar&eacute;is acceso al correo?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="1_acceso" value="IMAP">Acceso IMAP a la cuenta</label>
+      <label class="opt"><input type="radio" name="1_acceso" value="Reenvio">Reenv&iacute;o autom&aacute;tico a un webhook</label>
+      <label class="opt"><input type="radio" name="1_acceso" value="No sabemos">A&uacute;n no lo sabemos</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>Volumen aproximado de documentos</label>
+    <input type="text" name="1_volumen">
+    <div class="hint">N&uacute;mero de facturas/certificaciones al d&iacute;a o al mes.</div>
+  </div>
+  <div class="field">
+    <label>&iquest;Se necesita tambi&eacute;n subida manual desde la web, adem&aacute;s del email?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="1_subida" value="Solo email">Solo entran por email</label>
+      <label class="opt"><input type="radio" name="1_subida" value="Email y manual">Email + subida manual desde la web</label>
+    </div>
+  </div>
+</div>
+
+<!-- 2 TIPOS -->
+<div class="section">
+  <div class="section-title"><span class="num">2</span><h3>Tipos de documento y proveedores</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>El sistema se entrena para cada tipo de documento: residuos, gas y materiales tienen campos distintos y se revisan de forma diferente. La IA aprende de <strong>los documentos reales de Vialterra</strong>, no de plantillas gen&eacute;ricas, as&iacute; que cuantos m&aacute;s PDFs reales de proveedores distintos haya, m&aacute;s fina ser&aacute; la extracci&oacute;n. Los documentos escaneados o fotografiados determinan si hace falta a&ntilde;adir lectura &oacute;ptica.</div>
+  <div class="field">
+    <label>&iquest;Qu&eacute; tipos de documento entrar&aacute;n? <span class="req">*</span></label>
+    <div class="opts">
+      <label class="opt"><input type="checkbox" name="2_tipos" value="Facturas medioambientales">Facturas medioambientales</label>
+      <label class="opt"><input type="checkbox" name="2_tipos" value="Certificados gestor residuos">Certificados de gestor de residuos</label>
+      <label class="opt"><input type="checkbox" name="2_tipos" value="Documentos identificacion DI">Documentos de identificaci&oacute;n (DI)</label>
+      <label class="opt"><input type="checkbox" name="2_tipos" value="Albaranes">Albaranes</label>
+      <label class="opt"><input type="checkbox" name="2_tipos" value="Otros">Otros (detallar abajo)</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>Otros tipos de documento / aclaraciones</label>
+    <textarea name="2_tipos_otros"></textarea>
+  </div>
+  <div class="field">
+    <label>&iquest;Cu&aacute;ntos proveedores distintos y cu&aacute;ntos formatos de PDF diferentes?</label>
+    <input type="text" name="2_proveedores">
+  </div>
+  <div class="field">
+    <label>&iquest;Hay documentos escaneados o fotografiados (no PDF nativo)? &iquest;En otros idiomas?</label>
+    <textarea name="2_escaneados"></textarea>
+  </div>
+</div>
+
+<!-- 3 EXTRACCION -->
+<div class="section">
+  <div class="section-title"><span class="num">3</span><h3>Extracci&oacute;n con IA &mdash; qu&eacute; datos sacar</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>Aqu&iacute; se define <strong>qu&eacute; datos lee la IA</strong> de cada factura y certificado: es lo que rellena sola la tabla de seguimiento, en lugar de teclearlo a mano. El v&iacute;nculo de cada documento con su obra es lo que da <strong>la trazabilidad</strong>: cada factura queda atada a su obra para poder demostrar despu&eacute;s qu&eacute; se hizo en cada una.</div>
+  <div class="field">
+    <label>&iquest;Qu&eacute; campos hay que extraer de cada documento? <span class="req">*</span></label>
+    <textarea name="3_campos" placeholder="Ej.: proveedor, NIF, n&ordm; factura, fecha, importe, tipo de residuo, c&oacute;digo LER, obra asociada..."></textarea>
+  </div>
+  <div class="field">
+    <label>&iquest;Cada documento debe vincularse a una obra/proyecto concreto? &iquest;C&oacute;mo se identifica la obra dentro del PDF?</label>
+    <textarea name="3_obra"></textarea>
+  </div>
+</div>
+
+<!-- 4 CLASIFICACION -->
+<div class="section">
+  <div class="section-title"><span class="num">4</span><h3>Clasificaci&oacute;n y validaci&oacute;n</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>El sistema <strong>no solo guarda el documento, lo valida</strong>: comprueba que el certificado trae todo lo que la normativa exige y que cuadra con la factura. No todo se automatiza al 100&nbsp;%: los casos raros caen en una <strong>bandeja de revisi&oacute;n</strong>, y conviene tener identificada a la persona que se encargar&aacute; de mirarlos.</div>
+  <div class="field">
+    <label>&iquest;Qu&eacute; reglas de clasificaci&oacute;n se aplican?</label>
+    <textarea name="4_clasificacion" placeholder="Por tipo de documento, por proveedor, por obra..."></textarea>
+  </div>
+  <div class="field">
+    <label>&iquest;Contra qu&eacute; se valida cada documento?</label>
+    <div class="opts">
+      <label class="opt"><input type="checkbox" name="4_validacion" value="Contra pedido">Contra el pedido</label>
+      <label class="opt"><input type="checkbox" name="4_validacion" value="Contra certificacion obra">Contra la certificaci&oacute;n de obra</label>
+      <label class="opt"><input type="checkbox" name="4_validacion" value="Contra presupuesto">Contra el presupuesto</label>
+      <label class="opt"><input type="checkbox" name="4_validacion" value="Otro">Otro (detallar abajo)</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>&iquest;Qu&eacute; ocurre cuando un documento no valida o la extracci&oacute;n falla? &iquest;Qui&eacute;n revisa los casos dudosos?</label>
+    <textarea name="4_errores"></textarea>
+  </div>
+</div>
+
+<!-- 5 DROPBOX -->
+<div class="section">
+  <div class="section-title"><span class="num">5</span><h3>Dropbox</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>El objetivo es que cada documento validado <strong>se archive solo</strong>, con un nombre normalizado y en su carpeta, sin arrastrar archivos a mano. El sistema <strong>replica la forma de nombrar de Vialterra</strong>, as&iacute; todo se sigue encontrando igual que hasta ahora y nadie tiene que reaprender nada.</div>
+  <div class="field">
+    <label>&iquest;Ten&eacute;is cuenta Dropbox Business? &iquest;Nos dar&eacute;is acceso a la API?</label>
+    <input type="text" name="5_dropbox_cuenta">
+  </div>
+  <div class="field">
+    <label>Estructura de carpetas actual</label>
+    <textarea name="5_estructura" placeholder="&iquest;Organizadas por obra, por proveedor, por a&ntilde;o...?"></textarea>
+  </div>
+  <div class="field">
+    <label>Nomenclatura exacta de los archivos &mdash; con un ejemplo real <span class="req">*</span></label>
+    <textarea name="5_nomenclatura" placeholder="Ej.: 2026_Obra123_ProveedorX_FAC-0045.pdf"></textarea>
+  </div>
+</div>
+
+<!-- 6 EMAIL BIDIRECCIONAL -->
+<div class="section">
+  <div class="section-title"><span class="num">6</span><h3>Email autom&aacute;tico de salida</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>El sistema <strong>no solo recibe, tambi&eacute;n responde</strong>: cuando falta un certificado o llega mal, escribe &eacute;l solo al proveedor reclam&aacute;ndoselo, automatizando esos correos repetitivos que hoy se redactan a mano. En lugar de adjuntar un modelo en Word, el correo lleva <strong>un enlace a un portal</strong> donde el proveedor rellena los datos guiado.</div>
+  <div class="field">
+    <label>&iquest;En qu&eacute; casos debe salir un email autom&aacute;tico?</label>
+    <div class="opts">
+      <label class="opt"><input type="checkbox" name="6_casos" value="Acuse de recibo">Acuse de recibo al proveedor</label>
+      <label class="opt"><input type="checkbox" name="6_casos" value="Reclamacion documento">Reclamaci&oacute;n de documento faltante</label>
+      <label class="opt"><input type="checkbox" name="6_casos" value="Aviso de error">Aviso de error / documento rechazado</label>
+      <label class="opt"><input type="checkbox" name="6_casos" value="Otro">Otro (detallar abajo)</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>&iquest;Desde qu&eacute; direcci&oacute;n se env&iacute;a y a qui&eacute;n? &iquest;Hay plantillas definidas?</label>
+    <textarea name="6_envio"></textarea>
+  </div>
+</div>
+
+<!-- 7 TABLAS -->
+<div class="section">
+  <div class="section-title"><span class="num">7</span><h3>Tablas REGISTRO e HIST&Oacute;RICO</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>Toda la actividad queda registrada en dos sitios: una tabla con los datos de cada factura y un historial de cada acci&oacute;n realizada. Esto da <strong>control y auditor&iacute;a total</strong>: en cualquier momento se puede ver qu&eacute; se hizo, cu&aacute;ndo y si lo hizo la IA o el proveedor. Es la red de seguridad frente a una inspecci&oacute;n.</div>
+  <div class="field">
+    <label>&iquest;Qu&eacute; diferencia hay entre ambas y cu&aacute;ndo pasa un registro de una a otra?</label>
+    <textarea name="7_diferencia"></textarea>
+  </div>
+  <div class="field">
+    <label>&iquest;Qu&eacute; columnas tiene cada tabla?</label>
+    <textarea name="7_columnas" placeholder="Si ya lo llev&aacute;is en un Excel, adjuntadlo en la respuesta."></textarea>
+  </div>
+</div>
+
+<!-- 8 ESTADOS -->
+<div class="section">
+  <div class="section-title"><span class="num">8</span><h3>Estados y flujo</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>Cada factura tiene un <strong>estado tipo sem&aacute;foro</strong>, para saber de un vistazo qu&eacute; est&aacute; pendiente y qu&eacute; est&aacute; cerrado. El sistema <strong>refleja el proceso real de Vialterra</strong>, no uno inventado: cuanto mejor descrito est&eacute; c&oacute;mo trabajan hoy, m&aacute;s &uacute;til ser&aacute; el panel.</div>
+  <div class="field">
+    <label>&iquest;Qu&eacute; estados recorre una factura/certificaci&oacute;n de principio a fin?</label>
+    <textarea name="8_estados" placeholder="Ej.: recibida &rarr; extra&iacute;da &rarr; validada &rarr; aprobada &rarr; archivada"></textarea>
+  </div>
+  <div class="field">
+    <label>&iquest;Los cambios de estado los hace el sistema autom&aacute;ticamente o una persona?</label>
+    <textarea name="8_quien"></textarea>
+  </div>
+</div>
+
+<!-- 9 USUARIOS E INTEGRACIONES -->
+<div class="section">
+  <div class="section-title"><span class="num">9</span><h3>Usuarios, integraciones y operativa actual</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>Aqu&iacute; se define <strong>qui&eacute;n entra y qu&eacute; ve cada uno</strong>. Si el sistema conoce de antemano el maestro de obras, <strong>autocompleta solo y se equivoca menos</strong>. Conectar con el ERP, si lo hay, evita duplicar datos que ya est&aacute;n en otro sitio.</div>
+  <div class="field">
+    <label>&iquest;Cu&aacute;ntos usuarios, qu&eacute; roles, y ven todo o filtrado por obra/departamento?</label>
+    <textarea name="9_usuarios"></textarea>
+  </div>
+  <div class="field">
+    <label>&iquest;Hay ERP u otro sistema con el que conectar o exportar? &iquest;De d&oacute;nde sale el maestro de obras y proveedores?</label>
+    <textarea name="9_erp"></textarea>
+  </div>
+  <div class="field">
+    <label>&iquest;C&oacute;mo lo hac&eacute;is hoy exactamente? Qui&eacute;n lo gestiona, cu&aacute;nto tiempo lleva y qu&eacute; errores ocurren.</label>
+    <textarea name="9_operativa"></textarea>
+  </div>
+</div>
+
+<!-- 10 ENTRADA EMAIL Y PORTAL DEL PROVEEDOR -->
+<div class="section">
+  <div class="section-title"><span class="num">10</span><h3>Entrada de email y portal del proveedor</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span><strong>La idea estrella.</strong> En lugar de perseguir a los proveedores para que manden bien los certificados, se les da un enlace a una p&aacute;gina web donde rellenan los datos guiados y sin poder equivocarse; lo que suben entra directo y estructurado en la app, <strong>sin logins y sin obligarles a usar la plataforma en s&iacute;</strong>. As&iacute; se consigue un control interno desde la interacci&oacute;n externa del proveedor. El c&oacute;digo de obra es la etiqueta con la que se archiva todo; saber si factura y certificado vienen juntos define c&oacute;mo arranca el flujo; la detecci&oacute;n del tipo permite que la IA reclame el certificado correcto; los proveedores fijos por tipo permiten adivinarlo solo; admitir tambi&eacute;n el email es necesario porque no todos los proveedores usar&aacute;n la web; y la firma es el punto legal delicado, sobre todo en residuos.</div>
+  <div class="field">
+    <label>&iquest;C&oacute;mo indica administraci&oacute;n el c&oacute;digo y la descripci&oacute;n de obra al reenviar el email? <span class="req">*</span></label>
+    <textarea name="10_codigo_obra" placeholder="&iquest;En el asunto, en el cuerpo, con un formato fijo? Pedir un ejemplo real."></textarea>
+    <div class="hint">Ese dato es la etiqueta que permite archivar cada factura en su obra. Sin un formato fijo, la IA no sabe a qu&eacute; obra pertenece.</div>
+  </div>
+  <div class="field">
+    <label>&iquest;La factura y el certificado llegan en el mismo email o por separado?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="10_factura_certificado" value="Juntos">Juntos, en el mismo email</label>
+      <label class="opt"><input type="radio" name="10_factura_certificado" value="Separados">Por separado, en emails distintos</label>
+      <label class="opt"><input type="radio" name="10_factura_certificado" value="Depende">Depende del proveedor</label>
+    </div>
+    <div class="hint">Define c&oacute;mo arranca el flujo: si vienen separados, el sistema tiene que saber emparejarlos despu&eacute;s.</div>
+  </div>
+  <div class="field">
+    <label>&iquest;C&oacute;mo se sabe si una factura es de residuos, gas o materiales?</label>
+    <textarea name="10_tipo_deteccion" placeholder="Por el concepto facturado, por el proveedor, lo indica administraci&oacute;n..."></textarea>
+    <div class="hint">De esto depende que la IA reclame el certificado correcto y revise los campos adecuados.</div>
+  </div>
+  <div class="field">
+    <label>&iquest;Hay proveedores que siempre son del mismo tipo? (siempre residuos, siempre gas...)</label>
+    <textarea name="10_proveedores_tipo" placeholder="Si los hay, el sistema puede adivinar el tipo solo por el remitente."></textarea>
+    <div class="hint">Cuantos m&aacute;s proveedores sean &laquo;fijos&raquo;, m&aacute;s acierta el sistema sin intervenci&oacute;n.</div>
+  </div>
+  <div class="field">
+    <label>&iquest;Se acepta que el proveedor responda por email con su propio PDF, o se le obliga a usar el portal web? <span class="req">*</span></label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="10_via_respuesta" value="Solo portal">Solo a trav&eacute;s del portal web</label>
+      <label class="opt"><input type="radio" name="10_via_respuesta" value="Portal y email">Portal web + se admite tambi&eacute;n email con PDF adjunto</label>
+      <label class="opt"><input type="radio" name="10_via_respuesta" value="Por decidir">A&uacute;n por decidir</label>
+    </div>
+    <div class="hint">Habr&aacute; proveedores que respondan como siempre, por email. El sistema necesita aceptar las dos v&iacute;as para no dejar fuera a nadie.</div>
+  </div>
+  <div class="field">
+    <label>Validez de la firma del certificado cuando se rellena en el portal web</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="10_firma" value="PDF firmado">El portal genera un PDF que el proveedor firma y vuelve a subir</label>
+      <label class="opt"><input type="radio" name="10_firma" value="Declaracion responsable">Declaraci&oacute;n responsable con casilla de conformidad</label>
+      <label class="opt"><input type="radio" name="10_firma" value="Firma digital">Firma digital integrada en el portal</label>
+      <label class="opt"><input type="radio" name="10_firma" value="Consultar asesoria">A consultar con asesor&iacute;a / departamento legal</label>
+    </div>
+    <div class="hint">Es el punto legal delicado: el certificado de residuos tiene que sostener una inspecci&oacute;n. El nivel de firma necesario lo decide Vialterra.</div>
+  </div>
+  <div class="field">
+    <label>Otras observaciones sobre la entrada de email o el portal del proveedor</label>
+    <textarea name="10_portal_obs"></textarea>
+  </div>
+</div>
+
+<!-- CIERRE -->
+<div class="section">
+  <div class="section-title"><span class="num">11</span><h3>Cierre de proyecto</h3></div>
+  <div class="cnote"><span class="tag">Para ti &middot; el concepto a transmitir</span>Para arrancar de verdad hacen falta dos cosas: los <strong>accesos</strong> (buz&oacute;n y Dropbox) y los <strong>PDFs reales de muestra</strong> de cada tipo de certificado. Esos ejemplos no son un tr&aacute;mite: son lo que permite que el sistema empiece a aprender. Un plazo cerrado da fecha al proyecto.</div>
+  <div class="field">
+    <label>&iquest;Qu&eacute; accesos nos entreg&aacute;is y cu&aacute;ndo? (buz&oacute;n de email, Dropbox)</label>
+    <textarea name="11_accesos"></textarea>
+  </div>
+  <div class="field">
+    <label>Plazos esperados o fecha objetivo de puesta en marcha</label>
+    <input type="text" name="11_plazos">
+  </div>
+  <div class="field">
+    <label>Cualquier otra observaci&oacute;n o requisito no recogido arriba</label>
+    <textarea name="11_observaciones"></textarea>
+  </div>
+</div>
+
+<div class="submit-wrap">
+  <button type="submit">Enviar cuestionario</button>
+</div>
+
+</form>
+
+<footer>
+  <img src="data:image/png;base64,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" alt="iAgusto.app"><br>
+  Cuestionario de requisitos &middot; App 1 Vialterra Infraestructuras<br>
+  <span class="copy">&copy;S.A.&reg; IAGUSTO &middot; iagusto.app</span>
+</footer>
+
+</div>
+</body>
+</html>
