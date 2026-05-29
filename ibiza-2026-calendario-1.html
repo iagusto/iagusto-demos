@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibiza 2026 · Calendario de DJs (Junio–Octubre)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap');
+:root{
+  --bg:#0a0612;--bg2:#150b28;--ink:#f4ecff;--muted:#9c8fb8;--line:#2a1d44;
+  --sunset1:#ff5e62;--sunset2:#ff9966;--sunset3:#ffd86b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:radial-gradient(1200px 600px at 80% -10%,rgba(255,94,98,.18),transparent 60%),
+    radial-gradient(900px 500px at -10% 10%,rgba(139,92,255,.18),transparent 55%),var(--bg);
+  color:var(--ink);font-family:'Archivo',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:80px;
+}
+header{padding:44px 20px 24px;text-align:center;border-bottom:1px solid var(--line)}
+.kicker{font-family:'Space Mono',monospace;letter-spacing:.4em;text-transform:uppercase;font-size:11px;color:var(--sunset3);margin-bottom:14px}
+h1{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(42px,12vw,108px);line-height:.86;text-transform:uppercase;
+  background:linear-gradient(100deg,var(--sunset1),var(--sunset2) 45%,var(--sunset3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+h1 span{display:block;font-size:.36em;color:var(--ink);-webkit-text-fill-color:var(--ink);background:none;letter-spacing:.02em}
+.sub{margin:16px auto 0;max-width:640px;color:var(--muted);font-size:14.5px}
+.disclaimer{margin:20px auto 0;max-width:660px;font-size:12px;color:var(--muted);background:rgba(255,210,63,.06);border:1px solid rgba(255,210,63,.22);border-radius:12px;padding:12px 16px;text-align:left}
+.disclaimer b{color:var(--sunset3)}
+/* SEARCH */
+.search{max-width:660px;margin:22px auto 0;padding:0 16px}
+.search input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;color:var(--ink);
+  font-family:'Archivo';font-size:15px;padding:13px 18px;outline:none}
+.search input:focus{border-color:var(--sunset2)}
+.search input::placeholder{color:var(--muted)}
+.quick{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+.qbtn{font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:var(--ink);background:rgba(139,92,255,.14);
+  border:1px solid rgba(139,92,255,.4);border-radius:999px;padding:7px 14px;cursor:pointer;transition:.2s}
+.qbtn:hover{background:rgba(139,92,255,.28)}
+.searchnote{text-align:center;font-family:'Space Mono',monospace;font-size:12px;color:var(--sunset3);margin-top:12px;min-height:18px}
+/* CONTROLS */
+.controls{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,var(--bg) 72%,transparent);padding:16px 16px 12px;backdrop-filter:blur(8px)}
+.months{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.mbtn{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  background:transparent;border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:.2s}
+.mbtn:hover{color:var(--ink);border-color:var(--sunset2)}
+.mbtn.active{color:#1a0d22;font-weight:700;border-color:transparent;background:linear-gradient(100deg,var(--sunset2),var(--sunset3))}
+.legend{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;max-width:980px;margin:14px auto 0;padding:0 12px}
+.lg{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'Space Mono',monospace;transition:.2s}
+.lg:hover{color:var(--ink)}.lg .dot{width:10px;height:10px;border-radius:3px;flex:none}
+.lg.off{opacity:.3}
+/* CAL */
+.wrap{max-width:1120px;margin:22px auto 0;padding:0 12px}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
+.dow span{text-align:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;padding:4px 0}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cell{min-height:84px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0));
+  padding:7px;position:relative;transition:.18s;display:flex;flex-direction:column;gap:4px}
+.cell.empty{background:transparent;border-color:transparent}
+.cell.has{cursor:pointer}
+.cell.has:hover{border-color:var(--sunset2);transform:translateY(-2px)}
+.cell.sel{border-color:var(--sunset3);box-shadow:0 0 0 1px var(--sunset3)}
+.cell.hit{border-color:var(--sunset1);box-shadow:0 0 0 2px var(--sunset1),0 0 18px rgba(255,94,98,.4)}
+.daynum{font-family:'Space Mono',monospace;font-size:13px;color:var(--muted);font-weight:700}
+.cell.has .daynum{color:var(--ink)}
+.dots{display:flex;flex-wrap:wrap;gap:3px;margin-top:auto}
+.dots .d{width:7px;height:7px;border-radius:2px}
+.cnt{position:absolute;top:6px;right:8px;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)}
+/* PANEL */
+.panel{max-width:1120px;margin:22px auto 0;padding:0 12px}
+.panelbox{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--bg2),rgba(21,11,40,.4));padding:20px 18px 22px}
+.panelhead{font-family:'Anton',sans-serif;font-size:26px;text-transform:uppercase;margin-bottom:3px}
+.panelhead em{font-style:normal;color:var(--sunset2)}
+.panelsub{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:18px}
+.placeholder{color:var(--muted);font-size:14px;padding:8px 2px}
+details.ev{border:1px solid var(--line);border-left-width:4px;border-radius:10px;margin-bottom:9px;overflow:hidden;background:rgba(255,255,255,.02);transition:.2s}
+details.ev[open]{background:rgba(255,255,255,.045)}
+details.ev summary{list-style:none;cursor:pointer;padding:13px 15px;display:flex;align-items:center;gap:12px}
+details.ev summary::-webkit-details-marker{display:none}
+.club{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:6px;color:#0a0612;font-weight:700;flex:none}
+.evtitle{font-weight:700;font-size:15px;flex:1}
+.evtitle small{display:block;font-weight:400;color:var(--muted);font-size:12px;font-family:'Space Mono',monospace;margin-top:2px}
+.chev{color:var(--muted);transition:.2s;flex:none}
+details.ev[open] .chev{transform:rotate(180deg)}
+.evbody{padding:0 15px 15px}
+.lineup{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.dj{font-size:12.5px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--ink)}
+.dj.match{background:var(--sunset1);border-color:var(--sunset1);color:#1a0d22;font-weight:700}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px;font-style:italic}
+footer{text-align:center;margin-top:54px;padding:0 20px;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
+@media(max-width:640px){.cell{min-height:62px;border-radius:9px;padding:5px}.grid,.dow{gap:4px}.dots .d{width:6px;height:6px}.daynum{font-size:11px}.cnt{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Temporada · White Isle · Junio — Octubre 2026</div>
+  <h1>Ibiza<span>2026 · Calendario de DJs</span></h1>
+  <p class="sub">Los 7 días de la semana, club por club: Amnesia, Hï, UNVRS, Pacha, Ushuaïa, DC10, Eden, Chinois, Cova Santa, Las Dalías, 528, Brunch y Pikes. Toca un día para ver el line-up.</p>
+  <div class="disclaimer"><b>Cómo leerlo:</b> casi todas son residencias semanales fijas; el cabeza de cartel se repite cada semana y los invitados rotan. Los nombres mostrados son del cartel de referencia (normalmente la fecha de apertura). <b>Laurent Garnier</b> no tiene fechas confirmadas en Ibiza 2026. Verifica siempre el cartel oficial del día antes de comprar.</div>
+</header>
+
+<div class="search">
+  <input id="djsearch" type="text" placeholder="🔍 Busca un DJ… (ej. Maceo Plex, Carl Cox, Solomun)" autocomplete="off">
+  <div class="quick">
+    <button class="qbtn" onclick="setSearch('Maceo Plex')">Maceo Plex</button>
+    <button class="qbtn" onclick="setSearch('2manydjs')">2manydjs / Soulwax</button>
+    <button class="qbtn" onclick="setSearch('Carl Cox')">Carl Cox</button>
+    <button class="qbtn" onclick="setSearch('Marco Carola')">Marco Carola</button>
+    <button class="qbtn" onclick="setSearch('Black Coffee')">Black Coffee</button>
+    <button class="qbtn" onclick="setSearch('')">Borrar</button>
+  </div>
+  <div class="searchnote" id="searchnote"></div>
+</div>
+
+<div class="controls">
+  <div class="months" id="months"></div>
+  <div class="legend" id="legend"></div>
+</div>
+
+<div class="wrap">
+  <div class="dow"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="panel"><div class="panelbox">
+  <div class="panelhead" id="panelhead">Selecciona un día</div>
+  <div class="panelsub" id="panelsub">Toca una casilla con puntos de color</div>
+  <div id="events"><div class="placeholder">Los eventos del día aparecerán aquí, agrupados por club. Despliega cada uno para ver los DJs.</div></div>
+</div></div>
+
+<footer>Datos públicos de los clubes e Ibiza Spotlight · Carteles sujetos a cambios · Ibiza 2026 🌅</footer>
+
+<script>
+const CLUBS={
+  amnesia:{n:"Amnesia",c:"#ff2d6f"}, hi:{n:"Hï Ibiza",c:"#15e6b8"}, unvrs:{n:"UNVRS",c:"#8b5cff"},
+  pacha:{n:"Pacha",c:"#ff4848"}, ushuaia:{n:"Ushuaïa",c:"#ffa62b"}, dc10:{n:"DC10",c:"#ff6a00"},
+  eden:{n:"Eden",c:"#3d8bff"}, chinois:{n:"Chinois",c:"#cf4be0"}, cova:{n:"Cova Santa",c:"#e8b53a"},
+  dalias:{n:"Las Dalías",c:"#86c93f"}, c528:{n:"528",c:"#19c6e0"}, brunch:{n:"Brunch",c:"#ff8bc6"}, pikes:{n:"Pikes",c:"#f5d916"}
+};
+function D(s){const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);}
+// dow: 0=Dom 1=Lun..6=Sab
+// RESIDENCIAS SEMANALES (cabeza fijo, invitados rotan)
+const RES=[
+// ---- LUNES ----
+{club:"pacha",dow:1,from:"2026-06-01",to:"2026-10-05",party:"Sonny Fodera",lineup:["Sonny Fodera","Fatboy Slim","Roger Sanchez","Lost Frequencies","A-Trak","Eats Everything","Jayda G","Dombresky","Jazzy","TSHA"],note:"Cartel rotativo cada lunes."},
+{club:"ushuaia",dow:1,from:"2026-06-01",to:"2026-10-05",party:"David Guetta · F*** Me I'm Famous!",lineup:["David Guetta","Afrojack","Alesso","Joel Corry","Oliver Heldens","Tchami","MORTEN","Sofi Tukker","Disco Lines","Majestic","Korolova"]},
+{club:"unvrs",dow:1,from:"2026-06-01",to:"2026-07-27",party:"John Summit · Experts Only",lineup:["John Summit","Gorgon City","MK","Patrick Topping","Eli Brown","Layton Giordani","Max Styler","Cassian","Eliza Rose","Odd Mob","Cole Knight","AYYBO"]},
+{club:"unvrs",dow:1,from:"2026-08-03",to:"2026-08-31",party:"Tiësto",lineup:["Tiësto","Kevin de Vries","Hannah Laing","KI/KI","Massano","Samer Soltan","Paige Tomlinson"]},
+{club:"hi",dow:1,from:"2026-06-01",to:"2026-10-05",party:"Francis Mercier · Solèy",lineup:["Francis Mercier","Anané & Louie Vega","Andrea Oliva","Kölsch","Da Capo","LP Giobbi","HoneyLuv","Afrojack","Mambo Brothers","Patrick Mason"],note:"Theatre + Club Room (Andrea Oliva · All I Need)."},
+{club:"amnesia",dow:1,from:"2026-06-01",to:"2026-07-27",party:"KETTAMA · Steel City",lineup:["KETTAMA","Cloonee","Josh Baker","Nia Archives","DJ Heartstring","VTSS","Bullet Tooth b2b Riordan","Dr. Dubplate","Angel Lee"]},
+{club:"dc10",dow:1,from:"2026-06-01",to:"2026-10-05",party:"Circoloco",lineup:["Cartel rotativo (se anuncia ~1 semana antes)","habituales: Seth Troxler","Loco Dice","Tania Vulcano","Apollonia","The Martinez Brothers","Dyed Soundorom"],note:"Garden · Terrace · Main Room. La fiesta underground por excelencia."},
+{club:"dalias",dow:1,from:"2026-06-01",to:"2026-09-28",party:"Peace N' Music",lineup:["DJ Pippi","Willie Graff","residentes Las Dalías"],note:"Tributo a los 60s/70s. Garden + Akasha."},
+{club:"chinois",dow:1,from:"2026-06-01",to:"2026-09-28",party:"La Troya",lineup:["Line-up rotativo","fiesta histórica LGTBIQ+"]},
+{club:"eden",dow:1,from:"2026-06-01",to:"2026-09-28",party:"H2O Ibiza",lineup:["Line-up rotativo"]},
+{club:"pikes",dow:1,from:"2026-06-01",to:"2026-10-19",party:"Mondays (Andy Manumission)",lineup:["Invitados sorpresa (no se anuncian)","DJs residentes Pikes"],note:"Gratis con guest list. Política 'no phones'. En Freddies."},
+// ---- MARTES ----
+{club:"pacha",dow:2,from:"2026-06-02",to:"2026-10-06",party:"Chris Stussy · USS",lineup:["Chris Stussy","Enzo Siragusa","Shanti Celeste","Anil Aras"],note:"A-Z, cartel rotativo."},
+{club:"ushuaia",dow:2,from:"2026-07-07",to:"2026-10-02",party:"Calvin Harris",lineup:["Calvin Harris","MK","Jazzy","Chris Lorenzo","Pete Tong","Armand Van Helden","Nic Fanciulli"]},
+{club:"unvrs",dow:2,from:"2026-06-09",to:"2026-09-29",party:"Anyma · ÆDEN",lineup:["Anyma","Solomun","Rampa","ARTBAT","CamelPhat","Argy","Mind Against","Kevin de Vries","Cassian","Amelie Lens","Miss Monique","Cloonee"]},
+{club:"hi",dow:2,from:"2026-06-02",to:"2026-10-06",party:"Eastenderz",lineup:["East End Dubs b2b Skepta","Hot Since 82 b2b SOSA","Paco Osuna","Cristina Lazic","Locklead"]},
+{club:"amnesia",dow:2,from:"2026-06-30",to:"2026-09-29",party:"Joseph Capriati · Metamorfosi",lineup:["Joseph Capriati","Richie Hawtin","Jamie Jones","Chris Stussy","Seth Troxler","Mau P","Ben Klock","Maceo Plex","Damian Lazarus","BLOND:ISH","Cloonee","Dubfire","Anfisa Letyago","Traumer","Fatima Hajji","Wade"],note:"Terraza + Club Room. Cartel rotativo."},
+{club:"cova",dow:2,from:"2026-06-02",to:"2026-10-06",party:"PIV Ibiza",lineup:["Prunk","Archie Hamilton","Dennis Quin","Chesster","Kazia","Kellie Allen","Maqossa"],note:"19 semanas. Open air + club."},
+{club:"c528",dow:2,from:"2026-06-02",to:"2026-10-06",party:"Pikes Presents",lineup:["S.A.S.S. (Saoirse · Moxie · Peach · Shanti Celeste)","Gene On Earth","Sonja Moonear","Dr. Banana","Pikes resident DJs"],note:"+21 años. Garden Stage + club. Cartel rotativo."},
+{club:"dalias",dow:2,from:"2026-06-02",to:"2026-09-29",party:"Borealis",lineup:["Paul Powell","Diass","Mârton","Ludo Ji"],note:"Garden + Akasha."},
+{club:"chinois",dow:2,from:"2026-06-02",to:"2026-09-29",party:"Blanche",lineup:["Arodes","Marten Lou","Mont Rouge","Afshin Momadi"]},
+{club:"eden",dow:2,from:"2026-06-02",to:"2026-09-29",party:"Cocoricò · Galactica",lineup:["Holy Priest","Daisy","Common Poetry"]},
+// ---- MIÉRCOLES ----
+{club:"pacha",dow:3,from:"2026-06-03",to:"2026-10-07",party:"BLOND:ISH · Abracadabra",lineup:["BLOND:ISH","Franky Rizardo","Locky","Chinonegro"]},
+{club:"ushuaia",dow:3,from:"2026-06-03",to:"2026-09-30",party:"Tomorrowland · Dimitri Vegas & Like Mike",lineup:["Dimitri Vegas & Like Mike","Alok","Korolova","Afrojack","Netsky","Robin Schulz","Vini Vici","Oliver Heldens","Agents Of Time"]},
+{club:"unvrs",dow:3,from:"2026-06-10",to:"2026-10-07",party:"Jamie Jones · Paradise",lineup:["Jamie Jones","Marco Carola","The Martinez Brothers","Luciano","Seth Troxler","Joseph Capriati","Cloonee","Josh Baker","Franky Rizardo","Rossi.","SOSA"]},
+{club:"hi",dow:3,from:"2026-06-03",to:"2026-09-30",party:"MEDUZA & James Hype · Our House",lineup:["MEDUZA","James Hype","The Blessed Madonna","Nora En Pure","Maya Jane Coles","TSHA","Eli & Fur","Sam Divine","Layla Benitez","Genesi"]},
+{club:"amnesia",dow:3,from:"2026-06-03",to:"2026-07-15",party:"Amnesia Trance",lineup:["Chicane","Judge Jules","Markus Schulz","Gia"]},
+{club:"amnesia",dow:3,from:"2026-07-22",to:"2026-09-16",party:"RESISTANCE",lineup:["Adam Beyer","ARTBAT","Boris Brejcha","Eric Prydz","Maceo Plex","Joris Voorn","Stephan Bodzin","Mind Against","Nicole Moudaber","HI-LO","Ilario Alicante","CamelPhat","Innellea","Massano"],note:"9 fechas. Beyer toca todas; ARTBAT/Brejcha/Prydz 3 c/u. Únicas fechas de Brejcha en Ibiza 2026."},
+{club:"dalias",dow:3,from:"2026-05-20",to:"2026-10-07",party:"Namaste",lineup:["Joselito","We The People","Saigo","Ceremonia","Shakatribe","DJ Andino","Leon de Gaia"],note:"Desde 1998. Garden + Pachamama + Akasha."},
+{club:"cova",dow:3,from:"2026-06-03",to:"2026-09-30",party:"Visionari / Cova Santa Presents",lineup:["Lemurian b2b Sabo","Etna","Glauco Di Mambro","Julia Sandstorm"]},
+{club:"eden",dow:3,from:"2026-06-03",to:"2026-09-23",party:"Eden Wednesdays",lineup:["Line-up rotativo (garage, DnB y house)"]},
+// ---- JUEVES ----
+{club:"pacha",dow:4,from:"2026-06-04",to:"2026-10-01",party:"Shimza & Co.",lineup:["Shimza","Alex Wann","Culoe du Song"]},
+{club:"ushuaia",dow:4,from:"2026-07-02",to:"2026-09-24",party:"Martin Garrix",lineup:["Martin Garrix","Alesso","Lost Frequencies","Julian Jordan","DubVision","Afrojack","Tchami","Joel Corry","R3HAB","Benny Benassi"]},
+{club:"unvrs",dow:4,from:"2026-06-04",to:"2026-09-10",party:"FISHER",lineup:["FISHER","Chris Lake","Loco Dice","Maceo Plex","Paco Osuna","Marten Hörger","Seth Troxler","Joshwa","Pirupa","NOIZU","SOSA","Little Fritter"]},
+{club:"hi",dow:4,from:"2026-06-04",to:"2026-09-24",party:"HUGEL · Make The Girls Dance",lineup:["HUGEL","THEMBA","Miss Monique","Chris Avantgarde","Glowal"],note:"Theatre + Club Room (Miss Monique)."},
+{club:"amnesia",dow:4,from:"2026-06-04",to:"2026-10-01",party:"Do Not Sleep / Josh Baker · You&Me",lineup:["Josh Baker","Sidney Charles b2b L.P. Rhythm","Ozzie Guven","Lissy Lübeck"]},
+{club:"dc10",dow:4,from:"2026-06-04",to:"2026-10-01",party:"Solid Grooves",lineup:["Bibi (residente)","Dennis Cruz","PAWSA","Archie Hamilton","East End Dubs","ANOTR","Ben Sterling","Hector","Sonja Moonear","Toman"],note:"18 jueves de deep-tech. Cierre 1 oct."},
+{club:"dalias",dow:4,from:"2026-06-04",to:"2026-09-24",party:"Akasha · Summer Parties",lineup:["Maceo Plex","Igor Marijuan","Matthias Tanzmann","Matador (live)","No_IP"],note:"Garden + Akasha. Cartel rotativo de pesos pesados del house."},
+{club:"chinois",dow:4,from:"2026-06-04",to:"2026-09-24",party:"Defected",lineup:["Jonas Blue","Low Steppa","Oden & Fatzo (live)","Malive"],note:"A-Z. Defected Forever en la Marina."},
+{club:"cova",dow:4,from:"2026-06-04",to:"2026-07-23",party:"Gala by Ibán Mendoza",lineup:["Line-up rotativo"]},
+{club:"eden",dow:4,from:"2026-06-04",to:"2026-09-24",party:"Encasa",lineup:["Yungness & Jaminn","Dave Rose b2b Reda","Father & Son"]},
+// ---- VIERNES ----
+{club:"pacha",dow:5,from:"2026-06-05",to:"2026-10-02",party:"Marco Carola · Music On",lineup:["Marco Carola","Gordo","Wade","AMÉMÉ","HoneyLuv","Verso"]},
+{club:"ushuaia",dow:5,from:"2026-05-29",to:"2026-08-28",party:"Calvin Harris | Friday",lineup:["Calvin Harris","MK","Tyson O'Brien"]},
+{club:"unvrs",dow:5,from:"2026-06-05",to:"2026-10-02",party:"David Guetta · Galactic Circus",lineup:["David Guetta","MEDUZA","James Hype","Tchami","Alesso","Kevin de Vries","Layton Giordani","Mathame","Marlon Hoffstadt","Son Of Son"]},
+{club:"hi",dow:5,from:"2026-06-05",to:"2026-08-28",party:"Dom Dolla",lineup:["Dom Dolla","Ewan McVicar","Dam Swindle","Luuk van Dijk","Fcukers (DJ set)"],note:"Theatre + Club Room (Ewan McVicar · Club Knuckles). En sept: CamelPhat · Summer of Love."},
+{club:"amnesia",dow:5,from:"2026-05-15",to:"2026-10-09",party:"Glitterbox",lineup:["Armand Van Helden","Honey Dijon","Horse Meat Disco","Skream (Disco set)","Natasha Diggs","Rio Tashan"],note:"Se muda de Hï a Amnesia. 22 fechas, disco-house. Cierre 9 oct."},
+{club:"cova",dow:5,from:"2026-06-05",to:"2026-09-25",party:"Woomoon",lineup:["Made By Pete","Viken Arman","Fiona Kraft"],note:"Experiencia ceremonial en la cueva."},
+{club:"chinois",dow:5,from:"2026-06-05",to:"2026-09-25",party:"Chinois Fridays",lineup:["Major League DJz","Kitty Amor b2b KILIMANJARO","Da Mike"],note:"Cartel rotativo (afro house / Mahmut Orhan en otras fechas)."},
+{club:"eden",dow:5,from:"2026-06-05",to:"2026-09-25",party:"Fire In The Club (Charlie Sloth)",lineup:["Charlie Sloth","line-up rotativo (hip-hop / R&B / UKG)"]},
+// ---- SÁBADO ----
+{club:"pacha",dow:6,from:"2026-05-16",to:"2026-06-06",party:"Robin Schulz",lineup:["Robin Schulz","Tita Lau","MistaJam","The Menendez Brothers"],note:"También 5 sep–3 oct."},
+{club:"pacha",dow:6,from:"2026-09-05",to:"2026-10-03",party:"Robin Schulz",lineup:["Robin Schulz","Sunnery James & Ryan Marciano","Mark Knight","Marten Hørger"]},
+{club:"ushuaia",dow:6,from:"2026-06-06",to:"2026-10-03",party:"ANTS",lineup:["Nic Fanciulli b2b Butch","TSHA","Adam Beyer","Maceo Plex","CamelPhat","Sven Väth","Green Velvet","Eats Everything","Cloonee","Joris Voorn","Archie Hamilton"],note:"Cartel rotativo de la colonia ANTS."},
+{club:"unvrs",dow:6,from:"2026-06-06",to:"2026-10-03",party:"elrow · Enter the Wortex",lineup:["Bastian Bux","Luciano","Marco Faraone","Manda Moor","Kölsch","Paco Osuna","Nic Fanciulli","Dombresky","Eliza Rose"]},
+{club:"hi",dow:6,from:"2026-05-17",to:"2026-10-04",party:"Black Coffee",lineup:["Black Coffee","Carlita","Damian Lazarus","Dixon","Jimi Jules","Kerri Chandler","Dubfire","DJ Tennis","Skepta (DJ set)","Darque"],note:"Theatre + Club Room (Skepta · Más Tiempo)."},
+{club:"amnesia",dow:6,from:"2026-05-16",to:"2026-10-03",party:"BRESH Ibiza",lineup:["Residentes Bresh","la fiesta italiana del momento"]},
+{club:"cova",dow:6,from:"2026-06-06",to:"2026-09-26",party:"Cova Santa Presents",lineup:["Mosimann","Acid Arab","Breakbot & Irfane","Paloma"],note:"Showcases especiales cada sábado."},
+{club:"c528",dow:6,from:"2026-06-06",to:"2026-09-26",party:"Saturdays at 528",lineup:["Timo Maas","Graham Sahara","Lovely Laura & Ben Santiago","Andy Carroll","Jason Bye"]},
+{club:"dalias",dow:6,from:"2026-05-30",to:"2026-10-03",party:"Supernova x Kater Blau",lineup:["Landikhan","Mimi Love","Mira","Brita Arnold"],note:"Garden gratis 18–23h + Akasha."},
+{club:"chinois",dow:6,from:"2026-06-06",to:"2026-09-26",party:"Claptone · The Masquerade",lineup:["Claptone","Hannah Wants b2b Paul Woolford","Lee Foss","Holly Hutch"]},
+{club:"pikes",dow:6,from:"2026-06-06",to:"2026-10-17",party:"Pikes House Party",lineup:["Pikes House Band","DJs residentes"],note:"La noche más animada de Pikes."},
+{club:"eden",dow:6,from:"2026-06-06",to:"2026-09-26",party:"Fuego",lineup:["Line-up rotativo (reggaeton / urban)"]},
+// ---- DOMINGO ----
+{club:"pacha",dow:0,from:"2026-05-31",to:"2026-10-04",party:"Solomun +1",lineup:["Solomun","Denis Sulta","Skrillex","Jamie xx","Peggy Gou","Anyma","Barry Can't Swim","Chloé Caillet","Dixon","KETTAMA","Idris Elba","Âme"],note:"Cada domingo Solomun invita a un artista (+1)."},
+{club:"ushuaia",dow:0,from:"2026-06-28",to:"2026-09-13",party:"Swedish House Mafia",lineup:["Swedish House Mafia","invitados TBA"]},
+{club:"unvrs",dow:0,from:"2026-06-21",to:"2026-10-04",party:"Carl Cox",lineup:["Carl Cox","Richie Hawtin","The Martinez Brothers","Joseph Capriati","Maceo Plex","Loco Dice","Nic Fanciulli","Nicole Moudaber","Anna Tur","Chris Stussy","Skepta","David Guetta"],note:"Cox toca all-night-long en apertura (21 jun) y cierre (4 oct)."},
+{club:"hi",dow:0,from:"2026-05-31",to:"2026-10-04",party:"MESTIZA & ARTCORE",lineup:["MESTIZA","Indira Paganotto","Anfisa Letyago","Apache","Antonio De Angelis","999999999","Ben Klock","Chris Liebing"],note:"Theatre (ARTCORE techno) + más salas."},
+{club:"amnesia",dow:0,from:"2026-06-07",to:"2026-09-27",party:"Teletech / Pyramid",lineup:["Anetha","Azyr","MCR-T b2b Partiboi69","Faster Horses","Pegassi","Vendex"],note:"Domingos de techno duro (Pyramid en fechas alternas)."},
+{club:"cova",dow:0,from:"2026-06-07",to:"2026-09-27",party:"Pantheøn",lineup:["Harry Romero","Us Two"],note:"A-Z, house & melodic."},
+{club:"dalias",dow:0,from:"2026-06-07",to:"2026-09-27",party:"Nido",lineup:["Cris44","Robbie Akbal","Stevie Keys","Sam Sparacio & Anvetta"],note:"Garden + Akasha (organic house)."},
+{club:"chinois",dow:0,from:"2026-06-07",to:"2026-09-20",party:"Meneito",lineup:["Darell","line-up rotativo (reggaeton)"]},
+{club:"pikes",dow:0,from:"2026-06-07",to:"2026-10-18",party:"Sundays at Pikes",lineup:["Residentes Pikes","sesiones de día a noche"]},
+];
+
+// EVENTOS ESPECIALES FECHADOS
+const SPEC=[
+// Brunch Electronik (en 528)
+{date:"2026-07-01",club:"brunch",party:"TGOB x Brunch Electronik",lineup:["Ben Böhmer (live)","Jan Blomqvist"],note:"En 528, 16:00–23:00. Con The Gardens of Babylon."},
+{date:"2026-07-08",club:"brunch",party:"TGOB x Brunch Electronik",lineup:["Monolink (hybrid DJ set)","Satori"],note:"En 528, 16:00–23:00."},
+{date:"2026-08-02",club:"brunch",party:"FUSE x Brunch Electronik",lineup:["Enzo Siragusa","Raresh"],note:"En 528, día y noche 16:00–04:00."},
+{date:"2026-08-09",club:"brunch",party:"FUSE x Brunch Electronik",lineup:["Enzo Siragusa","Traumer","Ryan Elliott"],note:"En 528, 16:00–04:00."},
+{date:"2026-08-16",club:"brunch",party:"FUSE x Brunch Electronik",lineup:["Enzo Siragusa","Saoirse","Ben UFO","Laidlaw","Sonja Moonear"],note:"En 528, 16:00–04:00."},
+// 2manydjs / Soulwax
+{date:"2026-07-07",club:"c528",party:"Pikes Presents · 2manydjs",lineup:["2manydjs (Soulwax)","S.A.S.S.","Pikes resident DJs"],note:"Set especial de los hermanos Dewaele."},
+{date:"2026-07-25",club:"chinois",party:"Claptone · The Masquerade · 2manydjs",lineup:["2manydjs (Soulwax)","Claptone"],note:"2manydjs como invitado especial."},
+{date:"2026-09-04",club:"amnesia",party:"Glitterbox · 2manydjs",lineup:["2manydjs (Soulwax)","Brother Macklovitch","David Bay"],note:"2manydjs en la pista de Glitterbox."},
+// Maceo Plex destacado
+{date:"2026-06-22",club:"unvrs",party:"Carl Cox (apertura) + Maceo Plex",lineup:["Carl Cox b2b Nic Fanciulli","Maceo Plex","Nicole Moudaber","Anna Tur"],note:"Maceo Plex como invitado en la apertura de Carl Cox."},
+{date:"2026-08-13",club:"amnesia",party:"RESISTANCE · Maceo Plex",lineup:["Adam Beyer","Maceo Plex","Mind Against","Marco Faraone","ARTBAT","ANNA b2b Chris Avantgarde b2b Innellea"],note:"Terraza + Main Room."},
+// Cova Santa especiales
+{date:"2026-06-13",club:"cova",party:"Sam Divine · 555",lineup:["Sam Divine","Paul Woolford","Dusky","Nick Curly","Melé","Arielle Free","Mark Knight","Cassimm"],note:"Debut del sello 555 en Ibiza."},
+{date:"2026-08-22",club:"cova",party:"Sam Divine · 555",lineup:["Sam Divine","invitados 555"]},
+{date:"2026-09-16",club:"cova",party:"Sam Divine · 555",lineup:["Sam Divine","invitados 555"]},
+{date:"2026-09-23",club:"cova",party:"Sam Divine · 555",lineup:["Sam Divine","invitados 555"]},
+{date:"2026-07-30",club:"cova",party:"AMÉMÉ · One Tribe",lineup:["AMÉMÉ","Da Capo","HoneyLuv","LP Giobbi","Vanco","Coco & Breezy","Awen","KILIMANJARO"],note:"One Tribe hace de Cova Santa su hogar."},
+{date:"2026-08-06",club:"cova",party:"AMÉMÉ · One Tribe",lineup:["AMÉMÉ","invitados afro-house"]},
+{date:"2026-08-13",club:"cova",party:"AMÉMÉ · One Tribe",lineup:["AMÉMÉ","invitados afro-house"]},
+{date:"2026-08-20",club:"cova",party:"AMÉMÉ · One Tribe",lineup:["AMÉMÉ","invitados afro-house"]},
+{date:"2026-08-27",club:"cova",party:"AMÉMÉ · One Tribe",lineup:["AMÉMÉ","invitados afro-house"]},
+// Pacha martes especiales
+{date:"2026-06-09",club:"pacha",party:"Vintage Culture",lineup:["Vintage Culture","Eric Prydz","WhoMadeWho","Franky Rizardo","Mochakk"]},
+{date:"2026-06-23",club:"pacha",party:"Vintage Culture",lineup:["Vintage Culture","invitados"]},
+{date:"2026-06-30",club:"pacha",party:"Vintage Culture",lineup:["Vintage Culture","invitados"]},
+{date:"2026-07-07",club:"pacha",party:"RÜFÜS DU SOL",lineup:["RÜFÜS DU SOL","Disclosure","ANOTR","Romy","Jimi Jules"]},
+{date:"2026-07-14",club:"pacha",party:"RÜFÜS DU SOL",lineup:["RÜFÜS DU SOL","invitados"]},
+{date:"2026-07-21",club:"pacha",party:"RÜFÜS DU SOL",lineup:["RÜFÜS DU SOL","invitados"]},
+{date:"2026-07-28",club:"pacha",party:"RÜFÜS DU SOL",lineup:["RÜFÜS DU SOL","invitados"]},
+// UNVRS especial
+{date:"2026-06-12",club:"unvrs",party:"Peggy Gou · Midnight Lobster Club",lineup:["Peggy Gou","Chris Stussy","Salomé Le Chat"],note:"Una sola noche."},
+// Pikes especiales (Freddies / Plaza Mayor)
+{date:"2026-08-06",club:"pikes",party:"Pikes · Freddies",lineup:["David Morales","& more"]},
+{date:"2026-08-07",club:"pikes",party:"Pikes · Freddies",lineup:["Fatboy Slim (all night long)","DJs residentes"]},
+{date:"2026-08-08",club:"pikes",party:"Pikes · Freddies",lineup:["Marcel Vogel","Siggy","blondewearingblack (live)","Danny Beck","James Glover b2b Mike Woods","Cramo"]},
+{date:"2026-08-10",club:"pikes",party:"Make A Dance (The Fina Agency)",lineup:["Make A Dance","Decius (DJ set)","Lex Wolf","Ron Basejam","Simon Morell","SIRS"]},
+{date:"2026-09-05",club:"pikes",party:"Freddie Rocks",lineup:["Tributo a Freddie Mercury","invitados especiales"],note:"Homenaje anual. Recaudación para la Phoenix Foundation."},
+// 528 especiales
+{date:"2026-08-12",club:"c528",party:"Pikes Presents · Eclipse Special",lineup:["Invitados especiales"],note:"Edición especial por el eclipse solar total (miércoles)."},
+{date:"2026-09-26",club:"c528",party:"Pikes Presents · MANUMISSION",lineup:["Retorno de Manumission","invitados especiales"],note:"Regreso de la mítica fiesta Manumission."},
+];
+
+const MONTHS=[
+  {y:2026,m:5,name:"Junio"},{y:2026,m:6,name:"Julio"},{y:2026,m:7,name:"Agosto"},
+  {y:2026,m:8,name:"Septiembre"},{y:2026,m:9,name:"Octubre"}
+];
+let curMonth=0, query="";
+let active={}; Object.keys(CLUBS).forEach(k=>active[k]=true);
+function key(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function eventsFor(d){
+  const out=[],dow=d.getDay(),dk=key(d);
+  RES.forEach(r=>{if(r.dow===dow&&d>=D(r.from)&&d<=D(r.to))out.push(r);});
+  SPEC.forEach(s=>{if(s.date===dk)out.push(s);});
+  return out.filter(e=>active[e.club]);
+}
+function matchDJ(e){
+  if(!query)return false;
+  const q=query.toLowerCase();
+  if(e.party.toLowerCase().includes(q))return true;
+  return e.lineup.some(x=>x.toLowerCase().includes(q));
+}
+function buildMonths(){
+  const c=document.getElementById("months");c.innerHTML="";
+  MONTHS.forEach((mo,i)=>{const b=document.createElement("button");b.className="mbtn"+(i===curMonth?" active":"");
+    b.textContent=mo.name;b.onclick=()=>{curMonth=i;render();};c.appendChild(b);});
+}
+function buildLegend(){
+  const c=document.getElementById("legend");c.innerHTML="";
+  Object.keys(CLUBS).forEach(k=>{const el=document.createElement("span");el.className="lg"+(active[k]?"":" off");
+    el.innerHTML='<span class="dot" style="background:'+CLUBS[k].c+'"></span>'+CLUBS[k].n;
+    el.onclick=()=>{active[k]=!active[k];render();};c.appendChild(el);});
+}
+let selectedKey=null;
+function render(){
+  buildMonths();buildLegend();
+  const mo=MONTHS[curMonth],grid=document.getElementById("grid");grid.innerHTML="";
+  const first=new Date(mo.y,mo.m,1);let pad=(first.getDay()+6)%7;
+  const dim=new Date(mo.y,mo.m+1,0).getDate();
+  let totalHits=0;
+  for(let i=0;i<pad;i++){const e=document.createElement("div");e.className="cell empty";grid.appendChild(e);}
+  for(let day=1;day<=dim;day++){
+    const d=new Date(mo.y,mo.m,day),evs=eventsFor(d);
+    const hit=query&&evs.some(matchDJ);
+    if(hit)totalHits++;
+    const cell=document.createElement("div");
+    cell.className="cell"+(evs.length?" has":"")+(key(d)===selectedKey?" sel":"")+(hit?" hit":"");
+    let dots="",seen=new Set();
+    evs.forEach(e=>{if(!seen.has(e.club)){seen.add(e.club);dots+='<span class="d" style="background:'+CLUBS[e.club].c+'"></span>';}});
+    cell.innerHTML='<span class="daynum">'+day+'</span>'+(evs.length?'<span class="cnt">'+evs.length+'</span>':'')+'<span class="dots">'+dots+'</span>';
+    if(evs.length)cell.onclick=()=>{selectedKey=key(d);showDay(d,evs);render();};
+    grid.appendChild(cell);
+  }
+  const note=document.getElementById("searchnote");
+  if(query){note.textContent=totalHits?('★ '+query+': '+totalHits+' fecha(s) este mes resaltada(s)'):('Sin fechas de "'+query+'" en '+mo.name);}
+  else note.textContent="";
+}
+const DOWN=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+const MON=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+function showDay(d,evs){
+  document.getElementById("panelhead").innerHTML='<em>'+d.getDate()+'</em> '+MON[d.getMonth()]+' · '+DOWN[d.getDay()];
+  document.getElementById("panelsub").textContent=evs.length+" evento"+(evs.length>1?"s":"")+" · toca cada uno para ver el line-up";
+  const box=document.getElementById("events");box.innerHTML="";
+  evs.sort((a,b)=>{const am=matchDJ(a),bm=matchDJ(b);if(am!==bm)return am?-1:1;return a.club.localeCompare(b.club);});
+  evs.forEach((e,idx)=>{
+    const det=document.createElement("details");det.className="ev";det.style.borderLeftColor=CLUBS[e.club].c;
+    if(idx===0||matchDJ(e))det.open=true;
+    const q=query.toLowerCase();
+    const djs=e.lineup.map(x=>{const m=query&&x.toLowerCase().includes(q);return '<span class="dj'+(m?' match':'')+'">'+x+'</span>';}).join("");
+    det.innerHTML='<summary><span class="club" style="background:'+CLUBS[e.club].c+'">'+CLUBS[e.club].n+'</span>'+
+      '<span class="evtitle">'+e.party+'</span><span class="chev">▾</span></summary>'+
+      '<div class="evbody"><div class="lineup">'+djs+'</div>'+(e.note?'<div class="note">'+e.note+'</div>':'')+'</div>';
+    box.appendChild(det);
+  });
+  document.querySelector(".panel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function setSearch(v){query=v;document.getElementById("djsearch").value=v;render();}
+document.getElementById("djsearch").addEventListener("input",e=>{query=e.target.value.trim();render();});
+render();
+</script>
+</body>
+</html>
