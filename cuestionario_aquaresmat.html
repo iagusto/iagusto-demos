@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reunión Aqua Resmat</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, sans-serif; background: #f4f4f4; color: #1a1a1a; padding: 20px; font-size: 15px; }
+h1 { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #0f2440; }
+.meta { font-size: 12px; color: #888; margin-bottom: 24px; }
+.section { background: #fff; border-radius: 10px; padding: 18px; margin-bottom: 16px; border-left: 4px solid #E87722; }
+.section h2 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #E87722; margin-bottom: 14px; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: #0f2440; margin-bottom: 5px; }
+.field input[type="text"], .field textarea {
+  width: 100%; border: 1px solid #ddd; border-radius: 6px;
+  padding: 8px 10px; font-size: 14px; font-family: inherit;
+  background: #fafafa; resize: vertical;
+}
+.field input[type="text"]:focus, .field textarea:focus {
+  outline: none; border-color: #E87722; background: #fff;
+}
+.field textarea { min-height: 60px; }
+.field .hint { font-size: 11px; color: #aaa; margin-top: 3px; }
+.radio-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.radio-group label { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 400; cursor: pointer; }
+.notes-big textarea { min-height: 100px; }
+.print-btn {
+  display: block; width: 100%; padding: 12px;
+  background: #0f2440; color: #fff; border: none;
+  border-radius: 8px; font-size: 14px; font-weight: 600;
+  cursor: pointer; margin-top: 8px;
+}
+.print-btn:hover { background: #E87722; }
+@media print {
+  body { background: #fff; padding: 10px; }
+  .print-btn { display: none; }
+  .section { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<h1>📋 Reunión Aqua Resmat</h1>
+<div class="meta">iAgusto.app · <span id="fecha"></span></div>
+
+<!-- DECISIÓN -->
+<div class="section">
+  <h2>💼 Decisión y arranque</h2>
+  <div class="field">
+    <label>¿Quién tiene autorización para aprobar el proyecto?</label>
+    <input type="text" placeholder="Nombre y cargo">
+  </div>
+  <div class="field">
+    <label>¿Hay fecha límite o evento concreto para tenerlo listo?</label>
+    <input type="text" placeholder="Feria, presentación a cliente, etc.">
+  </div>
+  <div class="field">
+    <label>¿Quieren empezar con máquinas nuevas, antiguas o ambas?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="maquinas"> Solo nuevas</label>
+      <label><input type="radio" name="maquinas"> Antiguas también</label>
+      <label><input type="radio" name="maquinas"> Ambas</label>
+    </div>
+  </div>
+  <div class="field notes-big">
+    <label>Notas</label>
+    <textarea placeholder="..."></textarea>
+  </div>
+</div>
+
+<!-- TÉCNICO -->
+<div class="section">
+  <h2>⚙️ Técnico — PLC y conectividad</h2>
+  <div class="field">
+    <label>¿Tienen proveedor técnico Kinco con contacto directo?</label>
+    <input type="text" placeholder="Nombre / empresa / teléfono">
+  </div>
+  <div class="field">
+    <label>¿Pueden organizar una sesión técnica con el proveedor esta semana?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="sesion"> Sí</label>
+      <label><input type="radio" name="sesion"> No</label>
+      <label><input type="radio" name="sesion"> Hay que consultarlo</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>¿Las instalaciones de los clientes tienen WiFi o cable Ethernet?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="wifi"> Casi siempre</label>
+      <label><input type="radio" name="wifi"> A veces</label>
+      <label><input type="radio" name="wifi"> Raramente</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>¿Hay una máquina de prueba disponible en sus instalaciones?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="piloto"> Sí, en oficina/fábrica</label>
+      <label><input type="radio" name="piloto"> En casa de un cliente</label>
+      <label><input type="radio" name="piloto"> Hay que buscarlo</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>¿Saben qué variables tienen mapeadas en el PLC?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="vars"> Sí, tienen lista</label>
+      <label><input type="radio" name="vars"> Lo sabe el proveedor</label>
+      <label><input type="radio" name="vars"> Hay que revisarlo</label>
+    </div>
+  </div>
+  <div class="field notes-big">
+    <label>Notas técnicas</label>
+    <textarea placeholder="Variables importantes, modelos de máquina, particularidades..."></textarea>
+  </div>
+</div>
+
+<!-- MANUALES -->
+<div class="section">
+  <h2>📄 Manuales y contenido IA</h2>
+  <div class="field">
+    <label>¿Tienen manuales en PDF digital?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="manuales"> Sí, completos</label>
+      <label><input type="radio" name="manuales"> Algunos</label>
+      <label><input type="radio" name="manuales"> Solo en papel</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>¿Cuántos modelos de máquina distintos hay?</label>
+    <input type="text" placeholder="Ej: 4 modelos estándar + proyectos especiales">
+  </div>
+  <div class="field">
+    <label>¿Tienen protocolos de mantenimiento documentados?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="protocolos"> Sí</label>
+      <label><input type="radio" name="protocolos"> Parcialmente</label>
+      <label><input type="radio" name="protocolos"> No</label>
+    </div>
+  </div>
+  <div class="field notes-big">
+    <label>Notas</label>
+    <textarea placeholder="Qué documentación tienen, quién la gestiona..."></textarea>
+  </div>
+</div>
+
+<!-- USUARIOS -->
+<div class="section">
+  <h2>👥 Usuarios y roles</h2>
+  <div class="field">
+    <label>¿Quién usará la app internamente? (marcar los que aplican)</label>
+    <div class="radio-group" style="flex-direction:column">
+      <label><input type="checkbox"> Técnicos de campo SAT</label>
+      <label><input type="checkbox"> Operarios de planta (clientes)</label>
+      <label><input type="checkbox"> Gestores / dirección (clientes)</label>
+      <label><input type="checkbox"> Comerciales de Aqua Resmat</label>
+      <label><input type="checkbox"> Dirección de Aqua Resmat</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>¿Cuántos técnicos SAT tienen aproximadamente?</label>
+    <input type="text" placeholder="Nº de técnicos">
+  </div>
+  <div class="field notes-big">
+    <label>Notas</label>
+    <textarea placeholder="Cómo trabajan hoy los técnicos, qué herramientas usan..."></textarea>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="section">
+  <h2>📊 KPIs prioritarios</h2>
+  <div class="field">
+    <label>¿Qué dato es el más crítico para sus técnicos?</label>
+    <input type="text" placeholder="Ej: presión de bomba, saturación de filtro...">
+  </div>
+  <div class="field">
+    <label>¿Y para el cliente final (gestor de planta)?</label>
+    <input type="text" placeholder="Ej: consumo energético, cumplimiento normativo...">
+  </div>
+  <div class="field">
+    <label>¿Hay algún parámetro que hoy cause problemas por no monitorizarse?</label>
+    <textarea placeholder="Averías recurrentes, quejas de clientes..."></textarea>
+  </div>
+</div>
+
+<!-- NOTAS LIBRES -->
+<div class="section">
+  <h2>📝 Notas libres</h2>
+  <div class="field">
+    <textarea style="min-height:80px" placeholder="..."></textarea>
+  </div>
+  <div class="field">
+    <textarea style="min-height:80px" placeholder="..."></textarea>
+  </div>
+  <div class="field">
+    <textarea style="min-height:80px" placeholder="..."></textarea>
+  </div>
+</div>
+
+<!-- SIGUIENTE PASO -->
+<div class="section">
+  <h2>✅ Acuerdos de la reunión</h2>
+  <div class="field">
+    <label>Próximo paso acordado</label>
+    <input type="text" placeholder="Ej: César contacta al proveedor Kinco el martes">
+  </div>
+  <div class="field">
+    <label>Fecha de seguimiento</label>
+    <input type="text" placeholder="Fecha y hora">
+  </div>
+  <div class="field">
+    <label>Pendientes de Aqua Resmat</label>
+    <textarea placeholder="Qué tienen que hacer ellos antes del próximo contacto..."></textarea>
+  </div>
+  <div class="field">
+    <label>Pendientes de César</label>
+    <textarea placeholder="..."></textarea>
+  </div>
+</div>
+
+<button class="print-btn" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+
+<script>
+const d = new Date();
+document.getElementById('fecha').textContent = d.toLocaleDateString('es-ES', {day:'numeric',month:'long',year:'numeric'});
+</script>
+</body>
+</html>
