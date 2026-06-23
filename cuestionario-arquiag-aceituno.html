@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario de descubrimiento · Arquiag · iAgusto.app</title>
+<meta name="description" content="Cuestionario para definir el hub de comunicación y expediente digital de Arquiag.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cuestionario de descubrimiento — Arquiag">
+<meta property="og:description" content="Ayúdanos a entender exactamente qué necesitas para construir tu sistema a medida.">
+<meta property="og:image" content="https://iagusto.app/preview-arquiag-aceituno.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="iAgusto.app">
+<meta name="theme-color" content="#1A3A5C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A3A5C;--navy-dark:#0f2338;--navy-light:#2a5080;--orange:#E87722;--orange-light:#F4955A;--orange-pale:#FEF0E6;--gray:#f4f6f9;--line:#e2e8f0;--text:#1f2937;--muted:#64748b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;color:var(--text);line-height:1.6;background:var(--gray)}
+h1,h2,h3,.serif{font-family:'DM Serif Display',serif;font-weight:400}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+.hero{background:linear-gradient(150deg,var(--navy),var(--navy-dark));color:#fff;padding:48px 0 56px}
+.hero-top{display:flex;align-items:center;gap:14px;margin-bottom:34px}
+.hero-top img{height:48px}
+.hero-top .brand{font-weight:700;font-size:1.05rem}
+.eyebrow{color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;margin-bottom:12px}
+.hero h1{font-size:2.4rem;line-height:1.15;margin-bottom:14px}
+.hero p{color:#cdd8e6;max-width:640px;font-size:1.05rem}
+form{padding:46px 0 80px}
+.block{background:#fff;border-radius:16px;border:1px solid var(--line);padding:30px 30px 14px;margin-bottom:26px;box-shadow:0 4px 20px rgba(26,58,92,.04)}
+.block-head{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.block-num{flex:none;width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;font-family:'DM Serif Display';font-size:1.2rem;display:flex;align-items:center;justify-content:center}
+.block h2{font-size:1.35rem;color:var(--navy)}
+.block-desc{color:var(--muted);font-size:.92rem;margin:0 0 22px 52px}
+.q{margin-bottom:22px}
+.q label.qlabel{display:block;font-weight:700;color:var(--navy);margin-bottom:8px;font-size:.97rem}
+.q .hint{font-size:.83rem;color:var(--muted);margin-bottom:8px}
+.req{color:var(--orange);font-weight:700}
+input[type=text],input[type=email],input[type=tel],input[type=number],textarea,select{width:100%;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-family:'DM Sans';font-size:.95rem;color:var(--text);background:#fcfdfe;transition:.15s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange);background:#fff;box-shadow:0 0 0 3px rgba(232,119,34,.12)}
+textarea{resize:vertical;min-height:90px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opts.row{flex-direction:row;flex-wrap:wrap;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:9px;padding:11px 14px;cursor:pointer;transition:.15s;background:#fcfdfe;font-size:.93rem}
+.opt:hover{border-color:var(--orange-light);background:#fff}
+.opt input{margin-top:3px;flex:none;accent-color:var(--orange)}
+.opts.row .opt{flex:0 0 auto}
+.scale{display:flex;gap:8px;flex-wrap:wrap}
+.scale .opt{flex-direction:column;align-items:center;text-align:center;min-width:70px;gap:5px}
+.note{background:var(--orange-pale);border-left:4px solid var(--orange);border-radius:0 9px 9px 0;padding:14px 16px;font-size:.88rem;color:#7a4a1a;margin-bottom:22px}
+.submit-box{text-align:center;padding:10px 0 0}
+button[type=submit]{background:var(--orange);color:#fff;border:none;border-radius:12px;padding:16px 44px;font-family:'DM Sans';font-weight:700;font-size:1.05rem;cursor:pointer;transition:.2s}
+button[type=submit]:hover{background:var(--orange-light);transform:translateY(-2px)}
+.foot{text-align:center;color:var(--muted);font-size:.82rem;margin-top:24px}
+footer{background:var(--navy-dark);color:#9fb0c4;padding:24px 0;text-align:center;font-size:.8rem}
+footer img{height:30px;vertical-align:middle;margin-left:8px;opacity:.9}
+@media(max-width:600px){.hero h1{font-size:1.8rem}.block{padding:22px 18px 8px}.block-desc{margin-left:0}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top"><span class="brand">Cesar IAgusto de KOLMAI</span></div>
+    <div class="eyebrow">Cuestionario de descubrimiento</div>
+    <h1>Entendamos bien qué necesitas</h1>
+    <p>Este cuestionario nos ayuda a diseñar tu sistema a medida con precisión. Cuanto más detalle nos des, mejor encajará con vuestra forma real de trabajar. No hay respuestas correctas o incorrectas: queremos entender vuestro día a día. Tardarás unos 12-15 minutos.</p>
+  </div>
+</header>
+
+<form action="https://formspree.io/f/xqenkjpv" method="POST">
+<div class="wrap">
+
+  <div class="note">Los campos marcados con <span class="req">*</span> son los más importantes. Si alguna pregunta no aplica a vuestro caso, déjala en blanco o escribe "no aplica".</div>
+
+  <!-- BLOQUE 1 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">1</div><h2>Quiénes sois</h2></div>
+    <p class="block-desc">Para situarnos y saber con quién hablamos.</p>
+    <div class="q"><label class="qlabel">Persona que rellena este cuestionario <span class="req">*</span></label><input type="text" name="1_nombre_contacto" required placeholder="Nombre y apellidos"></div>
+    <div class="q"><label class="qlabel">Tu rol en la empresa <span class="req">*</span></label><input type="text" name="1_rol" required placeholder="Ej: gerente, jefe de obra, arquitecto, administración..."></div>
+    <div class="q"><label class="qlabel">Email de contacto <span class="req">*</span></label><input type="email" name="1_email" required placeholder="nombre@empresa.com"></div>
+    <div class="q"><label class="qlabel">Teléfono (opcional)</label><input type="tel" name="1_telefono" placeholder="Por si necesitamos una llamada puntual"></div>
+    <div class="q"><label class="qlabel">¿El estudio (arquitectura) y la constructora son dos empresas distintas o una sola? <span class="req">*</span></label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="1_entidades" value="dos_empresas">Son dos empresas / entidades jurídicas separadas</label>
+        <label class="opt"><input type="radio" name="1_entidades" value="una_empresa">Es una sola empresa con dos áreas</label>
+        <label class="opt"><input type="radio" name="1_entidades" value="otro">Otra situación (lo explico abajo)</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Cuántas personas trabajarán DENTRO del sistema? (equipo propio)</label><div class="hint">Aproximado: técnicos del estudio, administración, jefes de obra, encargados...</div><input type="text" name="1_num_internos" placeholder="Ej: 6 técnicos + 2 administración + 3 obra"></div>
+  </div>
+
+  <!-- BLOQUE 2 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">2</div><h2>El problema que más os duele</h2></div>
+    <p class="block-desc">Lo más importante de todo. Queremos atacar primero lo que más os agota.</p>
+    <div class="q"><label class="qlabel">Si pudieras eliminar UNA sola cosa de tu día a día, ¿cuál sería? <span class="req">*</span></label><textarea name="2_dolor_principal" required placeholder="Ej: las llamadas constantes de proveedores preguntando lo que ya les dije, el no saber dónde están las llaves de cada obra..."></textarea></div>
+    <div class="q"><label class="qlabel">¿Cuáles de estos problemas vivís? (marca todos los que apliquen) <span class="req">*</span></label>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="cuello_botella">Toda la información pasa por una persona y se satura</label>
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="cruce_info">Cruce eterno de información (llamadas, audios, repetir lo mismo)</label>
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="pedidos_mal">Pedidos mal hechos o que no se sabe si se hicieron</label>
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="docu_desordenada">Documentación desordenada o duplicada entre estudio y obra</label>
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="decisiones_perdidas">Decisiones de obra que no quedan registradas en ningún sitio</label>
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="proveedores_llaman">Proveedores y subcontratas que llaman en vez de mirar la info</label>
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="llaves">Descontrol de llaves / accesos a las obras</label>
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="cliente_desinformado">El cliente no se entera del estado de su obra en tiempo real</label>
+        <label class="opt"><input type="checkbox" name="2_problemas[]" value="rutas_perdidas">Rutas de archivos que se pierden al archivar lo antiguo</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Cuántas horas a la semana calculas que se pierden SOLO en gestionar comunicaciones y derivaciones?</label>
+      <div class="opts row">
+        <label class="opt"><input type="radio" name="2_horas" value="menos5">Menos de 5h</label>
+        <label class="opt"><input type="radio" name="2_horas" value="5_10">Entre 5 y 10h</label>
+        <label class="opt"><input type="radio" name="2_horas" value="10_20">Entre 10 y 20h</label>
+        <label class="opt"><input type="radio" name="2_horas" value="mas20">Más de 20h</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">Cuéntanos un ejemplo real reciente de algo que salió mal por descoordinación</label><div class="hint">Un caso concreto nos dice más que mil descripciones generales.</div><textarea name="2_ejemplo_real" placeholder="Ej: se colocó un mueble en la obra equivocada porque..."></textarea></div>
+  </div>
+
+  <!-- BLOQUE 3 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">3</div><h2>Cómo entra y se mueve la información hoy</h2></div>
+    <p class="block-desc">El "as-is": cómo trabajáis ahora mismo, sin filtros.</p>
+    <div class="q"><label class="qlabel">¿Por qué canales os llega la información actualmente? (marca todos) <span class="req">*</span></label>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="3_canales[]" value="whatsapp">WhatsApp</label>
+        <label class="opt"><input type="checkbox" name="3_canales[]" value="llamada">Llamadas de teléfono</label>
+        <label class="opt"><input type="checkbox" name="3_canales[]" value="email">Email</label>
+        <label class="opt"><input type="checkbox" name="3_canales[]" value="slack">Slack</label>
+        <label class="opt"><input type="checkbox" name="3_canales[]" value="presencial">En persona / en obra</label>
+        <label class="opt"><input type="checkbox" name="3_canales[]" value="otro">Otros</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">De esos canales, ¿cuál es el más caótico o el que más quieres eliminar?</label><input type="text" name="3_canal_eliminar" placeholder="Ej: WhatsApp, las llamadas..."></div>
+    <div class="q"><label class="qlabel">¿Cómo se reparten hoy las entradas más o menos? <span class="req">*</span></label><div class="hint">Para dimensionar el sistema. Aproximado está bien.</div>
+      <textarea name="3_volumen" placeholder="Ej: unas 12 obras activas a la vez, cada obra genera unos X mensajes/decisiones al día entre todos los implicados"></textarea></div>
+    <div class="q"><label class="qlabel">¿Qué tipo de información intercambiáis más? (marca las habituales)</label>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="3_tipos[]" value="decisiones">Decisiones de obra (alturas, modelos, acabados...)</label>
+        <label class="opt"><input type="checkbox" name="3_tipos[]" value="pedidos">Pedidos de material a proveedores</label>
+        <label class="opt"><input type="checkbox" name="3_tipos[]" value="incidencias">Incidencias / problemas en obra</label>
+        <label class="opt"><input type="checkbox" name="3_tipos[]" value="fotos">Fotos de avance o de detalles</label>
+        <label class="opt"><input type="checkbox" name="3_tipos[]" value="planos">Planos y documentación técnica</label>
+        <label class="opt"><input type="checkbox" name="3_tipos[]" value="presupuestos">Presupuestos y precios</label>
+        <label class="opt"><input type="checkbox" name="3_tipos[]" value="actas">Actas de reunión con cliente</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 4 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">4</div><h2>Cómo quieres usarlo (sin WhatsApp)</h2></div>
+    <p class="block-desc">La idea es centralizar en un solo canal interno y dejar fuera el caos de WhatsApp. Queremos entender cómo encaja en vuestra rutina.</p>
+    <div class="note">La propuesta plantea <b>Telegram</b> como canal único de entrada interno (texto, audio o foto), evitando WhatsApp. Ayúdanos a confirmar que esto encaja.</div>
+    <div class="q"><label class="qlabel">¿El equipo interno estaría dispuesto a usar Telegram como canal único? <span class="req">*</span></label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="4_telegram" value="si_total">Sí, lo impondremos a todo el equipo sin problema</label>
+        <label class="opt"><input type="radio" name="4_telegram" value="si_resistencia">Sí, pero habrá algo de resistencia al cambio</label>
+        <label class="opt"><input type="radio" name="4_telegram" value="prefiero_otro">Preferiríamos otro canal (lo indico abajo)</label>
+        <label class="opt"><input type="radio" name="4_telegram" value="duda">No lo tengo claro, necesito que me lo expliquéis</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Cómo prefiere meter información la gente de obra? (albañiles, encargados)</label><div class="hint">Pensando en quien no es muy de escribir en el móvil.</div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="4_obra_input[]" value="audio">Nota de voz (lo dicta hablando)</label>
+        <label class="opt"><input type="checkbox" name="4_obra_input[]" value="foto">Foto</label>
+        <label class="opt"><input type="checkbox" name="4_obra_input[]" value="texto">Texto escrito</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Te valdría que el sistema le mande al albañil un audio (voz sintética) explicándole qué hacer, en vez de tener que llamarle?</label>
+      <div class="opts row">
+        <label class="opt"><input type="radio" name="4_tts" value="si">Sí, muy útil</label>
+        <label class="opt"><input type="radio" name="4_tts" value="quiza">Quizá, según cómo quede</label>
+        <label class="opt"><input type="radio" name="4_tts" value="no">No lo veo necesario</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿En qué dispositivo se usará más el sistema? <span class="req">*</span></label>
+      <div class="opts row">
+        <label class="opt"><input type="radio" name="4_dispositivo" value="movil">Sobre todo móvil</label>
+        <label class="opt"><input type="radio" name="4_dispositivo" value="ordenador">Sobre todo ordenador</label>
+        <label class="opt"><input type="radio" name="4_dispositivo" value="ipad">iPad / tablet</label>
+        <label class="opt"><input type="radio" name="4_dispositivo" value="mixto">Mezcla de todos</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 5 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">5</div><h2>Roles y accesos</h2></div>
+    <p class="block-desc">Quién ve qué. Aquí es donde un sistema a medida marca la diferencia frente a herramientas de catálogo.</p>
+    <div class="q"><label class="qlabel">¿Quién entrará al sistema desde FUERA de vuestra empresa? (marca todos) <span class="req">*</span></label>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="5_externos[]" value="proveedores">Proveedores de material</label>
+        <label class="opt"><input type="checkbox" name="5_externos[]" value="subcontratas">Subcontratas (fontaneros, electricistas, carpinteros...)</label>
+        <label class="opt"><input type="checkbox" name="5_externos[]" value="clientes">Clientes finales (propietarios de la reforma/obra)</label>
+        <label class="opt"><input type="checkbox" name="5_externos[]" value="ninguno">De momento nadie externo, solo equipo interno</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Qué debe poder HACER un proveedor/subcontrata dentro del sistema?</label>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="5_prov_acciones[]" value="ver">Ver solo la información de su(s) obra(s)</label>
+        <label class="opt"><input type="checkbox" name="5_prov_acciones[]" value="subir_pedido">Registrar pedidos / confirmar disponibilidad</label>
+        <label class="opt"><input type="checkbox" name="5_prov_acciones[]" value="precios">Indicar sus precios (coste)</label>
+        <label class="opt"><input type="checkbox" name="5_prov_acciones[]" value="docs">Subir documentos (albaranes, fichas técnicas)</label>
+        <label class="opt"><input type="checkbox" name="5_prov_acciones[]" value="comentar">Comentar / dar feedback de una decisión</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">Sobre los PRECIOS: confirma cómo quieres la visibilidad <span class="req">*</span></label><div class="hint">Esto es clave. Lo planteamos en 3 niveles.</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="5_precios" value="tres_niveles">Proveedor ve su coste · yo veo coste+margen · cliente ve solo precio de venta</label>
+        <label class="opt"><input type="radio" name="5_precios" value="otro">Lo quiero distinto (lo explico abajo)</label>
+        <label class="opt"><input type="radio" name="5_precios" value="no_precios">De momento no quiero gestionar precios en el sistema</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Hay información que el cliente NUNCA debe ver?</label><textarea name="5_cliente_no_ve" placeholder="Ej: lo que cobra cada proveedor, los márgenes, notas internas del equipo..."></textarea></div>
+    <div class="q"><label class="qlabel">¿Necesitáis registro de quién hizo o decidió cada cosa (trazabilidad)?</label>
+      <div class="opts row">
+        <label class="opt"><input type="radio" name="5_trazabilidad" value="si">Sí, importante</label>
+        <label class="opt"><input type="radio" name="5_trazabilidad" value="util">Útil pero no crítico</label>
+        <label class="opt"><input type="radio" name="5_trazabilidad" value="no">No hace falta</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 6 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">6</div><h2>Estructura de la documentación</h2></div>
+    <p class="block-desc">Cómo organizáis (o queréis organizar) las carpetas y los expedientes por obra.</p>
+    <div class="q"><label class="qlabel">¿Cómo organizáis HOY las carpetas? <span class="req">*</span></label><textarea name="6_estructura_actual" required placeholder="Describe tal cual lo tenéis: por cliente, por tipo (captación/estudio/obra), por años, en Drive + servidor propio..."></textarea></div>
+    <div class="q"><label class="qlabel">Pensando en cómo te gustaría que se organizara, ¿cuál prefieres?</label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="6_jerarquia" value="cliente_primero">Por CLIENTE y dentro sus actividades (captación, estudio, obra)</label>
+        <label class="opt"><input type="radio" name="6_jerarquia" value="actividad_primero">Por ACTIVIDAD y dentro los clientes</label>
+        <label class="opt"><input type="radio" name="6_jerarquia" value="no_se">No lo tengo claro, asesoradme</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Qué subcarpetas/secciones debería tener SIEMPRE cada obra?</label><div class="hint">Para que todas las obras tengan la misma estructura estándar.</div><textarea name="6_subcarpetas" placeholder="Ej: datos del cliente, protección de datos, presupuesto, planos, visado/BIM, fotos de avance, pedidos, decisiones, actas..."></textarea></div>
+    <div class="q"><label class="qlabel">¿Cómo nombráis las obras/proyectos actualmente?</label><div class="hint">¿Hay un código? ¿Es nombre del cliente + dirección? ¿Cada uno lo hace a su manera?</div><textarea name="6_codificacion" placeholder="Ej: nombre cliente + dirección (Pepe Doctor Olóriz). No tenemos código formal..."></textarea></div>
+    <div class="q"><label class="qlabel">¿Os parece bien que el sistema asigne un CÓDIGO ÚNICO automático a cada obra desde la captación?</label>
+      <div class="opts row">
+        <label class="opt"><input type="radio" name="6_codigo_auto" value="si">Sí, perfecto</label>
+        <label class="opt"><input type="radio" name="6_codigo_auto" value="con_nombre">Sí, pero que incluya nombre/dirección legible</label>
+        <label class="opt"><input type="radio" name="6_codigo_auto" value="no">Preferimos mantener el nuestro</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 7 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">7</div><h2>Las fases de vuestro trabajo</h2></div>
+    <p class="block-desc">Desde que el cliente entra por la puerta hasta que termina la obra.</p>
+    <div class="q"><label class="qlabel">Describe brevemente las fases por las que pasa un cliente/proyecto <span class="req">*</span></label><div class="hint">Ej: captación → estudio/proyecto → licencia → obra → entrega. Con tus palabras.</div><textarea name="7_fases" required placeholder="Cuéntanoslo como lo vivís vosotros"></textarea></div>
+    <div class="q"><label class="qlabel">En la CAPTACIÓN, ¿qué se genera/recopila siempre?</label><textarea name="7_captacion" placeholder="Ej: protección de datos, DNI del cliente, factura de reserva, necesidades del cliente, presupuesto de honorarios..."></textarea></div>
+    <div class="q"><label class="qlabel">¿Un proyecto siempre acaba en obra, o muchos se quedan solo en estudio/informe?</label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="7_proyecto_obra" value="mayoria_obra">La mayoría acaba en obra</label>
+        <label class="opt"><input type="radio" name="7_proyecto_obra" value="mitad">Más o menos la mitad</label>
+        <label class="opt"><input type="radio" name="7_proyecto_obra" value="muchos_no">Muchos se quedan en estudio/informe sin obra</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Hay diferencias grandes entre gestionar una REFORMA y una OBRA NUEVA?</label><textarea name="7_reforma_vs_nueva" placeholder="Ej: las reformas son menos secuenciales, muchas decisiones diarias..."></textarea></div>
+  </div>
+
+  <!-- BLOQUE 8 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">8</div><h2>Herramientas y datos actuales</h2></div>
+    <p class="block-desc">Para conectar el sistema con lo que ya usáis y migrar lo necesario.</p>
+    <div class="q"><label class="qlabel">¿Qué herramientas usáis hoy? (marca todas)</label>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="8_tools[]" value="drive">Google Drive</label>
+        <label class="opt"><input type="checkbox" name="8_tools[]" value="servidor">Servidor propio interno</label>
+        <label class="opt"><input type="checkbox" name="8_tools[]" value="bim">Software BIM</label>
+        <label class="opt"><input type="checkbox" name="8_tools[]" value="cype">CYPE / Arquímedes / Presto</label>
+        <label class="opt"><input type="checkbox" name="8_tools[]" value="nubes">Nubes de puntos (escaneado 3D)</label>
+        <label class="opt"><input type="checkbox" name="8_tools[]" value="erp">Algún ERP / software de gestión</label>
+        <label class="opt"><input type="checkbox" name="8_tools[]" value="contabilidad">Programa de contabilidad/facturación</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">Detalla los programas concretos que usáis</label><div class="hint">Nombres exactos nos ayudan a ver si tienen API/conexión.</div><textarea name="8_tools_detalle" placeholder="Ej: BIM con Revit, servidor NAS interno, contabilidad con..."></textarea></div>
+    <div class="q"><label class="qlabel">¿Dónde está el archivo histórico y cuánta antigüedad tiene?</label><textarea name="8_historico" placeholder="Ej: Drive para lo reciente (2 años), servidor propio desde 2006..."></textarea></div>
+    <div class="q"><label class="qlabel">¿Hace falta conservar acceso a lo antiguo, o solo arrancar limpio con lo nuevo?</label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="8_migracion" value="mapear">Conservar y enlazar lo antiguo (mapearlo)</label>
+        <label class="opt"><input type="radio" name="8_migracion" value="limpio">Arrancar limpio, lo antiguo se queda donde está</label>
+        <label class="opt"><input type="radio" name="8_migracion" value="mixto">Solo enlazar lo importante</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 9 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">9</div><h2>Prioridades y expectativas</h2></div>
+    <p class="block-desc">Para enfocar el desarrollo en lo que más valor os da primero.</p>
+    <div class="q"><label class="qlabel">Si tuvieras que elegir, ¿qué es MÁS importante para vosotros? <span class="req">*</span></label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="9_prioridad" value="comunicacion">Acabar con el caos de comunicación (canal único)</label>
+        <label class="opt"><input type="radio" name="9_prioridad" value="documentacion">Tener la documentación ordenada por obra</label>
+        <label class="opt"><input type="radio" name="9_prioridad" value="externos">Dar acceso a proveedores/clientes</label>
+        <label class="opt"><input type="radio" name="9_prioridad" value="todo">Las tres por igual</label>
+      </div>
+    </div>
+    <div class="q"><label class="qlabel">¿Cómo medirás que el sistema ha funcionado? <span class="req">*</span></label><div class="hint">¿Qué tendría que pasar para que digas "esto me ha cambiado la vida"?</div><textarea name="9_exito" required placeholder="Ej: que no me llamen para preguntar lo que ya está escrito, que pueda irme un día sin que se pare todo..."></textarea></div>
+    <div class="q"><label class="qlabel">¿Hay algún plazo o fecha objetivo?</label><input type="text" name="9_plazo" placeholder="Ej: nos gustaría tenerlo para septiembre"></div>
+    <div class="q"><label class="qlabel">¿Tenéis miedo a algo del proyecto?</label><div class="hint">Sinceridad: nos ayuda a anticiparnos.</div><textarea name="9_miedos" placeholder="Ej: que la gente de obra no lo use, que sea complicado, que cueste mantenerlo..."></textarea></div>
+  </div>
+
+  <!-- BLOQUE 10 -->
+  <div class="block">
+    <div class="block-head"><div class="block-num">10</div><h2>Lo que no te hemos preguntado</h2></div>
+    <p class="block-desc">Espacio libre. Cualquier cosa que creas que debemos saber.</p>
+    <div class="q"><label class="qlabel">¿Algo más que quieras contarnos?</label><textarea name="10_libre" placeholder="Cualquier idea, manía, requisito, ejemplo o detalle que se te ocurra. Cuanto más, mejor." style="min-height:120px"></textarea></div>
+  </div>
+
+  <div class="submit-box">
+    <button type="submit">Enviar cuestionario →</button>
+    <p class="foot">Al enviar, recibiremos tus respuestas y empezaremos el desarrollo sobre una buena base</p>
+  </div>
+
+</div>
+</form>
+
+
+
+</body>
+</html>
