@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding ATAJIUM — Jarquil</title>
+<style>
+  :root{
+    --navy:#1A3A5C;
+    --orange:#E87722;
+    --bg:#f4f6f8;
+    --card:#ffffff;
+    --border:#dce3ea;
+    --txt:#2b3a47;
+    --muted:#6b7884;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);
+    color:var(--txt);line-height:1.55;padding:0 0 60px;
+  }
+  header{
+    background:var(--navy);color:#fff;padding:32px 24px;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px;}
+  header h1{margin:0 0 6px;font-size:24px;letter-spacing:.3px;}
+  header p{margin:0;color:#c7d4e0;font-size:14px;}
+  .intro{
+    background:var(--card);border:1px solid var(--border);
+    border-left:4px solid var(--orange);border-radius:6px;
+    padding:18px 20px;margin:26px 0;font-size:14.5px;
+  }
+  .intro strong{color:var(--navy);}
+  section{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:8px;padding:22px 24px;margin-bottom:20px;
+  }
+  .sec-head{display:flex;align-items:center;gap:12px;margin:0 0 4px;}
+  .num{
+    background:var(--orange);color:#fff;font-weight:bold;
+    width:30px;height:30px;border-radius:50%;display:flex;
+    align-items:center;justify-content:center;flex:0 0 30px;font-size:15px;
+  }
+  .sec-head h2{margin:0;font-size:18px;color:var(--navy);}
+  .sec-desc{font-size:13.5px;color:var(--muted);margin:6px 0 18px;}
+  label.field{display:block;margin-bottom:18px;}
+  label.field > span{
+    display:block;font-weight:bold;font-size:14px;color:var(--navy);
+    margin-bottom:6px;
+  }
+  .hint{font-weight:normal;color:var(--muted);font-size:12.5px;display:block;margin-top:2px;}
+  input[type=text],input[type=email],textarea,select{
+    width:100%;padding:10px 12px;border:1px solid var(--border);
+    border-radius:6px;font-size:14px;font-family:inherit;background:#fff;color:var(--txt);
+  }
+  textarea{min-height:90px;resize:vertical;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange);}
+  .check{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px;}
+  .check input{margin-top:3px;flex:0 0 auto;}
+  .file-note{
+    border:1px dashed var(--border);border-radius:6px;padding:12px 14px;
+    font-size:13px;color:var(--muted);background:#fafbfc;
+  }
+  .pill{
+    display:inline-block;background:#eef3f8;color:var(--navy);
+    border:1px solid var(--border);border-radius:20px;padding:3px 11px;
+    font-size:12.5px;margin:3px 4px 3px 0;
+  }
+  .submit-bar{text-align:center;margin-top:30px;}
+  button{
+    background:var(--orange);color:#fff;border:none;border-radius:6px;
+    padding:14px 38px;font-size:15px;font-weight:bold;cursor:pointer;
+    font-family:inherit;letter-spacing:.3px;
+  }
+  button:hover{background:#d56a18;}
+  footer{text-align:center;font-size:12px;color:var(--muted);margin-top:30px;}
+  .req{color:var(--orange);}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Onboarding ATAJIUM · Jarquil</h1>
+    <p>Información necesaria para adaptar la plataforma a vuestro proceso de licitación</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="intro">
+    El objetivo de este formulario es recoger todo lo necesario para configurar ATAJIUM <strong>a vuestra forma de trabajar</strong> antes de empezar las pruebas. Cuanto más detallada y concreta sea la información, menos correcciones haremos después. Los campos marcados con <span class="req">*</span> son los críticos para arrancar; el resto ayuda a afinar.
+  </div>
+
+  <form action="https://formspree.io/f/xqenkjpv" method="POST">
+
+    <!-- 1. CONTACTO Y ENVÍO -->
+    <section>
+      <div class="sec-head"><div class="num">1</div><h2>Contacto y cuenta de envío</h2></div>
+      <p class="sec-desc">Quién es el responsable del proyecto y desde qué correo saldrán las peticiones de oferta.</p>
+
+      <label class="field">
+        <span>Persona de referencia del proyecto <span class="req">*</span></span>
+        <input type="text" name="contacto_nombre" placeholder="Nombre y apellidos">
+      </label>
+
+      <label class="field">
+        <span>Email de contacto <span class="req">*</span></span>
+        <input type="email" name="contacto_email" placeholder="nombre@jarquil.com">
+      </label>
+
+      <label class="field">
+        <span>Correo emisor de las solicitudes <span class="req">*</span>
+          <span class="hint">Desde esta cuenta verán los proveedores que llega la petición de oferta. Indicad el correo que queréis que aparezca como remitente.</span>
+        </span>
+        <input type="email" name="correo_emisor" placeholder="compras@jarquil.com">
+      </label>
+
+      <label class="field">
+        <span>Asunto del email de solicitud
+          <span class="hint">Texto que queréis que lleve el asunto. Podéis usar variables como [PROYECTO].</span>
+        </span>
+        <input type="text" name="email_asunto" placeholder="Solicitud de oferta — [PROYECTO]">
+      </label>
+
+      <label class="field">
+        <span>Texto de cabecera del email
+          <span class="hint">Aparece antes del listado de partidas.</span>
+        </span>
+        <textarea name="email_cabecera" placeholder="Estimado proveedor, les solicitamos oferta para las siguientes partidas..."></textarea>
+      </label>
+
+      <label class="field">
+        <span>Texto de despedida del email
+          <span class="hint">Aparece después del listado (firma, plazos, condiciones...).</span>
+        </span>
+        <textarea name="email_despedida" placeholder="Rogamos respuesta antes del... Un saludo, ..."></textarea>
+      </label>
+    </section>
+
+    <!-- 2. PROCESO A-Z -->
+    <section>
+      <div class="sec-head"><div class="num">2</div><h2>Vuestro proceso de trabajo (A→Z)</h2></div>
+      <p class="sec-desc">Lo más importante del onboarding. Explicad, como si se lo contarais a alguien que empieza de cero, qué hace una persona desde que recibe un presupuesto hasta que adjudica. Esto es lo que la IA tiene que aprender a replicar.</p>
+
+      <label class="field">
+        <span>Documento de proceso escrito <span class="req">*</span>
+          <span class="hint">Lo ideal es adjuntarlo por email aparte (Word/PDF). Aquí podéis resumir o pegar los pasos clave.</span>
+        </span>
+        <textarea name="proceso_az" style="min-height:140px" placeholder="1. Recibimos el presupuesto en formato... &#10;2. Lo primero que hace el técnico es... &#10;3. Para clasificar mira... &#10;4. Pide precio a... &#10;5. Compara..."></textarea>
+      </label>
+
+      <div class="file-note">
+        📎 <strong>Adjuntar por email:</strong> documento de proceso A→Z detallado, indicando en qué se basa la persona para tomar cada decisión (sobre todo la de clasificar y agrupar).
+      </div>
+    </section>
+
+    <!-- 3. PDFs DE EJEMPLO -->
+    <section>
+      <div class="sec-head"><div class="num">3</div><h2>Presupuestos de ejemplo</h2></div>
+      <p class="sec-desc">Necesitamos ejemplos reales y variados de lo que subís de normal, para que el parseo se adapte a vuestros formatos.</p>
+
+      <div class="check"><input type="checkbox" name="ejemplos[]" value="obra_publica"> <span>Presupuesto de <strong>obra pública</strong> (con partidas marcadas)</span></div>
+      <div class="check"><input type="checkbox" name="ejemplos[]" value="obra_privada"> <span>Presupuesto de <strong>obra privada</strong> (epígrafe único, descompuesto entero)</span></div>
+      <div class="check"><input type="checkbox" name="ejemplos[]" value="pdf_normal"> <span>PDF generado (Presto / Arquímedes)</span></div>
+      <div class="check"><input type="checkbox" name="ejemplos[]" value="pdf_escaneo"> <span>PDF escaneado / imagen (los que vienen como fotos)</span></div>
+      <div class="check"><input type="checkbox" name="ejemplos[]" value="bc3"> <span>Archivo BC3</span></div>
+      <div class="check"><input type="checkbox" name="ejemplos[]" value="csv_excel"> <span>CSV / Excel</span></div>
+
+      <label class="field" style="margin-top:16px;">
+        <span>¿En qué formato subís habitualmente?
+          <span class="hint">Para priorizar. Si nunca subís PDF y siempre CSV, decídnoslo.</span>
+        </span>
+        <input type="text" name="formato_habitual" placeholder="Ej: principalmente PDF de Presto, a veces escaneos de la administración">
+      </label>
+
+      <div class="file-note">
+        📎 <strong>Adjuntar por email:</strong> 3–5 presupuestos reales que representen vuestros casos típicos (incluyendo alguno "raro" o escaneado).
+      </div>
+    </section>
+
+    <!-- 4. PRODUCTOS Y CLASIFICACION -->
+    <section>
+      <div class="sec-head"><div class="num">4</div><h2>Productos, familias y clasificación</h2></div>
+      <p class="sec-desc">Vosotros trabajáis a nivel de <strong>producto</strong>, no de partida. Necesitamos entender cómo descomponéis y clasificáis para que la IA preclasifique sola.</p>
+
+      <label class="field">
+        <span>¿Cómo convertís una partida en producto(s)? <span class="req">*</span>
+          <span class="hint">Explicad la regla. Ej: "partida única → 1 producto; partida con descompuesto → un producto por cada unitario".</span>
+        </span>
+        <textarea name="regla_producto" placeholder="Describid cómo pasáis de partida a producto, y qué hacéis con el descompuesto..."></textarea>
+      </label>
+
+      <label class="field">
+        <span>Listado de <strong>familias</strong> de producto <span class="req">*</span>
+          <span class="hint">Las categorías con las que clasificáis los productos (hormigón, acero, albañilería, ladrillos, carpintería...).</span>
+        </span>
+        <textarea name="familias" placeholder="Hormigón&#10;Acero&#10;Albañilería&#10;Carpintería&#10;Movimiento de tierras&#10;..."></textarea>
+      </label>
+
+      <label class="field">
+        <span>Listado de <strong>gremios</strong> (clasificación de proveedores)
+          <span class="hint">Tenéis doble estructura en el ERP: gremios para proveedores + familias para productos. Indicad los gremios.</span>
+        </span>
+        <textarea name="gremios" placeholder="Estructuras&#10;Albañilería&#10;Instalaciones&#10;Cerrajería&#10;..."></textarea>
+      </label>
+
+      <label class="field">
+        <span>Diccionario de palabras clave por familia <span class="req">*</span>
+          <span class="hint">Lo más crítico para que la IA acierte. Para cada familia, las palabras que SIEMPRE aparecen en el texto de ese producto. Ej: Albañilería → "fábrica, ladrillo, lucido, enfoscado". Cuanto más concreto, mejor.</span>
+        </span>
+        <textarea name="diccionario_keywords" style="min-height:130px" placeholder="Hormigón → hormigón, HA-25, HM-20, encofrado&#10;Acero → acero, B-500, ferralla, armadura&#10;Albañilería → fábrica, ladrillo, lucido, enfoscado&#10;..."></textarea>
+      </label>
+
+      <label class="field">
+        <span>¿Un mismo producto aparece en varios capítulos/partidas y pedís precio global?
+          <span class="hint">Ej: el mismo hormigón o la misma ventana en varias partidas, y solicitáis precio de todo junto. Confirmad y poned un ejemplo.</span>
+        </span>
+        <textarea name="producto_multipartida" placeholder="Sí. Por ejemplo, la ventana tipo X aparece en el capítulo 3 y en el 7, y pedimos precio de todas juntas pero imputando el gasto a cada partida..."></textarea>
+      </label>
+    </section>
+
+    <!-- 5. PROVEEDORES -->
+    <section>
+      <div class="sec-head"><div class="num">5</div><h2>Base de proveedores</h2></div>
+      <p class="sec-desc">Para volcar vuestra cartera y poder filtrar por familia/gremio al pedir ofertas.</p>
+
+      <label class="field">
+        <span>¿Cómo tenéis hoy los proveedores?
+          <span class="hint">Excel, ERP, base de datos... y aproximadamente cuántos.</span>
+        </span>
+        <input type="text" name="proveedores_origen" placeholder="Ej: Excel exportado del ERP, ~17.000 históricos">
+      </label>
+
+      <div class="file-note" style="margin-bottom:16px;">
+        📎 <strong>Adjuntar por email:</strong> Excel de proveedores. Importante: <strong>una columna por familia/gremio</strong> (multivalor bien separado, no "hormigón, ladrillo" en una sola celda). Incluid email y teléfono de contacto.
+      </div>
+
+      <div class="check"><input type="checkbox" name="prov_features[]" value="multigrupo"> <span>Queremos poder seleccionar <strong>varios grupos a la vez</strong> al pedir oferta</span></div>
+      <div class="check"><input type="checkbox" name="prov_features[]" value="suelto_add"> <span>Queremos <strong>añadir proveedores sueltos</strong> sobre un grupo</span></div>
+      <div class="check"><input type="checkbox" name="prov_features[]" value="suelto_quitar"> <span>Queremos <strong>quitar proveedores</strong> de un grupo puntualmente</span></div>
+      <div class="check"><input type="checkbox" name="prov_features[]" value="scoring"> <span>Queremos puntuar/scoring de proveedores (precio y fiabilidad)</span></div>
+    </section>
+
+    <!-- 6. OFERTAS Y COMPARATIVO -->
+    <section>
+      <div class="sec-head"><div class="num">6</div><h2>Respuesta de proveedores y comparativo</h2></div>
+      <p class="sec-desc">Para entender los casos reales de cómo os responden y poder cuadrar el comparativo.</p>
+
+      <label class="field">
+        <span>¿Cómo os suelen responder los proveedores?</span>
+        <textarea name="respuesta_proveedores" placeholder="Unos rellenan el formulario, otros mandan Excel de su ERP, otros una foto/PDF del presupuesto en papel..."></textarea>
+      </label>
+
+      <label class="field">
+        <span>Caso de <strong>líneas fusionadas</strong>
+          <span class="hint">Cuando pedís N líneas y el proveedor responde agrupándolas en 1 (ej. 20 ascensores → "1 ud. instalación"). Poned un ejemplo real.</span>
+        </span>
+        <textarea name="lineas_fusionadas" placeholder="Ej: pedimos 20 líneas de instalación de ascensor y el proveedor pasa 1 sola línea 'instalación completa'. Necesitamos relacionar ambas para comparar importe total..."></textarea>
+      </label>
+
+      <div class="check"><input type="checkbox" name="oferta_extras[]" value="transporte"> <span>Suelen añadir/quitar <strong>transporte</strong></span></div>
+      <div class="check"><input type="checkbox" name="oferta_extras[]" value="paletizacion"> <span>Suelen añadir/quitar <strong>paletización</strong></span></div>
+      <div class="check"><input type="checkbox" name="oferta_extras[]" value="otros"> <span>Otros conceptos añadidos (indicar en el campo de arriba)</span></div>
+
+      <div class="file-note" style="margin-top:16px;">
+        📎 <strong>Adjuntar por email:</strong> 2–3 ofertas reales de proveedores (Excel/PDF), incluyendo alguna con líneas fusionadas y con transporte/paletización, para modelar el comparativo.
+      </div>
+    </section>
+
+    <!-- 7. ROLES -->
+    <section>
+      <div class="sec-head"><div class="num">7</div><h2>Usuarios y roles</h2></div>
+      <p class="sec-desc">Para crear la estructura de acceso de vuestra organización.</p>
+
+      <label class="field">
+        <span>¿Quién tendrá acceso y con qué rol?
+          <span class="hint">Administrador (todo), Miembro (acciones limitadas), Solo lectura (consultar sin tocar).</span>
+        </span>
+        <textarea name="roles" placeholder="Pedro — Administrador&#10;Equipo de estudio — Miembro&#10;Administración — Solo lectura&#10;..."></textarea>
+      </label>
+    </section>
+
+    <!-- 8. OBSERVACIONES -->
+    <section>
+      <div class="sec-head"><div class="num">8</div><h2>Observaciones y prioridades</h2></div>
+      <label class="field">
+        <span>Cualquier otra cosa que queráis que tengamos en cuenta</span>
+        <textarea name="observaciones" placeholder="Lo que sea: prioridades, plazos, particularidades del ERP, integraciones..."></textarea>
+      </label>
+    </section>
+
+    <div class="submit-bar">
+      <button type="submit">Enviar información de onboarding</button>
+    </div>
+
+  </form>
+
+  <footer>
+    ©S.A.® IAGUSTO. · Formulario de onboarding ATAJIUM
+  </footer>
+
+</div>
+</body>
+</html>
