@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Requisitos · Asistente IA Comercial · Adhesivos Orcajada</title>
+<meta property="og:title" content="Requisitos de arranque · Asistente IA Comercial">
+<meta property="og:description" content="Formulario de requisitos para iniciar el desarrollo del Asistente IA Comercial y Pedidos de Adhesivos Orcajada.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#f0f2f5;color:#1a2634;line-height:1.55;padding:24px 12px}
+.wrap{max-width:820px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.10)}
+.hd{background:linear-gradient(135deg,#0b1f3a,#14345c);padding:34px 32px;display:flex;align-items:center;gap:22px}
+.hd img{height:66px;width:auto}
+.hd .t h1{color:#fff;font-size:22px;font-weight:700;letter-spacing:.3px}
+.hd .t p{color:#9cc2ff;font-size:13px;margin-top:4px}
+.intro{padding:26px 32px 8px}
+.intro p{font-size:14.5px;color:#374a5e}
+.badge{display:inline-block;background:#e87722;color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.5px;margin-bottom:14px}
+form{padding:14px 32px 34px}
+.sec{margin-top:26px;border-left:4px solid #e87722;background:#f7f9fc;border-radius:0 10px 10px 0;padding:18px 22px}
+.sec.prio{border-left-color:#14345c;background:#eef4ff}
+.sec h2{font-size:16px;color:#0b1f3a;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.sec .sub{font-size:12.5px;color:#6b7c8f;margin-bottom:14px}
+.pill{background:#14345c;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:12px;letter-spacing:.5px}
+label{display:block;font-size:13.5px;font-weight:600;color:#243447;margin:14px 0 5px}
+label .opt{font-weight:400;color:#93a1b0;font-size:12px}
+input[type=text],input[type=email],input[type=number],textarea,select{width:100%;padding:11px 13px;border:1.5px solid #d4dde6;border-radius:8px;font-size:14px;font-family:inherit;background:#fff;transition:border .15s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#e87722}
+textarea{resize:vertical;min-height:74px}
+.chk{display:flex;align-items:flex-start;gap:9px;margin:8px 0;font-size:13.5px;font-weight:400;color:#33475b}
+.chk input{margin-top:3px;width:16px;height:16px;accent-color:#e87722;flex-shrink:0}
+.chk label{margin:0;font-weight:400}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hint{font-size:12px;color:#8a99a8;margin-top:3px}
+.btn{margin-top:30px;width:100%;background:#e87722;color:#fff;border:none;padding:16px;font-size:16px;font-weight:700;border-radius:10px;cursor:pointer;letter-spacing:.4px;transition:background .15s}
+.btn:hover{background:#cf6614}
+.ft{background:#0b1f3a;color:#8fa8c9;text-align:center;padding:20px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:10px}
+.ft img{height:30px;opacity:.9}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}.hd{flex-direction:column;text-align:center}.hd img{height:56px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd">
+    <img src="data:image/png;base64,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" alt="Kolmai">
+    <div class="t">
+      <h1>Requisitos de arranque del proyecto</h1>
+      <p>Asistente IA Comercial y Pedidos · Adhesivos Orcajada · Ref. JFC-AO-COMERCIAL</p>
+    </div>
+  </div>
+
+  <div class="intro">
+    <span class="badge">EQUIPO COMERCIAL</span>
+    <p>Para poner en marcha el asistente necesitamos que el equipo nos facilite la siguiente información. La <strong>Herramienta 1 (triaje de correo)</strong> es la prioritaria, así que ese bloque es el más detallado. Rellenad lo que sepáis; lo que quede en blanco lo cerramos en la sesión de análisis.</p>
+  </div>
+
+  <form action="https://formspree.io/f/xqenkjpv" method="POST">
+
+    <div class="sec">
+      <h2>Datos de contacto</h2>
+      <div class="sub">Quién rellena y a quién escribimos.</div>
+      <div class="grid2">
+        <div><label>Nombre y apellidos</label><input type="text" name="nombre" required></div>
+        <div><label>Rol en el equipo</label><input type="text" name="rol" placeholder="Comercial, mecanizadora, presupuestos…" required></div>
+      </div>
+      <div class="grid2">
+        <div><label>Email</label><input type="email" name="_replyto" required></div>
+        <div><label>Teléfono <span class="opt">(opcional)</span></label><input type="text" name="telefono"></div>
+      </div>
+    </div>
+
+    <div class="sec prio">
+      <h2>Herramienta 1 — Triaje de correo <span class="pill">PRIORITARIA</span></h2>
+      <div class="sub">Es la que más carga libera. Necesitamos acceso, reglas y ejemplos reales.</div>
+
+      <label>Buzones de correo a leer</label>
+      <input type="text" name="buzones" placeholder="pedidos@... , presupuestos@... , comercial@...">
+      <div class="hint">Direcciones exactas de los buzones de pedidos y presupuestos.</div>
+
+      <label>¿Sobre qué gestor de correo trabajáis?</label>
+      <select name="gestor_correo">
+        <option value="">Selecciona…</option>
+        <option>Outlook / Microsoft 365</option>
+        <option>Exchange on-premise</option>
+        <option>Google Workspace (Gmail)</option>
+        <option>Otro</option>
+      </select>
+
+      <label>Volumen aproximado de correos al día</label>
+      <input type="number" name="volumen_correos" placeholder="p.ej. 60">
+
+      <label>¿Qué campos técnicos debe tener una solicitud para considerarse "completa"?</label>
+      <div class="chk"><input type="checkbox" id="c1" name="campos" value="Tamaño"><label for="c1">Tamaño</label></div>
+      <div class="chk"><input type="checkbox" id="c2" name="campos" value="Formato"><label for="c2">Formato</label></div>
+      <div class="chk"><input type="checkbox" id="c3" name="campos" value="Diseño"><label for="c3">Diseño / arte final</label></div>
+      <div class="chk"><input type="checkbox" id="c4" name="campos" value="Barniz"><label for="c4">Barniz / acabado</label></div>
+      <div class="chk"><input type="checkbox" id="c5" name="campos" value="Cantidad"><label for="c5">Cantidad</label></div>
+      <div class="chk"><input type="checkbox" id="c6" name="campos" value="Material"><label for="c6">Material</label></div>
+      <div class="chk"><input type="checkbox" id="c7" name="campos" value="Manipulado"><label for="c7">Manipulado</label></div>
+      <label style="margin-top:8px">Otros campos obligatorios <span class="opt">(los que falten arriba)</span></label>
+      <input type="text" name="campos_otros">
+
+      <label>¿Quiénes son las personas del equipo a las que se asignan los correos?</label>
+      <input type="text" name="equipo_asignacion" placeholder="Lorena, Consuelo, …">
+      <div class="hint">Nombres del equipo de mecanización para la asignación automática.</div>
+
+      <label>Reglas de asignación actuales</label>
+      <textarea name="reglas_asignacion" placeholder="Ej.: cliente X siempre a Lorena; por carga de trabajo; por zona; especialización por tipo de etiqueta…"></textarea>
+
+      <label>Clientes ya normalizados en el flujo Outlook → Sistrade existente</label>
+      <textarea name="clientes_normalizados" placeholder="Lista de clientes que ya entran automáticos hoy."></textarea>
+
+      <label>¿Podéis enviarnos 5–10 correos reales de ejemplo?</label>
+      <select name="ejemplos_correo">
+        <option value="">Selecciona…</option>
+        <option>Sí, los adjuntaremos por email</option>
+        <option>Sí, pero necesitamos anonimizarlos antes</option>
+        <option>Aún no</option>
+      </select>
+      <div class="hint">Casos variados: uno completo, uno incompleto, un hilo largo. Vitales para calibrar el triaje.</div>
+
+      <label>Tono / plantilla para las respuestas automáticas al cliente</label>
+      <textarea name="tono_respuesta" placeholder="¿Cómo os dirigís al cliente cuando pedís datos que faltan? Pegad un ejemplo de correo tipo si lo tenéis."></textarea>
+    </div>
+
+    <div class="sec">
+      <h2>ERP Sistrade e IT</h2>
+      <div class="sub">Necesario para leer datos y no romper lo que ya funciona.</div>
+      <label>¿Existe API / acceso técnico a Sistrade?</label>
+      <select name="api_sistrade">
+        <option value="">Selecciona…</option>
+        <option>Sí, hay API documentada</option>
+        <option>Sí, pero sin documentación clara</option>
+        <option>No lo sabemos (preguntar a IT)</option>
+        <option>No</option>
+      </select>
+      <label>Contacto de IT / integrador responsable del flujo Outlook → Sistrade actual</label>
+      <input type="text" name="contacto_it" placeholder="Nombre + email/teléfono">
+      <label>¿Qué hace exactamente la automatización que ya tenéis hoy?</label>
+      <textarea name="automatizacion_actual" placeholder="Describid el flujo Outlook → Sistrade existente para no duplicarlo."></textarea>
+    </div>
+
+    <div class="sec">
+      <h2>Herramientas 2, 3 y 4 <span class="opt" style="font-weight:400;font-size:12px">(fases posteriores)</span></h2>
+      <div class="sub">Rellenar solo si lo tenéis a mano; se afinará más adelante.</div>
+      <label>H2 · Comerciales en calle que usarían la captura por audio</label>
+      <input type="text" name="comerciales" placeholder="Nº de comerciales y si usan móvil corporativo / Telegram">
+      <label>H3 · Reglas de decisión técnica de presupuesto</label>
+      <textarea name="reglas_presupuesto" placeholder="Ej.: digital si cantidad pequeña; offset si metros > 900… ¿dónde están las tarifas de material vigentes?"></textarea>
+      <label>H4 · Cómo se gestiona hoy el utillaje / troqueles y la compra a proveedor</label>
+      <textarea name="oef_utillaje" placeholder="Catálogo de troqueles, control de existencias en Sistrade, proveedor habitual y plazos."></textarea>
+    </div>
+
+    <div class="sec">
+      <h2>Observaciones</h2>
+      <label>Cualquier cosa importante que debamos saber</label>
+      <textarea name="observaciones"></textarea>
+    </div>
+
+    <button type="submit" class="btn">Enviar requisitos</button>
+  </form>
+
+  <div class="ft">
+    <img src="data:image/png;base64,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" alt="Kolmai">
+    <span>Kolmai · Consultoría de IA · José Fonta Consulting S.L.</span>
+  </div>
+</div>
+</body>
+</html>
