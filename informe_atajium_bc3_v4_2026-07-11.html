@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATAJIUM · Motor BC3 y guía de uso</title>
+<style>
+  :root {
+    --ground:#faf8f6; --surface:#ffffff; --surface-2:#f5f0ec; --border:#ece4de;
+    --ink:#2a221e; --muted:#7c6f67; --accent:#e0623a; --accent-strong:#c44a26;
+    --good:#2f9e6b; --good-bg:#e7f5ee; --warn:#b47714; --warn-bg:#fbf0d9;
+    --info-bg:#f3ede9;
+    --shadow:0 1px 2px rgba(42,34,30,.04), 0 8px 28px rgba(42,34,30,.06);
+    --mono:ui-monospace,"SF Mono","Cascadia Mono","Roboto Mono",Menlo,Consolas,monospace;
+    --sans:ui-sans-serif,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ground:#17130f; --surface:#201a15; --surface-2:#271f19; --border:#362c24;
+      --ink:#f1eae3; --muted:#a99c92; --accent:#ec7a54; --accent-strong:#f08d6b;
+      --good:#4bc78c; --good-bg:#14372a; --warn:#e0a83a; --warn-bg:#3a2e12;
+      --info-bg:#241d17;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  html,body{margin:0;padding:0;background:var(--ground);}
+  *{box-sizing:border-box;}
+  .wrap{font-family:var(--sans);color:var(--ink);background:var(--ground);line-height:1.6;
+    -webkit-font-smoothing:antialiased;padding:clamp(20px,5vw,56px) 20px 72px;min-height:100vh;}
+  .page{max-width:900px;margin:0 auto;}
+
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-strong);font-weight:600;margin:0 0 10px;}
+  h1{font-size:clamp(27px,4.6vw,40px);line-height:1.08;margin:0;letter-spacing:-.02em;text-wrap:balance;font-weight:700;}
+  .lede{color:var(--muted);font-size:15.5px;margin:14px 0 0;max-width:64ch;}
+  p{margin:0 0 12px;}
+  .prose{font-size:14.5px;max-width:68ch;}
+  .prose b{font-weight:600;}
+
+  header.masthead{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;
+    padding-bottom:22px;border-bottom:2px solid var(--accent);flex-wrap:wrap;}
+  .verdict{display:inline-flex;align-items:center;gap:9px;background:var(--good-bg);color:var(--good);
+    border:1px solid color-mix(in srgb,var(--good) 30%,transparent);padding:9px 15px;border-radius:999px;
+    font-weight:700;font-size:14px;white-space:nowrap;}
+  .verdict .dot{width:9px;height:9px;border-radius:50%;background:var(--good);}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0 8px;}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 16px;box-shadow:var(--shadow);}
+  .kpi .num{font-family:var(--mono);font-size:clamp(22px,3.4vw,30px);font-weight:600;letter-spacing:-.01em;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .kpi .num .u{font-size:.55em;color:var(--muted);font-weight:500;margin-left:2px;}
+  .kpi .cap{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.35;}
+
+  section{margin-top:44px;}
+  h2{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;
+    margin:0 0 18px;display:flex;align-items:center;gap:12px;}
+  h2 .n{font-family:var(--mono);color:var(--accent);font-size:12px;}
+  h2::after{content:"";flex:1;height:1px;background:var(--border);}
+
+  /* pipeline */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:6px;}
+  .step{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:16px;box-shadow:var(--shadow);position:relative;}
+  .step .k{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600;}
+  .step h4{margin:6px 0 5px;font-size:14px;font-weight:700;}
+  .step p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.45;}
+
+  /* table */
+  .tablecard{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;}
+  .scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px;}
+  thead th{text-align:right;font-weight:600;color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    padding:13px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);white-space:nowrap;}
+  thead th:first-child{text-align:left;}
+  tbody td{padding:11px 16px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);white-space:nowrap;}
+  tbody td:first-child{text-align:left;font-family:var(--sans);font-weight:500;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent);}
+  .kind{display:block;font-family:var(--sans);font-weight:400;font-size:11.5px;color:var(--muted);margin-top:1px;}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;}
+  .pill.ok{background:var(--good-bg);color:var(--good);}
+  .pill.warn{background:var(--warn-bg);color:var(--warn);}
+  .dim{color:var(--muted);}
+  tfoot td{padding:12px 16px;font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-weight:600;background:var(--surface-2);border-top:2px solid var(--border);}
+  tfoot td:first-child{text-align:left;font-family:var(--sans);text-transform:uppercase;font-size:11px;letter-spacing:.08em;color:var(--muted);}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);}
+  .card h3{margin:0 0 12px;font-size:15px;font-weight:700;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-size:12.5px;padding:5px 11px;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);color:var(--ink);}
+  .chip.prog{border-color:color-mix(in srgb,var(--accent) 40%,var(--border));}
+  .progs{list-style:none;margin:0;padding:0;}
+  .progs li{display:flex;gap:10px;padding:7px 0;border-bottom:1px dashed var(--border);font-size:13.5px;}
+  .progs li:last-child{border-bottom:none;}
+  .progs .tick{color:var(--good);flex:none;}
+
+  /* usage steps */
+  .guide{display:flex;flex-direction:column;gap:12px;}
+  .g-step{display:grid;grid-template-columns:auto 1fr;gap:16px;background:var(--surface);border:1px solid var(--border);
+    border-radius:13px;padding:16px 18px;box-shadow:var(--shadow);}
+  .g-step .idx{font-family:var(--mono);font-weight:700;font-size:15px;color:#fff;background:var(--accent);
+    width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .g-step h4{margin:2px 0 4px;font-size:15px;font-weight:700;}
+  .g-step p{margin:0;font-size:13.5px;color:var(--muted);}
+  .g-step code{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);border:1px solid var(--border);
+    padding:1px 6px;border-radius:6px;color:var(--ink);}
+
+  .feat{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+  .f{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;box-shadow:var(--shadow);}
+  .f h5{margin:0 0 5px;font-size:13.5px;font-weight:700;}
+  .f p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.45;}
+
+  .callout{background:var(--info-bg);border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:0 12px 12px 0;padding:16px 18px;font-size:13.5px;}
+  .callout b{font-weight:600;}
+
+  .notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .notes li{display:flex;gap:12px;font-size:13.5px;color:var(--ink);background:var(--surface);border:1px solid var(--border);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 15px;}
+  .notes li .lbl{font-weight:600;}
+  .notes li.good{border-left-color:var(--good);}
+
+  .wrap a{color:var(--accent-strong);text-decoration-color:color-mix(in srgb,var(--accent) 40%,transparent);text-underline-offset:2px;}
+  .access{display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap;
+    background:color-mix(in srgb,var(--accent) 8%,var(--surface));
+    border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border));
+    border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);margin:30px 0 0;}
+  .access .txt h3{margin:0 0 5px;font-size:18px;font-weight:700;}
+  .access .txt p{margin:0;font-size:13px;color:var(--muted);}
+  .cred{display:flex;flex-direction:column;gap:6px;margin-top:13px;font-size:13px;}
+  .cred .row{display:flex;gap:10px;align-items:baseline;}
+  .cred .lab{color:var(--muted);width:80px;flex:none;font-size:12px;text-transform:uppercase;letter-spacing:.05em;}
+  .cred code{font-family:var(--mono);background:var(--surface-2);border:1px solid var(--border);padding:2px 8px;border-radius:6px;color:var(--ink);font-size:12.5px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;text-decoration:none;
+    font-weight:700;font-size:15px;padding:14px 24px;border-radius:12px;white-space:nowrap;
+    box-shadow:0 4px 16px color-mix(in srgb,var(--accent) 40%,transparent);}
+  .btn:hover{background:var(--accent-strong);}
+  .shout{margin:16px 0 0;font-weight:800;color:var(--accent-strong);font-size:15.5px;text-wrap:balance;line-height:1.35;}
+  footer.foot{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+
+  @media (max-width:640px){
+    .kpis{grid-template-columns:repeat(2,1fr);}
+    .cols,.feat,.flow{grid-template-columns:1fr;}
+    header.masthead{flex-direction:column;}
+  }
+  @media print{
+    :root{--shadow:none;}
+    html,body,.wrap{background:#fff;}
+    .wrap{padding:0;}
+    .kpi,.card,.tablecard,.notes li,.g-step,.step,.f,.callout{break-inside:avoid;}
+    section{break-inside:avoid;}
+    tbody tr:hover td{background:transparent;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page">
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">ATAJIUM · Licitación digital de presupuestos de obra</p>
+        <h1>Motor de lectura BC3 — estado y guía de uso</h1>
+        <p class="lede">Estado de validación de la entrada de presupuestos en formato FIEBDC‑3 (.bc3) y cómo se opera ATAJIUM de principio a fin desde el nuevo frontend.</p>
+      </div>
+      <span class="verdict"><span class="dot"></span>Validado · en producción</span>
+    </header>
+
+    <section style="margin-top:32px">
+      <div class="prose">
+        <p><b>Qué es ATAJIUM.</b> Convierte un presupuesto de obra en una <b>licitación digital</b>: lee la estructura del presupuesto (capítulos y partidas), pide precios en masa a una red de proveedores y compara las respuestas con un ranking ponderado por precio y fiabilidad, partida a partida.</p>
+        <p><b>Por qué importa la lectura BC3.</b> El BC3 (FIEBDC‑3) es el formato estándar de intercambio de presupuestos entre programas de medición (Presto, CYPE Arquímedes, ARPO…). Leerlo de forma <b>determinista</b> —reconstruyendo el árbol real y cuadrando importes contra el propio fichero, sin estimaciones ni IA— es lo que garantiza que los números de partida son exactos antes de sacarlos a licitación.</p>
+      </div>
+    </section>
+
+    <div class="access">
+      <div class="txt">
+        <h3>Pruébalo tú mismo</h3>
+        <p>Acceso de demostración a ATAJIUM — entra y trastea con datos reales.</p>
+        <div class="cred">
+          <div class="row"><span class="lab">Enlace</span><a href="https://atajium-pro.vercel.app/" target="_blank" rel="noopener">https://atajium-pro.vercel.app/</a></div>
+          <div class="row"><span class="lab">Usuario</span><code>demo@atajium.app</code></div>
+          <div class="row"><span class="lab">Contraseña</span><code>parajoseycesar2026</code></div>
+        </div>
+      </div>
+      <a class="btn" href="https://atajium-pro.vercel.app/" target="_blank" rel="noopener">Abrir ATAJIUM ↗</a>
+    </div>
+    <p class="shout">¡JOSE, DEJA DE PEGARTE EL FESTIVAL Y PONTE A PROBARLO!!! 🚀</p>
+
+    <div class="kpis">
+      <div class="kpi"><div class="num">20</div><div class="cap">Ficheros BC3 procesados · 100% completados</div></div>
+      <div class="kpi"><div class="num">0</div><div class="cap">Errores de procesamiento</div></div>
+      <div class="kpi"><div class="num">0,05<span class="u">€</span></div><div class="cap">Desviación máxima (sobre 5,3 M€) · redondeo</div></div>
+      <div class="kpi"><div class="num">49k–5,3M<span class="u">€</span></div><div class="cap">Rango de importes validado</div></div>
+    </div>
+
+    <section>
+      <h2><span class="n">01</span> Cómo funciona la lectura BC3</h2>
+      <div class="flow">
+        <div class="step"><div class="k">ENTRADA</div><h4>Se sube el .bc3</h4><p>Desde el proyecto, junto a la vía de PDF. Se identifica automáticamente el formato FIEBDC‑3.</p></div>
+        <div class="step"><div class="k">PARSEO</div><h4>Lectura determinista</h4><p>Un parser dedicado recorre el fichero y reconstruye la jerarquía real capítulo → subcapítulo → partida.</p></div>
+        <div class="step"><div class="k">VERIFICACIÓN</div><h4>Cuadre de totales</h4><p>El importe se recalcula desde el árbol y se contrasta con el total declarado del fichero. Se marca si requiere revisión.</p></div>
+        <div class="step"><div class="k">VOLCADO</div><h4>Guardado y trazado</h4><p>Se persiste el presupuesto y queda registrado su formato y vía de proceso para trazabilidad.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="n">02</span> Presupuestos validados</h2>
+      <div class="tablecard">
+        <div class="scroll">
+          <table>
+            <thead>
+              <tr><th>Presupuesto</th><th>Importe</th><th>Cap.</th><th>Part.</th><th>Dif.</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>RUZAFA<span class="kind">Edificación · validación e2e</span></td><td>5.325.860,55&nbsp;€</td><td>136</td><td>1.296</td><td class="dim">−0,05</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>OAC<span class="kind">Obra pública</span></td><td>1.948.718,34&nbsp;€</td><td>47</td><td>364</td><td class="dim">−0,01</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>MBV · Remodelación M406<span class="kind">Urbanización</span></td><td>1.611.745,54&nbsp;€</td><td>47</td><td>210</td><td class="dim">0,00</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>MBV · Conexión viaria<span class="kind">Obra civil</span></td><td>1.199.018,61&nbsp;€</td><td>35</td><td>133</td><td class="dim">0,00</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>Proyecto obras RCVEB<span class="kind">Obra pública supervisada</span></td><td>500.980,19&nbsp;€</td><td>9</td><td>80</td><td class="dim">0,00</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>Juzgados Alcalá de Henares<span class="kind">Edificación</span></td><td>444.588,79&nbsp;€</td><td>33</td><td>148</td><td class="dim">0,00</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>CEP‑EA · Fase 2<span class="kind">Edificación</span></td><td>440.149,70&nbsp;€</td><td>50</td><td>211</td><td class="dim">0,00</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>018‑12 / ARPO obra pública<span class="kind">Obra pública · export ARPO (mismo presupuesto)</span></td><td>434.687,42&nbsp;€</td><td>9</td><td>198</td><td class="dim">0,00</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>Proyecto Postas<span class="kind">Obra pública</span></td><td>426.562,44&nbsp;€</td><td>12</td><td>95</td><td class="dim">0,00</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>Nave industrial<span class="kind">Industrial · export CYPE Arquímedes</span></td><td>399.327,89&nbsp;€</td><td>16</td><td>81</td><td class="dim">−0,01</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>PTE Charcuela‑Torremocha<span class="kind">Puente / obra civil</span></td><td>335.925,71&nbsp;€</td><td>22</td><td>113</td><td class="dim">−0,01</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>Parque Poeta Vicente Martín<span class="kind">Urbanización / zonas verdes</span></td><td>308.044,84&nbsp;€</td><td>14</td><td>169</td><td class="dim">−0,04</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>Rv2 · Piscina<span class="kind">Edificación / instalaciones</span></td><td>277.915,26&nbsp;€</td><td>39</td><td>75</td><td class="dim">−0,02</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>Puerta del Sol · accesos<span class="kind">Remodelación urbana</span></td><td>212.877,13&nbsp;€</td><td>47</td><td>263</td><td class="dim">−0,01</td><td><span class="pill ok">Cuadra</span></td></tr>
+              <tr><td>vua1<span class="kind">Urbanización</span></td><td>170.216,84&nbsp;€</td><td>67</td><td>209</td><td class="dim">0,00</td><td><span class="pill warn">1 aviso</span></td></tr>
+              <tr><td>MBV · Seguridad y Salud<span class="kind">Estudio de S&amp;S</span></td><td>49.098,63&nbsp;€</td><td>6</td><td>76</td><td class="dim">0,00</td><td><span class="pill ok">Cuadra</span></td></tr>
+            </tbody>
+            <tfoot>
+              <tr><td>16 presupuestos únicos</td><td colspan="5">Todos cuadran · desviación por redondeo ≤ 0,05&nbsp;€</td></tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="n">03</span> Cobertura de la validación</h2>
+      <div class="cols">
+        <div class="card">
+          <h3>Tipologías de obra</h3>
+          <div class="chips">
+            <span class="chip">Obra pública</span><span class="chip">Obra civil</span><span class="chip">Edificación</span>
+            <span class="chip">Urbanización</span><span class="chip">Naves industriales</span><span class="chip">Puentes</span>
+            <span class="chip">Piscina</span><span class="chip">Zonas verdes</span><span class="chip">Seguridad y Salud</span>
+          </div>
+          <p style="font-size:12.5px;color:var(--muted);margin:14px 0 0">De 6 a 136 capítulos y hasta 1.296 partidas por presupuesto.</p>
+        </div>
+        <div class="card">
+          <h3>Programas de origen validados</h3>
+          <div class="chips">
+            <span class="chip prog">Presto</span><span class="chip prog">CYPE Arquímedes</span>
+            <span class="chip prog">ARPO</span><span class="chip prog">Predimensionador</span>
+          </div>
+          <ul class="progs" style="margin-top:14px">
+            <li><span class="tick">✓</span><span>Distintos emisores, mismo resultado exacto: el método no depende del programa que generó el BC3.</span></li>
+            <li><span class="tick">✓</span><span>Reconstrucción íntegra del árbol, sin estimación ni IA en el cuadre de importes.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="n">04</span> Cómo usar ATAJIUM</h2>
+      <div class="guide">
+        <div class="g-step"><div class="idx">1</div><div><h4>Entrar</h4><p>Acceso web en <a href="https://atajium-pro.vercel.app/" target="_blank" rel="noopener"><code>atajium-pro.vercel.app</code></a> con usuario y contraseña. El <b>Panel</b> muestra de un vistazo el estado de tus proyectos.</p></div></div>
+        <div class="g-step"><div class="idx">2</div><div><h4>Crear proyecto y subir el presupuesto</h4><p>Desde <b>Proyectos</b>, creas uno y subes el presupuesto en <b>PDF</b> o <b>BC3</b>. ATAJIUM lo estructura solo en capítulos y partidas y cuadra los totales.</p></div></div>
+        <div class="g-step"><div class="idx">3</div><div><h4>Revisar la estructura</h4><p>Compruebas capítulos, partidas, mediciones y precios. Puedes bajar al detalle de <b>descompuestos</b> (mano de obra, maquinaria, material) por partida.</p></div></div>
+        <div class="g-step"><div class="idx">4</div><div><h4>Preparar la cartera de proveedores</h4><p>En <b>Proveedores</b> das de alta tu red (manual o importando Excel), con tipos de trabajo, nota cualitativa y un <b>scoring de fiabilidad</b>. Puedes agruparlos por especialidad.</p></div></div>
+        <div class="g-step"><div class="idx">5</div><div><h4>Pedir ofertas en masa</h4><p>Seleccionas partidas sueltas, bloques o capítulos enteros y solicitas oferta de golpe a los proveedores que elijas o a los filtrados por tipo de trabajo.</p></div></div>
+        <div class="g-step"><div class="idx">6</div><div><h4>Seguir las respuestas</h4><p>El <b>Dashboard de Ofertas</b> muestra, por proyecto, cuántas partidas hay, cuántas se han solicitado y cuántas han respondido, con el % del presupuesto cubierto.</p></div></div>
+        <div class="g-step"><div class="idx">7</div><div><h4>Decidir con el Baremador</h4><p>Por cada partida ves el <b>Top 3</b> de ofertas con precio, desviación sobre el precio base, score y fiabilidad. Un <b>deslizador precio ↔ fiabilidad</b> reordena el ranking en tiempo real según lo que priorices.</p></div></div>
+      </div>
+
+      <div class="feat">
+        <div class="f"><h5>Organización y Usuarios</h5><p>Gestión de tu equipo y permisos dentro de tu organización, aislada del resto.</p></div>
+        <div class="f"><h5>Consumo IA</h5><p>Control del uso de IA por organización para tener el gasto siempre a la vista.</p></div>
+        <div class="f"><h5>DB Chat</h5><p>Consulta en lenguaje natural sobre tus propios datos, sin escribir SQL.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="n">05</span> Notas</h2>
+      <ul class="notes">
+        <li class="good"><span><span class="lbl">Trazabilidad.</span> Cada BC3 queda registrado en la base de datos con su formato (FIEBDC‑3) y vía de proceso; las nuevas cargas lo etiquetan automáticamente.</span></li>
+        <li class="good"><span><span class="lbl">Cuadre exacto.</span> El importe extraído coincide con el total del propio fichero en todos los presupuestos, con desviación máxima por redondeo de 5 céntimos.</span></li>
+      </ul>
+    </section>
+
+    <footer class="foot">
+      <span>ATAJIUM · Motor de lectura BC3 y guía de uso</span>
+      <span>Datos en producción · 11 jul 2026</span>
+    </footer>
+
+  </div>
+</div>
+</body>
+</html>
