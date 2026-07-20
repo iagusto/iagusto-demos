@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEEIC · Recogida de requisitos · iAgusto.app</title>
+  <meta name="description" content="Formulario para definir la aplicación de control de programas y cursos del CEEIC. Cuéntanos cómo trabajáis y construimos vuestra app.">
+  <meta name="theme-color" content="#1A3A5C">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CEEIC · Definamos vuestra app de programas">
+  <meta property="og:description" content="Formulario de requisitos para la aplicación de control de programas y cursos del CEEIC.">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="iAgusto.app">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#1A3A5C; --navy-dark:#0f2338; --navy-light:#2a5080;
+      --orange:#E87722; --orange-light:#F4955A; --orange-pale:#FEF0E6;
+      --gray:#f4f6f9; --border:#e2e8f0; --text:#1f2937; --muted:#64748b;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--gray);line-height:1.6}
+    .wrap{max-width:820px;margin:0 auto;padding:0 20px 80px}
+
+    /* HEADER */
+    header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;padding:0}
+    .header-top{max-width:820px;margin:0 auto;padding:22px 20px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:44px;height:44px;border-radius:11px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display';font-size:24px;color:#fff;font-weight:700}
+    .brand-name{font-family:'DM Serif Display';font-size:20px;letter-spacing:.3px}
+    .brand-name span{color:var(--orange-light)}
+    .header-badge{font-size:12px;background:rgba(255,255,255,.12);padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.18)}
+    .hero{max-width:820px;margin:0 auto;padding:28px 20px 54px}
+    .hero .eyebrow{color:var(--orange-light);font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+    .hero h1{font-family:'DM Serif Display';font-size:38px;line-height:1.15;margin-bottom:14px}
+    .hero p{font-size:16px;color:#c7d3e0;max-width:620px}
+
+    /* CARD SECTIONS */
+    .section{background:#fff;border-radius:16px;box-shadow:0 4px 18px rgba(15,35,56,.06);margin-top:-32px;overflow:hidden}
+    .section + .section{margin-top:26px}
+    .section-head{background:var(--navy);color:#fff;padding:16px 26px;display:flex;align-items:center;gap:14px}
+    .section-num{min-width:34px;height:34px;border-radius:9px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'DM Serif Display';font-size:18px}
+    .section-head h2{font-size:18px;font-weight:600}
+    .section-body{padding:24px 26px 30px}
+    .helper{background:var(--orange-pale);border-left:4px solid var(--orange);padding:12px 16px;border-radius:8px;font-size:14px;color:#7a4a1e;margin-bottom:22px}
+
+    .field{margin-bottom:22px}
+    .field:last-child{margin-bottom:0}
+    label{display:block;font-weight:600;font-size:15px;margin-bottom:7px}
+    label .req{color:var(--orange);margin-left:3px}
+    .hint{font-size:13px;color:var(--muted);margin:-3px 0 9px}
+    input[type=text],input[type=email],textarea,select{
+      width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;
+      font-family:'DM Sans';font-size:15px;color:var(--text);background:#fff;transition:.15s}
+    input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-pale)}
+    textarea{resize:vertical;min-height:90px}
+
+    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{position:relative}
+    .chip input{position:absolute;opacity:0;pointer-events:none}
+    .chip label{cursor:pointer;display:inline-block;padding:9px 15px;border:1.5px solid var(--border);border-radius:30px;font-size:14px;font-weight:500;margin:0;transition:.15s;background:#fff}
+    .chip input:checked + label{background:var(--navy);color:#fff;border-color:var(--navy)}
+    .chip input:focus + label{box-shadow:0 0 0 3px var(--orange-pale)}
+
+    .add-row{margin-top:12px}
+    .add-row input{margin-bottom:0}
+    .note{font-size:13px;color:var(--muted);margin-top:8px;font-style:italic}
+
+    /* SUBMIT */
+    .submit-bar{margin-top:30px;text-align:center}
+    button[type=submit]{
+      background:var(--orange);color:#fff;border:none;font-family:'DM Sans';font-weight:700;
+      font-size:17px;padding:16px 46px;border-radius:12px;cursor:pointer;transition:.15s;
+      box-shadow:0 6px 18px rgba(232,119,34,.35)}
+    button[type=submit]:hover{background:#d46a1a;transform:translateY(-1px)}
+    .submit-note{font-size:13px;color:var(--muted);margin-top:14px}
+
+    /* FOOTER */
+    footer{text-align:center;padding:34px 20px;color:var(--muted);font-size:13px}
+    footer .fbrand{font-family:'DM Serif Display';color:var(--navy);font-size:15px}
+    footer .fbrand span{color:var(--orange)}
+
+    @media(max-width:600px){
+      .hero h1{font-size:28px}
+      .section-body{padding:20px 18px 24px}
+      .header-badge{display:none}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div class="brand">
+        <div class="brand-logo">iA</div>
+        <div class="brand-name">iAgusto<span>.app</span></div>
+      </div>
+      <div class="header-badge">Recogida de requisitos · CEEIC</div>
+    </div>
+    <div class="hero">
+      <div class="eyebrow">App de control de programas y cursos</div>
+      <h1>Definamos vuestra aplicación</h1>
+      <p>Con lo que hablamos en la reunión ya tengo el esqueleto claro. Para construir el prototipo antes de agosto necesito que cerréis unas cuantas listas y detalles. Rellenad lo que sepáis; lo que no, lo dejáis en blanco y lo vemos.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <form action="https://formspree.io/f/xqenkjpv" method="POST">
+      <input type="hidden" name="_subject" value="CEEIC · Requisitos app de programas">
+
+      <!-- 0. CONTACTO -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">0</div><h2>Quién rellena esto</h2></div>
+        <div class="section-body">
+          <div class="field">
+            <label>Nombre y cargo<span class="req">*</span></label>
+            <input type="text" name="Persona que rellena" required placeholder="Ej. Carlos Hurtado — Jefe de proyectos">
+          </div>
+          <div class="field">
+            <label>Email de contacto<span class="req">*</span></label>
+            <input type="email" name="Email contacto" required placeholder="nombre@ceeic.com">
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. DEPARTAMENTOS -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">1</div><h2>Departamentos</h2></div>
+        <div class="section-body">
+          <div class="helper">Comentasteis que en el CEEIC hay <strong>2 grandes departamentos</strong>, cada uno con sus programas. Necesito los nombres exactos para asignar cada programa a su departamento y filtrar métricas.</div>
+          <div class="field">
+            <label>Nombre de los departamentos<span class="req">*</span></label>
+            <div class="hint">Uno por línea. Añadid todos los que apliquen, no solo los 2 grandes si hay más.</div>
+            <textarea name="Departamentos" placeholder="Ej.&#10;Innovación Abierta&#10;Transformación Digital"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. SECTORES -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">2</div><h2>Sectores</h2></div>
+        <div class="section-body">
+          <div class="helper">Estos aparecerán como selección múltiple tanto en el registro del programa como en los formularios de inscripción. Marcad los que uséis y añadid los que falten.</div>
+          <div class="field">
+            <label>Sectores habituales</label>
+            <div class="chips">
+              <div class="chip"><input type="checkbox" id="s1" name="Sectores" value="Turismo"><label for="s1">Turismo</label></div>
+              <div class="chip"><input type="checkbox" id="s2" name="Sectores" value="Biotecnología"><label for="s2">Biotecnología</label></div>
+              <div class="chip"><input type="checkbox" id="s3" name="Sectores" value="Defensa"><label for="s3">Defensa</label></div>
+              <div class="chip"><input type="checkbox" id="s4" name="Sectores" value="Salud"><label for="s4">Salud</label></div>
+              <div class="chip"><input type="checkbox" id="s5" name="Sectores" value="Industria"><label for="s5">Industria</label></div>
+              <div class="chip"><input type="checkbox" id="s6" name="Sectores" value="Agroalimentario"><label for="s6">Agroalimentario</label></div>
+              <div class="chip"><input type="checkbox" id="s7" name="Sectores" value="Energía"><label for="s7">Energía</label></div>
+              <div class="chip"><input type="checkbox" id="s8" name="Sectores" value="TIC/Digital"><label for="s8">TIC / Digital</label></div>
+            </div>
+          </div>
+          <div class="field add-row">
+            <label>Otros sectores que uséis</label>
+            <div class="hint">Uno por línea.</div>
+            <textarea name="Otros sectores" placeholder="Ej.&#10;Logística&#10;Economía azul"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. PERFIL PARTICIPANTE -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">3</div><h2>Tipo de perfil del participante</h2></div>
+        <div class="section-body">
+          <div class="helper">Lo que la persona elige al inscribirse: qué tipo de proyecto/entidad es. Marcad los que uséis y añadid los que falten.</div>
+          <div class="field">
+            <div class="chips">
+              <div class="chip"><input type="checkbox" id="p1" name="Perfiles" value="Emprendedor"><label for="p1">Emprendedor</label></div>
+              <div class="chip"><input type="checkbox" id="p2" name="Perfiles" value="EBT (Empresa Base Tecnológica)"><label for="p2">EBT</label></div>
+              <div class="chip"><input type="checkbox" id="p3" name="Perfiles" value="Startup"><label for="p3">Startup</label></div>
+              <div class="chip"><input type="checkbox" id="p4" name="Perfiles" value="Pyme"><label for="p4">Pyme</label></div>
+              <div class="chip"><input type="checkbox" id="p5" name="Perfiles" value="Gran empresa"><label for="p5">Gran empresa</label></div>
+              <div class="chip"><input type="checkbox" id="p6" name="Perfiles" value="Estudiante"><label for="p6">Estudiante</label></div>
+            </div>
+          </div>
+          <div class="field add-row">
+            <label>Otros perfiles</label>
+            <div class="hint">Uno por línea.</div>
+            <textarea name="Otros perfiles" placeholder="Ej.&#10;Investigador&#10;Autónomo"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. TIPOS DE EVENTO -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">4</div><h2>Tipos de evento / actividad</h2></div>
+        <div class="section-body">
+          <div class="helper">Las actividades que componen un programa. Se contarán como métrica (ej. "5 sesiones de formación + 1 demo day"). Marcad y añadid.</div>
+          <div class="field">
+            <div class="chips">
+              <div class="chip"><input type="checkbox" id="e1" name="Tipos de evento" value="Sesión de formación / training"><label for="e1">Sesión de formación</label></div>
+              <div class="chip"><input type="checkbox" id="e2" name="Tipos de evento" value="Webinar"><label for="e2">Webinar</label></div>
+              <div class="chip"><input type="checkbox" id="e3" name="Tipos de evento" value="Taller"><label for="e3">Taller</label></div>
+              <div class="chip"><input type="checkbox" id="e4" name="Tipos de evento" value="Consultoría / mentoría"><label for="e4">Consultoría / mentoría</label></div>
+              <div class="chip"><input type="checkbox" id="e5" name="Tipos de evento" value="Investor Day"><label for="e5">Investor Day</label></div>
+              <div class="chip"><input type="checkbox" id="e6" name="Tipos de evento" value="Demo Day"><label for="e6">Demo Day</label></div>
+              <div class="chip"><input type="checkbox" id="e7" name="Tipos de evento" value="Hackathon"><label for="e7">Hackathon</label></div>
+              <div class="chip"><input type="checkbox" id="e8" name="Tipos de evento" value="Jornada"><label for="e8">Jornada</label></div>
+            </div>
+          </div>
+          <div class="field add-row">
+            <label>Otros tipos de evento</label>
+            <div class="hint">Uno por línea.</div>
+            <textarea name="Otros tipos de evento" placeholder="Ej.&#10;Networking&#10;Bootcamp"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. METRICAS -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">5</div><h2>Métricas / KPIs por programa</h2></div>
+        <div class="section-body">
+          <div class="helper">Esta es la parte más importante para las memorias y justificaciones. Cada métrica tendrá un valor <strong>previsional</strong> (al crear el programa) y uno <strong>definitivo</strong> (al finalizarlo). Marcad las que medís hoy y añadid las que falten.</div>
+          <div class="field">
+            <div class="chips">
+              <div class="chip"><input type="checkbox" id="m1" name="Metricas" value="Nº proyectos aprobados"><label for="m1">Nº proyectos aprobados</label></div>
+              <div class="chip"><input type="checkbox" id="m2" name="Metricas" value="Nº emprendedores asesorados"><label for="m2">Nº emprendedores asesorados</label></div>
+              <div class="chip"><input type="checkbox" id="m3" name="Metricas" value="Nº asistentes"><label for="m3">Nº asistentes</label></div>
+              <div class="chip"><input type="checkbox" id="m4" name="Metricas" value="Nº inscritos"><label for="m4">Nº inscritos</label></div>
+              <div class="chip"><input type="checkbox" id="m5" name="Metricas" value="Nº jornadas"><label for="m5">Nº jornadas</label></div>
+              <div class="chip"><input type="checkbox" id="m6" name="Metricas" value="Nº talleres"><label for="m6">Nº talleres</label></div>
+              <div class="chip"><input type="checkbox" id="m7" name="Metricas" value="Nº horas"><label for="m7">Nº horas</label></div>
+              <div class="chip"><input type="checkbox" id="m8" name="Metricas" value="Nº empresas participantes"><label for="m8">Nº empresas participantes</label></div>
+              <div class="chip"><input type="checkbox" id="m9" name="Metricas" value="Proyectos aprobados por sector"><label for="m9">Proyectos por sector</label></div>
+            </div>
+          </div>
+          <div class="field add-row">
+            <label>Otras métricas que os piden en memorias/justificaciones</label>
+            <div class="hint">Una por línea. Si alguna se calcula automáticamente (ej. tasa de asistencia = asistentes/inscritos), indicadlo.</div>
+            <textarea name="Otras metricas" placeholder="Ej.&#10;Nº de mujeres participantes&#10;Financiación captada por las startups (€)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. FORMULARIO INSCRIPCION -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">6</div><h2>Campos del formulario de inscripción</h2></div>
+        <div class="section-body">
+          <div class="helper">Los datos que pedís hoy a quien se inscribe (vuestro Google Form actual). Estos son los que luego se cruzan con la asistencia. Cuantos más, mejor CRM.</div>
+          <div class="field">
+            <label>Campos que pedís al inscribirse<span class="req">*</span></label>
+            <div class="hint">Uno por línea. Marcad con (*) los obligatorios si queréis.</div>
+            <textarea name="Campos inscripcion" placeholder="Ej.&#10;Nombre y apellidos *&#10;Email *&#10;Teléfono&#10;Empresa&#10;Cargo&#10;Perfil (emprendedor/startup/...)&#10;Sector&#10;¿Cómo nos conociste?"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. FICHEROS ASISTENCIA -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">7</div><h2>Ficheros de asistencia (para el cruce)</h2></div>
+        <div class="section-body">
+          <div class="helper">Para cruzar automáticamente inscritos ↔ asistentes necesito saber exactamente cómo llegan los datos de quién asistió de verdad.</div>
+          <div class="field">
+            <label>¿De dónde sacáis la asistencia? (webinars)</label>
+            <div class="chips">
+              <div class="chip"><input type="checkbox" id="a1" name="Fuente asistencia" value="Excel de Zoom"><label for="a1">Excel de Zoom</label></div>
+              <div class="chip"><input type="checkbox" id="a2" name="Fuente asistencia" value="Informe de Teams"><label for="a2">Informe de Teams</label></div>
+              <div class="chip"><input type="checkbox" id="a3" name="Fuente asistencia" value="Hoja de firmas presencial (escaneada)"><label for="a3">Hoja de firmas (escaneo)</label></div>
+            </div>
+          </div>
+          <div class="field">
+            <label>¿Qué columnas trae ese Excel/informe?</label>
+            <div class="hint">Importante: ¿viene solo el email, o también nombre? El cruce se hace por email.</div>
+            <textarea name="Columnas asistencia" placeholder="Ej. Zoom: Nombre, Email, Hora entrada, Hora salida, Duración (min)"></textarea>
+          </div>
+          <div class="field">
+            <label>La hoja de firmas escaneada, ¿cómo la pasáis a datos hoy?</label>
+            <div class="hint">¿La transcribís a mano a un Excel, o esperáis que la app lea el escaneo automáticamente (OCR)?</div>
+            <select name="Hoja firmas metodo">
+              <option value="">— Elegir —</option>
+              <option value="La transcribimos a mano a Excel">La pasamos a mano a un Excel</option>
+              <option value="Queremos que la app lea el escaneo (OCR)">Queremos que la app lea el escaneo (OCR)</option>
+              <option value="No usamos hojas de firmas">No usamos hojas de firmas</option>
+              <option value="No lo tenemos claro">No lo tenemos claro / lo vemos</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. EVIDENCIAS -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">8</div><h2>Tipos de evidencia a archivar</h2></div>
+        <div class="section-body">
+          <div class="helper">Archivos que adjuntáis a cada programa para justificar. Se guardan y clasifican (no se interpretan). Marcad y añadid.</div>
+          <div class="field">
+            <div class="chips">
+              <div class="chip"><input type="checkbox" id="v1" name="Evidencias" value="Hojas de firmas"><label for="v1">Hojas de firmas</label></div>
+              <div class="chip"><input type="checkbox" id="v2" name="Evidencias" value="Fotos"><label for="v2">Fotos</label></div>
+              <div class="chip"><input type="checkbox" id="v3" name="Evidencias" value="Grabaciones"><label for="v3">Grabaciones</label></div>
+              <div class="chip"><input type="checkbox" id="v4" name="Evidencias" value="Listados de inscritos"><label for="v4">Listados de inscritos</label></div>
+              <div class="chip"><input type="checkbox" id="v5" name="Evidencias" value="Publicaciones en prensa"><label for="v5">Prensa</label></div>
+              <div class="chip"><input type="checkbox" id="v6" name="Evidencias" value="Publicaciones en RRSS"><label for="v6">RRSS</label></div>
+              <div class="chip"><input type="checkbox" id="v7" name="Evidencias" value="Facturas de colaboradores"><label for="v7">Facturas</label></div>
+            </div>
+          </div>
+          <div class="field add-row">
+            <label>Otras evidencias</label>
+            <div class="hint">Una por línea.</div>
+            <textarea name="Otras evidencias" placeholder="Ej.&#10;Certificados de asistencia&#10;Convenios firmados"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. ROLES -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">9</div><h2>Usuarios y permisos</h2></div>
+        <div class="section-body">
+          <div class="helper">Quedasteis en consultarlo con dirección. Esta es la propuesta que hablamos: cada uno edita solo lo suyo, todos pueden consultar. Confirmad o ajustad.</div>
+          <div class="field">
+            <label>¿Os encaja este esquema de permisos?</label>
+            <select name="Roles confirmacion">
+              <option value="">— Elegir —</option>
+              <option value="Sí, tal cual: admin edita todo / cada técnico edita solo sus programas / resto solo lectura">Sí, tal cual (admin / técnico edita lo suyo / resto lectura)</option>
+              <option value="Casi, pero con matices (los detallo abajo)">Casi, con matices (los detallo abajo)</option>
+              <option value="No, lo queremos distinto (lo detallo abajo)">No, lo queremos distinto</option>
+              <option value="Aún lo estamos consultando con dirección">Aún lo consultamos con dirección</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Matices o comentarios sobre permisos</label>
+            <textarea name="Roles comentarios" placeholder="Ej. Cada departamento ve solo sus propios programas, no los del otro departamento."></textarea>
+          </div>
+          <div class="field">
+            <label>¿Cuántas personas usarán la app, aprox.?</label>
+            <input type="text" name="Numero usuarios" placeholder="Ej. 12 personas, 2 departamentos">
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. LIBRE -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">10</div><h2>Cualquier otra cosa</h2></div>
+        <div class="section-body">
+          <div class="field">
+            <label>Notas, dudas o algo que se me haya escapado</label>
+            <textarea name="Notas libres" placeholder="Todo lo que queráis añadir."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-bar">
+        <button type="submit">Enviar requisitos a César →</button>
+        <div class="submit-note">Al enviar, me llega todo directamente. Con esto arranco el prototipo.</div>
+      </div>
+
+    </form>
+  </div>
+
+  <footer>
+    <div class="fbrand">©S.A.® IAGUSTO<span>.</span></div>
+    <div style="margin-top:6px">App de control de programas y cursos · CEEIC</div>
+  </footer>
+
+</body>
+</html>
