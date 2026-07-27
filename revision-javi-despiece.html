@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisión despiece automático · SpinApp</title>
+<meta name="description" content="Cuestionario de criterios de delineación para la validación del despiece automático de planos.">
+<meta name="theme-color" content="#1A3A5C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Revisión despiece automático · SpinApp">
+<meta property="og:description" content="24 criterios de delineación a confirmar. Cada uno lleva ya un criterio provisional marcado.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="iAgusto.app">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A3A5C;
+  --navy-dark:#0f2338;
+  --navy-light:#2a5080;
+  --orange:#E87722;
+  --orange-light:#F4955A;
+  --orange-pale:#FEF0E6;
+  --grey:#f5f6f8;
+  --border:#e2e6ec;
+  --text:#22303f;
+  --muted:#66748a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'DM Sans',sans-serif;
+  color:var(--text);
+  background:var(--grey);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px 60px}
+
+/* HERO */
+header{
+  background:linear-gradient(160deg,var(--navy) 0%,var(--navy-dark) 100%);
+  color:#fff;padding:38px 0 34px;border-top:6px solid var(--orange);
+}
+header .wrap{padding-bottom:0}
+.brand{
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--orange-light);font-weight:700;margin-bottom:14px;
+}
+h1{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1.15;margin-bottom:10px}
+header p{color:#c9d6e6;font-size:1rem;max-width:620px}
+.dl{
+  display:inline-block;margin-top:22px;background:var(--orange);color:#fff;
+  text-decoration:none;font-weight:700;font-size:.95rem;
+  padding:13px 22px;border-radius:8px;
+}
+.dl small{display:block;font-weight:400;font-size:.75rem;opacity:.85;margin-top:2px}
+
+/* INTRO */
+.intro{
+  background:#fff;border-left:4px solid var(--orange);
+  padding:18px 20px;border-radius:0 10px 10px 0;margin:26px 0 30px;
+  font-size:.95rem;box-shadow:0 1px 3px rgba(26,58,92,.07);
+}
+.intro strong{color:var(--navy)}
+
+/* SECCIONES */
+h2{
+  font-family:'DM Serif Display',serif;color:var(--navy);
+  font-size:1.35rem;margin:38px 0 14px;padding-bottom:8px;
+  border-bottom:2px solid var(--border);
+}
+h2 .tag{
+  font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--orange);
+  vertical-align:middle;margin-left:8px;
+}
+
+/* PREGUNTAS */
+.q{
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:18px 20px;margin-bottom:14px;
+  box-shadow:0 1px 2px rgba(26,58,92,.05);
+}
+.q.crit{border-color:var(--orange);background:#fffdfa}
+.q-head{display:flex;align-items:flex-start;gap:11px;margin-bottom:8px}
+.num{
+  flex:0 0 auto;width:27px;height:27px;border-radius:50%;
+  background:var(--navy);color:#fff;font-size:.82rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.q.crit .num{background:var(--orange)}
+.q-head h3{font-size:1.02rem;color:var(--navy);font-weight:700;line-height:1.35}
+.q p.txt{font-size:.93rem;color:var(--muted);margin-bottom:12px}
+.q p.txt b{color:var(--text)}
+.prov{
+  display:inline-block;background:var(--orange-pale);color:#a34e0d;
+  font-size:.78rem;font-weight:500;padding:6px 11px;border-radius:6px;margin-bottom:12px;
+}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{
+  display:flex;align-items:flex-start;gap:10px;cursor:pointer;
+  border:1px solid var(--border);border-radius:8px;padding:10px 12px;
+  font-size:.93rem;transition:.15s;
+}
+.opt:hover{border-color:var(--navy-light);background:#fafbfd}
+.opt input{margin-top:4px;accent-color:var(--orange);flex:0 0 auto;width:16px;height:16px}
+.opt input:checked ~ span{font-weight:500}
+input[type=text],textarea{
+  width:100%;font-family:'DM Sans',sans-serif;font-size:.93rem;color:var(--text);
+  border:1px solid var(--border);border-radius:8px;padding:10px 12px;
+  margin-top:9px;background:#fff;
+}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--orange-light);border-color:transparent}
+textarea{min-height:70px;resize:vertical}
+label.small{display:block;font-size:.8rem;color:var(--muted);margin-top:12px;font-weight:500}
+
+/* IDENTIFICACIÓN */
+.ident{background:var(--navy);color:#fff;border-radius:12px;padding:20px;margin-bottom:8px}
+.ident h3{font-family:'DM Serif Display',serif;font-size:1.15rem;margin-bottom:12px}
+.ident input{margin-top:8px;border:none}
+.ident label{font-size:.82rem;color:#c9d6e6}
+
+/* SUBMIT */
+.submit{
+  width:100%;background:var(--orange);color:#fff;border:none;
+  font-family:'DM Sans',sans-serif;font-size:1.05rem;font-weight:700;
+  padding:17px;border-radius:10px;cursor:pointer;margin-top:26px;
+  transition:.15s;
+}
+.submit:hover{background:#cf6516}
+
+footer{
+  text-align:center;color:var(--muted);font-size:.78rem;
+  margin-top:34px;padding-top:20px;border-top:1px solid var(--border);
+}
+footer b{color:var(--navy);letter-spacing:.08em}
+
+@media(max-width:520px){
+  h1{font-size:1.6rem}
+  .q{padding:16px}
+  .wrap{padding:0 12px 40px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">SpinApp · Despiece automático</div>
+    <h1>Criterios de delineación<br>Revisión de Javi</h1>
+    <p>24 dudas juntas. Cada una lleva ya marcado el <b>criterio provisional</b> que estamos aplicando: solo tienes que cambiar lo que no te encaje y darle a enviar.</p>
+    <a class="dl" href="https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/revision_javi/PAQUETE_REVISION_JAVI.zip?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L3JldmlzaW9uX2phdmkvUEFRVUVURV9SRVZJU0lPTl9KQVZJLnppcCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODUxNjgzOTUsImV4cCI6MTc4NTc3MzE5NX0.5v5zZ4A8C3UvkdGQfDW29s_boobAZUHuNRsDmyhTkxU" target="_blank" rel="noopener">
+      📦 Descargar paquete de planos (DXF + PDF)
+      <small>3 conjuntos · el enlace caduca en 7 días</small>
+    </a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="intro">
+    <strong>Cómo funciona:</strong> mientras no contestes seguimos aplicando el criterio provisional, así no paramos el desarrollo. Las preguntas <strong>14, 19 y 24</strong> son las que necesitan que mires los planos y confirmes.
+  </div>
+
+  <form action="https://formspree.io/f/xqenkjpv" method="POST">
+    <input type="hidden" name="_subject" value="SpinApp · Revisión criterios despiece — respuesta de Javi">
+
+    <div class="ident">
+      <h3>Identificación</h3>
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="Nombre" value="Javi" required>
+      <label for="email" style="margin-top:10px;display:block">Email (para responderte)</label>
+      <input type="email" id="email" name="email" placeholder="tu@correo.com">
+    </div>
+
+    <!-- ============ GENERAL DEL PLANO ============ -->
+    <h2>General del plano</h2>
+
+    <div class="q">
+      <div class="q-head"><div class="num">1</div><h3>Símbolo de diámetro</h3></div>
+      <p class="txt">Usamos la <b>Ø</b> de siempre (abre bien en cualquier visor) en vez de la <b>⌀</b> normativa, que a veces sale como "?".</p>
+      <div class="prov">Provisional: Ø</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="01 Símbolo de diámetro" value="Ø de siempre (provisional)" checked><span>Vale la <b>Ø</b> de siempre</span></label>
+        <label class="opt"><input type="radio" name="01 Símbolo de diámetro" value="⌀ normativa"><span>Quiero la <b>⌀</b> normativa aunque falle en algún visor</span></label>
+      </div>
+      <input type="text" name="01 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">2</div><h3>Sistema de vistas</h3></div>
+      <p class="txt">¿1er diedro (europeo) siempre?</p>
+      <div class="prov">Provisional: 1er diedro</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="02 Sistema de vistas" value="1er diedro europeo (provisional)" checked><span>1er diedro (europeo) siempre</span></label>
+        <label class="opt"><input type="radio" name="02 Sistema de vistas" value="3er diedro americano"><span>3er diedro (americano)</span></label>
+        <label class="opt"><input type="radio" name="02 Sistema de vistas" value="Depende del cliente"><span>Depende del cliente (lo detallo abajo)</span></label>
+      </div>
+      <input type="text" name="02 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">3</div><h3>Acotación</h3></div>
+      <p class="txt">¿Medimos por cotas exteriores salvo que la interior sea la funcional?</p>
+      <div class="prov">Provisional: exteriores; las interiores entre paréntesis como referencia</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="03 Acotación" value="Exteriores, interiores entre paréntesis (provisional)" checked><span>Exteriores; interiores entre paréntesis como referencia</span></label>
+        <label class="opt"><input type="radio" name="03 Acotación" value="Solo exteriores"><span>Solo exteriores, sin referencias entre paréntesis</span></label>
+        <label class="opt"><input type="radio" name="03 Acotación" value="Otro criterio"><span>Otro criterio (lo detallo abajo)</span></label>
+      </div>
+      <input type="text" name="03 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">4</div><h3>Cotas de más</h3></div>
+      <p class="txt">¿Solo las funcionales, o todas entre paréntesis como referencia?</p>
+      <div class="prov">Provisional: solo las funcionales, el resto se quita</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="04 Cotas de más" value="Solo funcionales, el resto se quita (provisional)" checked><span>Solo las funcionales, el resto se quita</span></label>
+        <label class="opt"><input type="radio" name="04 Cotas de más" value="Todas, las no funcionales entre paréntesis"><span>Todas: las no funcionales entre paréntesis</span></label>
+      </div>
+      <input type="text" name="04 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">5</div><h3>Chaflanes / esquinas hacia dentro (vértice cóncavo)</h3></div>
+      <p class="txt">¿Los dejamos definidos solo por las cotas de lados, sin cota de ángulo?</p>
+      <div class="prov">Provisional: sin cota de ángulo ahí</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="05 Chaflanes cóncavos" value="Solo cotas de lados, sin ángulo (provisional)" checked><span>Solo cotas de lados, sin cota de ángulo</span></label>
+        <label class="opt"><input type="radio" name="05 Chaflanes cóncavos" value="Con cota de ángulo"><span>Sí quiero cota de ángulo</span></label>
+      </div>
+      <input type="text" name="05 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">6</div><h3>Escala del perfil / canto</h3></div>
+      <p class="txt">¿Puede ir a otra escala, o solo si no cabe legible a la general?</p>
+      <div class="prov">Provisional: otra escala solo si no cabe</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="06 Escala del perfil" value="Otra escala solo si no cabe legible (provisional)" checked><span>Otra escala solo si no cabe legible a la general</span></label>
+        <label class="opt"><input type="radio" name="06 Escala del perfil" value="Siempre puede ir a otra escala"><span>Puede ir a otra escala siempre que convenga</span></label>
+        <label class="opt"><input type="radio" name="06 Escala del perfil" value="Siempre a la escala general"><span>Siempre a la escala general</span></label>
+      </div>
+      <input type="text" name="06 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">7</div><h3>Piezas muy largas (perfiles)</h3></div>
+      <p class="txt">¿A partir de qué relación largo/ancho las partimos con vista partida?</p>
+      <div class="prov">Provisional: lo dejamos para la fase de láminas (aprox. a partir de 8:1)</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="07 Vista partida" value="Aplazar a fase de láminas, aprox 8:1 (provisional)" checked><span>Lo dejamos para la fase de láminas (aprox. 8:1)</span></label>
+        <label class="opt"><input type="radio" name="07 Vista partida" value="Relación concreta indicada abajo"><span>Quiero una relación concreta (la indico abajo)</span></label>
+      </div>
+      <input type="text" name="07 · relación largo/ancho" placeholder="Relación largo/ancho, p. ej. 6:1">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">8</div><h3>Notas de taller</h3></div>
+      <p class="txt">Rebabas, romper aristas, rugosidad, tratamientos… ¿cuáles por defecto?</p>
+      <div class="prov">Provisional: ninguna; no las inventamos, las pones tú</div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="08 Notas de taller" value="Ninguna por defecto (provisional)" checked><span>Ninguna por defecto</span></label>
+        <label class="opt"><input type="checkbox" name="08 Notas de taller" value="Eliminar rebabas"><span>Eliminar rebabas</span></label>
+        <label class="opt"><input type="checkbox" name="08 Notas de taller" value="Romper aristas vivas"><span>Romper aristas vivas</span></label>
+        <label class="opt"><input type="checkbox" name="08 Notas de taller" value="Rugosidad general"><span>Rugosidad general</span></label>
+        <label class="opt"><input type="checkbox" name="08 Notas de taller" value="Tratamiento superficial"><span>Tratamiento superficial</span></label>
+      </div>
+      <input type="text" name="08 · texto literal de las notas" placeholder="Texto literal que quieres que salga en el plano">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">9</div><h3>Tolerancia general del cajetín (tipo ISO 2768)</h3></div>
+      <p class="txt">¿Una de casa por defecto o por cliente?</p>
+      <div class="prov">Provisional: no ponemos tolerancia general todavía</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="09 Tolerancia general" value="Ninguna todavía (provisional)" checked><span>Ninguna todavía</span></label>
+        <label class="opt"><input type="radio" name="09 Tolerancia general" value="Una de casa por defecto"><span>Una de casa por defecto (la indico abajo)</span></label>
+        <label class="opt"><input type="radio" name="09 Tolerancia general" value="Por cliente"><span>Se define por cliente</span></label>
+      </div>
+      <input type="text" name="09 · tolerancia de casa" placeholder="Cuál, p. ej. ISO 2768-mK">
+    </div>
+
+    <!-- ============ ESPESOR ============ -->
+    <h2>Espesor</h2>
+
+    <div class="q">
+      <div class="q-head"><div class="num">10</div><h3>De dónde se mide</h3></div>
+      <p class="txt">El espesor lo medimos de la <b>propia pieza</b>, no del conjunto girado. ¿Correcto?</p>
+      <div class="prov">Provisional: espesor de la pieza</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="10 Origen del espesor" value="De la propia pieza (provisional)" checked><span>Correcto: de la propia pieza</span></label>
+        <label class="opt"><input type="radio" name="10 Origen del espesor" value="No, otro criterio"><span>No, otro criterio (lo detallo abajo)</span></label>
+      </div>
+      <input type="text" name="10 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">11</div><h3>Pieza que no es chapa</h3></div>
+      <p class="txt">Sin dos caras planas claras: ¿dejamos el espesor como PENDIENTE?</p>
+      <div class="prov">Provisional: PENDIENTE, no lo inventamos</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="11 Pieza no chapa" value="Marcar PENDIENTE (provisional)" checked><span>Sí, marcar PENDIENTE</span></label>
+        <label class="opt"><input type="radio" name="11 Pieza no chapa" value="Poner la dimensión menor"><span>Poner la dimensión menor de la pieza</span></label>
+        <label class="opt"><input type="radio" name="11 Pieza no chapa" value="Otro criterio"><span>Otro criterio (lo detallo abajo)</span></label>
+      </div>
+      <input type="text" name="11 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">12</div><h3>Margen de validación del espesor</h3></div>
+      <p class="txt">Margen para dar por bueno el espesor del cajetín contra el medido.</p>
+      <div class="prov">Provisional: 0,2 mm o 2%</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="12 Margen espesor" value="0,2 mm o 2% (provisional)" checked><span>0,2 mm o 2%</span></label>
+        <label class="opt"><input type="radio" name="12 Margen espesor" value="Otro margen indicado abajo"><span>Otro margen (lo indico abajo)</span></label>
+      </div>
+      <input type="text" name="12 · margen" placeholder="Margen, p. ej. 0,1 mm o 1%">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">13</div><h3>DXF de modelo a 1:1</h3></div>
+      <p class="txt">Va como fichero aparte junto al plano. ¿Bien?</p>
+      <div class="prov">Provisional: fichero aparte</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="13 DXF 1:1" value="Fichero aparte (provisional)" checked><span>Bien: fichero aparte</span></label>
+        <label class="opt"><input type="radio" name="13 DXF 1:1" value="Dentro del mismo DXF del plano"><span>Dentro del mismo DXF del plano</span></label>
+      </div>
+      <input type="text" name="13 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <!-- ============ TALADROS Y ROSCAS ============ -->
+    <h2>Taladros y roscas</h2>
+
+    <div class="q crit">
+      <div class="q-head"><div class="num">14</div><h3>✅ Ya aplicado con tu criterio — míralo en los planos</h3></div>
+      <p class="txt">Si el Ø medido coincide con la broca de una rosca métrica normal, ponemos la rosca (ej. "4x M12"); si no coincide, taladro liso ("n× Ø real PASANTE"). Fíjate p. ej. en <b>M06</b> ("19x M6"), <b>M18</b> ("2x M6" + "4x M12") y en la <b>40-02/03</b> (Ø10 sale liso).</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="14 Roscas vs taladro liso" value="Confirmado, está bien" required><span>Confirmado, está bien</span></label>
+        <label class="opt"><input type="radio" name="14 Roscas vs taladro liso" value="Hay algo que corregir"><span>Hay algo que corregir (lo explico abajo)</span></label>
+        <label class="opt"><input type="radio" name="14 Roscas vs taladro liso" value="Todavía no lo he mirado"><span>Todavía no lo he mirado</span></label>
+      </div>
+      <textarea name="14 · qué corregir" placeholder="Qué pieza y qué está mal"></textarea>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">15</div><h3>Margen para identificar la broca de una rosca</h3></div>
+      <p class="txt">Cuánto puede desviarse el Ø medido para darlo por broca de rosca.</p>
+      <div class="prov">Provisional: 0,1 mm; si un Ø queda a menos de 0,1 de dos brocas distintas, lo dejamos liso y avisamos</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="15 Margen broca" value="0,1 mm y ambiguo = liso + aviso (provisional)" checked><span>0,1 mm, y si es ambiguo se deja liso con aviso</span></label>
+        <label class="opt"><input type="radio" name="15 Margen broca" value="Otro margen indicado abajo"><span>Otro margen (lo indico abajo)</span></label>
+      </div>
+      <input type="text" name="15 · margen" placeholder="Margen, p. ej. 0,05 mm">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">16</div><h3>Clase de rosca</h3></div>
+      <p class="txt">¿Añadimos "-6H" por defecto (ej. "19x M6-6H PASANTE") o la defines tú? La usabas en tus ejemplos.</p>
+      <div class="prov">Provisional: sin clase (solo "M6")</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="16 Clase de rosca" value="Sin clase, solo M6 (provisional)" checked><span>Sin clase: solo "M6"</span></label>
+        <label class="opt"><input type="radio" name="16 Clase de rosca" value="-6H por defecto"><span>"-6H" por defecto</span></label>
+        <label class="opt"><input type="radio" name="16 Clase de rosca" value="Otra clase por defecto"><span>Otra clase por defecto (la indico abajo)</span></label>
+      </div>
+      <input type="text" name="16 · clase" placeholder="Clase, p. ej. 6G">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">17</div><h3>Avellanados y lamados</h3></div>
+      <p class="txt">¿Los detectamos y acotamos con su símbolo, o los marcamos pendientes?</p>
+      <div class="prov">Provisional: marcamos el tipo como pendiente</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="17 Avellanados y lamados" value="Marcar como pendiente (provisional)" checked><span>Marcarlos como pendiente</span></label>
+        <label class="opt"><input type="radio" name="17 Avellanados y lamados" value="Detectar y acotar con símbolo"><span>Detectarlos y acotarlos con su símbolo</span></label>
+      </div>
+      <input type="text" name="17 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">18</div><h3>Tolerancia de Ø y de posición del taladro</h3></div>
+      <p class="txt">Qué ponemos por defecto.</p>
+      <div class="prov">Provisional: pendiente (va con la general del punto 9)</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="18 Tolerancia taladros" value="Pendiente, va con la general (provisional)" checked><span>Pendiente, va con la tolerancia general</span></label>
+        <label class="opt"><input type="radio" name="18 Tolerancia taladros" value="Valores concretos indicados abajo"><span>Valores concretos (los indico abajo)</span></label>
+      </div>
+      <input type="text" name="18 · valores" placeholder="Tolerancia de Ø y de posición">
+    </div>
+
+    <!-- ============ RANURAS ============ -->
+    <h2>Ranuras</h2>
+
+    <div class="q crit">
+      <div class="q-head"><div class="num">19</div><h3>✅ Ya aplicado con tu notación — míralo en la 40-02</h3></div>
+      <p class="txt">La ranura la acotamos con la medida de <b>centro a centro</b> de los redondeos × el ancho (en la 40-02 sale "3x RANURA 10,2 × 4,8"), no con el largo total. El largo total lo dejamos en el informe. ¿Es tu convención?</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="19 Notación de ranuras" value="Confirmado, es mi convención" required><span>Confirmado, es mi convención</span></label>
+        <label class="opt"><input type="radio" name="19 Notación de ranuras" value="No, prefiero el largo total"><span>No: prefiero acotar el largo total</span></label>
+        <label class="opt"><input type="radio" name="19 Notación de ranuras" value="Todavía no lo he mirado"><span>Todavía no lo he mirado</span></label>
+      </div>
+      <textarea name="19 · comentario" placeholder="Notación exacta que quieres, si cambia"></textarea>
+    </div>
+
+    <!-- ============ RADIOS Y PLEGADOS ============ -->
+    <h2>Radios y plegados</h2>
+
+    <div class="q">
+      <div class="q-head"><div class="num">20</div><h3>Margen para agrupar radios iguales</h3></div>
+      <p class="txt">A partir de qué diferencia dejamos de agruparlos como "n× R".</p>
+      <div class="prov">Provisional: 0,05 mm o 0,5%</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="20 Margen agrupar radios" value="0,05 mm o 0,5% (provisional)" checked><span>0,05 mm o 0,5%</span></label>
+        <label class="opt"><input type="radio" name="20 Margen agrupar radios" value="Otro margen indicado abajo"><span>Otro margen (lo indico abajo)</span></label>
+      </div>
+      <input type="text" name="20 · margen" placeholder="Margen">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">21</div><h3>M13: 5º radio de esquina que no es de 90°</h3></div>
+      <p class="txt">Un canto redondeado de ~110°. ¿Lo acotamos junto a los 4× R10, aparte, o no se acota?</p>
+      <div class="prov">Provisional: aparte (no lo juntamos con los de 90°)</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="21 Radio no 90 grados M13" value="Acotarlo aparte (provisional)" checked><span>Aparte, no se junta con los de 90°</span></label>
+        <label class="opt"><input type="radio" name="21 Radio no 90 grados M13" value="Junto a los 4x R10"><span>Junto a los 4× R10</span></label>
+        <label class="opt"><input type="radio" name="21 Radio no 90 grados M13" value="No se acota"><span>No se acota</span></label>
+      </div>
+      <input type="text" name="21 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">22</div><h3>Radio de referencia en plegados</h3></div>
+      <p class="txt">¿El radio de referencia es el <b>interior</b>?</p>
+      <div class="prov">Provisional: interior (el exterior sale sumando el espesor)</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="22 Radio de plegado" value="Interior (provisional)" checked><span>Sí: interior</span></label>
+        <label class="opt"><input type="radio" name="22 Radio de plegado" value="Exterior"><span>Exterior</span></label>
+      </div>
+      <input type="text" name="22 · comentario" placeholder="Comentario (opcional)">
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">23</div><h3>Tolerancia de ángulo de plegado</h3></div>
+      <div class="prov">Provisional: ±1°</div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="23 Tolerancia ángulo plegado" value="±1° (provisional)" checked><span>±1°</span></label>
+        <label class="opt"><input type="radio" name="23 Tolerancia ángulo plegado" value="Otra tolerancia indicada abajo"><span>Otra (la indico abajo)</span></label>
+      </div>
+      <input type="text" name="23 · tolerancia" placeholder="Tolerancia, p. ej. ±0,5°">
+    </div>
+
+    <!-- ============ IMPORTANTE ============ -->
+    <h2>Importante — confirmar <span class="tag">Bloqueante</span></h2>
+
+    <div class="q crit">
+      <div class="q-head"><div class="num">24</div><h3>Espesor de pared de M13 y M17</h3></div>
+      <p class="txt">La geometría dice que <b>M13 y M17 son canales de pared 5 mm</b> (el informe de M13 pone "espesor 5, exterior 150×100, interior 140×90"), pero tu lista del 24 los ponía en 15. Nosotros medimos <b>5</b>, que es lo real.</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="24 Espesor M13 y M17" value="Confirmo 5 mm" required><span>Confirmo <b>5 mm</b> para M13 y M17</span></label>
+        <label class="opt"><input type="radio" name="24 Espesor M13 y M17" value="Son 15 mm"><span>Son <b>15 mm</b>, lo medido está mal</span></label>
+        <label class="opt"><input type="radio" name="24 Espesor M13 y M17" value="Cada pieza es distinta"><span>Cada pieza es distinta (lo detallo abajo)</span></label>
+      </div>
+      <textarea name="24 · detalle" placeholder="Detalle por pieza si hace falta"></textarea>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="num">+</div><h3>Cualquier otra cosa</h3></div>
+      <p class="txt">Lo que hayas visto en los planos y no encaje en ninguna pregunta.</p>
+      <textarea name="Observaciones libres" placeholder="Escribe aquí lo que quieras"></textarea>
+    </div>
+
+    <button type="submit" class="submit">Enviar respuestas</button>
+  </form>
+
+  <footer>
+    <b>©S.A.® IAGUSTO</b><br>
+    SpinApp · Despiece automático de planos
+  </footer>
+
+</div>
+</body>
+</html>
