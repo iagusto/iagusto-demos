@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpinApp / PLANIA — Informe de mercado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Condensed:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C1C29;
+  --plate:#12293A;
+  --plate-2:#173247;
+  --line:#2B4E6B;
+  --line-soft:#1E3B52;
+  --paper:#E6EEF4;
+  --paper-dim:#9DB3C4;
+  --accent:#E87722;
+  --graph:#63AEDC;
+  --ok:#4FB286;
+  --warn:#D9A441;
+  --risk:#D9614C;
+  --f-disp:'Saira Condensed',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* ---------- retícula de plano ---------- */
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--line-soft) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
+  background-size:64px 64px;
+  opacity:.32;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 20%,transparent 85%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 20%,transparent 85%);
+  animation:drift 90s linear infinite;
+}
+@keyframes drift{to{background-position:64px 64px,64px 64px}}
+
+/* ---------- barra de cota superior ---------- */
+.ruler{
+  position:fixed;top:0;left:0;right:0;height:34px;z-index:60;
+  background:rgba(12,28,41,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;padding:0 14px;
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;
+  color:var(--paper-dim);
+}
+.ruler .tag{color:var(--accent);font-weight:600;white-space:nowrap}
+.ruler .track{position:relative;flex:1;height:1px;background:var(--line)}
+.ruler .track::before,.ruler .track::after{
+  content:"";position:absolute;top:-4px;width:1px;height:9px;background:var(--line)
+}
+.ruler .track::before{left:0}.ruler .track::after{right:0}
+.ruler .fill{position:absolute;left:0;top:0;height:1px;background:var(--accent);width:0}
+.ruler .fill::after{
+  content:"";position:absolute;right:-1px;top:-4px;width:0;height:0;
+  border-left:7px solid var(--accent);
+  border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;
+}
+.ruler .pct{color:var(--paper);min-width:44px;text-align:right}
+
+/* ---------- envoltorio ---------- */
+.sheet{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:34px 20px 0}
+
+/* ---------- HERO: cajetín ---------- */
+.hero{padding:56px 0 40px;border-bottom:1px dashed var(--line)}
+.eyebrow{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:18px;
+  opacity:0;animation:fadeUp .6s .1s forwards;
+}
+.hero h1{
+  font-family:var(--f-disp);font-weight:800;
+  font-size:clamp(2.6rem,9vw,5.4rem);line-height:.92;
+  letter-spacing:-.01em;text-transform:uppercase;
+  opacity:0;animation:fadeUp .7s .25s forwards;
+}
+.hero h1 em{font-style:normal;color:var(--accent);display:block}
+.hero .sub{
+  margin-top:20px;max-width:52ch;color:var(--paper-dim);font-size:1.02rem;
+  opacity:0;animation:fadeUp .7s .45s forwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* dibujo de cotas del hero */
+.dimdraw{width:100%;height:120px;margin:26px 0 8px;overflow:visible}
+.dimdraw path,.dimdraw line{
+  stroke:var(--graph);stroke-width:1.2;fill:none;
+  stroke-dasharray:600;stroke-dashoffset:600;
+  animation:draw 1.6s .6s cubic-bezier(.65,0,.35,1) forwards;
+}
+.dimdraw .thick{stroke:var(--accent);stroke-width:2}
+.dimdraw text{
+  font-family:var(--f-mono);font-size:11px;fill:var(--paper-dim);
+  opacity:0;animation:fadeIn .5s 1.9s forwards;
+}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fadeIn{to{opacity:1}}
+
+/* cajetín */
+.titleblock{
+  margin-top:34px;border:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(2,1fr);
+  opacity:0;animation:fadeUp .7s .8s forwards;
+}
+.titleblock .cell{
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:11px 13px;
+}
+.titleblock .cell:nth-child(2n){border-right:none}
+.titleblock .k{
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.16em;
+  color:var(--paper-dim);text-transform:uppercase;display:block;margin-bottom:3px;
+}
+.titleblock .v{font-family:var(--f-disp);font-size:1.05rem;font-weight:600;letter-spacing:.01em}
+.titleblock .v.hl{color:var(--accent)}
+
+/* ---------- secciones ---------- */
+.sec{padding:64px 0;border-bottom:1px dashed var(--line);position:relative}
+.sec:last-of-type{border-bottom:none}
+.sec-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:30px}
+.balloon{
+  flex:0 0 auto;width:42px;height:42px;border-radius:50%;
+  border:1.5px solid var(--accent);color:var(--accent);
+  display:grid;place-items:center;
+  font-family:var(--f-mono);font-size:13px;font-weight:600;
+  position:relative;background:var(--ink);
+}
+.balloon::after{
+  content:"";position:absolute;left:100%;top:50%;width:0;height:1px;
+  background:var(--accent);transition:width .5s .15s ease;
+}
+.in .balloon::after{width:16px}
+.sec-head h2{
+  font-family:var(--f-disp);font-weight:700;text-transform:uppercase;
+  font-size:clamp(1.5rem,4.6vw,2.3rem);line-height:1.05;letter-spacing:.005em;
+  padding-top:4px;
+}
+.sec-head .note{
+  display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;
+  color:var(--paper-dim);text-transform:uppercase;font-weight:400;margin-top:7px;
+}
+
+/* revelado al scroll */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- tarjetas ---------- */
+.cards{display:grid;gap:14px}
+@media(min-width:720px){.cards.two{grid-template-columns:1fr 1fr}}
+.card{
+  background:var(--plate);border:1px solid var(--line);
+  padding:20px;position:relative;overflow:hidden;
+  transition:border-color .3s ease,transform .3s ease;
+}
+.card::before{ /* rayado de sección */
+  content:"";position:absolute;inset:0;opacity:0;transition:opacity .35s ease;
+  background:repeating-linear-gradient(45deg,transparent,transparent 7px,rgba(232,119,34,.07) 7px,rgba(232,119,34,.07) 8px);
+  pointer-events:none;
+}
+.card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.card:hover::before{opacity:1}
+.card h3{
+  font-family:var(--f-disp);font-size:1.3rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.01em;margin-bottom:4px;
+}
+.card .meta{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:block;
+}
+.card p{font-size:.94rem;color:var(--paper-dim);margin-bottom:10px}
+.card p strong{color:var(--paper);font-weight:600}
+.card a{color:var(--graph);text-decoration:none;border-bottom:1px solid rgba(99,174,220,.35);font-family:var(--f-mono);font-size:.8rem;word-break:break-all}
+.card a:hover{color:var(--accent);border-color:var(--accent)}
+
+.tier{
+  display:inline-block;font-family:var(--f-mono);font-size:9.5px;
+  letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;
+  border:1px solid currentColor;margin-bottom:12px;
+}
+.t-direct{color:var(--risk)}
+.t-cad{color:var(--warn)}
+.t-adj{color:var(--graph)}
+.t-open{color:var(--ok)}
+
+/* ---------- lista de hallazgos ---------- */
+.findings{list-style:none;counter-reset:f}
+.findings li{
+  counter-increment:f;position:relative;padding:16px 0 16px 52px;
+  border-bottom:1px solid var(--line-soft);
+}
+.findings li:last-child{border-bottom:none}
+.findings li::before{
+  content:counter(f,decimal-leading-zero);
+  position:absolute;left:0;top:17px;
+  font-family:var(--f-mono);font-size:12px;color:var(--accent);
+  border:1px solid var(--line);padding:2px 7px;
+}
+.findings h4{font-family:var(--f-disp);font-size:1.15rem;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.findings p{font-size:.93rem;color:var(--paper-dim)}
+
+/* ---------- tabla ---------- */
+.tablewrap{
+  overflow-x:auto;border:1px solid var(--line);
+  -webkit-overflow-scrolling:touch;
+}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:.85rem}
+thead th{
+  background:var(--plate-2);text-align:left;padding:12px 13px;
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--paper);
+  border-bottom:1px solid var(--line);white-space:nowrap;
+  position:sticky;top:0;
+}
+tbody td{padding:12px 13px;border-bottom:1px solid var(--line-soft);color:var(--paper-dim);vertical-align:top}
+tbody tr{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+tbody tr.in{opacity:1;transform:none}
+tbody tr:nth-child(odd){background:rgba(23,50,71,.4)}
+tbody tr:hover{background:rgba(232,119,34,.07)}
+tbody td:first-child{color:var(--paper);font-weight:600;font-family:var(--f-disp);font-size:1rem;white-space:nowrap}
+.row-us td{background:rgba(232,119,34,.09)!important}
+.row-us td:first-child{color:var(--accent)}
+.yes{color:var(--ok);font-weight:600}
+.no{color:var(--risk);font-weight:600}
+.mid{color:var(--warn);font-weight:600}
+.scrollhint{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;
+  color:var(--paper-dim);text-transform:uppercase;margin-top:9px;
+}
+
+/* ---------- caja de dato / gap ---------- */
+.gapbox{
+  border-left:3px solid var(--accent);background:var(--plate);
+  padding:18px 20px;margin-bottom:12px;
+}
+.gapbox h4{font-family:var(--f-disp);text-transform:uppercase;font-size:1.1rem;margin-bottom:6px}
+.gapbox p{font-size:.93rem;color:var(--paper-dim)}
+.gapbox p strong{color:var(--paper)}
+
+/* ---------- métricas ---------- */
+.metrics{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(min-width:640px){.metrics{grid-template-columns:repeat(3,1fr)}}
+.metric{background:var(--plate);padding:22px 18px}
+.metric .num{
+  font-family:var(--f-disp);font-size:clamp(2rem,7vw,2.9rem);font-weight:800;
+  line-height:1;color:var(--accent);letter-spacing:-.01em;
+}
+.metric .lbl{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--paper-dim);margin-top:9px;display:block;
+}
+.metric .src{font-size:.78rem;color:var(--paper-dim);margin-top:8px;opacity:.75}
+
+/* ---------- amenazas ---------- */
+.threat{
+  display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;
+  padding:17px 0;border-bottom:1px solid var(--line-soft);
+}
+.threat:last-child{border-bottom:none}
+.level{
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 9px;border:1px solid currentColor;white-space:nowrap;margin-top:2px;
+}
+.l-alta{color:var(--risk)}.l-media{color:var(--warn)}.l-baja{color:var(--ok)}
+.threat h4{font-family:var(--f-disp);font-size:1.12rem;text-transform:uppercase;margin-bottom:5px}
+.threat p{font-size:.92rem;color:var(--paper-dim)}
+
+/* ---------- fases ---------- */
+.phases{position:relative;padding-left:26px}
+.phases::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;background:var(--line)}
+.phase{position:relative;padding:0 0 26px}
+.phase:last-child{padding-bottom:0}
+.phase::before{
+  content:"";position:absolute;left:-25.5px;top:7px;width:11px;height:11px;
+  border:1.5px solid var(--accent);background:var(--ink);border-radius:50%;
+}
+.phase .t{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+.phase h4{font-family:var(--f-disp);font-size:1.18rem;text-transform:uppercase;margin:5px 0 6px}
+.phase p{font-size:.93rem;color:var(--paper-dim)}
+
+/* ---------- caveats ---------- */
+.caveats{background:var(--plate);border:1px solid var(--risk);padding:22px}
+.caveats ul{list-style:none}
+.caveats li{
+  padding:9px 0 9px 22px;position:relative;font-size:.9rem;color:var(--paper-dim);
+  border-bottom:1px solid var(--line-soft);
+}
+.caveats li:last-child{border-bottom:none}
+.caveats li::before{content:"!";position:absolute;left:0;top:9px;color:var(--risk);font-family:var(--f-mono);font-weight:600}
+.caveats li strong{color:var(--paper)}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--line);margin-top:20px;padding:34px 0 60px;
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.11em;
+  color:var(--paper-dim);text-transform:uppercase;
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+}
+footer .brand{color:var(--accent)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  tbody tr{opacity:1;transform:none}
+  .dimdraw path,.dimdraw line{stroke-dashoffset:0}
+  .dimdraw text{opacity:1}
+  .eyebrow,.hero h1,.hero .sub,.titleblock{opacity:1}
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<div class="ruler">
+  <span class="tag">PLANIA · MERCADO</span>
+  <span class="track"><span class="fill" id="fill"></span></span>
+  <span class="pct" id="pct">0%</span>
+</div>
+
+<div class="sheet">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="eyebrow">Informe de inteligencia competitiva · Ago 2026</div>
+    <h1>Del STEP<br>al plano<br><em>sin dibujar</em></h1>
+    <p class="sub">Quién más está automatizando la generación de planos de fabricación desde modelos 3D, qué hacen mal, y dónde queda hueco defendible para SpinApp / PLANIA.</p>
+
+    <svg class="dimdraw" viewBox="0 0 800 120" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="40" y1="20" x2="40" y2="100"/>
+      <line x1="380" y1="20" x2="380" y2="100"/>
+      <line x1="760" y1="20" x2="760" y2="100"/>
+      <line class="thick" x1="40" y1="60" x2="380" y2="60"/>
+      <line class="thick" x1="380" y1="60" x2="760" y2="60"/>
+      <path d="M40 60 L54 55 L54 65 Z" class="thick"/>
+      <path d="M380 60 L366 55 L366 65 Z" class="thick"/>
+      <path d="M380 60 L394 55 L394 65 Z" class="thick"/>
+      <path d="M760 60 L746 55 L746 65 Z" class="thick"/>
+      <text x="170" y="52">LO QUE YA EXISTE</text>
+      <text x="520" y="52">EL HUECO</text>
+    </svg>
+
+    <div class="titleblock">
+      <div class="cell"><span class="k">Proyecto</span><span class="v">SpinApp / PLANIA</span></div>
+      <div class="cell"><span class="k">Documento</span><span class="v">Análisis de mercado</span></div>
+      <div class="cell"><span class="k">Fecha</span><span class="v">09 · 08 · 2026</span></div>
+      <div class="cell"><span class="k">Estado producto</span><span class="v hl">En producción</span></div>
+      <div class="cell"><span class="k">Competidor directo</span><span class="v">DraftAid · Vectra</span></div>
+      <div class="cell"><span class="k">Amenaza principal</span><span class="v hl">CAD nativos 2026</span></div>
+    </div>
+  </header>
+
+  <!-- 01 RESUMEN -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">01</span><h2>Resumen ejecutivo<span class="note">Lo que importa en tres frases</span></h2></div>
+
+    <div class="cards two rv">
+      <div class="card">
+        <span class="tier t-direct">Situación</span>
+        <h3>Hay competencia, pero no en tu ángulo</h3>
+        <p>El nicho exacto —STEP de conjunto → planos DXF/PDF acotados pieza a pieza con criterio de fabricación— tiene <strong>un competidor directo claro (DraftAid)</strong> y varios adyacentes. Pero <strong>nadie reúne las cuatro cosas que definen a PLANIA</strong>: partir de STEP neutro sin CAD nativo, clasificar la pieza por tipología geométrica, acotar con criterio de fabricación en vez de volcar todo, y validar contra reglas reportando lo pendiente.</p>
+      </div>
+      <div class="card">
+        <span class="tier t-cad">Amenaza</span>
+        <h3>El peligro no son las startups: son los CAD</h3>
+        <p><strong>SOLIDWORKS 2026 y Solid Edge 2026 ya integran generación automática de planos con IA</strong> (beta ahora; disponibilidad general de SOLIDWORKS prevista para julio de 2026). Eso comoditizará «generar vistas + acotar por defecto» en 2-3 años. PLANIA tiene que diferenciarse justo donde esos motores fallan: criterio de acotado, STEP sin licencia CAD y validación por reglas.</p>
+      </div>
+    </div>
+
+    <div class="gapbox rv" style="margin-top:14px">
+      <h4>Recomendación de una línea</h4>
+      <p>Atacar primero <strong>talleres de calderería/mecanizado y oficinas técnicas subcontratadas que reciben STEP de terceros y no tienen (ni quieren pagar) el CAD nativo del cliente</strong>. Precio SaaS por volumen en euros, anclado al coste de la delineación manual evitada. Es exactamente donde DraftAid es débil y donde los CAD nativos no llegan.</p>
+    </div>
+  </section>
+
+  <!-- 02 COMPETIDORES DIRECTOS -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">02</span><h2>Competencia directa<span class="note">Quien hace literalmente lo mismo</span></h2></div>
+
+    <div class="cards rv">
+      <div class="card">
+        <span class="tier t-direct">Competidor directo · Canadá</span>
+        <h3>DraftAid</h3>
+        <span class="meta">Y Combinator W2024 · ~500 K$ levantados</span>
+        <p>Startup de Toronto fundada en 2023 (Abdullah Elqabbany, Mohammed Al-Arnawoot como CEO, Tahsin Rahman). Según CB Insights, ~500 K$ en 2 rondas —la última una nota convertible de 0,5 M$ el 1 de enero de 2024— con Y Combinator, Eight Capital Group y Creative Destruction Lab.</p>
+        <p><strong>Qué hace:</strong> genera planos 2D de fabricación desde 3D con IA. Acepta STEP como entrada e integra vía plugin con SOLIDWORKS e Inventor (Creo y NX previstos 2026; Solid Edge y CATIA 2027). Salida en DWG, DXF, IDW y PDF.</p>
+        <p><strong>Precisión:</strong> 80-90 % declarado por la empresa tras entrenar con los planos del cliente. Por tipo de pieza va del ~70 % (fresado 3 ejes) al 95 % (chapa que entra directa a producción). En engineering.com, Roopinder Tara detectó un solo error en un plano con decenas de cotas.</p>
+        <p><strong>Debilidades:</strong> <span class="no">solo piezas, no conjuntos</span> (beta de conjuntos anunciada para junio de 2026, sin verificar que se haya lanzado). No genera GD&amp;T ni tolerancias automáticamente. La revisión vive dentro del CAD nativo.</p>
+        <p><strong>Tracción:</strong> ~210.000 planos generados a cierre de 2025, equipos en Norteamérica y Europa.</p>
+        <p><strong>Precio:</strong> no publicado. Su propia FAQ indica licencia anual por volumen, sin coste por usuario y <strong>mínimo ~200 planos/mes</strong>.</p>
+        <a href="https://draftaid.io" target="_blank" rel="noopener">draftaid.io</a>
+      </div>
+
+      <div class="card">
+        <span class="tier t-direct">Competidor directo · EE. UU.</span>
+        <h3>Vectra — Auto2D</h3>
+        <span class="meta">Cary, Carolina del Norte · enfoque OEM</span>
+        <p><strong>Qué hace:</strong> automatiza la generación de planos 2D desde 3D como add-on de NX, CATIA V5, SOLIDWORKS e Inventor —soporte nativo más amplio que DraftAid—. Incluye estrategia de datums automática, GD&amp;T y análisis de cadenas de tolerancias. Producto complementario AutoMBD para definición basada en modelo.</p>
+        <p><strong>Resultado declarado:</strong> el CEO afirma ~50 % de reducción del coste de crear planos.</p>
+        <p><strong>Debilidad frente a PLANIA:</strong> vive dentro del CAD nativo, no es un servicio que coma STEP suelto. Orientado a empresa grande, no a taller.</p>
+        <p><strong>Precio:</strong> no publicado (licencia empresarial/OEM). Las cifras de financiación son <span class="mid">contradictorias entre fuentes</span>: no fiables.</p>
+        <a href="https://vectraglobal.com/auto-2d/" target="_blank" rel="noopener">vectraglobal.com/auto-2d</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 CAD NATIVOS -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">03</span><h2>Los CAD ya lo integran<span class="note">La amenaza estructural 2025-2026</span></h2></div>
+
+    <div class="cards two rv">
+      <div class="card">
+        <span class="tier t-cad">Dassault</span>
+        <h3>SOLIDWORKS 2026</h3>
+        <span class="meta">Auto-Generate Drawings · GA prevista jul-2026</span>
+        <p>Herramienta con IA (en beta) que selecciona piezas o conjuntos y genera vistas, cortes de sección, cotas y GD&amp;T básico, además de BOM, globos y tablas de revisión. Según Morphos3D, la disponibilidad general se prevé para julio de 2026 junto con el reconocimiento de fijaciones por IA (Smart Mates).</p>
+        <p><strong>Lo crítico:</strong> la documentación oficial de SOLIDWORKS Design Help 2026 confirma reconocimiento de agujeros en <strong>geometría importada, incluido STEP</strong>, y selección automática del tamaño de hoja según la norma elegida. Dassault posiciona explícitamente que asiste, no reemplaza.</p>
+      </div>
+      <div class="card">
+        <span class="tier t-cad">Siemens</span>
+        <h3>Solid Edge 2026</h3>
+        <span class="meta">Automatic drawings · 70-80 % del proceso</span>
+        <p>Automatiza colocación de vistas, acotado y selección de plantilla manteniendo las normas de dibujo. Siemens cifra la automatización en el 70-80 % del proceso.</p>
+        <p><strong>Resto del pelotón:</strong> PTC Creo, Siemens NX, CATIA, Autodesk Inventor (iLogic) y Onshape ofrecen automatización de vistas y auto-dimensionado por reglas/API desde hace años. Todos exigen el fichero nativo y la licencia del CAD.</p>
+      </div>
+    </div>
+
+    <div class="gapbox rv" style="margin-top:14px">
+      <h4>El fallo que todos comparten — y que es tu oportunidad</h4>
+      <p>El propio historial de patentes de la industria reconoce que el auto-dimensionado clásico <strong>«añade todas las cotas del modelo en vez de solo las necesarias para fabricar»</strong>, provocando solapamientos y mermando la legibilidad (US 11954820). Es exactamente el problema que PLANIA dice resolver con su criterio: cotas desde cara de referencia, sin cadenas cerradas, cada dimensión una sola vez, patrones agrupados, sección como vista principal.</p>
+    </div>
+  </section>
+
+  <!-- 04 MAPA DEL MERCADO -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">04</span><h2>Mapa del mercado<span class="note">Diez categorías, solo dos compiten de frente</span></h2></div>
+
+    <ol class="findings rv">
+      <li><h4>Generadores IA de planos 2D desde 3D/STEP</h4><p><span class="no">Competencia directa.</span> DraftAid, Vectra Auto2D. Producto real con clientes de pago. Débiles en STEP-sin-CAD-nativo y en conjuntos.</p></li>
+      <li><h4>Auto-drawing nativo de los CAD</h4><p><span class="mid">Amenaza de comoditización.</span> SOLIDWORKS 2026, Solid Edge 2026, Inventor iLogic, Creo, NX, CATIA, Onshape. Acotan por reglas genéricas y exigen licencia.</p></li>
+      <li><h4>Add-ins de productividad de dibujo</h4><p><strong>Drew (CAD Booster, Países Bajos):</strong> add-in que arranca planos con un clic, añade vistas, cotas exteriores, cotas de perfil de weldments, espesor de chapa y cotas ordenadas. Prueba de 14 días. Automatiza «las cotas aburridas», no el acotado completo de fabricación.</p></li>
+      <li><h4>Configuradores / CPQ</h4><p><strong>DriveWorks (Reino Unido)</strong>, Tacton, DynaMaker, KBMax. No generan planos desde cero: parten de un modelo maestro preconfigurado para productos «iguales pero diferentes». No sirven para un STEP arbitrario de un tercero.</p></li>
+      <li><h4>Desarrollo de chapa (unfold) y CAM</h4><p><strong>Lantek Flex3d / A2N (España, País Vasco)</strong>, Radan (Hexagon), JETCAM, Metalix. Desdoblan chapa desde 3D/STEP a DXF plano para corte, incluso conjuntos completos con A2N. Compiten solo en chapa, no en el plano acotado de piezas mecanizadas.</p></li>
+      <li><h4>Lectura y validación de planos (dirección inversa)</h4><p><strong>Werk24 (Alemania):</strong> API que extrae cotas, tolerancias, roscas y GD&amp;T de planos existentes a JSON. Precio publicado: desde 990 €/mes más desde 0,85 €/página, u opción pay-as-you-go desde 0,95 €/página sin compromiso. &gt;95 % de precisión declarada. También InspectionXpert, CADDi Drawer, PartSpace.</p></li>
+      <li><h4>Generación 3D con IA (text-to-CAD)</h4><p><strong>Zoo (zoo.dev, ex-KittyCAD)</strong> con capa gratuita de 40 min/mes y luego 0,50 $/min; <strong>Leo AI</strong>, 9,7 M$ levantados (seed de 5 M$ liderada por Flint Capital, con Bertrand Sicot —ex-CEO de SOLIDWORKS— entre los inversores), 96 % de precisión declarada como copiloto, &gt;20.000 ingenieros, clientes como Scania, HP y Mobileye. <strong>No producen el plano acotado.</strong></p></li>
+      <li><h4>MBD / drawingless</h4><p>Anark, Capvidia, Theorem, ITI/Wipro. Intentan eliminar el plano 2D metiendo PMI en el 3D. Amenaza a largo plazo, no inmediata.</p></li>
+      <li><h4>Outsourcing de delineación</h4><p>Estudios y freelance de India, Vietnam y Europa del Este a ~10-20 $/h (Vietnam) frente a 30-80 $/h (EE. UU.). Compiten en precio contra automatizar.</p></li>
+      <li><h4>Open source</h4><p><strong>FreeCAD TechDraw</strong> genera vistas y permite acotar de forma semi-automática (el usuario elige las cotas). CadQuery, build123d, pythonOCC y ezdxf —el propio stack de PLANIA— permiten construirlo a medida. <span class="yes">No existe un proyecto open source consolidado que acote con criterio de fabricación desde STEP.</span> Valida tu stack; también significa que alguien podría replicar la parte básica.</p></li>
+    </ol>
+  </section>
+
+  <!-- 05 TABLA -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">05</span><h2>Comparativa<span class="note">Fila naranja = PLANIA</span></h2></div>
+
+    <div class="tablewrap rv">
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>¿STEP neutro?</th>
+            <th>¿Acota solo?</th>
+            <th>¿Criterio fabricación?</th>
+            <th>¿Clasifica tipología?</th>
+            <th>¿Valida por reglas?</th>
+            <th>¿Conjuntos?</th>
+            <th>Precio</th>
+            <th>Geografía</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-us">
+            <td>SpinApp / PLANIA</td>
+            <td class="yes">Sí, nativo</td>
+            <td class="yes">Sí</td>
+            <td class="yes">Sí — cara de referencia, sin cadenas cerradas, sección principal</td>
+            <td class="yes">Sí — eje, disco/brida, perfil, chapa</td>
+            <td class="yes">Sí — catálogo de reglas + informe de lote</td>
+            <td class="yes">Sí, despiece de cada pieza</td>
+            <td>Por definir</td>
+            <td>España / Europa</td>
+          </tr>
+          <tr>
+            <td>DraftAid</td>
+            <td class="mid">Entrada STEP, revisión en CAD nativo</td>
+            <td class="yes">Sí</td>
+            <td class="mid">Parcial — aprende plantillas del cliente; sin GD&amp;T ni tolerancias</td>
+            <td class="mid">Implícito por tipo</td>
+            <td class="no">No documentado</td>
+            <td class="no">No — beta jun-2026</td>
+            <td>No publicado; anual por volumen</td>
+            <td>Norteamérica / Europa</td>
+          </tr>
+          <tr>
+            <td>Vectra Auto2D</td>
+            <td class="no">Vía CAD nativo</td>
+            <td class="yes">Sí + GD&amp;T y tolerancias</td>
+            <td class="yes">Sí — datums y stack de tolerancias</td>
+            <td class="no">No documentado</td>
+            <td class="mid">Parcial vía AutoMBD</td>
+            <td class="yes">Sí</td>
+            <td>No publicado (OEM)</td>
+            <td>EE. UU. / global</td>
+          </tr>
+          <tr>
+            <td>SOLIDWORKS 2026</td>
+            <td class="mid">Geometría importada, pero dentro de SW</td>
+            <td class="yes">Sí + GD&amp;T básico</td>
+            <td class="mid">Genérico por reglas</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+            <td class="yes">Sí</td>
+            <td>Incluido en licencia</td>
+            <td>Global</td>
+          </tr>
+          <tr>
+            <td>Solid Edge 2026</td>
+            <td class="no">Dentro de Solid Edge</td>
+            <td class="yes">Sí, 70-80 %</td>
+            <td class="mid">Genérico</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+            <td class="yes">Sí</td>
+            <td>Incluido en licencia</td>
+            <td>Global</td>
+          </tr>
+          <tr>
+            <td>Drew (CAD Booster)</td>
+            <td class="no">No, dentro de SOLIDWORKS</td>
+            <td class="mid">Solo cotas exteriores, perfil y espesor</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+            <td class="no">No</td>
+            <td class="mid">Parcial</td>
+            <td>Suscripción add-in</td>
+            <td>Global</td>
+          </tr>
+          <tr>
+            <td>Lantek Flex3d / A2N</td>
+            <td class="yes">Sí</td>
+            <td class="mid">Solo desarrollo de chapa a DXF</td>
+            <td>N/A — chapa</td>
+            <td class="mid">Solo chapa y tubo</td>
+            <td class="mid">Detecta inconsistencias pre-unfold</td>
+            <td class="yes">Sí, unfold de conjuntos</td>
+            <td>Licencia</td>
+            <td>España / global</td>
+          </tr>
+          <tr>
+            <td>Werk24</td>
+            <td>N/A — lee planos</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td class="yes">Sí, feasibility</td>
+            <td>N/A</td>
+            <td>Desde 990 €/mes + 0,85 €/pág.</td>
+            <td>Europa / NA</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="scrollhint rv">← Desliza para ver toda la tabla →</p>
+  </section>
+
+  <!-- 06 GAP -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">06</span><h2>El hueco<span class="note">Cuatro cosas que nadie hace bien</span></h2></div>
+
+    <div class="rv">
+      <div class="gapbox">
+        <h4>01 · Acotado con criterio de fabricación</h4>
+        <p>Es el punto más débil de todos. La propia literatura de patentes reconoce el problema del <em>over-dimensioning</em>. DraftAid lo resuelve entrenando con los planos históricos del cliente —aprende su estilo—, no con un catálogo de reglas normalizadas. <strong>La regla explícita de PLANIA ocupa un hueco que ni los CAD nativos ni DraftAid cubren de forma normativa.</strong></p>
+      </div>
+      <div class="gapbox">
+        <h4>02 · Clasificación por tipología geométrica</h4>
+        <p>No se ha encontrado <strong>ningún competidor que declare clasificar la pieza</strong> (eje de revolución vs. disco/brida vs. perfil vs. chapa) y aplicar convenciones de dibujo específicas a cada clase. Diferenciador genuino.</p>
+      </div>
+      <div class="gapbox">
+        <h4>03 · Validación por reglas + informe de lo pendiente</h4>
+        <p>Nadie en la competencia directa lo documenta. Werk24 valida <em>feasibility</em> pero sobre planos ya hechos. <strong>El «no invento lo que no está en el 3D, te marco lo pendiente» es un mensaje de confianza que ninguno ofrece.</strong></p>
+      </div>
+      <div class="gapbox">
+        <h4>04 · STEP neutro sin CAD nativo</h4>
+        <p>DraftAid acepta STEP pero la revisión vive en SOLIDWORKS/Inventor; los CAD nativos exigen su propia licencia. <strong>Un servicio que no requiere que el taller tenga el CAD del cliente es un diferenciador operativo y de coste fuerte</strong>, sobre todo para talleres subcontratados.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 AMENAZAS -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">07</span><h2>Amenazas<span class="note">Ordenadas por probabilidad</span></h2></div>
+
+    <div class="rv">
+      <div class="threat"><span class="level l-alta">Alta · medio plazo</span><div><h4>Comoditización por los CAD</h4><p>SOLIDWORKS 2026 y Solid Edge 2026 ya generan planos con IA, y SOLIDWORKS reconoce agujeros incluso en geometría importada tipo STEP. En 2-3 años «generar vistas + acotar por defecto» será una casilla incluida en la licencia. <strong>Mitigación:</strong> PLANIA no compite en generar vistas, sino en acotar bien y validar, y llega a quien no tiene esos CAD.</p></div></div>
+      <div class="threat"><span class="level l-media">Media</span><div><h4>DraftAid ampliando a conjuntos y Europa</h4><p>Ya opera en Europa y saca beta de conjuntos en 2026. Va por delante en tracción y financiación. <strong>Mitigación:</strong> normativa europea (ISO/UNE, cajetín y diedro europeos), servicio local en español, y precio accesible por debajo de su mínimo de 200 planos/mes.</p></div></div>
+      <div class="threat"><span class="level l-media">Media</span><div><h4>Réplica open source</h4><p>El stack OCCT + ezdxf es accesible para cualquiera. La barrera real de PLANIA no es el código base: es el catálogo de reglas y la validación. <strong>Mitigación:</strong> profundizar el foso en las reglas propietarias, no en la ingeniería.</p></div></div>
+      <div class="threat"><span class="level l-baja">Baja-media · largo plazo</span><div><h4>MBD / drawingless</h4><p>Amenaza el plano 2D como concepto, pero la adopción real fuera de aeroespacial y automoción es lenta. Las pymes de maquinaria y calderería seguirán necesitando el plano de taller muchos años. <strong>Es más oportunidad que amenaza:</strong> «mientras el mundo va a MBD, tú necesitas el plano ya».</p></div></div>
+    </div>
+  </section>
+
+  <!-- 08 PATENTES -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">08</span><h2>Patentes<span class="note">El espacio está tomado por los grandes</span></h2></div>
+    <div class="cards rv">
+      <div class="card">
+        <span class="tier t-adj">Propiedad industrial</span>
+        <h3>Qué hay registrado</h3>
+        <p>Existen patentes relevantes sobre auto-dimensionado y generación de vistas: <strong>US 11954820</strong> (alineación de grafos para acotar automáticamente), <strong>US 9177082</strong> (automatización de planos en CAD) y <strong>US 12555289</strong> (anotaciones automáticas con transformer).</p>
+        <p><strong>Implicación:</strong> el espacio está patentado por los grandes. PLANIA debe evitar reclamar invenciones genéricas de auto-dimensionado y centrar su defensibilidad en el <strong>catálogo de reglas propio y el flujo STEP → validación</strong>, no en patentar.</p>
+        <p><span class="mid">No se ha realizado análisis de libertad de operación (FTO).</span> Conviene una revisión antes de escalar en EE. UU.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 MERCADO -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">09</span><h2>Tamaño de mercado<span class="note">Órdenes de magnitud, no datos auditados</span></h2></div>
+
+    <div class="metrics rv">
+      <div class="metric"><span class="num" data-count="12.2">0</span><span class="lbl">Mercado CAD global, MM$ 2025</span><span class="src">Future Market Insights: 12,2 B$ → 22,7 B$ en 2035, CAGR 6,4 %. Otras casas cifran ~23,75 B$ en 2025.</span></div>
+      <div class="metric"><span class="num" data-count="14.9" data-suffix="%">0</span><span class="lbl">CAGR Model-Based Enterprise</span><span class="src">MarketsandMarkets: 13,6 B$ (2024) → 27,1 B$ (2029).</span></div>
+      <div class="metric"><span class="num" data-count="75" data-suffix="%">0</span><span class="lbl">Reducción de ciclo con MBE</span><span class="src">NIST Advanced Manufacturing Series 100-1 (Hedberg Jr. et al., 2016): reducción media potencial del 75 % del tiempo de ciclo frente al enfoque basado en planos.</span></div>
+    </div>
+
+    <div class="gapbox rv" style="margin-top:16px">
+      <h4>Coste de la alternativa manual</h4>
+      <p>Rangos amplios y dependientes de disciplina: freelance 20-150 $/h; outsourcing 10-20 $/h (Vietnam) frente a 30-80 $/h (EE. UU.). <strong>No hay un dato limpio y fiable de «horas por plano de despiece mecánico».</strong> En foros de ingeniería (Eng-Tips) se citan 40-50 h por plano tamaño D en proyectos industriales grandes, no comparable a una pieza de taller. <span class="mid">Dato no consolidado.</span></p>
+      <p style="margin-top:10px"><strong>España y Europa:</strong> <span class="no">no se han encontrado datos fiables</span> sobre horas y coste de despiece mecánico. Se desconoce.</p>
+    </div>
+  </section>
+
+  <!-- 10 POSICIONAMIENTO -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">10</span><h2>Posicionamiento y precio<span class="note">Plan de ataque en tres fases</span></h2></div>
+
+    <div class="gapbox rv">
+      <h4>El mensaje</h4>
+      <p style="font-family:var(--f-disp);font-size:1.35rem;color:var(--paper);text-transform:uppercase;line-height:1.2;margin-bottom:10px">«El despiece listo para taller, directo desde el STEP, acotado como lo haría tu delineante — sin abrir el CAD del cliente.»</p>
+      <p>Enfatizar los tres diferenciadores que nadie reúne: acotado con criterio normalizado, clasificación por tipología, y validación por reglas con informe de lo pendiente. <strong>No competir en «generamos vistas con IA»</strong>: ahí se pierde contra SOLIDWORKS y Solid Edge.</p>
+    </div>
+
+    <div class="phases rv" style="margin-top:30px">
+      <div class="phase">
+        <span class="t">Fase 1 · 0-6 meses</span>
+        <h4>Talleres y oficinas técnicas subcontratadas en España</h4>
+        <p>Calderería y mecanizado que reciben STEP de clientes y sacan el despiece a mano. Es donde DraftAid es más débil —requiere revisión en CAD nativo— y donde los CAD nativos no llegan, porque el taller no tiene la licencia del cliente. Vender por volumen de lote.</p>
+      </div>
+      <div class="phase">
+        <span class="t">Fase 2 · 6-18 meses</span>
+        <h4>Pymes de maquinaria: País Vasco, Cataluña, C. Valenciana</h4>
+        <p>Clústeres de máquina-herramienta y bienes de equipo, donde el despiece de conjuntos es dolor recurrente. Aquí PLANIA —que sí hace despiece de cada pieza del conjunto— adelanta a DraftAid mientras su beta de conjuntos madura.</p>
+      </div>
+      <div class="phase">
+        <span class="t">Fase 3 · 18+ meses</span>
+        <h4>Integración con CAM de chapa o plataformas de quoting</h4>
+        <p>Lantek es vasca. «Sube STEP → recibe planos + presupuesto» es el flujo natural, el mismo caso de uso que DraftAid explota con <em>fab shops</em>.</p>
+      </div>
+    </div>
+
+    <div class="gapbox rv" style="margin-top:26px">
+      <h4>Precio — recomendación a validar</h4>
+      <p>Modelo SaaS por volumen en euros, imitando la lógica de DraftAid (licencia por volumen, sin coste por usuario) pero <strong>rompiendo su barrera de entrada</strong>: DraftAid exige mínimo ~200 planos/mes y contrato anual, lo que deja fuera al taller pequeño. PLANIA debería ofrecer:</p>
+      <p style="margin-top:8px">· <strong>Plan de entrada por lote / pago por uso</strong> para talleres que no llegan a 200 planos/mes.<br>· <strong>Suscripción mensual o anual por franjas de volumen</strong> para oficinas técnicas.</p>
+      <p style="margin-top:8px">Como ni DraftAid ni Vectra publican precios (ambos «contactar con ventas»), <strong>el anclaje debe hacerse contra el coste de la alternativa manual</strong> —horas de delineante evitadas por lote— y no contra un precio de competidor.</p>
+    </div>
+
+    <div class="cards rv" style="margin-top:22px">
+      <div class="card">
+        <span class="tier t-adj">Señales de alerta</span>
+        <h3>Qué cambiaría la estrategia</h3>
+        <p><strong>Si SOLIDWORKS o Solid Edge suben su auto-acotado por encima del ~90 % con criterio real</strong> (no solo volcado) → acelerar hacia el nicho STEP-sin-CAD y la validación, abandonando cualquier solape con generación de vistas.</p>
+        <p><strong>Si DraftAid lanza conjuntos + STEP-sin-CAD en Europa con precio agresivo</strong> → diferenciar por normativa europea y servicio local en español.</p>
+        <p><strong>Si aparece un open source de acotado con criterio</strong> → acelerar el foso del catálogo de reglas propietario y el informe de validación.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 CAVEATS -->
+  <section class="sec">
+    <div class="sec-head rv"><span class="balloon">11</span><h2>Lo que no está verificado<span class="note">Léelo antes de usar cualquier cifra</span></h2></div>
+
+    <div class="caveats rv">
+      <ul>
+        <li><strong>Precios de DraftAid y Vectra: no públicos.</strong> Ambos solo «contactar con ventas». Cualquier cifra concreta sería inventada. El único número en el registro para DraftAid («cientos de dólares bajos-medios») es una conjetura periodística de 2024, ya obsoleta.</li>
+        <li><strong>Cifras de tamaño de mercado:</strong> proceden de firmas de estudios con metodologías no auditables y divergentes entre sí. Usar como orden de magnitud, no como dato.</li>
+        <li><strong>Precisión de DraftAid:</strong> la empresa declara 80-90 %; el 95 % es estimación de un periodista (Roopinder Tara, engineering.com). Varía por tipo de pieza: 70 % fresado, 95 % chapa.</li>
+        <li><strong>Beta de conjuntos de DraftAid (junio 2026):</strong> es un plan anunciado, no verificado que se haya lanzado en plazo.</li>
+        <li><strong>Financiación de Vectra:</strong> fuentes contradictorias (3,5 M$ vs 200 K$). No fiable.</li>
+        <li><strong>«Cadstrom» y «Trace»:</strong> no se ha podido verificar ningún producto con esos nombres que genere planos 2D acotados desde STEP. Probablemente no son competidores reales bajo esa denominación.</li>
+        <li><strong>Datos de España y Europa</strong> sobre horas y coste de despiece: no encontrados de forma fiable. Se desconocen.</li>
+        <li><strong>No se ha realizado análisis de libertad de operación (FTO)</strong> sobre las patentes citadas. Recomendable antes de escalar.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <span>Informe de mercado · SpinApp / PLANIA · 09.08.2026</span>
+    <span class="brand">©S.A.® IAGUSTO</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* barra de cota */
+  var fill = document.getElementById('fill'), pct = document.getElementById('pct'), ticking=false;
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? Math.min(100, Math.max(0, (window.scrollY / h) * 100)) : 0;
+    fill.style.width = p + '%';
+    pct.textContent = Math.round(p) + '%';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ window.requestAnimationFrame(onScroll); ticking = true; }
+  }, {passive:true});
+  onScroll();
+
+  if(reduce){
+    document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in')});
+    document.querySelectorAll('tbody tr').forEach(function(e){e.classList.add('in')});
+    document.querySelectorAll('.metric .num').forEach(function(n){
+      n.textContent = n.dataset.count.replace('.',',') + (n.dataset.suffix||'');
+    });
+    return;
+  }
+
+  /* revelado general */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(function(e){ io.observe(e); });
+
+  /* filas de tabla escalonadas */
+  var tio = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        var rows = en.target.querySelectorAll('tbody tr');
+        rows.forEach(function(r,i){ setTimeout(function(){ r.classList.add('in'); }, i*70); });
+        tio.unobserve(en.target);
+      }
+    });
+  }, {threshold:0.05});
+  document.querySelectorAll('.tablewrap').forEach(function(e){ tio.observe(e); });
+
+  /* contadores */
+  var cio = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      var el = en.target, target = parseFloat(el.dataset.count), suf = el.dataset.suffix || '';
+      var dec = (el.dataset.count.indexOf('.') > -1) ? 1 : 0;
+      var start = null, dur = 1100;
+      function step(ts){
+        if(!start) start = ts;
+        var t = Math.min(1, (ts - start) / dur);
+        var eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = (target * eased).toFixed(dec).replace('.', ',') + suf;
+        if(t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      cio.unobserve(el);
+    });
+  }, {threshold:0.5});
+  document.querySelectorAll('.metric .num').forEach(function(e){ cio.observe(e); });
+})();
+</script>
+</body>
+</html>
