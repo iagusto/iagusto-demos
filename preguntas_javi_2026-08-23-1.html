@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLANIA · Siete preguntas con el plano delante — Javi</title>
+<style>
+:root{
+  --mylar:#E4EAEE;
+  --papel:#FFFFFF;
+  --tinta:#101F29;
+  --tinta-2:#4A5D6A;
+  --azul:#0B4F6C;
+  --azul-claro:#D8E6ED;
+  --rojo:#B3261E;
+  --ambar:#9A5B00;
+  --verde:#146B45;
+  --linea:#B9C6CE;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--mylar);color:var(--tinta);
+  font-family:var(--sans);font-size:16px;line-height:1.5;
+  background-image:linear-gradient(var(--linea) 1px,transparent 1px),linear-gradient(90deg,var(--linea) 1px,transparent 1px);
+  background-size:28px 28px;background-position:-1px -1px;
+}
+.wrap{max-width:800px;margin:0 auto;padding:0 12px 96px}
+
+.cajetin{background:var(--papel);border:2px solid var(--tinta);margin:16px 0 20px}
+.cajetin .fila{display:flex;border-bottom:1px solid var(--linea)}
+.cajetin .fila:last-child{border-bottom:0}
+.cajetin .celda{padding:10px 12px;border-right:1px solid var(--linea);flex:1}
+.cajetin .celda:last-child{border-right:0}
+.rot{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-2);display:block;margin-bottom:2px}
+h1{font-family:var(--mono);font-size:19px;letter-spacing:.06em;text-transform:uppercase;margin:0;line-height:1.25}
+
+.intro{background:var(--papel);border:1px solid var(--linea);border-left:4px solid var(--azul);padding:14px 16px;margin-bottom:16px}
+.intro p{margin:0 0 10px}
+.intro p:last-child{margin:0}
+.intro strong{background:#FFF3C4;padding:0 3px}
+
+.acierto{background:var(--papel);border:1px solid var(--verde);border-left:4px solid var(--verde);padding:14px 16px;margin-bottom:24px}
+.acierto .rot{color:var(--verde)}
+.acierto p{margin:0 0 10px}
+.acierto p:last-child{margin:0}
+
+/* ---- imágenes de plano ---- */
+figure{margin:12px 0 14px;background:#F2F6F8;border:1px solid var(--linea);padding:8px}
+figure img{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--linea)}
+figcaption{font-family:var(--mono);font-size:11px;line-height:1.45;color:var(--tinta-2);margin-top:7px}
+figcaption a{color:var(--azul);font-weight:700}
+
+.ident{background:var(--papel);border:1px solid var(--linea);padding:14px 16px;margin-bottom:24px}
+label.campo{display:block;margin-bottom:12px}
+label.campo:last-child{margin-bottom:0}
+input[type=text],input[type=email],textarea{
+  width:100%;font-family:var(--sans);font-size:16px;color:var(--tinta);
+  border:1px solid var(--linea);background:#FBFDFE;padding:9px 10px;border-radius:2px;
+}
+textarea{min-height:70px;resize:vertical;line-height:1.45}
+input:focus,textarea:focus{outline:2px solid var(--azul);outline-offset:1px;border-color:var(--azul)}
+
+.punto{background:var(--papel);border:1px solid var(--linea);margin-bottom:16px;display:flex;transition:border-color .15s}
+.punto[data-hecho="1"]{border-color:var(--verde)}
+.gutter{width:34px;flex:none;background:var(--azul-claro);border-right:1px solid var(--linea);position:relative}
+.gutter .marca{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%) rotate(180deg);
+  writing-mode:vertical-rl;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--azul);
+}
+.cuerpo{padding:13px 14px;flex:1;min-width:0}
+.cab{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.cod{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--azul);font-weight:700}
+.titulo{font-weight:700;margin:0 0 8px;line-height:1.35}
+.dijimos{margin:0 0 4px;color:var(--tinta-2);font-size:15px}
+.apunte{background:#FFF3C4;border-left:3px solid var(--ambar);padding:9px 11px;margin:0 0 12px;font-size:14px}
+
+.preg{border-top:1px solid var(--linea);padding-top:11px;margin-top:11px}
+.preg > p{margin:0 0 8px;font-size:15px}
+.opts{display:flex;flex-wrap:wrap;gap:7px}
+.opt{flex:1 1 auto}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{
+  display:block;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.05em;
+  border:1px solid var(--linea);padding:9px 10px;cursor:pointer;background:#FBFDFE;border-radius:2px;
+}
+.opt input:checked + span{background:var(--azul);border-color:var(--azul);color:#fff;font-weight:700}
+.opt input:focus-visible + span{outline:2px solid var(--azul);outline-offset:2px}
+
+.barra{
+  position:fixed;left:0;right:0;bottom:0;background:var(--tinta);color:#fff;
+  padding:9px 12px;display:flex;gap:10px;align-items:center;z-index:20;
+}
+.barra .txt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;flex:1}
+.barra .pista{height:4px;background:#3A4C57;margin-top:5px}
+.barra .relleno{height:100%;background:#5FD3A0;width:0%;transition:width .2s}
+button{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  padding:10px 14px;border:1px solid #fff;background:transparent;color:#fff;cursor:pointer;border-radius:2px}
+button.enviar{background:#5FD3A0;border-color:#5FD3A0;color:var(--tinta);font-weight:700}
+button:active{transform:translateY(1px)}
+
+.final{background:var(--papel);border:2px solid var(--tinta);padding:16px;margin-top:24px}
+.envio{background:var(--papel);border:2px solid var(--verde);padding:18px 16px;margin-top:18px;text-align:center}
+button.enviar-grande{
+  width:100%;background:var(--verde);border:1px solid var(--verde);color:#fff;
+  font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;padding:16px 14px;border-radius:2px;cursor:pointer;
+}
+button.enviar-grande:disabled{opacity:.55;cursor:wait}
+.nota{font-size:13px;color:var(--tinta-2);margin-top:10px}
+.nota.error{color:var(--rojo);font-weight:700}
+h2{
+  font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--papel);background:var(--azul);padding:9px 12px;margin:34px 0 14px;
+}
+h2 span{display:block;font-size:11px;letter-spacing:.05em;text-transform:none;color:#BCD6E2;margin-top:3px}
+.cierre{font-size:15px;margin:22px 0 0;color:var(--tinta-2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:420px){
+  .gutter{width:26px}
+  .cuerpo{padding:11px 11px}
+  .opt{flex:1 1 100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cajetin">
+    <div class="fila">
+      <div class="celda" style="flex:2">
+        <span class="rot">Documento</span>
+        <h1>Siete cosas que preguntamos mal · te las volvemos a preguntar</h1>
+      </div>
+    </div>
+    <div class="fila">
+      <div class="celda"><span class="rot">Proyecto</span>PLANIA · step2dxf</div>
+      <div class="celda"><span class="rot">Revisor</span>Javi (delineante)</div>
+    </div>
+    <div class="fila">
+      <div class="celda"><span class="rot">Fecha</span>23 · 08 · 2026</div>
+      <div class="celda"><span class="rot">Trabajo</span>ALMACÉN</div>
+      <div class="celda"><span class="rot">Hoja</span>1 de 1</div>
+    </div>
+  </div>
+
+  <div class="intro">
+    <p>Javi: marcaste siete puntos como <strong>"no entiendo"</strong>. El fallo es nuestro — estaban escritos en nuestro idioma, no en el del taller. Aquí van otra vez, uno por uno y <strong>con un plano real de tu trabajo del ALMACÉN al lado</strong>. Las imágenes se ven aquí mismo; si quieres ampliarlas, pinchas encima.</p>
+    <p>Van también las <strong>dos que dejaste en "dudosa"</strong>, una de ellas porque te faltaba el ejemplo que pedías.</p>
+  </div>
+
+  <div class="acierto">
+    <span class="rot">Antes que nada: tenías razón en la M04</span>
+    <p>Los <b>4x Ø3 PASANTE</b> no eran taladros. Era la forma del extremo de la pieza y el programa se los inventó. Ya está corregido, y hay una comprobación nueva que lo vigila.</p>
+    <p>Fíjate en lo que cambia la hoja: <b>sin esos taladros la pieza cabe en A2 a 1:20</b>, cuando antes salía en A0 a 1:5. Los agujeros falsos obligaban a ampliar el plano para hacerlos legibles, y además arrastraban una vista de PLANTA que sólo estaba ahí para enseñarlos.</p>
+    <figure>
+      <a href="https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/M04_ALMACEN_tubo_SIN_FANTASMAS.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9NMDRfQUxNQUNFTl90dWJvX1NJTl9GQU5UQVNNQVMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzUwODk0NywiZXhwIjoxNzkwMTAwOTQ3fQ.gEmW7zcx5uLGue8nyaP4ai9kSEq_K_1ITe9rKTWsExQ" target="_blank" rel="noopener">
+        <img src="https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/M04_ALMACEN_tubo_SIN_FANTASMAS.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9NMDRfQUxNQUNFTl90dWJvX1NJTl9GQU5UQVNNQVMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzUwODk0NywiZXhwIjoxNzkwMTAwOTQ3fQ.gEmW7zcx5uLGue8nyaP4ai9kSEq_K_1ITe9rKTWsExQ" alt="M04 corregida: dos vistas, A2 1:20, sin los taladros inventados" loading="lazy">
+      </a>
+      <figcaption>M04 corregida: dos vistas, A2 1:20, sin los taladros inventados · <a href="https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/M04_ALMACEN_tubo_SIN_FANTASMAS.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9NMDRfQUxNQUNFTl90dWJvX1NJTl9GQU5UQVNNQVMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzUwODk0NywiZXhwIjoxNzkwMTAwOTQ3fQ.gEmW7zcx5uLGue8nyaP4ai9kSEq_K_1ITe9rKTWsExQ" target="_blank" rel="noopener">abrir la imagen</a></figcaption>
+    </figure>
+  </div>
+
+  <form id="f" action="https://formspree.io/f/xqenkjpv" method="POST">
+    <input type="hidden" name="_subject" value="PLANIA · Respuestas de Javi a las 7 preguntas + 2 dudosas">
+
+    <div class="ident">
+      <label class="campo"><span class="rot">Nombre</span>
+        <input type="text" name="revisor" value="Javi" required>
+      </label>
+      <label class="campo"><span class="rot">Tu email (para poder responderte)</span>
+        <input type="email" name="email" placeholder="javi@..." required>
+      </label>
+    </div>
+
+    <div id="secciones"></div>
+
+    <div class="final">
+      <label class="campo"><span class="rot">¿Ha quedado alguna de estas siete todavía sin entender?</span>
+        <textarea name="sigue_sin_entender" placeholder="Dinos cuál y te la volvemos a explicar, sin problema."></textarea>
+      </label>
+      <label class="campo"><span class="rot">Cualquier otra cosa</span>
+        <textarea name="libre"></textarea>
+      </label>
+      <p class="cierre"><b>Gracias.</b> Con esto y lo que ya contestaste, el catálogo de comprobaciones queda con tu criterio dentro — que es de lo que se trataba.</p>
+    </div>
+
+    <div class="envio">
+      <button type="submit" class="enviar-grande">Enviar respuestas a César</button>
+      <p class="nota" id="aviso-envio">Se envía todo de una vez. Lo que más nos sirve son tus respuestas escritas, no las casillas.</p>
+    </div>
+  </form>
+
+</div>
+
+<div class="barra">
+  <div class="txt">
+    <span id="cuenta">0 de 0 contestadas</span>
+    <div class="pista"><div class="relleno" id="relleno"></div></div>
+  </div>
+  <button type="button" id="copiar">Copiar borrador</button>
+  <button type="submit" form="f" class="enviar">Enviar</button>
+</div>
+
+<script>
+const SI_NO = ["Sí","No"];
+
+const BLOQUES = [
+{
+  h:"Las siete que no se entendieron",
+  s:"Mismas comprobaciones, con el plano delante",
+  puntos:[
+  {
+    c:"6",
+    t:"Una cota de diámetro o de ángulo que dice un número equivocado",
+    d:"Hoy comprobamos que las cotas <b>de longitud</b> digan la verdad: si el plano dice 5.225, la pieza mide 5.225. Con los <b>diámetros</b> (Ø72,3) y los <b>ángulos</b> (135°) <b>no lo comprobamos</b>: si ahí saliera un número equivocado, el programa no se entera.",
+    img:"ej_06_cota_de_diametro",
+    pie:"Cuatro cotas de Ø y una angular de 135°: ninguna de ellas se contrasta hoy contra la pieza",
+    p:[
+      {k:"ha recibido un Ø o ángulo equivocado", q:"¿Te ha llegado alguna vez un plano con un Ø o un ángulo equivocado?", tipo:"op", o:SI_NO},
+      {k:"lo comprueba o se fía", q:"¿Lo compruebas tú al recibirlo, o te fías?", tipo:"tx"},
+      {k:"parar o avisar", q:"¿Debería el programa parar el plano si detecta eso, o sólo avisar?", tipo:"op", o:["Parar la pieza","Sólo avisar","Depende"]},
+      {k:"de qué depende", q:"Si has dicho «depende»: ¿de qué depende?", tipo:"tx"}
+    ]
+  },
+  {
+    c:"7",
+    t:"Diecinueve agujeros descritos con tres marcas",
+    d:"Comprobamos que <b>cada clase de rasgo</b> aparezca en el plano (si hay taladros, que se rotulen taladros). Lo que <b>no</b> comprobamos es la <b>cantidad</b>: una pieza con 19 taladros descritos con 3 marcas de familia nos parece «completa» aunque faltara alguno.",
+    img:"ej_07_recuento_M06",
+    pie:"M06: los taladros van a tabla, con su ID, sus coordenadas y su especificación",
+    p:[
+      {k:"cuenta los agujeros contra la pieza", q:"¿Cuentas tú los agujeros del plano contra la pieza?", tipo:"op", o:SI_NO},
+      {k:"agrupadas o cada una acotada", q:"¿Prefieres las marcas agrupadas (8x M10) o cada agujero acotado?", tipo:"op", o:["Agrupadas","Cada uno acotado","Depende"]},
+      {k:"cuándo agrupar y cuándo no", q:"¿Cuándo agruparías y cuándo no?", tipo:"tx"}
+    ]
+  },
+  {
+    c:"12",
+    t:"El símbolo de diedro dice una cosa y el dibujo está hecho de otra",
+    d:"Comprobamos que el plano <b>lleve</b> el símbolo (el conito con las dos circunferencias, abajo a la izquierda). Lo que no comprobamos es que las vistas estén <b>colocadas</b> según ese diedro: si el símbolo dijera 1er diedro y las vistas estuvieran puestas en 3er diedro, el programa no lo vería.",
+    img:"ej_12_simbolo_diedro",
+    pie:"El símbolo, tal como sale hoy en cada hoja: 1er DIEDRO ISO-E",
+    p:[
+      {k:"mira el símbolo al abrir el plano", q:"¿Miras el símbolo al abrir un plano?", tipo:"op", o:SI_NO},
+      {k:"ha recibido vistas al revés", q:"¿Te ha llegado alguno con las vistas al revés?", tipo:"op", o:SI_NO},
+      {k:"1er diedro siempre o clientes con el tercero", q:"¿Vale con 1er diedro siempre, o hay clientes que piden el tercero?", tipo:"tx"}
+    ]
+  },
+  {
+    c:"13",
+    t:"Que el plano de conjunto y las hojas de despiece no se contradigan",
+    d:"Cada hoja se revisa <b>por su cuenta</b>. Nadie comprueba que la lista de materiales del plano de conjunto (las marcas M01, M02, M03…) coincida con las hojas que se entregan: si sobrara o faltara una marca, o una cantidad no cuadrara, el programa no lo vería.",
+    img:"ej_13_conjunto",
+    pie:"Plano de conjunto del ALMACÉN con su lista de materiales",
+    apunte:"<b>Y mira su cajetín:</b> verás $MATERIAL$, $ESPESOR$ y $DIMENSIONES$ sin rellenar. Es un fallo nuestro que hemos encontrado justo preparando esta pregunta — está en corrección. Va aquí tal cual porque es exactamente el tipo de cosa que nadie estaba mirando.",
+    p:[
+      {k:"alguien comprueba lista contra hojas", q:"¿Comprueba alguien en el taller que la lista y las hojas casen?", tipo:"op", o:SI_NO},
+      {k:"qué falla más ahí", q:"¿Qué es lo que más falla ahí en tu experiencia?", tipo:"tx"}
+    ]
+  },
+  {
+    c:"14",
+    t:"Las piezas de compra no se revisan como las de fabricar",
+    d:"Los rodamientos, tuercas y demás piezas de catálogo llevan una hoja A4 simplificada (la que aprobaste el 22/08) que <b>no pasa</b> las comprobaciones de fabricación, porque no se fabrican. Nadie comprueba que su medida de envolvente o su designación sean correctas.",
+    img:"ej_14_comercial_FY30",
+    pie:"Hoja de comercial del soporte FY 30 TF: isométrica, envolvente y NO FABRICAR",
+    p:[
+      {k:"vale así o debe comprobarse", q:"¿Te vale así, o esa hoja debería comprobarse también?", tipo:"op", o:["Me vale así","Debería comprobarse","Depende"]},
+      {k:"qué dato de compra debe ser fiable", q:"¿Qué dato de una pieza de compra necesitas que sea fiable?", tipo:"tx"}
+    ]
+  },
+  {
+    c:"15",
+    t:"Piezas cuyo fichero 3D viene «mal hecho»",
+    d:"Cuando el fichero 3D del cliente trae superficies libres (en vez de geometría limpia), el programa puede <b>no reconocer</b> algún agujero y dibujar el plano incompleto. Tenemos un aviso para eso, pero <b>sólo salta en ficheros de ese tipo</b>: en un fichero normal, si el programa se dejara un agujero, no habría red que lo cazara.",
+    img:"ej_15_superficies_libres",
+    pie:"Una placa del banco cuyo 3D viene con superficies libres — en este caso el programa sí la reconoce entera",
+    p:[
+      {k:"ha recibido plano sin un agujero", q:"¿Te ha llegado un plano al que le faltaba un agujero que sí está en la pieza?", tipo:"op", o:SI_NO},
+      {k:"cómo lo detectó", q:"¿Cómo lo detectaste?", tipo:"tx"}
+    ]
+  },
+  {
+    c:"16",
+    t:"Cuál de las dos vistas laterales se conserva",
+    d:"El programa quita la vista lateral repetida y deja una. Comprueba que <b>quede una</b>, pero no que sea <b>la útil</b>: podría quedarse con la que no enseña los agujeros.",
+    img:"ej_16_vista_de_canto_M14",
+    pie:"M14, con su vista de canto conservada",
+    p:[
+      {k:"cuál lateral conservar", q:"¿Cuál de las dos laterales quieres que se conserve, si sólo cabe una?", tipo:"tx"},
+      {k:"regla que sigue para elegir", q:"¿Hay alguna regla que sigas tú para eso?", tipo:"tx"}
+    ]
+  }
+  ]
+},
+{
+  h:"Las dos que dejaste en «dudosa»",
+  s:"Con el ejemplo que faltaba",
+  puntos:[
+  {
+    c:"VER-ALA",
+    t:"Chapa plegada — aquí tienes el plano que pedías",
+    d:"Dejaste «dudosa» la comprobación de la chapa plegada porque querías ver un ejemplo. El criterio que aplicamos hoy es <b>el tuyo, del 14 de agosto</b>: «con los 130 que marca de exterior x 105 y teniendo un espesor de 6 mm ya estaría correcto; esas otras medidas sobran». O sea: envolvente exterior + espesor, y los tramos entre pliegues se deducen.",
+    img:"ej_VER_ALA_plegada_M11",
+    pie:"M11: una plegada del ALMACÉN, con su envolvente y su espesor en el cajetín",
+    p:[
+      {k:"veredicto", q:"Ahora que ves el ejemplo, ¿la comprobación es correcta?", tipo:"op", o:["Está bien así","Hay que cambiarla","Sigo con dudas"]},
+      {k:"vale para cualquier plegada", q:"¿Sigue valiendo ese criterio para cualquier plegada, o depende de la pieza?", tipo:"tx"},
+      {k:"cuándo hace falta cada tramo", q:"¿Cuándo SÍ necesitas la medida de cada tramo?", tipo:"tx"}
+    ]
+  },
+  {
+    c:"VER-CARA",
+    t:"Un agujero rotulado en una vista que no lo ve",
+    d:"La dejaste en «dudosa» sin comentario, así que probablemente la explicamos mal. <b>Lo que hace:</b> comprueba que un agujero se rotule <b>en la vista donde se ve</b>. Pasó de verdad: un plano rotulaba 13X Ø12 en el alzado, y esos agujeros están en la cara de arriba — el alzado no los ve. El plano decía que esa cara tenía cinco familias de agujeros cuando tiene cuatro.",
+    img:"ej_VER_CARA_M07",
+    pie:"M07: una de las hojas del ALMACÉN donde este aviso salta hoy",
+    p:[
+      {k:"veredicto", q:"Ahora que está mejor explicada, ¿la comprobación es correcta?", tipo:"op", o:["Está bien así","Hay que cambiarla","Sigo con dudas"]},
+      {k:"molesta o lo da por bueno", q:"¿Te molesta que un agujero se rotule en la vista que no toca, o lo das por bueno?", tipo:"tx"},
+      {k:"parar o avisar", q:"¿Debería parar el plano?", tipo:"op", o:["Sí, parar","Sólo avisar","No hace falta"]}
+    ]
+  }
+  ]
+}
+];
+
+const IMGS = {
+  "M04_ALMACEN_tubo_SIN_FANTASMAS": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/M04_ALMACEN_tubo_SIN_FANTASMAS.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9NMDRfQUxNQUNFTl90dWJvX1NJTl9GQU5UQVNNQVMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzUwODk0NywiZXhwIjoxNzkwMTAwOTQ3fQ.gEmW7zcx5uLGue8nyaP4ai9kSEq_K_1ITe9rKTWsExQ",
+  "ej_06_cota_de_diametro": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_06_cota_de_diametro.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal8wNl9jb3RhX2RlX2RpYW1ldHJvLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODc1MDg5NDgsImV4cCI6MTc5MDEwMDk0OH0.COmj_BKdcto6IF0Qp9W0T9xOhrm9_0nzwUPH6Kpuqe0",
+  "ej_07_recuento_M06": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_07_recuento_M06.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal8wN19yZWN1ZW50b19NMDYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzUwODk0OSwiZXhwIjoxNzkwMTAwOTQ5fQ.eib4_yfe_s1RqpJc8574lXRTDuIAGkXA80Of5TjxzWM",
+  "ej_12_simbolo_diedro": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_12_simbolo_diedro.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal8xMl9zaW1ib2xvX2RpZWRyby5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3NTA4OTUwLCJleHAiOjE3OTAxMDA5NTB9.huqczYZzy9mxGagx81urz-L8E36OwKhQYWhzq8ojwRA",
+  "ej_13_conjunto": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_13_conjunto.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal8xM19jb25qdW50by5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3NTA4OTUyLCJleHAiOjE3OTAxMDA5NTJ9.fegwC3FNVKaXKzGATBgm1n8MnXK7EQXVxxxXwWcT2rs",
+  "ej_14_comercial_FY30": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_14_comercial_FY30.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal8xNF9jb21lcmNpYWxfRlkzMC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3NTA4OTUzLCJleHAiOjE3OTAxMDA5NTN9.pi5id_HUU10FINYT8l0P6V5XKDyk-LWE1YYRlP5lxeY",
+  "ej_15_superficies_libres": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_15_superficies_libres.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal8xNV9zdXBlcmZpY2llc19saWJyZXMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzUwODk1NCwiZXhwIjoxNzkwMTAwOTU0fQ.IxmnSngEiInN19vrwK_tI9JXqLhi5PQjwIFdff9QsE4",
+  "ej_16_vista_de_canto_M14": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_16_vista_de_canto_M14.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal8xNl92aXN0YV9kZV9jYW50b19NMTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzUwODk1NSwiZXhwIjoxNzkwMTAwOTU1fQ.s9h3ehbBT0pD5MYzWa2y2ZhIUEIRKLyA-p5DCmRpuSY",
+  "ej_VER_ALA_plegada_M11": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_VER_ALA_plegada_M11.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal9WRVJfQUxBX3BsZWdhZGFfTTExLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODc1MDg5NTYsImV4cCI6MTc5MDEwMDk1Nn0.cn5eXFWopdjCpOUzPaIGlIHybpKTJtAc34LAwBPUgrw",
+  "ej_VER_CARA_M07": "https://lboagqhqqrzvigodikrg.supabase.co/storage/v1/object/sign/dxf-out/entregas/2026-08-23_repreguntas_javi/ej_VER_CARA_M07.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yNTg4M2EzYS02YTRmLTQyZTYtYTg2ZC05MjcxODgxZWJjYTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkeGYtb3V0L2VudHJlZ2FzLzIwMjYtMDgtMjNfcmVwcmVndW50YXNfamF2aS9lal9WRVJfQ0FSQV9NMDcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzUwODk1OSwiZXhwIjoxNzkwMTAwOTU5fQ.9FXKIoQuz28wlm3qRGbDCb6KVCZmxgG9xXIoV_f7p0M"
+};
+
+/* ---------------- PINTADO ---------------- */
+const cont = document.getElementById('secciones');
+let totalOp = 0;
+
+BLOQUES.forEach(bl => {
+  const h = document.createElement('h2');
+  h.innerHTML = bl.h + '<span>' + bl.s + '</span>';
+  cont.appendChild(h);
+
+  bl.puntos.forEach(pt => {
+    let html = '';
+    pt.p.forEach(pr => {
+      const nombre = pt.c + ' · ' + pr.k;
+      if (pr.tipo === 'op'){
+        totalOp++;
+        const opts = pr.o.map(v =>
+          `<label class="opt"><input type="radio" name="${nombre}" value="${v}"><span>${v}</span></label>`
+        ).join('');
+        html += `<div class="preg"><p>${pr.q}</p><div class="opts">${opts}</div></div>`;
+      } else {
+        html += `<div class="preg"><p>${pr.q}</p><textarea name="${nombre}" placeholder="Escríbelo como se lo dirías a un delineante nuevo."></textarea></div>`;
+      }
+    });
+
+    const url = IMGS[pt.img] || '';
+    const fig = url ? `
+      <figure>
+        <a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${pt.pie}" loading="lazy"></a>
+        <figcaption>${pt.pie} · <a href="${url}" target="_blank" rel="noopener">abrir la imagen</a></figcaption>
+      </figure>` : '';
+
+    const d = document.createElement('div');
+    d.className = 'punto';
+    d.dataset.hecho = "0";
+    d.innerHTML = `
+      <div class="gutter"><span class="marca">${pt.c}</span></div>
+      <div class="cuerpo">
+        <div class="cab"><span class="cod">${pt.c}</span></div>
+        <p class="titulo">${pt.t}</p>
+        <p class="dijimos">${pt.d}</p>
+        ${fig}
+        ${pt.apunte ? `<p class="apunte">${pt.apunte}</p>` : ''}
+        ${html}
+      </div>`;
+    cont.appendChild(d);
+  });
+});
+
+/* ---------------- PROGRESO ---------------- */
+const cuenta = document.getElementById('cuenta');
+const relleno = document.getElementById('relleno');
+const form = document.getElementById('f');
+const aviso = document.getElementById('aviso-envio');
+
+function actualiza(){
+  let hechas = 0;
+  document.querySelectorAll('.punto').forEach(card => {
+    const grupos = new Set([...card.querySelectorAll('input[type=radio]')].map(r => r.name));
+    let ok = 0;
+    grupos.forEach(n => { if (card.querySelector(`input[name="${n}"]:checked`)) ok++; });
+    hechas += ok;
+    card.dataset.hecho = (grupos.size && ok === grupos.size) ? "1" : "0";
+  });
+  cuenta.textContent = hechas + ' de ' + totalOp + ' contestadas';
+  relleno.style.width = (totalOp ? hechas/totalOp*100 : 0) + '%';
+}
+form.addEventListener('change', actualiza);
+actualiza();
+
+/* ---------------- ENVÍO ---------------- */
+form.addEventListener('submit', (e) => {
+  const pendientes = [...document.querySelectorAll('.punto')].filter(c => c.dataset.hecho !== "1" && c.querySelector('input[type=radio]'));
+  if (pendientes.length){
+    e.preventDefault();
+    aviso.className = 'nota error';
+    aviso.textContent = 'Faltan ' + pendientes.length + ' fichas por marcar. Te llevo a la primera.';
+    pendientes[0].scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  aviso.className = 'nota';
+  aviso.textContent = 'Enviando...';
+  const btn = form.querySelector('.enviar-grande');
+  if (btn) btn.disabled = true;
+});
+
+/* ---------------- BORRADOR ---------------- */
+document.getElementById('copiar').addEventListener('click', () => {
+  const datos = new FormData(form);
+  let txt = 'PLANIA · Respuestas de Javi a las 7 preguntas + 2 dudosas\n\n';
+  for (const [k,v] of datos.entries()){
+    if (!v || k.startsWith('_')) continue;
+    txt += k + ':\n' + v + '\n\n';
+  }
+  navigator.clipboard.writeText(txt).then(
+    () => alert('Borrador copiado. Pégalo donde quieras guardarlo.'),
+    () => alert('No se ha podido copiar aquí. Envía el formulario o haz una captura.')
+  );
+});
+</script>
+</body>
+</html>
