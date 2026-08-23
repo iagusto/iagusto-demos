@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLANIA · Revisión de normas — Javi</title>
+<style>
+:root{
+  --mylar:#E4EAEE;
+  --papel:#FFFFFF;
+  --tinta:#101F29;
+  --tinta-2:#4A5D6A;
+  --azul:#0B4F6C;
+  --azul-claro:#D8E6ED;
+  --rojo:#B3261E;
+  --ambar:#9A5B00;
+  --verde:#146B45;
+  --linea:#B9C6CE;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--mylar);color:var(--tinta);
+  font-family:var(--sans);font-size:16px;line-height:1.5;
+  background-image:linear-gradient(var(--linea) 1px,transparent 1px),linear-gradient(90deg,var(--linea) 1px,transparent 1px);
+  background-size:28px 28px;background-position:-1px -1px;
+}
+.wrap{max-width:800px;margin:0 auto;padding:0 12px 96px}
+
+/* ---- cajetín superior ---- */
+.cajetin{
+  background:var(--papel);border:2px solid var(--tinta);margin:16px 0 20px;
+}
+.cajetin .fila{display:flex;border-bottom:1px solid var(--linea)}
+.cajetin .fila:last-child{border-bottom:0}
+.cajetin .celda{padding:10px 12px;border-right:1px solid var(--linea);flex:1}
+.cajetin .celda:last-child{border-right:0}
+.rot{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-2);display:block;margin-bottom:2px}
+h1{font-family:var(--mono);font-size:19px;letter-spacing:.06em;text-transform:uppercase;margin:0;line-height:1.25}
+.intro{background:var(--papel);border:1px solid var(--linea);border-left:4px solid var(--azul);padding:14px 16px;margin-bottom:20px}
+.intro p{margin:0 0 10px}
+.intro p:last-child{margin:0}
+.intro strong{background:#FFF3C4;padding:0 3px}
+
+/* ---- identificación ---- */
+.ident{background:var(--papel);border:1px solid var(--linea);padding:14px 16px;margin-bottom:24px}
+label.campo{display:block;margin-bottom:12px}
+label.campo:last-child{margin-bottom:0}
+input[type=text],input[type=email],textarea{
+  width:100%;font-family:var(--sans);font-size:16px;color:var(--tinta);
+  border:1px solid var(--linea);background:#FBFDFE;padding:9px 10px;border-radius:2px;
+}
+textarea{min-height:78px;resize:vertical;line-height:1.45}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--azul);outline-offset:1px;border-color:var(--azul)}
+
+/* ---- secciones ---- */
+h2{
+  font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--papel);background:var(--azul);padding:9px 12px;margin:34px 0 14px;
+}
+h2 span{display:block;font-size:11px;letter-spacing:.05em;text-transform:none;color:#BCD6E2;margin-top:3px}
+
+/* ---- ficha de norma ---- */
+.norma{background:var(--papel);border:1px solid var(--linea);margin-bottom:14px;display:flex;transition:border-color .15s}
+.norma[data-hecho="1"]{border-color:var(--verde);border-left-color:var(--verde)}
+.gutter{
+  width:34px;flex:none;background:#F2F6F8;border-right:1px solid var(--linea);
+  display:flex;align-items:flex-start;justify-content:center;padding-top:12px;
+}
+.gutter .marca{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--tinta-2);
+  writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;
+}
+.norma[data-hecho="1"] .gutter{background:#E7F3ED}
+.norma[data-hecho="1"] .marca{color:var(--verde)}
+.cuerpo{padding:12px 14px;flex:1;min-width:0}
+.cab{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;margin-bottom:8px}
+.cod{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.04em}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:2px 6px;border:1px solid currentColor;text-transform:uppercase}
+.chip.rechaza{color:var(--rojo)}
+.chip.avisa{color:var(--ambar)}
+.chip.banco{color:var(--azul)}
+.titulo{font-size:16px;font-weight:600;margin:0 0 8px;line-height:1.35}
+.taller{background:#F4F8FA;border-left:3px solid var(--azul);padding:8px 10px;margin:0 0 10px;font-size:15px}
+dl{margin:0 0 10px;font-size:14px;color:var(--tinta-2)}
+dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta);margin-top:8px}
+dd{margin:2px 0 0}
+dd.ciego{color:var(--rojo)}
+
+/* ---- respuesta ---- */
+.respuesta{border-top:1px dashed var(--linea);padding-top:10px;margin-top:10px}
+.opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.opt{flex:1 1 30%;min-width:118px}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt span{
+  display:block;text-align:center;padding:9px 4px;font-size:13px;font-weight:600;
+  border:1px solid var(--linea);background:#FBFDFE;cursor:pointer;border-radius:2px;
+}
+.opt input:focus-visible + span{outline:2px solid var(--azul);outline-offset:1px}
+.opt input:checked + span.ok{background:var(--verde);border-color:var(--verde);color:#fff}
+.opt input:checked + span.cambiar{background:var(--rojo);border-color:var(--rojo);color:#fff}
+.opt input:checked + span.duda{background:var(--ambar);border-color:var(--ambar);color:#fff}
+.subir{display:flex;gap:8px;align-items:flex-start;margin:0 0 9px;font-size:13.5px;color:var(--tinta-2);cursor:pointer}
+.subir input{margin-top:3px;flex:none;width:18px;height:18px;accent-color:var(--rojo)}
+.respuesta textarea{min-height:64px}
+
+/* ---- puntos ciegos ---- */
+.ciego-item{background:var(--papel);border:1px solid var(--linea);padding:12px 14px;margin-bottom:10px}
+.ciego-item p{margin:0 0 9px;font-size:15px}
+.ciego-item .num{font-family:var(--mono);font-size:11px;color:var(--rojo);letter-spacing:.1em;display:block;margin-bottom:4px}
+select{
+  width:100%;font-family:var(--sans);font-size:15px;padding:9px 10px;
+  border:1px solid var(--linea);background:#FBFDFE;border-radius:2px;color:var(--tinta);
+}
+
+/* ---- barra de progreso fija ---- */
+.barra{
+  position:fixed;left:0;right:0;bottom:0;background:var(--tinta);color:#fff;
+  padding:9px 12px;display:flex;gap:10px;align-items:center;z-index:20;
+}
+.barra .txt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;flex:1}
+.barra .pista{height:4px;background:#3A4C57;margin-top:5px}
+.barra .relleno{height:100%;background:#5FD3A0;width:0%;transition:width .2s}
+button{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  padding:10px 14px;border:1px solid #fff;background:transparent;color:#fff;cursor:pointer;border-radius:2px}
+button.enviar{background:#5FD3A0;border-color:#5FD3A0;color:var(--tinta);font-weight:700}
+button:active{transform:translateY(1px)}
+.final{background:var(--papel);border:2px solid var(--tinta);padding:16px;margin-top:24px}
+.envio{background:var(--papel);border:2px solid var(--verde);padding:18px 16px;margin-top:18px;text-align:center}
+button.enviar-grande{
+  width:100%;background:var(--verde);border:1px solid var(--verde);color:#fff;
+  font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;padding:16px 14px;border-radius:2px;cursor:pointer;
+}
+button.enviar-grande:disabled{opacity:.55;cursor:wait}
+.envio .nota{margin-top:10px}
+.envio .nota.error{color:var(--rojo);font-weight:700}
+.nota{font-size:13px;color:var(--tinta-2);margin-top:10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:420px){
+  .gutter{width:26px}
+  .cuerpo{padding:11px 11px}
+  .opt{flex:1 1 100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cajetin">
+    <div class="fila">
+      <div class="celda" style="flex:2">
+        <span class="rot">Documento</span>
+        <h1>Revisión de normas de verificación</h1>
+      </div>
+    </div>
+    <div class="fila">
+      <div class="celda"><span class="rot">Proyecto</span>PLANIA · step2dxf</div>
+      <div class="celda"><span class="rot">Revisor</span>Javi (delineante)</div>
+    </div>
+    <div class="fila">
+      <div class="celda"><span class="rot">Fecha</span>23 · 08 · 2026</div>
+      <div class="celda"><span class="rot">Motor</span>prod 6f95c03</div>
+      <div class="celda"><span class="rot">Hoja</span>1 de 1</div>
+    </div>
+  </div>
+
+  <div class="intro">
+    <p>Esto es la lista de <strong>todo lo que el programa comprueba</strong> antes de dar un plano por bueno. Cada ficha dice qué mira, qué <em>no</em> puede ver, y si hoy tira la pieza o solo avisa.</p>
+    <p>No hace falta que entiendas el código. La pregunta para cada una es simple: <strong>¿esa es la norma correcta de taller?</strong> Si no lo es, escribe cómo debería ser. Tu texto vale más que el visto bueno.</p>
+    <p class="nota">Se envía todo de una vez con el botón de abajo. Rellénalo de una sentada; si tienes que parar, usa <em>Copiar borrador</em> y pégalo donde quieras.</p>
+  </div>
+
+  <form id="f" action="https://formspree.io/f/xqenkjpv" method="POST">
+    <input type="hidden" name="_subject" value="PLANIA · Revisión del catálogo VER por Javi">
+
+    <div class="ident">
+      <label class="campo"><span class="rot">Nombre</span>
+        <input type="text" name="revisor" value="Javi" required>
+      </label>
+      <label class="campo"><span class="rot">Tu email (para poder responderte)</span>
+        <input type="email" name="email" placeholder="javi@..." required>
+      </label>
+      <label class="campo"><span class="rot">Planos que has mirado para esta revisión</span>
+        <input type="text" name="planos_mirados" placeholder="Ej.: LANZADERA, UPN 9 m, 35_BRIDA...">
+      </label>
+    </div>
+
+    <div id="secciones"></div>
+
+    <div class="final">
+      <label class="campo"><span class="rot">Las tres cosas que más te preocupan hoy</span>
+        <textarea name="top3" placeholder="Por orden. Lo que harías primero si solo hubiera tiempo para tres."></textarea>
+      </label>
+      <label class="campo"><span class="rot">¿Falta alguna comprobación que tú haces a mano y el programa no?</span>
+        <textarea name="faltan_reglas" placeholder="Lo que miras tú al revisar un plano y aquí no aparece."></textarea>
+      </label>
+      <label class="campo"><span class="rot">Cualquier otra cosa</span>
+        <textarea name="libre"></textarea>
+      </label>
+    </div>
+
+    <div class="envio">
+      <button type="submit" class="enviar-grande">Enviar revisión a César</button>
+      <p class="nota" id="aviso-envio">Se envía todo de una vez. Recibirás copia en tu email.</p>
+    </div>
+  </form>
+
+</div>
+
+<div class="barra">
+  <div class="txt">
+    <span id="cuenta">0 de 0 revisadas</span>
+    <div class="pista"><div class="relleno" id="relleno"></div></div>
+  </div>
+  <button type="button" id="copiar">Copiar borrador</button>
+  <button type="submit" form="f" class="enviar">Enviar</button>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   DATOS: catálogo VER-* (fuente: CATALOGO_VER.md, 2026-08-23)
+   ------------------------------------------------------------------ */
+const SECCIONES = [
+  {
+    t:"A · Veracidad",
+    s:"El plano no puede contradecir a la pieza",
+    normas:[
+      {c:"VER-10", n:"El espesor del cajetín no contradice al medido", e:"avisa",
+       taller:"Si el cajetín pone 12,9 y la pieza mide 15, el plano miente. Se compara el número del cajetín contra el espesor medido en el 3D.",
+       mira:"Espesor medido del sólido (caras planas antiparalelas) contra el valor del cajetín. Salta si la diferencia pasa de 0,2 mm o del 2 %.",
+       ciego:"Que el espesor sea correcto pero esté mal colocado en el plano. Piezas sin campo ESPESOR (perfil y tubo) no se comprueban."},
+
+      {c:"VER-COTA", n:"Ninguna cota miente sobre la escala de su vista", e:"rechaza",
+       taller:"Dentro de una misma vista, todas las cotas tienen que estar a la misma escala. Si una pone 9000 sobre un vano de 112 mm, la pieza se tira.",
+       mira:"Divide valor rotulado entre vano dibujado; el que se sale del resto de su vista, miente. Los totales de vista partida puestos a propósito viajan declarados y no cuentan.",
+       ciego:"Una cota que mide un vano real pero está mal anclada (el 66 puesto sobre un salto de 100). Y no mira ángulos, radios ni diámetros: quedan sin comprobar (contados aparte)."},
+
+      {c:"VER-40", n:"Una cota que cruza una rotura dice la longitud REAL", e:"rechaza",
+       taller:"En vista partida, la cota que atraviesa el corte tiene que poner la medida real de la pieza, no la del dibujo comprimido.",
+       mira:"Compara el valor rotulado con la longitud real entre sus extremos. Tolerancia 1 mm.",
+       ciego:"Cotas verticales, cotas que no cruzan el corte, y si la rotura está bien elegida."},
+
+      {c:"VER-60", n:"Todo taladro lleva datos completos y sale dibujado", e:"rechaza",
+       taller:"Cada taladro tiene que tener Ø, posición, eje y saber si es pasante o ciego (con profundidad si es ciego). Y además salir designado y posicionado en el plano.",
+       mira:"Los taladros medidos del 3D, no el texto. Si el Ø queda justo entre dos pretaladros métricos (±0,1) no se afirma la rosca: se trata como pasante liso y avisa.",
+       ciego:"Si el Ø es el correcto (solo que exista), si está en el sitio (eso es VER-POS) y si está designado en una vista que lo ve (eso es VER-CARA)."},
+
+      {c:"VER-61", n:"Veracidad de ranura oblonga", e:"rechaza",
+       taller:"Toda ranura lleva longitud, anchura, centro y condición pasante/ciego. Si el radio de los extremos no es la mitad del ancho, no es oblonga pura y se señala.",
+       mira:"Las ranuras medidas del 3D. Tolerancia 0,15 mm para dar por bueno que el radio de extremo es w/2.",
+       ciego:"Si la ranura está bien colocada en el dibujo o si su cota se lee."},
+
+      {c:"VER-62", n:"Veracidad de radios de esquina", e:"rechaza",
+       taller:"Solo se agrupa «4x R5» cuando los cuatro radios son de verdad iguales. Si dos se parecen pero no coinciden, avisa para que lo mires.",
+       mira:"Radios medidos del 3D. Tolerancia 0,05 mm o 0,5 %. Marca los dudosos: separados más de la tolerancia pero menos del doble.",
+       ciego:"Un radio que exista y no se acote (eso es VER-35), ni si el radio es el que hace falta en taller."},
+
+      {c:"VER-63", n:"Veracidad de plegado", e:"rechaza",
+       taller:"Todo pliegue lleva el ángulo real medido del arco (no supuesto) y un radio interior que no deje dudas.",
+       mira:"Los plegados medidos del 3D. El radio interior se da por bueno si se encontró la cara exterior que lo confirma.",
+       ciego:"El sentido del plegado y el orden en que hay que plegar."},
+
+      {c:"VER-35", n:"El plano no puede tener MENOS rasgo que la pieza", e:"rechaza",
+       taller:"Todo lo que el programa mide en el 3D tiene que aparecer en el plano: ranuras, radios, pliegues, chaflanes, roscas, taladros.",
+       mira:"Compara por tipo de rasgo. Si un tipo existe en el 3D y no tiene ninguna representación en el plano, se tira la pieza.",
+       ciego:"El recuento dentro de un tipo: 19 taladros representados por 3 familias cuenta como completo. Tampoco ve escalones cilíndricos (por ahí se coló el Ø47 de la brida)."},
+
+      {c:"VER-DET", n:"Guardia contra rasgos no detectados", e:"avisa",
+       taller:"Red de seguridad: si la pieza enseña más agujeros de los que el programa detectó, avisa de que el plano puede estar corto de cotas y pide reexportar el STEP.",
+       mira:"Cuenta contornos interiores de la geometría y los compara con los taladros y ranuras detectados. Solo actúa en piezas de superficie libre.",
+       ciego:"Piezas de geometría normal (ahí calla a propósito) y qué rasgo concreto falta: solo dice cuántos."}
+    ]
+  },
+  {
+    t:"B · Suficiencia",
+    s:"¿Se puede fabricar con lo que dice el plano?",
+    normas:[
+      {c:"VER-34", n:"Vista de canto y espesor recuperable", e:"rechaza",
+       taller:"Nunca pueden desaparecer las dos vistas laterales, y el espesor tiene que poder sacarse del plano: como cota o en el cajetín.",
+       mira:"El DXF contra el espesor medido. La limpieza de cotas puede quitar una lateral redundante, nunca las dos.",
+       ciego:"Si la vista de canto que queda es la útil: puede quedar la que no enseña los taladros."},
+
+      {c:"VER-VIEWS", n:"Un plano fabricable tiene vista ortográfica Y cotas", e:"rechaza",
+       taller:"Una hoja con solo la isométrica, o sin ninguna cota, no es un plano. Se tira siempre.",
+       mira:"Exige al menos una vista reconocida (alzado, planta, sección, perfil, lateral) y al menos una cota.",
+       ciego:"Si las cotas que hay son suficientes."},
+
+      {c:"VER-POS", n:"La posición de TODOS los taladros sale solo con las cotas del plano", e:"avisa",
+       taller:"Tu prueba, tal cual: si no puedes sacar la X y la Y del centro de cada taladro usando únicamente las cotas del plano, el patrón está mal acotado.",
+       mira:"Va por encadenado: parte de las aristas del contorno y sigue las cotas. X e Y por separado y por vista. Una cadena declarada (5 x 50 = 250) cubre los taladros intermedios del tramo.",
+       ciego:"Si la cota se lee o está bien colocada. Tampoco entra en cotas angulares."},
+
+      {c:"VER-CARA", n:"Cada rasgo, designado en una vista que LO VE", e:"avisa",
+       taller:"Que no se rotule «13X Ø12» en una vista desde la que esos taladros no se ven, ni se quede un taladro sin designar en ninguna.",
+       mira:"La dirección de cada vista y los taladros del 3D. Empareja por Ø (tolerancia 0,35 mm) y comprueba que el eje del taladro se vea desde esa vista.",
+       ciego:"Nada si la vista no lleva marca de dirección: en ese caso se abstiene y lo dice."},
+
+      {c:"VER-PROF-1/2/3", n:"Contrato de la ruta de perfil (y tubo)", e:"rechaza",
+       taller:"Tres cosas en perfiles y tubos: (1) el plano enseña la forma conformada, (2) la fila de taladros va encadenada y no en tabla, (3) taladros designados y espesor recuperable.",
+       mira:"Para la forma vale sección con rayado o vista lateral, las dos (tú la dibujas como lateral sin rayado). Rechaza si aparecen cabeceras de tabla X-B / Y-A / ESPEC. El espesor vale como llamada o como cota.",
+       ciego:"Si la sección es la correcta ni si la cadena está bien construida."},
+
+      {c:"VER-REV-1..5", n:"Contrato de acotado de eje (torneado)", e:"rechaza",
+       taller:"En ejes: sección A-A, cada tramo con su Ø, chavetero con radio de extremos y profundidad, rosca con designación normalizada (nunca «rosca a confirmar»), y sin ocultas del taladro en el alzado.",
+       mira:"Cuenta los símbolos Ø del plano y los compara con el número de tramos de la pieza.",
+       ciego:"Si cada Ø rotulado corresponde a su tramo: cuenta, no empareja."}
+    ]
+  },
+  {
+    t:"C · Representación",
+    s:"Que el plano se lea como un plano",
+    normas:[
+      {c:"VER-70", n:"Las ocultas salen discontinuas", e:"avisa",
+       taller:"Las líneas ocultas tienen que verse a trazos en cualquier CAD, no continuas ni doble-troceadas.",
+       mira:"La capa OCULTA y cómo se dibujó: si el trazo lo pone el CAD, trocearla también sería un fallo; si va troceada de verdad, exige que haya guiones.",
+       ciego:"Si lo que está dibujado oculto es lo que debería estar oculto."},
+
+      {c:"VER-71", n:"Grosores ISO 128", e:"avisa",
+       taller:"Contorno visible grueso; ocultas y cotas finas. Contraste 2:1 y nunca al revés.",
+       mira:"Los grosores por capa del DXF y el interruptor que hace que el visor los pinte.",
+       ciego:"Si el grosor absoluto es el adecuado al formato (un A0 pide trazo más gordo)."},
+
+      {c:"VER-72", n:"Títulos de vista normalizados", e:"avisa",
+       taller:"Cada vista con su rótulo reconocible, y PERFIL siempre con el lado (DERECHO o IZQUIERDO).",
+       mira:"Los textos del plano.",
+       ciego:"Si el rótulo miente: que ponga ALZADO encima de la planta pasa sin más."},
+
+      {c:"VER-73", n:"Método de proyección (diedro)", e:"avisa",
+       taller:"El plano tiene que declarar en qué diedro está dibujado.",
+       mira:"Busca la palabra DIEDRO en el texto del plano.",
+       ciego:"El símbolo dibujado: mira texto, no geometría. Un cajetín con el símbolo pero sin la palabra no le vale, y al revés sí."},
+
+      {c:"VER-64", n:"Representación de rosca", e:"avisa",
+       taller:"Los tres elementos de tu ejemplo en cada taladro roscado: círculo grueso al Ø real, arco fino de 3/4 al Ø nominal, y ejes de centro.",
+       mira:"Cuenta las roscas por sus llamadas y exige ese número de arcos, cada uno con su círculo concéntrico y su eje. Tolerancia 1,5 mm.",
+       ciego:"Si el Ø del arco es el que corresponde a esa métrica."},
+
+      {c:"TEXTO", n:"Unidades, estilo de texto y caracteres", e:"avisa",
+       taller:"Todo en milímetros y sin poner la unidad detrás del número, un único estilo de texto, y solo caracteres permitidos.",
+       mira:"La cabecera del DXF y los textos. La lista de caracteres se amplió porque rechazaba tu propia notación (5 x 50 = 250).",
+       ciego:"Si el texto cabe donde está (eso es VER-FUERA y VER-SOLAPE)."}
+    ]
+  },
+  {
+    t:"D · El plano cabe y se lee",
+    s:"Descubiertas tarde, y por eso están",
+    normas:[
+      {c:"VER-FUERA", n:"Ninguna entidad fuera de la lámina", e:"avisa",
+       taller:"Que el dibujo quepa en el formato que el plano dice tener. La UPN de 9 m declaraba A2 y tenía 286 entidades fuera del papel.",
+       mira:"Todas las entidades contra el rectángulo del formato declarado, tolerancia 0,5 mm. Da el recuento de las que se salen y por qué capa.",
+       ciego:"Si el formato elegido es el adecuado: que quepa no significa que se lea."},
+
+      {c:"VER-SOLAPE", n:"Dos vistas no pueden pisarse", e:"avisa",
+       taller:"Las vistas del plano no se montan unas encima de otras.",
+       mira:"Las cajas de cada vista, atribuidas por la marca que se pone al dibujarlas. Tolerancia 1 mm.",
+       ciego:"Texto contra dibujo: una cota o una llamada encima de una línea no la caza nadie."},
+
+      {c:"HUÉRFANAS", n:"Vistas que quedan casi sin cotas", e:"avisa",
+       taller:"Señala las vistas que se quedan con dos cotas o menos después de la limpieza, por si esa vista ya no aporta nada.",
+       mira:"Cuenta cotas por vista tras la poda.",
+       ciego:"Solo cuenta cotas: una vista llena de llamadas o ejes puede parecer huérfana sin serlo."}
+    ]
+  },
+  {
+    t:"E · Comprobaciones que no corren por hoja",
+    s:"Se comprueban sobre el banco de planos, no en cada pieza que sale",
+    normas:[
+      {c:"VER-ALA", n:"Una chapa plegada tiene que poder fabricarse", e:"banco",
+       taller:"La plegada lleva la envolvente exterior completa (las dos medidas mayores) y el espesor en el cajetín. Tú mismo retiraste la longitud de cada tramo: «con los 130 de exterior x 105 y un espesor de 6 mm ya estaría correcto».",
+       mira:"La definición de «ala» (tramo entre pliegues, medido en la vista de canto; el espesor no es un ala) vive en un solo sitio y de ahí bebe el motor para proteger esas cotas de la limpieza.",
+       ciego:"Nada en producción: no corre pieza a pieza. Hoy quedan 2 planos pendientes (SINFIN 2 y SINFIN INFERIOR)."},
+
+      {c:"VER-DISCO", n:"La sección de un disco acota todos sus diámetros", e:"banco",
+       taller:"La sección de una brida o polea no puede dejarse un Ø. Nació de tu marca en rojo en la 35_BRIDA: siete Ø y solo seis acotados, faltaba el Ø47.",
+       mira:"Un único sitio decide qué diámetros debe acotar la sección, y el motor bebe de ahí. Tolerancia 0,15 mm o 0,5 %.",
+       ciego:"Solo cubre la sección de disco. Un escalón cilíndrico sin acotar en otra ruta no lo ve nadie."}
+    ]
+  }
+];
+
+const CIEGOS = [
+ "Tolerancias dimensionales: no se ponen ni se comprueban. Un plano puede salir con todas las cotas nominales y sin una sola tolerancia.",
+ "Acabado superficial y tratamientos: ni rugosidad, ni pintura, ni galvanizado, ni tratamiento térmico. No hay ni campo.",
+ "Soldaduras: ni símbolo, ni cordón, ni preparación de bordes. En conjuntos soldados el plano no dice cómo se unen las piezas.",
+ "Material real: el cajetín pone lo que se dedujo o «SIN DEFINIR». Nadie contrasta que sea el material del pedido.",
+ "Cota mal anclada que mide un vano real: el 66 puesto sobre una cara cuyo salto era 100 pasa la revisión.",
+ "Cotas angulares, radiales y diametrales: un Ø o un ángulo que mientan hoy no los caza nadie.",
+ "Recuento dentro de un tipo de rasgo: 19 taladros representados por 3 familias cuenta como completo.",
+ "Escalones cilíndricos fuera de la ruta de eje: un escalón sin acotar no lo ve nadie (salvo en la sección de disco).",
+ "Legibilidad real: avisa cuando un Ø3 mide 0,6 mm en papel, pero el plano se emite igual.",
+ "Texto encima del dibujo: una cota o una llamada pisando una línea no es infracción de ninguna norma.",
+ "Que el rótulo de vista diga la verdad: se exige que haya rótulo, no que corresponda a la proyección real.",
+ "Que el diedro declarado sea el usado: se busca la palabra, no se comprueba la proyección.",
+ "Coherencia entre hojas de un conjunto: cada hoja se valida sola. Nadie comprueba que las marcas del conjunto casen con el despiece.",
+ "La hoja de COMERCIAL no pasa validadores de fabricación (por diseño). Nada vigila su envolvente ni su designación.",
+ "Piezas de geometría normal con rasgos no detectados: la red de seguridad solo actúa en superficie libre.",
+ "Que la vista de canto que se conserva sea la útil: se exige que quede una, no que sea la que enseña los rasgos."
+];
+
+/* ------------------------------------------------------------------
+   RENDER
+   ------------------------------------------------------------------ */
+const cont = document.getElementById('secciones');
+const chipTxt = {rechaza:"Hoy tira la pieza", avisa:"Hoy solo avisa", banco:"No corre por hoja"};
+let total = 0;
+
+SECCIONES.forEach(sec => {
+  const h = document.createElement('h2');
+  h.innerHTML = sec.t + '<span>' + sec.s + '</span>';
+  cont.appendChild(h);
+
+  sec.normas.forEach(nm => {
+    total++;
+    const id = nm.c.replace(/[^A-Za-z0-9]/g,'_');
+    const d = document.createElement('div');
+    d.className = 'norma';
+    d.dataset.hecho = "0";
+    d.innerHTML = `
+      <div class="gutter"><span class="marca">${nm.c}</span></div>
+      <div class="cuerpo">
+        <div class="cab">
+          <span class="cod">${nm.c}</span>
+          <span class="chip ${nm.e}">${chipTxt[nm.e]}</span>
+        </div>
+        <p class="titulo">${nm.n}</p>
+        <p class="taller">${nm.taller}</p>
+        <dl>
+          <dt>Cómo lo comprueba</dt><dd>${nm.mira}</dd>
+          <dt>Lo que NO puede ver</dt><dd class="ciego">${nm.ciego}</dd>
+        </dl>
+        <div class="respuesta">
+          <div class="opts">
+            <label class="opt"><input type="radio" name="${id}__veredicto" value="Correcta"><span class="ok">Está bien así</span></label>
+            <label class="opt"><input type="radio" name="${id}__veredicto" value="Corregir"><span class="cambiar">Hay que cambiarla</span></label>
+            <label class="opt"><input type="radio" name="${id}__veredicto" value="Dudosa"><span class="duda">No lo tengo claro</span></label>
+          </div>
+          ${nm.e === 'avisa' ? `<label class="subir"><input type="checkbox" name="${id}__subir_a_rechazo" value="SI"><span>Esto debería parar la pieza, no solo avisar.</span></label>` : ``}
+          <textarea name="${id}__comentario" placeholder="Cómo debería ser, o qué le falta. Escribe como se lo dirías a un delineante nuevo."></textarea>
+        </div>
+      </div>`;
+    cont.appendChild(d);
+  });
+});
+
+/* puntos ciegos */
+const h = document.createElement('h2');
+h.innerHTML = 'F · Puntos ciegos<span>Lo que hoy no vigila nadie. Dinos qué urge tapar.</span>';
+cont.appendChild(h);
+
+CIEGOS.forEach((txt,i) => {
+  const n = String(i+1).padStart(2,'0');
+  const d = document.createElement('div');
+  d.className = 'ciego-item';
+  d.innerHTML = `
+    <span class="num">PUNTO CIEGO ${n}</span>
+    <p>${txt}</p>
+    <select name="CIEGO_${n}__prioridad">
+      <option value="">— ¿Cuánto corre prisa? —</option>
+      <option value="Urgente">Urgente: hoy sale mal por esto</option>
+      <option value="Importante">Importante, pero no bloquea</option>
+      <option value="Puede esperar">Puede esperar</option>
+      <option value="No hace falta">No hace falta cubrirlo</option>
+    </select>
+    <textarea name="CIEGO_${n}__comentario" placeholder="Opcional: cómo lo revisas tú a mano." style="margin-top:8px"></textarea>`;
+  cont.appendChild(d);
+});
+
+/* ------------------------------------------------------------------
+   PROGRESO
+   ------------------------------------------------------------------ */
+const cuenta = document.getElementById('cuenta');
+const relleno = document.getElementById('relleno');
+
+function actualiza(){
+  let hechas = 0;
+  document.querySelectorAll('.norma').forEach(card => {
+    const marcado = card.querySelector('input[type=radio]:checked');
+    card.dataset.hecho = marcado ? "1" : "0";
+    if (marcado) hechas++;
+  });
+  cuenta.textContent = hechas + ' de ' + total + ' revisadas';
+  relleno.style.width = (hechas/total*100) + '%';
+}
+document.getElementById('f').addEventListener('change', actualiza);
+actualiza();
+
+/* ------------------------------------------------------------------
+   ENVÍO
+   ------------------------------------------------------------------ */
+const form = document.getElementById('f');
+const aviso = document.getElementById('aviso-envio');
+
+form.addEventListener('submit', (e) => {
+  const pendientes = [...document.querySelectorAll('.norma')]
+    .filter(c => !c.querySelector('input[type=radio]:checked'));
+
+  if (pendientes.length){
+    e.preventDefault();
+    aviso.className = 'nota error';
+    aviso.textContent = 'Faltan ' + pendientes.length + ' normas por marcar. Te llevo a la primera.';
+    pendientes[0].scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  aviso.className = 'nota';
+  aviso.textContent = 'Enviando...';
+  const btn = form.querySelector('.enviar-grande');
+  if (btn) btn.disabled = true;
+});
+
+/* ------------------------------------------------------------------
+   COPIAR BORRADOR (red de seguridad, sin guardar nada)
+   ------------------------------------------------------------------ */
+document.getElementById('copiar').addEventListener('click', () => {
+  const datos = new FormData(document.getElementById('f'));
+  let txt = 'PLANIA · Revisión del catálogo VER — Javi\n\n';
+  for (const [k,v] of datos.entries()){
+    if (!v || k.startsWith('_')) continue;
+    txt += k.replace(/__/g,' · ').replace(/_/g,' ') + ':\n' + v + '\n\n';
+  }
+  navigator.clipboard.writeText(txt).then(
+    () => alert('Borrador copiado. Pégalo donde quieras guardarlo.'),
+    () => alert('No se ha podido copiar aquí. Envía el formulario o haz una captura.')
+  );
+});
+</script>
+</body>
+</html>
