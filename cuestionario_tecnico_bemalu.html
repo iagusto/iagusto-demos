@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario técnico — Verificación automática de facturas</title>
+<style>
+  :root{--navy:#1A3A5C;--orange:#E87722;--light:#F2F5F8;--text:#333;--border:#d8dfe6;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+       color:var(--text);background:#eef1f5;line-height:1.55;}
+  .wrap{max-width:780px;margin:0 auto;background:#fff;}
+  header{background:var(--navy);color:#fff;padding:30px 26px;}
+  header h1{margin:0 0 6px;font-size:20px;}
+  header p{margin:0;font-size:14px;color:#c3d0dd;}
+  .intro{padding:20px 26px;background:var(--light);border-bottom:1px solid var(--border);font-size:14px;}
+  form{padding:8px 26px 40px;}
+  h2{color:var(--navy);font-size:15px;margin:30px 0 4px;padding-bottom:6px;
+     border-bottom:2px solid var(--orange);text-transform:uppercase;letter-spacing:.5px;}
+  .q{margin:20px 0;}
+  label{display:block;font-weight:600;font-size:14.5px;margin-bottom:6px;color:var(--navy);}
+  .hint{font-size:12.5px;color:#6b7885;margin:-2px 0 7px;font-weight:400;}
+  input[type=text],textarea,select{width:100%;padding:10px 12px;font-size:14px;
+     border:1px solid var(--border);border-radius:6px;font-family:inherit;background:#fff;}
+  textarea{min-height:70px;resize:vertical;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange);
+     box-shadow:0 0 0 3px rgba(232,119,34,.15);}
+  .radios{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+  .radios label{display:flex;align-items:center;gap:6px;font-weight:400;font-size:14px;
+     background:var(--light);border:1px solid var(--border);border-radius:20px;
+     padding:7px 14px;cursor:pointer;margin:0;color:var(--text);}
+  .radios input{accent-color:var(--orange);margin:0;}
+  button{margin-top:30px;width:100%;background:var(--orange);color:#fff;border:none;
+     padding:15px;font-size:16px;font-weight:700;border-radius:6px;cursor:pointer;}
+  button:hover{background:#d16a1c;}
+  footer{text-align:center;font-size:12px;color:#8894a0;padding:0 26px 30px;}
+  @media(max-width:600px){header,form,.intro{padding-left:16px;padding-right:16px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Cuestionario técnico — Verificación automática de facturas</h1>
+  <p>Grupo Bemalu · Costto y Ekoprix · Fase 1</p>
+</header>
+
+<div class="intro">
+  Estas preguntas definen el motor de cotejo entre factura y albarán. No hace falta contestar
+  todo con precisión: donde no lo tengáis claro, dejadlo en blanco o poned una aproximación.
+</div>
+
+<form action="https://formspree.io/f/xqenkjpv" method="POST">
+  <input type="hidden" name="_subject" value="Cuestionario técnico Bemalu — respuestas">
+
+  <div class="q">
+    <label for="quien">¿Quién responde?</label>
+    <input type="text" id="quien" name="Responde" placeholder="Nombre y departamento">
+  </div>
+
+  <h2>Vínculo factura ↔ albarán</h2>
+
+  <div class="q">
+    <label>1. ¿La factura incluye siempre los números de albarán?</label>
+    <div class="radios">
+      <label><input type="radio" name="1. Factura incluye nº albarán" value="Siempre"> Siempre</label>
+      <label><input type="radio" name="1. Factura incluye nº albarán" value="Casi siempre"> Casi siempre</label>
+      <label><input type="radio" name="1. Factura incluye nº albarán" value="Depende del proveedor"> Depende del proveedor</label>
+      <label><input type="radio" name="1. Factura incluye nº albarán" value="Rara vez"> Rara vez</label>
+    </div>
+  </div>
+
+  <div class="q">
+    <label for="p1b">Si algún proveedor no los pone, ¿cómo localizáis sus albaranes?</label>
+    <textarea id="p1b" name="1b. Cómo localizar albaranes sin referencia"></textarea>
+  </div>
+
+  <div class="q">
+    <label>2. ¿Un albarán puede repartirse entre varias facturas?</label>
+    <div class="radios">
+      <label><input type="radio" name="2. Albarán partido entre facturas" value="No, siempre completos"> No, siempre completos</label>
+      <label><input type="radio" name="2. Albarán partido entre facturas" value="Sí, ocurre"> Sí, ocurre</label>
+      <label><input type="radio" name="2. Albarán partido entre facturas" value="No lo sé"> No lo sé</label>
+    </div>
+  </div>
+
+  <div class="q">
+    <label for="p3">3. ¿Cuántos albaranes suele agrupar una factura?</label>
+    <input type="text" id="p3" name="3. Albaranes por factura" placeholder="Ej.: normalmente 1-5, algunos proveedores 30+">
+  </div>
+
+  <h2>Datos y vistas del ERP</h2>
+
+  <div class="q">
+    <label for="p4">4. <code>xempresa_id</code>: ¿separa Costto de Ekoprix? ¿Qué valores tiene cada una?</label>
+    <input type="text" id="p4" name="4. Valores xempresa_id">
+  </div>
+
+  <div class="q">
+    <label for="p5">5. <code>xpendiente</code> en la cabecera de albarán: ¿significa "pendiente de facturar"?</label>
+    <div class="hint">¿Debo buscar solo entre los pendientes, o también entre los ya facturados?</div>
+    <textarea id="p5" name="5. Significado de xpendiente"></textarea>
+  </div>
+
+  <div class="q">
+    <label for="p6">6. <code>xreferencia_prov</code> vs <code>xreferencia_int</code>: ¿cuál es el número de albarán que imprime el proveedor en su factura?</label>
+    <input type="text" id="p6" name="6. Referencia albarán en factura">
+  </div>
+
+  <div class="q">
+    <label>7. En el maestro de artículos, ¿el EAN está relleno?</label>
+    <div class="radios">
+      <label><input type="radio" name="7. EAN relleno" value="Casi siempre"> Casi siempre</label>
+      <label><input type="radio" name="7. EAN relleno" value="A medias"> A medias</label>
+      <label><input type="radio" name="7. EAN relleno" value="Pocas veces"> Pocas veces</label>
+    </div>
+  </div>
+
+  <div class="q">
+    <label for="p7b">¿Qué campo casa mejor en la práctica: EAN o referencia del proveedor?</label>
+    <input type="text" id="p7b" name="7b. Mejor campo de casación">
+  </div>
+
+  <div class="q">
+    <label for="p8">8. ¿Hay proveedores que usen unidades distintas en factura y albarán?</label>
+    <div class="hint">Cajas frente a unidades, kilos frente a piezas, etc.</div>
+    <textarea id="p8" name="8. Diferencias de unidades"></textarea>
+  </div>
+
+  <h2>Operativa y descuadres</h2>
+
+  <div class="q">
+    <label>9. ¿Qué tipo de descuadre es más frecuente?</label>
+    <div class="radios">
+      <label><input type="radio" name="9. Descuadre más frecuente" value="Precio"> Precio</label>
+      <label><input type="radio" name="9. Descuadre más frecuente" value="Cantidad"> Cantidad</label>
+      <label><input type="radio" name="9. Descuadre más frecuente" value="Ambos por igual"> Ambos por igual</label>
+      <label><input type="radio" name="9. Descuadre más frecuente" value="Falta de recepción"> Falta de recepción</label>
+    </div>
+  </div>
+
+  <div class="q">
+    <label for="p10">10. Portes, rappels, envases o cargos varios: ¿aparecen como línea de factura sin albarán detrás?</label>
+    <div class="hint">¿Cómo queréis que los trate el sistema: ignorar, avisar, o comparar contra algo?</div>
+    <textarea id="p10" name="10. Portes y cargos sin albarán"></textarea>
+  </div>
+
+  <div class="q">
+    <label for="p11">11. ¿Llegan a esos buzones abonos o facturas rectificativas? ¿Y facturas de servicios sin albarán (luz, teléfono, alquileres)?</label>
+    <div class="hint">Indicad qué debe hacer el sistema con ellas.</div>
+    <textarea id="p11" name="11. Abonos y facturas sin albarán"></textarea>
+  </div>
+
+  <div class="q">
+    <label>12. La tolerancia del 2%: ¿solo sobre el total de la factura, o también por línea?</label>
+    <div class="radios">
+      <label><input type="radio" name="12. Ámbito de la tolerancia" value="Solo total"> Solo sobre el total</label>
+      <label><input type="radio" name="12. Ámbito de la tolerancia" value="Total y línea"> Total y línea</label>
+    </div>
+  </div>
+
+  <div class="q">
+    <label for="p12b">Si también por línea, ¿qué porcentaje o importe mínimo?</label>
+    <input type="text" id="p12b" name="12b. Tolerancia por línea">
+  </div>
+
+  <div class="q">
+    <label for="p13">13. ¿Qué hacéis hoy cuando detectáis un descuadre?</label>
+    <div class="hint">Nos sirve para que el borrador de comunicación se parezca a lo que ya hacéis.</div>
+    <textarea id="p13" name="13. Proceso actual ante descuadre"></textarea>
+  </div>
+
+  <h2>Volumen</h2>
+
+  <div class="q">
+    <label for="p14">14. ¿Cuántas facturas llegan al día de media, y cuántas en día pico?</label>
+    <input type="text" id="p14" name="14. Volumen diario">
+  </div>
+
+  <div class="q">
+    <label for="p15">15. ¿Cuántos proveedores concentran la mayor parte del volumen?</label>
+    <div class="hint">Si podéis, nombrad los 10-15 principales.</div>
+    <textarea id="p15" name="15. Proveedores principales"></textarea>
+  </div>
+
+  <div class="q">
+    <label for="p16">Cualquier otra cosa que debamos saber</label>
+    <textarea id="p16" name="16. Observaciones"></textarea>
+  </div>
+
+  <button type="submit">Enviar respuestas</button>
+</form>
+
+<footer>iAgusto.app · www.iagusto.app</footer>
+</div>
+</body>
+</html>
