@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asistente de Triaje de Presupuestos · Adhesivos Orcajada</title>
+<style>
+  :root{
+    --verde:#1E8A3C; --verde-osc:#0F5C28; --verde-claro:#E6F4EA;
+    --amarillo:#F5C400; --amarillo-claro:#FBF3D0;
+    --gris:#5B5B5B; --tinta:#1A1A1A; --fondo:#F7F8F6; --linea:#E4E7E2;
+    --ambar:#C7900A; --rojo:#9B2226; --rojo-claro:#FDEBEB; --azul:#1B4F8A; --azul-claro:#EAF1FB;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--fondo); color:var(--tinta);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; font-size:16px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px 60px}
+
+  /* Cabecera */
+  header{background:#fff;border-bottom:4px solid var(--verde);padding:28px 0 24px;margin-bottom:32px}
+  .head-in{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .marca{display:flex;align-items:center;gap:12px}
+  .marca-txt div:first-child{color:var(--gris);font-weight:700;font-size:19px;letter-spacing:-.3px;line-height:1}
+  .marca-txt div:last-child{color:var(--tinta);font-weight:800;font-size:19px;letter-spacing:-.3px;line-height:1;margin-top:1px}
+  .sep{width:1px;height:46px;background:var(--linea)}
+  h1{font-size:26px;margin:0;font-weight:600;letter-spacing:-.4px}
+  .sub{color:var(--gris);font-size:15px;margin-top:2px}
+  .sello{margin-left:auto;background:var(--verde-claro);color:var(--verde-osc);
+    padding:8px 16px;border-radius:99px;font-size:14px;font-weight:600;border:1px solid #C8E6D0}
+
+  /* Bloques */
+  section{margin-bottom:38px}
+  h2{font-size:21px;margin:0 0 6px;font-weight:600;letter-spacing:-.3px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;
+    background:var(--verde);color:#fff;border-radius:8px;font-size:15px;margin-right:10px;vertical-align:2px}
+  .lead{color:var(--gris);margin:0 0 18px;max-width:76ch}
+  .card{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:22px}
+
+  /* KPIs */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .kpi{background:#fff;border:1px solid var(--linea);border-radius:10px;padding:16px 18px}
+  .kpi .v{font-size:32px;font-weight:700;letter-spacing:-1px;line-height:1.1}
+  .kpi .l{color:var(--gris);font-size:13px;margin-top:2px}
+  .kpi.g .v{color:var(--verde)} .kpi.a .v{color:var(--ambar)} .kpi.b .v{color:var(--azul)} .kpi.r .v{color:var(--rojo)}
+
+  /* Flujo */
+  .paso{display:flex;gap:16px;padding:16px 0;border-bottom:1px dashed var(--linea)}
+  .paso:last-child{border-bottom:0}
+  .paso .num{flex:0 0 34px;height:34px;border-radius:10px;background:var(--verde-claro);color:var(--verde-osc);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+  .paso h3{margin:4px 0 4px;font-size:17px;font-weight:600}
+  .paso p{margin:0;color:var(--gris)}
+  .paso .ej{margin-top:8px;background:var(--fondo);border-left:3px solid var(--amarillo);
+    padding:8px 12px;border-radius:0 6px 6px 0;font-size:14.5px;color:var(--tinta)}
+
+  /* Reparto */
+  .prio{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-radius:10px;margin-bottom:10px;background:#fff;border:1px solid var(--linea)}
+  .prio .lv{flex:0 0 auto;background:var(--verde);color:#fff;font-size:12px;font-weight:700;
+    padding:4px 10px;border-radius:99px;white-space:nowrap;margin-top:2px}
+  .prio.l2 .lv{background:#3FA35B} .prio.l3 .lv{background:#77BE8B} .prio.l4 .lv{background:var(--ambar)}
+  .prio b{display:block;margin-bottom:2px}
+  .prio span{color:var(--gris);font-size:15px}
+
+  /* Estados */
+  .estados{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+  .est{border-radius:10px;padding:16px 18px;border:1px solid transparent}
+  .est h4{margin:0 0 4px;font-size:16px}
+  .est p{margin:0;font-size:14.5px}
+  .est.f{background:var(--rojo-claro);border-color:#F0D2D2} .est.f h4{color:var(--rojo)}
+  .est.a{background:var(--azul-claro);border-color:#D3E2F5} .est.a h4{color:var(--azul)}
+  .est.p{background:var(--amarillo-claro);border-color:#F0E2A8} .est.p h4{color:#8A6D00}
+  .est.e{background:var(--verde-claro);border-color:#C8E6D0} .est.e h4{color:var(--verde-osc)}
+
+  /* Tablas */
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th{text-align:left;color:var(--gris);font-weight:600;padding:10px 10px 10px 0;border-bottom:2px solid var(--linea);font-size:13px}
+  td{padding:11px 10px 11px 0;border-bottom:1px solid var(--linea);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  .scroll{overflow-x:auto}
+  .cli{font-weight:600}
+  .cod{color:var(--gris);font-variant-numeric:tabular-nums;font-size:13.5px}
+  .tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12.5px;font-weight:600;white-space:nowrap}
+  .t-ok{background:var(--verde-claro);color:var(--verde-osc)}
+  .t-falta{background:var(--rojo-claro);color:var(--rojo)}
+  .t-com{background:#EEF3EC;color:var(--verde-osc)}
+  .t-desc{background:#EEE;color:#777}
+  .t-urg{background:var(--amarillo-claro);color:#8A6D00}
+
+  /* Carga */
+  .barra{height:10px;background:#EDEFEA;border-radius:99px;overflow:hidden;margin-top:6px}
+  .barra i{display:block;height:100%;background:var(--verde);border-radius:99px}
+  .barra i.full{background:var(--ambar)}
+  .cargafila{margin-bottom:16px}
+  .cargafila:last-child{margin-bottom:0}
+  .cargatop{display:flex;justify-content:space-between;align-items:baseline}
+  .cargatop b{font-size:16px}
+  .cargatop span{color:var(--gris);font-size:14px}
+
+  /* Check */
+  .check{list-style:none;padding:0;margin:0}
+  .check li{padding:12px 0 12px 34px;border-bottom:1px solid var(--linea);position:relative}
+  .check li:last-child{border-bottom:0}
+  .check li:before{content:"";position:absolute;left:0;top:15px;width:18px;height:18px;
+    border:2px solid var(--verde);border-radius:5px}
+  .check b{display:block}
+  .check span{color:var(--gris);font-size:14.5px}
+
+  .aviso{background:var(--amarillo-claro);border:1px solid #F0E2A8;border-radius:10px;padding:16px 20px;color:#6B5500}
+  .aviso b{color:#8A6D00}
+  .nota{background:#fff;border:1px solid var(--linea);border-left:4px solid var(--amarillo);
+    border-radius:0 10px 10px 0;padding:14px 18px;color:var(--gris);font-size:15px}
+  footer{text-align:center;color:var(--gris);font-size:13.5px;padding-top:26px;border-top:1px solid var(--linea)}
+  footer b{color:var(--verde-osc)}
+  @media print{body{background:#fff} .card,.kpi{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-in">
+    <div class="marca">
+      <svg width="46" height="38" viewBox="0 0 64 52" aria-label="Adhesivos Orcajada">
+        <path d="M4 50 L4 24 Q4 8 19 8 Q34 8 34 24 L34 50 L25 50 L25 24 Q25 17 19 17 Q13 17 13 24 L13 50 Z" fill="#1E8A3C"/>
+        <circle cx="45" cy="34" r="13" fill="#F5C400"/>
+        <path d="M30 50 L30 24 Q30 8 45 8 Q60 8 60 24 L60 50 L51 50 L51 24 Q51 17 45 17 Q39 17 39 24 L39 50 Z" fill="#1E8A3C"/>
+      </svg>
+      <div class="marca-txt"><div>Adhesivos</div><div>Orcajada</div></div>
+    </div>
+    <div class="sep"></div>
+    <div>
+      <h1>Asistente de Triaje de Presupuestos</h1>
+      <div class="sub">Informe de funcionamiento para validación antes de producción</div>
+    </div>
+    <div class="sello">Pendiente de vuestro OK</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <p class="lead">
+      Este informe explica exactamente qué hace el asistente con cada correo que entra en
+      <b>presupuestos@adhesivos-orcajada.es</b>, con los resultados reales del buzón que hemos procesado en pruebas.
+      El objetivo es que lo reviséis y, si estáis de acuerdo, lo pasemos a producción.
+      Todo lo que veis aquí ya está funcionando: nada de esto es una maqueta.
+    </p>
+    <div class="kpis">
+      <div class="kpi"><div class="v">87</div><div class="l">Correos analizados</div></div>
+      <div class="kpi g"><div class="v">43</div><div class="l">Solicitudes detectadas</div></div>
+      <div class="kpi"><div class="v">44</div><div class="l">Descartados correctamente</div></div>
+      <div class="kpi b"><div class="v">49</div><div class="l">Presupuestos extraídos</div></div>
+      <div class="kpi g"><div class="v">3.223</div><div class="l">Clientes en la base</div></div>
+      <div class="kpi a"><div class="v">898</div><div class="l">Clientes activos 2025</div></div>
+    </div>
+    <p class="nota" style="margin-top:14px">
+      De un mismo correo pueden salir varios presupuestos: 43 solicitudes generaron 49 líneas,
+      porque a veces en un solo email pedís precio de varias etiquetas distintas. Cada una se trata por separado.
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="n">1</span>Qué hace con cada correo</h2>
+    <p class="lead">El recorrido completo, en orden, desde que entra el correo hasta que la comercial lo recibe.</p>
+    <div class="card">
+
+      <div class="paso">
+        <div class="num">1</div>
+        <div>
+          <h3>Reconstruye la conversación completa</h3>
+          <p>Identifica el hilo por su identificador interno, no por el asunto. Aunque el cliente cambie el asunto o
+             se reenvíe entre departamentos, el asistente lee todos los mensajes anteriores como un conjunto.</p>
+          <div class="ej">En el aviso se indica el <b>primer contacto</b> del hilo: quién escribió primero y cuándo.</div>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="num">2</div>
+        <div>
+          <h3>Decide si es una solicitud de presupuesto</h3>
+          <p>Separa lo que hay que presupuestar de lo que no: publicidad, documentación firmada, reclamaciones
+             o avisos internos. Lo descartado no genera ninguna acción.</p>
+          <div class="ej">De los 87 correos, descartó 44 y ninguno era una petición de precio.</div>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="num">3</div>
+        <div>
+          <h3>Extrae los datos de cada etiqueta</h3>
+          <p>Tamaño, formato, material, cantidad, tintas, número de modelos, acabado y manipulado. Los busca en el
+             cuerpo del correo, en el hilo citado, en los PDF y también en las fichas técnicas que llegan como imagen.</p>
+          <div class="ej">Caso ALDI NORD: el material «papel térmico no protegido» y la cantidad «250.000» venían
+             en la ficha adjunta, no en el texto. Los extrae y añade el diámetro de bobina de 160 mm al manipulado.</div>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="num">4</div>
+        <div>
+          <h3>Identifica al cliente en vuestra base</h3>
+          <p>Cruza el correo del cliente con los 3.223 clientes cargados y recupera su <b>código</b>, su
+             <b>razón social oficial</b> y su <b>comercial asignada</b>. No confunde al remitente interno con el cliente final.</p>
+          <div class="ej">M.A.R.G.I. SERVICIOS, S.L. → C03576 · BVP FRANCE SAS → C05683 · LABORATORIOS PHERGAL → C06160</div>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="num">5</div>
+        <div>
+          <h3>Comprueba si falta algo</h3>
+          <p>Si el cliente es habitual, los datos que no vengan se resuelven con su ficha («ver ficha», «ver cantidades
+             anteriores») y el presupuesto cuenta como completo. Si es un cliente nuevo y falta información,
+             queda marcado como <b>Faltan datos</b> para reclamársela.</p>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="num">6</div>
+        <div>
+          <h3>Asigna la comercial y comprueba su cupo</h3>
+          <p>Aplica las reglas de reparto del apartado 2 y verifica que esa comercial no tenga ya 20 presupuestos
+             pendientes de enviar. Si está llena, pasa a otra. Si ninguna tiene hueco, queda en Presupuestos
+             para reparto a mano y os avisa.</p>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="num">7</div>
+        <div>
+          <h3>Envía el aviso con todo el contexto</h3>
+          <p>La comercial recibe un correo enlazado a todo el hilo, con los datos extraídos, los nombres de los
+             archivos adjuntos, un resumen cronológico de lo hablado y el enlace al correo original.</p>
+          <div class="ej">Observaciones del hilo, con fechas: «14.07.26 el cliente pide precio · 16.07.26 Calidad
+             indica que el adhesivo idóneo es hotmelt · 18.07.26 Imagen pasa diseños para aprobación».</div>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="num">8</div>
+        <div>
+          <h3>Cierra el círculo</h3>
+          <p>Cuando la comercial responde al cliente y pone en copia a Presupuestos, el presupuesto pasa a
+             <b>Enviado</b> con su fecha y libera una plaza de su cupo. Así queda registrado el tiempo de respuesta.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>Reglas de reparto entre comerciales</h2>
+    <p class="lead">Se aplican en este orden y se detiene en la primera que encaje.</p>
+
+    <div class="prio">
+      <div class="lv">1º Cliente</div>
+      <div><b>La comercial asignada al cliente en vuestra base de datos</b>
+        <span>Manda sobre todo lo demás. Cargadas 3.223 fichas: 2.054 Cantero, 620 Crivero, 544 Valdivia.</span></div>
+    </div>
+    <div class="prio l2">
+      <div class="lv">2º Acabado</div>
+      <div><b>Serigrafía, estampación o relieve → Crivero · Librito o peel → Valdivia</b>
+        <span>Para clientes sin comercial fija. El acabado tiene preferencia sobre el sector.</span></div>
+    </div>
+    <div class="prio l3">
+      <div class="lv">3º Sector</div>
+      <div><b>Vino o bodega → Crivero · Fruta y hortaliza → Cantero · Etiqueta anónima → Cantero</b>
+        <span>Un sticker de bodega se considera vino, no industrial.</span></div>
+    </div>
+    <div class="prio l4">
+      <div class="lv">4º Turno</div>
+      <div><b>Reparto equitativo por turno entre las tres</b>
+        <span>Cuando no encaja en ninguna regla anterior, va a la que menos carga tenga.</span></div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3 style="margin:0 0 4px;font-size:17px">Cupo de 20 presupuestos pendientes</h3>
+      <p style="color:var(--gris);margin:0 0 18px;font-size:15px">
+        El cupo cuenta los presupuestos <b>asignados y no enviados</b>. Una plaza se libera en cuanto la comercial
+        envía el presupuesto al cliente copiando a Presupuestos. Ejemplo de cómo se ve la carga:</p>
+
+      <div class="cargafila">
+        <div class="cargatop"><b>Cantero</b><span><b style="color:var(--ambar)">20</b> / 20 · cupo lleno</span></div>
+        <div class="barra"><i class="full" style="width:100%"></i></div>
+      </div>
+      <div class="cargafila">
+        <div class="cargatop"><b>Crivero</b><span><b>12</b> / 20 · 8 libres</span></div>
+        <div class="barra"><i style="width:60%"></i></div>
+      </div>
+      <div class="cargafila">
+        <div class="cargatop"><b>Valdivia</b><span><b>7</b> / 20 · 13 libres</span></div>
+        <div class="barra"><i style="width:35%"></i></div>
+      </div>
+
+      <p class="nota" style="margin-top:18px">
+        Con Cantero al completo, el siguiente presupuesto que le correspondiera pasa automáticamente a la comercial
+        con menos carga. Si las tres estuvieran llenas, queda en <b>Presupuestos</b> y se avisa a Juany y a Carol.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>Los cuatro estados del presupuesto</h2>
+    <p class="lead">Cada presupuesto queda registrado con su estado, su comercial y sus fechas.</p>
+    <div class="estados">
+      <div class="est f"><h4>Faltan datos</h4><p>Incompleto. Se reclama la información al cliente y no ocupa cupo.</p></div>
+      <div class="est a"><h4>Asignado</h4><p>Enviado a una comercial. Guarda la fecha y ocupa una plaza de su cupo.</p></div>
+      <div class="est p"><h4>Pendiente</h4><p>Completo pero sin comercial libre. Queda en Presupuestos para asignar a mano.</p></div>
+      <div class="est e"><h4>Enviado</h4><p>La comercial ya lo mandó al cliente. Guarda la fecha y libera la plaza.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>Casos reales procesados</h2>
+    <p class="lead">Los <b>49 presupuestos</b> extraídos del buzón, uno a uno, tal y como los resolvió el asistente.</p>
+    <div class="card scroll">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Cliente</th><th>Código</th><th>Etiqueta</th><th>Datos extraídos</th><th>Comercial</th><th>Resultado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="cod">1</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>3 modelos · CT. Olvena 50×70</td><td>50×70 · couché 90 gr enología · 3 tintas · escalado 4.500 a 30.000</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">2</td><td class="cli">LABORATORIOS PHERGAL</td><td class="cod">C06160</td><td>Etiqueta redonda cofre antiox</td><td>Ø50 mm · PP plata Light Top Silver FSC · 325 · 3 tintas · barniz UVI</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">3</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. Frigolet 700 ml</td><td>128×145 mm · Freelife Merida Cream · 3 tintas · 2.000/3.000/5.000</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">4</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. anónima 148×209 couché (ref. 112167)</td><td>148×210 · couché · escalado 10.000 a 150.000 · sin impresión</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">5</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. anónima 48×80 couché (ref. 112215)</td><td>50×80 · couché · escalado 50.000 a 300.000 · sin impresión</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">6</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. anónima 40×30 couché (ref. 100296)</td><td>40×30 · couché · escalado 25.000 a 300.000 · sin impresión</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">7</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. anónima 130×108 couché (ref. 112168)</td><td>130×110 · couché · escalado 50.000 a 8.000.000 · sin impresión</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">8</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>104630 hojas DIN A4 (2×A5) blanca</td><td>297×209,55 · blanco mate láser 70 · sin impresión</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-falta">Falta cantidad</span></td></tr>
+          <tr><td class="cod">9</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>Circular couché 50 mm impresa Petit Prix</td><td>Ø50 mm · couché · 500.000</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Falta nº tintas</span></td></tr>
+          <tr><td class="cod">10</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>Secuencia frontal + trasera para botella</td><td>Escalado 1.000 a 10.000 · cosmética</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-falta">Faltan medidas y material</span></td></tr>
+          <tr><td class="cod">11</td><td class="cli">SAT 6664 Hermanos Mene</td><td class="cod">—</td><td>Etiquetas Hnos. Mene · 3 modelos</td><td>68×79 mm · térmico no protegido · 500.000 · 4 tintas</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">12</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>3 modelos · ET. Olvena 95×95</td><td>95×95 · Tintoretto Gesso / Rustique / Nature Paper · 4 tintas</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">13</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>Etiqueta con troquel especial 122×42</td><td>122×42 mm · troquel a medida</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Faltan material y tintas</span></td></tr>
+          <tr><td class="cod">14</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. Crush 90×120</td><td>90×120 · Cotton Extra White Plus · 1 tinta · 2.500 a 15.000</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">15</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>CT. Crush 70×83</td><td>70×83 · Cotton Extra White Plus · 1 tinta · 2.500 a 15.000</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">16</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. Compartir 130×210</td><td>130×210 · Cotton Extra White Plus · 4 tintas · 2.500 a 30.000</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">17</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. anónima 148×209 couché (repetida en el hilo)</td><td>Mismo modelo que la línea 4 · se fusiona, no se duplica</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-desc">Fusionada</span></td></tr>
+          <tr><td class="cod">18</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. anónima 48×80 couché (repetida en el hilo)</td><td>Mismo modelo que la línea 5 · se fusiona, no se duplica</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-desc">Fusionada</span></td></tr>
+          <tr><td class="cod">19</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. anónima 40×30 couché (repetida en el hilo)</td><td>Mismo modelo que la línea 6 · se fusiona, no se duplica</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-desc">Fusionada</span></td></tr>
+          <tr><td class="cod">20</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. anónima 130×108 couché (repetida en el hilo)</td><td>Mismo modelo que la línea 7 · se fusiona, no se duplica</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-desc">Fusionada</span></td></tr>
+          <tr><td class="cod">21</td><td class="cli">Worlmark</td><td class="cod">—</td><td>Etiquetas BIO Mini Wassermelonen</td><td>Fruta · plazo ajustado detectado en el texto</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-urg">Urgente · faltan datos</span></td></tr>
+          <tr><td class="cod">22</td><td class="cli">BVP FRANCE SAS</td><td class="cod">C05683</td><td>Circular Le Bistrot du Paradou</td><td>Ø2,5 cm · Freelife Merida Cream · 2.000 · 2 tintas</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">23</td><td class="cli">BVP FRANCE SAS</td><td class="cod">C05683</td><td>Frontal Élixir du Père Gaucher 700 ml</td><td>6,8×9 cm · Freelife Merida Cream · 2.000 · 2 tintas · sin barniz</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">24</td><td class="cli">BVP FRANCE SAS</td><td class="cod">C05683</td><td>Traseras Élixir du Père Gaucher</td><td>5×7 cm · Freelife Merida Cream · 2.000 · 2 tintas · sin barniz</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">25</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ET. impresa 20×50 PPB hotmelt · 8 modelos</td><td>20×50 · PP blanco · 4.000 (500 por modelo) · 1 tinta</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">26</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>Etiquetas Bodegas Góngora</td><td>Vino · sin datos técnicos en el correo</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-falta">Faltan todos los datos</span></td></tr>
+          <tr><td class="cod">27</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>Etiquetas con inserción RFID</td><td>Industrial · sin datos técnicos en el correo</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Faltan todos los datos</span></td></tr>
+          <tr><td class="cod">28</td><td class="cli">George Bonsor</td><td class="cod">—</td><td>Botella Angus 70 cl (Beremot)</td><td>Vino · sin datos técnicos en el correo</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-falta">Faltan todos los datos</span></td></tr>
+          <tr><td class="cod">29</td><td class="cli">Vinagrerías Riojanas</td><td class="cod">—</td><td>Etiqueta 145×45</td><td>145×45 · couché 80 gr · cuatricromía · escalado 160.000 a 1.200.000</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Falta nº modelos</span></td></tr>
+          <tr><td class="cod">30</td><td class="cli">SOVENA ESPAÑA</td><td class="cod">—</td><td>AC VE OS Seleccionado R-PET 750 ml (frontal)</td><td>114×73 mm · 1 tinta</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Faltan cantidad y material</span></td></tr>
+          <tr><td class="cod">31</td><td class="cli">SOVENA ESPAÑA</td><td class="cod">—</td><td>AC VE OS Seleccionado PET 750 ml (trasera)</td><td>111×43 mm · 2 tintas</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Faltan cantidad y material</span></td></tr>
+          <tr><td class="cod">32</td><td class="cli">SOVENA ESPAÑA</td><td class="cod">—</td><td>AC VE OS Classico PET 750 ml (ref. 1318546)</td><td>111×43 mm · PET · 4 tintas</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Falta cantidad</span></td></tr>
+          <tr><td class="cod">33</td><td class="cli">SOVENA ESPAÑA</td><td class="cod">—</td><td>AC VE OS Classico R-PET 750 ml (ref. 1318545)</td><td>114×73 mm · R-PET · 1 tinta</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Falta cantidad</span></td></tr>
+          <tr><td class="cod">34</td><td class="cli">Bodegas López Morenas</td><td class="cod">—</td><td>Alfabia 65×60 · tinto, blanco y rosado</td><td>65×60 · PP blanco mate 100 gr · 4 tintas · barniz mate · 3 modelos</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-falta">Falta cantidad</span></td></tr>
+          <tr><td class="cod">35</td><td class="cli">Bodegas López Morenas</td><td class="cod">—</td><td>Alfabia Restyling 70×100</td><td>70×100 · Uncoated White · 4 tintas · barniz mate · 1 modelo</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-falta">Falta cantidad</span></td></tr>
+          <tr><td class="cod">36</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>Térmica impresa 46×114 Aldi Nectarina Blanca</td><td>46×114 · térmico · fruta</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-falta">Faltan cantidad y tintas</span></td></tr>
+          <tr><td class="cod">37</td><td class="cli">Cárnicas Gállego</td><td class="cod">—</td><td>Etiqueta en papel térmico</td><td>Papel térmico · sin medidas en el correo</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Faltan medidas y cantidad</span></td></tr>
+          <tr><td class="cod">38</td><td class="cli">Cárnicas Gállego</td><td class="cod">—</td><td>PP térmico blanco 80av × 110</td><td>80av×110 · PP térmico blanco · 50.000 / 100.000 · anónima</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">39</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ETIQ FR AC Oliva OS R-PET 750 ml (ref. 1318489)</td><td>R-PET · sin medidas en el correo</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Faltan medidas y cantidad</span></td></tr>
+          <tr><td class="cod">40</td><td class="cli">Reenvío interno</td><td class="cod">—</td><td>ETIQ DR AC Oliva OS PET 750 ml (ref. 1318490)</td><td>PET · sin medidas en el correo</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-falta">Faltan medidas y cantidad</span></td></tr>
+          <tr><td class="cod">41</td><td class="cli">Joaquín Alonso</td><td class="cod">—</td><td>Etiquetas Joaquín Alonso</td><td>Vino · sin datos técnicos en el correo</td><td><span class="tag t-com">Crivero</span></td><td><span class="tag t-falta">Faltan todos los datos</span></td></tr>
+          <tr><td class="cod">42</td><td class="cli">ARGAL ALIMENTACIÓN</td><td class="cod">C01900</td><td>ET. Pulled Pork Argal 650 gr</td><td>110×80 mm · 3 tintas · 15.000 (indicada en el cuerpo)</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">43</td><td class="cli">Primaflor</td><td class="cod">—</td><td>Etiquetas Primaflor</td><td>Fruta · 150.000</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-falta">Faltan medidas y material</span></td></tr>
+          <tr><td class="cod">44</td><td class="cli">MOYCA GRAPES</td><td class="cod">C01876</td><td>Circulares 30 mm · 2 modelos</td><td>Ø30 mm · 700.000 · «Ya es temporada» 5 tintas y «Sin semillas» 1 tinta</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">45</td><td class="cli">JUAN CARLOS LÓPEZ ORTEGA</td><td class="cod">C03845</td><td>La Tagliatella Perlas de Trufa</td><td>170×45 mm · escalado hasta 20.000</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">46</td><td class="cli">URCISOL S.A.T. 9504</td><td class="cod">C00168</td><td>Circular amarilla «Les P'tits Prix Oui»</td><td>Cliente habitual: medidas y material según su ficha</td><td><span class="tag t-com">Valdivia</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">47</td><td class="cli">Royal Canin</td><td class="cod">—</td><td>Reclamación de precio</td><td>No es una petición de presupuesto</td><td>—</td><td><span class="tag t-desc">Descartado</span></td></tr>
+          <tr><td class="cod">48</td><td class="cli">M.A.R.G.I. SERVICIOS</td><td class="cod">C03576</td><td>ET Aldi Nord Pfirsiche 77×72</td><td>77×72 mm · térmico no protegido · 250.000 · 4 tintas · bobina Ø160</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-ok">Completo</span></td></tr>
+          <tr><td class="cod">49</td><td class="cli">M.A.R.G.I. SERVICIOS</td><td class="cod">C03576</td><td>ET Aldi Nord Pfirsiche (segunda ficha del mismo hilo)</td><td>Misma etiqueta que la línea 48 · se fusiona en una sola</td><td><span class="tag t-com">Cantero</span></td><td><span class="tag t-desc">Fusionada</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota" style="margin-top:14px">
+      Los presupuestos incompletos no se pierden: quedan registrados con el detalle exacto de lo que falta,
+      para reclamárselo al cliente. En cuanto responde, el asistente completa la misma ficha en vez de crear otra.
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span>Panel de seguimiento</h2>
+    <p class="lead">Además de los correos, tenéis una pantalla que se actualiza en directo conforme entran las solicitudes.</p>
+    <div class="card">
+      <p style="margin-top:0">Desde el panel podéis:</p>
+      <ul style="color:var(--gris);margin:0;padding-left:20px">
+        <li>Ver en tiempo real lo que va procesando el asistente, sin recargar nada.</li>
+        <li>Consultar la <b>carga de cada comercial</b> sobre su cupo de 20 y cuántos lleva enviados.</li>
+        <li>Ver de un vistazo los que están <b>sin asignar</b> y requieren mano humana.</li>
+        <li>Buscar por cliente, código o asunto y filtrar por comercial y por estado.</li>
+      </ul>
+      <p class="nota" style="margin-top:16px">
+        Es un panel de consulta. Dar de alta y modificar registros desde la propia pantalla lo veremos
+        como siguiente paso, una vez el triaje esté rodado.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">6</span>Qué necesitamos de vosotras para arrancar</h2>
+    <p class="lead">Las reglas de reparto, el cupo de 20 y el aviso a Presupuestos ya los hemos dado por cerrados con vosotras. Nos quedan <b>estos tres puntos por confirmar</b>:</p>
+    <div class="card">
+      <ul class="check">
+        <li><b>Los datos extraídos son los que necesitáis</b>
+          <span>Si falta algún campo en el aviso o lo queréis presentado de otra forma, decidnos cuál.</span></li>
+        <li><b>Los descartes son correctos</b>
+          <span>Confirmadnos si algún tipo de correo que ahora se descarta debería tratarse como solicitud.</span></li>
+        <li><b>Correos de Pedidos y Diseño</b>
+          <span>Cuando el correo sea para ellos, o el cliente dé el OK a un pedido sin copiarlos, se les reenvía.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">7</span>Estado actual y paso a producción</h2>
+    <div class="aviso">
+      <p style="margin:0 0 10px"><b>Ahora mismo el asistente no envía nada a las comerciales ni a los clientes.</b>
+        Procesa los correos, extrae los datos, asigna y lo registra todo, pero los avisos solo os llegan a vosotras
+        para que los reviséis.</p>
+      <p style="margin:0">En cuanto nos deis el OK a los puntos del apartado 6, activamos el envío real a las comerciales
+        y el asistente empieza a trabajar sobre el buzón en continuo. Es un cambio de un momento: todo lo demás
+        ya está construido y probado.</p>
+    </div>
+  </section>
+
+  <footer>
+    Asistente de Triaje de Presupuestos · Adhesivos Orcajada, S.A.<br>
+    Desarrollado por <b>iAgusto.app</b> · Informe de validación
+  </footer>
+
+</div>
+</body>
+</html>
