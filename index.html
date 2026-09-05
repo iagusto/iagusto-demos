@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Checklist de prueba de ORDIAPP: qué ha cambiado y qué mirar de cada cosa, ordenado por riesgo.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Prueba de ORDIAPP">
+<meta property="og:description" content="Qué ha cambiado y qué mirar de cada cosa, ordenado por riesgo.">
+<meta property="og:locale" content="es_ES">
+<meta name="theme-color" content="#f5f7f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1411" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128295;</text></svg>">
+<title>Prueba de ORDIAPP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+  /* El visor de artefactos ponía este reset por su cuenta. Fuera, va aquí. */
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<style>
+  :root {
+    --ground:      #f5f7f5;
+    --surface:     #ffffff;
+    --surface-alt: #eef1ee;
+    --ink:         #15201c;
+    --ink-soft:    #4d5c55;
+    --ink-faint:   #7b8a83;
+    --rule:        #d3dbd6;
+    --rule-soft:   #e3e9e5;
+    --accent:      #1f6f4a;
+    --accent-soft: #e2efe8;
+    --warn:        #8a5300;
+    --warn-soft:   #f8eeda;
+    --warn-rule:   #e0c793;
+    --stop:        #8f2a1e;
+    --stop-soft:   #f8e7e4;
+    --stop-rule:   #dfaea6;
+
+    --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --f-body:    "Newsreader", Georgia, "Times New Roman", serif;
+    --f-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0f1411;
+      --surface:     #161d19;
+      --surface-alt: #1d2621;
+      --ink:         #e7ede9;
+      --ink-soft:    #a9b8b0;
+      --ink-faint:   #7d8d85;
+      --rule:        #2c3831;
+      --rule-soft:   #222c27;
+      --accent:      #58b483;
+      --accent-soft: #163023;
+      --warn:        #e0ab5a;
+      --warn-soft:   #2c2415;
+      --warn-rule:   #4d3d1d;
+      --stop:        #e79184;
+      --stop-soft:   #2e1a17;
+      --stop-rule:   #4f2a24;
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #0f1411;
+    --surface:     #161d19;
+    --surface-alt: #1d2621;
+    --ink:         #e7ede9;
+    --ink-soft:    #a9b8b0;
+    --ink-faint:   #7d8d85;
+    --rule:        #2c3831;
+    --rule-soft:   #222c27;
+    --accent:      #58b483;
+    --accent-soft: #163023;
+    --warn:        #e0ab5a;
+    --warn-soft:   #2c2415;
+    --warn-rule:   #4d3d1d;
+    --stop:        #e79184;
+    --stop-soft:   #2e1a17;
+    --stop-rule:   #4f2a24;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 43rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  /* ---------- cabecera ---------- */
+
+  .head { display: flex; flex-direction: column; gap: .9rem; }
+
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 7vw, 2.9rem);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 34rem;
+  }
+
+  .meta {
+    font-family: var(--f-mono);
+    font-size: .72rem;
+    color: var(--ink-faint);
+    letter-spacing: .02em;
+    border-top: 1px solid var(--rule);
+    padding-top: .8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem 1.4rem;
+  }
+
+  /* ---------- avisos de parada ---------- */
+
+  .stops { display: flex; flex-direction: column; gap: .75rem; }
+
+  .stop-note {
+    background: var(--stop-soft);
+    border-left: 4px solid var(--stop);
+    padding: .95rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+
+  .stop-note h2 {
+    font-family: var(--f-display);
+    font-size: .95rem;
+    font-weight: 700;
+    letter-spacing: -.005em;
+    margin: 0;
+    color: var(--stop);
+  }
+
+  .stop-note p { margin: 0; font-size: .95rem; color: var(--ink); }
+
+  /* ---------- pasos ---------- */
+
+  .steps { display: flex; flex-direction: column; gap: 2rem; }
+
+  .step { display: grid; grid-template-columns: 2.6rem 1fr; gap: 0 .9rem; }
+
+  .step-n {
+    font-family: var(--f-mono);
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding-top: .35rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step h2 {
+    font-family: var(--f-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -.012em;
+    margin: 0 0 .5rem;
+    text-wrap: balance;
+  }
+
+  .step > .body { grid-column: 2; display: flex; flex-direction: column; gap: .75rem; }
+
+  .step p { margin: 0; }
+
+  .do {
+    font-family: var(--f-display);
+    font-size: .95rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: var(--surface-alt);
+    border-radius: 3px;
+    padding: .55rem .75rem;
+  }
+
+  .note { font-size: .95rem; color: var(--ink-soft); }
+
+  /* ---------- listas de comprobación ---------- */
+
+  .checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .1rem; }
+
+  .checks li { display: flex; align-items: flex-start; gap: .6rem; padding: .35rem 0; border-bottom: 1px solid var(--rule-soft); }
+  .checks li:last-child { border-bottom: 0; }
+
+  .checks input[type="checkbox"] {
+    appearance: none;
+    flex: 0 0 auto;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin: .3rem 0 0;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    background: var(--surface);
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+  }
+
+  .checks input[type="checkbox"]::after {
+    content: "";
+    width: .55rem;
+    height: .3rem;
+    border-left: 2px solid var(--surface);
+    border-bottom: 2px solid var(--surface);
+    transform: rotate(-45deg) translate(1px, -1px);
+    opacity: 0;
+  }
+
+  .checks input[type="checkbox"]:checked { background: var(--accent); border-color: var(--accent); }
+  .checks input[type="checkbox"]:checked::after { opacity: 1; }
+  .checks input[type="checkbox"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .checks input[type="checkbox"]:checked + label span { color: var(--ink-faint); text-decoration: line-through; text-decoration-color: var(--rule); }
+  .checks input[type="checkbox"]:checked + label .before { text-decoration: none; }
+
+  .checks label { flex: 1 1 auto; cursor: pointer; }
+  .checks span { font-size: .97rem; }
+
+  .before {
+    display: block;
+    font-family: var(--f-mono);
+    font-size: .72rem;
+    color: var(--ink-faint);
+    letter-spacing: .01em;
+    margin-top: .15rem;
+  }
+
+  /* ---------- aviso ámbar ---------- */
+
+  .care {
+    background: var(--warn-soft);
+    border: 1px solid var(--warn-rule);
+    border-radius: 3px;
+    padding: .7rem .85rem;
+    font-size: .92rem;
+    color: var(--ink);
+  }
+
+  .care strong { color: var(--warn); font-family: var(--f-display); font-weight: 600; }
+
+  /* ---------- piezas pequeñas ---------- */
+
+  code, .doc {
+    font-family: var(--f-mono);
+    font-size: .84em;
+    font-weight: 500;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: .1em .35em;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .btn {
+    font-family: var(--f-display);
+    font-size: .85em;
+    font-weight: 600;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: .1em .4em;
+    white-space: nowrap;
+  }
+
+  /* ---------- cierre ---------- */
+
+  .closing {
+    border-top: 2px solid var(--ink);
+    padding-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+  }
+
+  .closing h2 {
+    font-family: var(--f-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -.01em;
+  }
+
+  .report {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  }
+
+  .report div {
+    border-left: 2px solid var(--accent);
+    padding: .1rem 0 .1rem .7rem;
+  }
+
+  .report dt {
+    font-family: var(--f-mono);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .report dd { margin: .15rem 0 0; font-size: .92rem; }
+
+  .reset {
+    align-self: flex-start;
+    font-family: var(--f-display);
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--ink-faint);
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: .35rem .7rem;
+    cursor: pointer;
+  }
+  .reset:hover { color: var(--ink); border-color: var(--ink-faint); }
+  .reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  @media (max-width: 34rem) {
+    body { font-size: 16px; }
+    .step { grid-template-columns: 1fr; gap: 0; }
+    .step-n { padding-top: 0; margin-bottom: .15rem; }
+    .step > .body { grid-column: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="eyebrow">ORDIAPP · Para Gabriel</div>
+    <h1>Prueba de ORDIAPP</h1>
+    <p class="standfirst">
+      Lo que ha cambiado en esta tanda y qué hay que mirar de cada cosa. Está ordenado
+      por riesgo: los dos primeros puntos son los que pueden dejar algo mal en Holded.
+    </p>
+    <div class="meta">
+      <span>Actualizado el 5 de septiembre de 2026</span>
+      <span>10 comprobaciones</span>
+      <span>Las marcas se guardan en este móvil</span>
+    </div>
+  </header>
+
+  <section class="stops" aria-label="Antes de empezar">
+    <div class="stop-note">
+      <h2>No pulses «Enviar a Holded» en PC-VE25488 ni en PC-VE26227</h2>
+      <p>
+        Son los dos pedidos de compra que ya tenías hechos a mano en Holded. Ahora se pueden
+        vincular con el que ya existe. Si envías uno nuevo, tendrás dos pedidos para lo mismo.
+      </p>
+    </div>
+    <div class="stop-note">
+      <h2>Nada de lo que hagas en la app borra nada de Holded</h2>
+      <p>
+        Vincular solo reconoce un documento que ya está allí. Y si te equivocas de documento,
+        hay un botón para deshacerlo.
+      </p>
+    </div>
+  </section>
+
+  <div class="steps">
+
+    <!-- 1 -->
+    <section class="step">
+      <div class="step-n">01</div>
+      <div class="body">
+        <h2>Los dos pedidos que ya estaban en Holded</h2>
+        <p class="do">Abre <span class="doc">PC-VE26227</span> → botón <span class="btn">Vincular con Holded</span></p>
+        <p class="note">
+          Sale la lista de tus pedidos de compra de Holded, cada uno con su número, el proveedor,
+          la fecha, la dirección de entrega, los modelos y las notas. Es lo que te va a permitir
+          reconocer el tuyo sin abrirlo.
+        </p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c1a"><label for="c1a"><span>Creemos que el bueno es <span class="doc">O260056</span> — 1 × EMC MEGA 24 m3, entrega en Amposta, notas con el nº de serie EMC-26092088. <strong>Confírmalo tú antes de pulsar.</strong></span></label></li>
+          <li><input type="checkbox" id="c1b"><label for="c1b"><span>Antes de vincular, pulsa «Ver diferencias» y comprueba que las líneas cuadran.</span></label></li>
+          <li><input type="checkbox" id="c1c"><label for="c1c"><span>Al vincular, el pedido pasa a llamarse como en Holded y desaparece el botón de enviar.</span></label></li>
+          <li><input type="checkbox" id="c1d"><label for="c1d"><span>Luego <span class="doc">PC-VE25488</span> (Reciclajes TGC, 2 × EMC MEGA 20m3, de diciembre).</span></label></li>
+        </ul>
+        <div class="care">
+          <strong>Puede que PC-VE25488 no aparezca por el nombre del cliente.</strong> Hemos mirado
+          tus 110 pedidos de compra y ninguno menciona a Reciclajes TGC. Prueba por la dirección de
+          entrega o por el número. Si no aparece, déjalo sin vincular: no pasa nada mientras nadie
+          pulse enviar.
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="step">
+      <div class="step-n">02</div>
+      <div class="body">
+        <h2>Importar una oferta de Holded</h2>
+        <p class="do">Importa una oferta cualquiera y ábrela.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c2a"><label for="c2a"><span>Aparece <strong>la dirección de entrega</strong>.<span class="before">Antes se perdía siempre. Es el fallo que señalaste en directo.</span></span></label></li>
+          <li><input type="checkbox" id="c2b"><label for="c2b"><span>Vienen el cliente y sus datos de contacto.</span></label></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="step">
+      <div class="step-n">03</div>
+      <div class="body">
+        <h2>Lo que recibe Ecopress</h2>
+        <p class="do">Abre el PDF de un pedido de compra y léelo entero, línea por línea.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c3a"><label for="c3a"><span><strong>Ninguna línea lleva precio.</strong> Ni una.<span class="before">Antes una línea salía con importe.</span></span></label></li>
+          <li><input type="checkbox" id="c3b"><label for="c3b"><span>No aparece el <strong>nombre, el email ni el teléfono</strong> del cliente final. Solo la dirección de entrega.<span class="before">Antes viajaban los tres.</span></span></label></li>
+          <li><input type="checkbox" id="c3c"><label for="c3c"><span>Sí aparecen el color RAL, la altura de gancho y tus instrucciones de fabricación.</span></label></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="step">
+      <div class="step-n">04</div>
+      <div class="body">
+        <h2>Editar una oferta después de aceptarla</h2>
+        <p class="do">Coge una oferta aceptada de prueba, cámbiale el precio a una línea, guarda y abre su pedido de compra.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c4a"><label for="c4a"><span>Sale un aviso de que <strong>la oferta ha cambiado</strong>, con el detalle de qué cambió en cada línea.</span></label></li>
+          <li><input type="checkbox" id="c4b"><label for="c4b"><span>Las máquinas de esa línea <strong>no reciben importe</strong> hasta que lo revises.<span class="before">Es a propósito: es lo que evitó facturar 2.500 € en vez de 20.000 €.</span></span></label></li>
+          <li><input type="checkbox" id="c4c"><label for="c4c"><span>El detalle de los cambios se ve <strong>antes</strong> de pulsar nada, encima de los botones.</span></label></li>
+        </ul>
+        <p class="note">
+          Hay dos botones: <span class="btn">Resincronizar</span> copia los datos nuevos al pedido,
+          y <span class="btn">Rehacer asignaciones</span> suelta las máquinas para volver a decir de
+          qué línea sale cada una.
+        </p>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="step">
+      <div class="step-n">05</div>
+      <div class="body">
+        <h2>Facturar por porcentaje</h2>
+        <p class="do">Crea una factura desde una oferta y cambia el porcentaje antes de emitirla.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c5a"><label for="c5a"><span>El porcentaje <strong>se puede cambiar</strong>: pon un 50, un 70, lo que necesites.<span class="before">Antes se quedaba clavado en 30.</span></span></label></li>
+          <li><input type="checkbox" id="c5b"><label for="c5b"><span>El importe de la factura se recalcula con el porcentaje que has puesto.</span></label></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="step">
+      <div class="step-n">06</div>
+      <div class="body">
+        <h2>Los avisos del chat</h2>
+        <p class="do">Reenvía un order de Ecopress que traiga varias máquinas.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c6a"><label for="c6a"><span>Llega <strong>un solo aviso</strong> al chat, con el recuento y los números de serie.<span class="before">Antes llegaban cuatro avisos idénticos para cuatro máquinas.</span></span></label></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="step">
+      <div class="step-n">07</div>
+      <div class="body">
+        <h2>Pedidos de compra antiguos</h2>
+        <p class="do">Abre <span class="doc">O260057</span> o cualquier otro anterior a este cambio.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c7a"><label for="c7a"><span>Sale el aviso de <strong>«Vinculación antigua»</strong> y el botón <span class="btn">Rehacer asignaciones</span>.</span></label></li>
+          <li><input type="checkbox" id="c7b"><label for="c7b"><span>No hace nada hasta que lo pulses.</span></label></li>
+          <li><input type="checkbox" id="c7c"><label for="c7c"><span>Al pulsarlo, las máquinas que ya salen en una factura o proforma <strong>no se tocan</strong>, y te dice cuáles ha dejado como estaban.</span></label></li>
+          <li><input type="checkbox" id="c7d"><label for="c7d"><span>Después, cada máquina te pide que digas de qué línea sale. Es un rato y ya no vuelve a pasar.</span></label></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="step">
+      <div class="step-n">08</div>
+      <div class="body">
+        <h2>La pantalla de Máquinas</h2>
+        <p class="do">Ábrela y repásala de arriba abajo.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c8a"><label for="c8a"><span>Solo salen <strong>máquinas de verdad</strong>. Nada de adaptaciones, asistencias técnicas ni bocas de libro.</span></label></li>
+          <li><input type="checkbox" id="c8b"><label for="c8b"><span>La columna <strong>Facturado</strong> va en ámbar mientras es parcial y en verde al llegar al 100%.</span></label></li>
+          <li><input type="checkbox" id="c8c"><label for="c8c"><span>La columna <strong>Comentarios</strong> deja escribir libremente: «pendiente de cobro», «pagaré vence el 12». Se guarda al salir del campo o con Enter.</span></label></li>
+          <li><input type="checkbox" id="c8d"><label for="c8d"><span>Ese comentario sale también en el Excel que exportas.</span></label></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="step">
+      <div class="step-n">09</div>
+      <div class="body">
+        <h2>Al hacer una oferta nueva</h2>
+        <p class="do">Empieza una oferta y añade dos líneas: una máquina y un concepto suelto.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c9a"><label for="c9a"><span>Cada línea tiene la casilla <strong>«¿Es una máquina?»</strong>, a la vista.</span></label></li>
+          <li><input type="checkbox" id="c9b"><label for="c9b"><span>Viene puesta según el producto, pero <strong>la puedes cambiar</strong>. De eso depende que la línea pida número de serie y salga en Máquinas.</span></label></li>
+        </ul>
+        <p class="note">
+          Si algo lleva número de serie o no, solo lo sabes tú. La app propone; tú decides.
+        </p>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="step">
+      <div class="step-n">10</div>
+      <div class="body">
+        <h2>Vincular una oferta importada que aceptes ahora</h2>
+        <p class="do">Importa una oferta antigua de Holded y acéptala.</p>
+        <ul class="checks">
+          <li><input type="checkbox" id="c10a"><label for="c10a"><span>Su pedido de compra abre con un aviso de que <strong>puede que ya lo hicieras a mano</strong> en Holded.</span></label></li>
+          <li><input type="checkbox" id="c10b"><label for="c10b"><span><span class="btn">Vincular con Holded</span> es el botón destacado, y <span class="btn">Enviar a Holded</span> queda en segundo plano.</span></label></li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="closing">
+    <h2>Qué contarnos de cada cosa que falle</h2>
+    <div class="report">
+      <div><dt>Qué esperabas</dt><dd>Lo que creías que iba a pasar.</dd></div>
+      <div><dt>Qué salió</dt><dd>Lo que pasó de verdad, aunque sea «no pasó nada».</dd></div>
+      <div><dt>Documento</dt><dd>El número: VE…, O…, PC-…, o el nº de serie.</dd></div>
+    </div>
+    <p class="note">
+      Con esas tres cosas se localiza enseguida. Una captura de pantalla ayuda, pero el número
+      del documento es lo que de verdad hace falta.
+    </p>
+    <button class="reset" type="button" id="reset">Borrar mis marcas</button>
+  </section>
+
+</div>
+
+<script>
+  (function () {
+    var KEY = "ordiapp.prueba.v1";
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('.checks input[type="checkbox"]'));
+
+    function leer() {
+      try { return JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { return {}; }
+    }
+    function guardar(estado) {
+      try { localStorage.setItem(KEY, JSON.stringify(estado)); } catch (e) { /* modo privado */ }
+    }
+
+    var estado = leer();
+    boxes.forEach(function (b) {
+      if (estado[b.id]) b.checked = true;
+      b.addEventListener("change", function () {
+        var s = leer();
+        if (b.checked) s[b.id] = 1; else delete s[b.id];
+        guardar(s);
+      });
+    });
+
+    document.getElementById("reset").addEventListener("click", function () {
+      boxes.forEach(function (b) { b.checked = false; });
+      guardar({});
+    });
+  })();
+</script>
+
+</body>
+</html>
