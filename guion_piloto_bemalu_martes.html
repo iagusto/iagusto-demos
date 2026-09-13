@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guion Piloto Bemalu · Martes 11:00</title>
+<style>
+  :root{
+    --rojo:#E1121C; --rojo2:#FF5B62; --amb:#E0A53A;
+    --bg:#0d0f12; --card:#16191e; --card2:#1c2026;
+    --tx:#EDEFF2; --tx2:#9aa0a8; --ok:#3ecf8e; --linea:#2a2f37;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);
+    font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;padding:0 0 80px}
+  header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#14171c,#0d0f12);
+    border-bottom:1px solid var(--linea);padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .logo{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff4048,#b70d16);flex:none}
+  .htitle{font-weight:700;font-size:18px}
+  .htitle small{display:block;color:var(--tx2);font-weight:400;font-size:12px}
+  .prog{margin-left:auto;min-width:200px;flex:1;max-width:340px}
+  .bar{height:10px;background:#23272e;border-radius:6px;overflow:hidden}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rojo),var(--rojo2));transition:.3s}
+  .prog span{font-size:12px;color:var(--tx2)}
+  main{max-width:900px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border:1px solid var(--linea);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .card h2{margin:0 0 4px;font-size:16px;display:flex;align-items:center;gap:10px}
+  .tag{font-size:11px;color:var(--tx2);font-weight:600;letter-spacing:.5px}
+  .mins{margin-left:auto;font-size:12px;color:var(--amb);border:1px solid #3a3320;padding:2px 8px;border-radius:20px}
+  .decir{background:var(--card2);border-left:3px solid var(--rojo);border-radius:8px;padding:10px 14px;margin:10px 0;color:#dfe3e8;font-style:italic}
+  .hacer{color:var(--tx2);font-size:14px;margin:6px 0}
+  .hacer b{color:var(--tx)}
+  ul.chk{list-style:none;padding:0;margin:8px 0}
+  ul.chk li{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #20242b}
+  ul.chk li:last-child{border-bottom:none}
+  input[type=checkbox]{appearance:none;width:20px;height:20px;border:2px solid #3a4049;border-radius:5px;flex:none;margin-top:1px;cursor:pointer;position:relative;transition:.15s}
+  input[type=checkbox]:checked{background:var(--rojo);border-color:var(--rojo)}
+  input[type=checkbox]:checked::after{content:"✓";position:absolute;top:-2px;left:3px;color:#fff;font-size:15px;font-weight:700}
+  label{cursor:pointer;flex:1}
+  li.done label{text-decoration:line-through;color:var(--tx2)}
+  .fase-chk{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:8px;padding:8px 12px;margin-top:12px}
+  .fase-chk label{font-weight:600}
+  .warn{border-color:#4a2a2a;background:#1c1414}
+  .warn h2{color:var(--rojo2)}
+  .ok-box{border-color:#1f3b2e;background:#121b16}
+  .ok-box h2{color:var(--ok)}
+  .cmd{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#0a0c0f;border:1px solid var(--linea);border-radius:6px;padding:8px 10px;color:#c7ccd3;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+  .reset{position:fixed;bottom:18px;right:18px;background:var(--card2);color:var(--tx2);border:1px solid var(--linea);padding:10px 16px;border-radius:24px;cursor:pointer;font-size:13px;z-index:20}
+  .reset:hover{color:var(--tx);border-color:var(--rojo)}
+  .goal li{color:#dfe3e8}
+  h3.sec{color:var(--tx2);font-size:12px;letter-spacing:1px;margin:26px 4px 4px;text-transform:uppercase}
+  @media print{.reset{display:none}header{position:static}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"></div>
+  <div class="htitle">Guion Piloto Bemalu <small>Martes 11:00 · comparto mi pantalla · validación con Virginia</small></div>
+  <div class="prog"><div class="bar"><i id="barfill"></i></div><span id="progtxt">0 / 0 completado</span></div>
+</header>
+<main>
+
+  <div class="card">
+    <div style="color:var(--tx2);font-size:13px">
+      <b style="color:var(--tx)">Objetivo real:</b> que vean que el sistema ACIERTA y arrancar la validación con Virginia. NO es cerrar el proyecto.<br>
+      <b style="color:var(--rojo2)">Regla de oro:</b> no prometer % de automatización ni fecha de producción. Es una sesión de validación conjunta.
+    </div>
+  </div>
+
+  <h3 class="sec">✅ Checklist — esa mañana antes de las 11:00</h3>
+  <div class="card">
+    <ul class="chk">
+      <li><input type="checkbox"><label>WireGuard <b>Activo</b></label></li>
+      <li><input type="checkbox"><label>Túnel abierto en Git Bash</label></li>
+      <li><input type="checkbox"><label>Dashboard abierto y logueado en <code>http://127.0.0.1:8099</code></label></li>
+      <li><input type="checkbox"><label>Procesadas las facturas recientes de los 3 proveedores (según fecha de Virginia)</label></li>
+      <li><input type="checkbox"><label>Localizada la factura estrella <b>FRV26-011734</b> (cerveza EMDBRAU)</label></li>
+      <li><input type="checkbox"><label>Factura de prueba lista: <code>?pruebas=1</code> → buscar "PRUEBA"</label></li>
+      <li><input type="checkbox"><label><b>Seguro anticatástrofe:</b> capturas hechas de las 3 pantallas clave</label></li>
+      <li><input type="checkbox"><label>Ensayo: hago yo el flujo completo una vez antes de la llamada</label></li>
+    </ul>
+    <div class="cmd">ssh -i ~/.ssh/bemalu_vm -N -L 8099:127.0.0.1:8099 EBFadmin@193.0.0.122</div>
+  </div>
+
+  <h3 class="sec">🎬 Los 6 momentos</h3>
+
+  <div class="card">
+    <h2><span class="tag">1</span> Apertura — encuadre honesto <span class="mins">2 min</span></h2>
+    <div class="decir">"Os enseño el sistema funcionando sobre vuestras facturas reales, contra vuestro ERP. Hoy validamos que acierta y lo calibramos con Virginia; no venimos a cerrar nada. Veréis tres cosas: cómo lee, cómo cuadra, y cómo caza lo que no cuadra."</div>
+    <div class="hacer">No menciones ningún % todavía.</div>
+    <div class="fase-chk"><input type="checkbox"><label>Fase 1 hecha</label></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">2</span> El caso estrella PRIMERO <span class="mins">5 min</span></h2>
+    <div class="hacer"><b>No abras por los KPIs.</b> Ve directo a la factura de la cerveza (FRV26-011734).</div>
+    <div class="decir">"Esta factura de Cash Levante tiene 49 líneas. El sistema ha cuadrado 48 al céntimo contra el albarán. Y ha encontrado ESTA: cerveza Embdrau. Os facturan 960 unidades, pero el albarán dice 480. Son 345,60 € de más en una sola línea."</div>
+    <div class="hacer"><b>Pincha la línea</b> → se abre "LÍNEA EN EL ERP" con las 480.</div>
+    <div class="decir">"Y no os lo tenéis que creer: aquí está el albarán 2124732 de VUESTRO ERP, 480 unidades. Un compañero revisando 49 líneas a ojo no lo pilla. El sistema sí, y os lo demuestra."</div>
+    <div class="hacer">👉 El momento que vende el proyecto. Tómate tu tiempo.</div>
+    <div class="fase-chk"><input type="checkbox"><label>Fase 2 hecha</label></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">3</span> La foto general — el Dashboard <span class="mins">8 min</span></h2>
+    <div class="hacer">Empieza por lo fuerte:</div>
+    <div class="decir">"Fijaos en la fiabilidad de lectura: rondando el 90%. El sistema lee bien casi todos los campos de casi todas las facturas."</div>
+    <div class="hacer"><b>Contexto ANTES del número de cotejo:</b></div>
+    <div class="decir">"De las que puede comparar, o cuadran o detecta el descuadre. El resto va a revisión — y la clave: 117 no tienen su albarán localizable en el ERP. Ahí el sistema no falla, falta el documento contra el que comparar. Eso es un dato vuestro sobre el que trabajamos juntos."</div>
+    <div class="hacer">Enseña descuadres por tipo, evolución, y filtra por sociedad (Costto / Ekoprix).</div>
+    <div class="fase-chk"><input type="checkbox"><label>Fase 3 hecha</label></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">4</span> Bandeja + casos reales <span class="mins">10 min</span></h2>
+    <div class="decir">"Aquí la lista de trabajo, priorizada: arriba lo accionable, los descuadres reales por importe."</div>
+    <div class="hacer">Abre 1-2 facturas de <b>Costto y Ekoprix</b> con descuadre real, verificando contra el albarán en pantalla.</div>
+    <div class="hacer"><b>Deja hablar a Virginia:</b> "¿Esta la reconoces? ¿Cuadra con lo que verías tú?" — aquí empieza la validación de verdad.</div>
+    <div class="fase-chk"><input type="checkbox"><label>Fase 4 hecha</label></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">5</span> Preguntas para Virginia — Almacenes Bemalu <span class="mins">5 min</span></h2>
+    <div class="decir">"Con Almacenes Bemalu vemos un patrón que os pregunto porque vosotros lo sabréis: hay 6 facturas que descuadran en total un 1-3%, y 9 donde el total cuadra pero las cantidades línea a línea no. ¿Son devoluciones, entregas parciales, rappel? Saberlo nos ayuda a afinar."</div>
+    <div class="hacer">👉 Te posiciona como quien entiende su operativa.</div>
+    <div class="fase-chk"><input type="checkbox"><label>Fase 5 hecha</label></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">6</span> Botones + cierre <span class="mins">5 min</span></h2>
+    <div class="hacer">Sobre la factura de PRUEBA (<code>?pruebas=1</code>):</div>
+    <div class="decir">"Al revisar, Administración puede rechazar, aceptar un descuadre justificándolo, editar y recotejar, o generar el aviso al proveedor. Todo queda registrado: quién, cuándo y por qué."</div>
+    <div class="decir">"El botón de aprobar deja el borrador listo; la escritura en vuestro ERP se activa cuando Sistemas publique el web service pendiente. Hasta entonces, el sistema nunca escribe en el ERP: solo lee."</div>
+    <div class="hacer"><b>Cierre:</b></div>
+    <div class="decir">"El sistema está funcionando en vuestra máquina, contra vuestro ERP. El siguiente paso es el piloto: que Virginia lo use en paralelo unos días y validemos que coincide con su criterio. Cuando cuadre de forma sostenida, a producción."</div>
+    <div class="fase-chk"><input type="checkbox"><label>Fase 6 hecha</label></div>
+  </div>
+
+  <h3 class="sec">🛟 Si algo va mal</h3>
+  <div class="card warn">
+    <h2>Contingencias</h2>
+    <div class="hacer"><b>Dashboard a 0 / no carga:</b> se recupera solo en ~1,5 min (watchdog). Sigue hablando; si tarda, tira de las capturas de seguridad.</div>
+    <div class="hacer"><b>Factura rara / número extraño:</b> "Justo el caso que el piloto sirve para afinar — lo anoto." No lo defiendas.</div>
+    <div class="hacer"><b>Preguntan el % exacto:</b> "Es lo que mediremos en el piloto con Virginia. Hoy os enseño que cuando tiene los datos, acierta."</div>
+    <div class="hacer"><b>¿Por qué tantas en revisión?:</b> "Sobre todo por falta del albarán en el ERP en ese momento — por eso el piloto es en vivo, con albaranes vivos."</div>
+    <div class="hacer"><b>¿Escaneados / fotos?:</b> "Los pedimos en PDF al proveedor, evitamos chapuzas de OCR."</div>
+  </div>
+
+  <h3 class="sec">🚫 Qué NO hacer</h3>
+  <div class="card">
+    <ul class="chk">
+      <li><input type="checkbox"><label>No abrir por el número de cotejo pelado (sin contexto asusta)</label></li>
+      <li><input type="checkbox"><label>No prometer % ni fecha de producción</label></li>
+      <li><input type="checkbox"><label>No tocar botones sobre facturas REALES — solo sobre la de prueba</label></li>
+      <li><input type="checkbox"><label>No defender un caso dudoso: anótalo como "a afinar"</label></li>
+    </ul>
+  </div>
+
+  <h3 class="sec">🎯 Lo que tienen que salir pensando</h3>
+  <div class="card ok-box">
+    <ul class="chk goal">
+      <li><input type="checkbox"><label>"Lee bien nuestras facturas"</label></li>
+      <li><input type="checkbox"><label>"Encuentra descuadres reales que se nos escaparían" (la cerveza)</label></li>
+      <li><input type="checkbox"><label>"Cuando no cuadra, nos dice por qué, no se lo inventa"</label></li>
+      <li><input type="checkbox"><label>"Esto nos ahorra trabajo de verdad"</label></li>
+    </ul>
+  </div>
+
+</main>
+
+<button class="reset" onclick="if(confirm('¿Desmarcar todo?')){document.querySelectorAll('input[type=checkbox]').forEach(c=>{c.checked=false});upd()}">↺ Reiniciar checks</button>
+
+<script>
+  function upd(){
+    var all=document.querySelectorAll('input[type=checkbox]');
+    var done=0;
+    all.forEach(function(c){
+      var li=c.closest('li'); if(li){li.classList.toggle('done',c.checked)}
+      if(c.checked)done++;
+    });
+    var pct=all.length?Math.round(done/all.length*100):0;
+    document.getElementById('barfill').style.width=pct+'%';
+    document.getElementById('progtxt').textContent=done+' / '+all.length+' completado';
+  }
+  document.querySelectorAll('input[type=checkbox]').forEach(function(c){c.addEventListener('change',upd)});
+  upd();
+</script>
+</body>
+</html>
