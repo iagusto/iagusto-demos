@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guion Piloto Bemalu · Hoy</title>
+<style>
+  :root{
+    --rojo:#E1121C; --rojo2:#FF5B62; --amb:#E0A53A;
+    --bg:#0d0f12; --card:#16191e; --card2:#1c2026;
+    --tx:#EDEFF2; --tx2:#9aa0a8; --ok:#3ecf8e; --linea:#2a2f37;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);
+    font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;padding:0 0 80px}
+  header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#14171c,#0d0f12);
+    border-bottom:1px solid var(--linea);padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .logo{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff4048,#b70d16);flex:none}
+  .htitle{font-weight:700;font-size:18px}
+  .htitle small{display:block;color:var(--tx2);font-weight:400;font-size:12px}
+  .prog{margin-left:auto;min-width:200px;flex:1;max-width:340px}
+  .bar{height:10px;background:#23272e;border-radius:6px;overflow:hidden}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rojo),var(--rojo2));transition:.3s}
+  .prog span{font-size:12px;color:var(--tx2)}
+  main{max-width:900px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border:1px solid var(--linea);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .card h2{margin:0 0 4px;font-size:16px;display:flex;align-items:center;gap:10px}
+  .tag{font-size:11px;color:var(--tx2);font-weight:600;letter-spacing:.5px}
+  .mins{margin-left:auto;font-size:12px;color:var(--amb);border:1px solid #3a3320;padding:2px 8px;border-radius:20px}
+  .decir{background:var(--card2);border-left:3px solid var(--rojo);border-radius:8px;padding:10px 14px;margin:8px 0;color:#dfe3e8;font-style:italic}
+  .hacer{color:var(--tx2);font-size:13px;margin:5px 0}
+  .hacer b{color:var(--tx)}
+  ul.chk{list-style:none;padding:0;margin:8px 0}
+  ul.chk li{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #20242b}
+  ul.chk li:last-child{border-bottom:none}
+  input[type=checkbox]{appearance:none;width:20px;height:20px;border:2px solid #3a4049;border-radius:5px;flex:none;margin-top:1px;cursor:pointer;position:relative;transition:.15s}
+  input[type=checkbox]:checked{background:var(--rojo);border-color:var(--rojo)}
+  input[type=checkbox]:checked::after{content:"✓";position:absolute;top:-2px;left:3px;color:#fff;font-size:15px;font-weight:700}
+  label{cursor:pointer;flex:1}
+  li.done label{text-decoration:line-through;color:var(--tx2)}
+  .fase-chk{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:8px;padding:8px 12px;margin-top:10px}
+  .fase-chk label{font-weight:600}
+  .warn{border-color:#4a2a2a;background:#1c1414}
+  .warn h2{color:var(--rojo2)}
+  .ok-box{border-color:#1f3b2e;background:#121b16}
+  .ok-box h2{color:var(--ok)}
+  .cmd{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#0a0c0f;border:1px solid var(--linea);border-radius:6px;padding:8px 10px;color:#c7ccd3;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+  .reset{position:fixed;bottom:18px;right:18px;background:var(--card2);color:var(--tx2);border:1px solid var(--linea);padding:10px 16px;border-radius:24px;cursor:pointer;font-size:13px;z-index:20}
+  .reset:hover{color:var(--tx);border-color:var(--rojo)}
+  h3.sec{color:var(--tx2);font-size:12px;letter-spacing:1px;margin:26px 4px 4px;text-transform:uppercase}
+  .num{color:var(--rojo2);font-weight:700}
+  .verde{color:var(--ok);font-weight:700}
+  @media print{.reset{display:none}header{position:static}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"></div>
+  <div class="htitle">Guion Piloto Bemalu <small>Hoy · comparto mi pantalla</small></div>
+  <div class="prog"><div class="bar"><i id="barfill"></i></div><span id="progtxt">0 / 0</span></div>
+</header>
+<main>
+
+  <div class="card">
+    <div style="color:var(--tx2);font-size:13px">
+      110 facturas · <b style="color:var(--tx)">Cash Levante</b> y <b style="color:var(--tx)">Unide</b> (Bemalu según confirme Virginia)<br>
+      <b style="color:var(--rojo2)">No prometer % ni fechas de producción.</b> Es validación conjunta.
+    </div>
+  </div>
+
+  <h3 class="sec">✅ Antes de empezar</h3>
+  <div class="card">
+    <ul class="chk">
+      <li><input type="checkbox"><label>WireGuard Activo</label></li>
+      <li><input type="checkbox"><label>Túnel abierto en Git Bash</label></li>
+      <li><input type="checkbox"><label>Dashboard logueado en <code>127.0.0.1:8099</code></label></li>
+      <li><input type="checkbox"><label>Bemalu procesado si Virginia ya avisó</label></li>
+      <li><input type="checkbox"><label>Localizada 1 factura de Cash Levante con descuadre para abrir</label></li>
+      <li><input type="checkbox"><label>Localizada la línea concreta en incidencia dentro de esa factura</label></li>
+      <li><input type="checkbox"><label>Capturas de seguridad hechas (por si se cae el sistema)</label></li>
+    </ul>
+    <div class="cmd">ssh -i ~/.ssh/bemalu_vm -N -L 8099:127.0.0.1:8099 EBFadmin@193.0.0.122</div>
+  </div>
+
+  <h3 class="sec">🎬 Apertura</h3>
+  <div class="card">
+    <div class="decir">"Os enseño el sistema funcionando sobre vuestras facturas reales, contra vuestro ERP. Hoy validamos que acierta y lo calibramos con Virginia."</div>
+    <div class="fase-chk"><input type="checkbox"><label>Hecho</label></div>
+  </div>
+
+  <h3 class="sec">1 · Dashboard</h3>
+  <div class="card">
+    <div class="hacer">Abrir pestaña <b>Dashboard</b>.</div>
+    <div class="decir">"92,2% de fiabilidad de lectura — el sistema lee bien casi todos los campos."</div>
+    <div class="decir">"El NIF sale más bajo porque parte de las facturas llegan en factura electrónica, que no siempre trae el NIF en el documento."</div>
+    <div class="decir">"De las 110 facturas, 40 ya se han podido comparar del todo contra su albarán. El resto está en revisión — os lo explico con un caso ahora mismo."</div>
+    <div class="decir">"El importe en descuadre es bajo porque es una semana de datos; lo importante es que el sistema los encuentra, y os lo enseño."</div>
+    <div class="hacer">Enseñar filtros de sociedad y proveedor sin detenerse mucho.</div>
+    <div class="fase-chk"><input type="checkbox"><label>Hecho</label></div>
+  </div>
+
+  <h3 class="sec">2 · Bandeja</h3>
+  <div class="card">
+    <div class="hacer">Ir a pestaña <b>Bandeja</b>.</div>
+    <div class="decir">"Lista de trabajo priorizada por importe en descuadre — arriba lo más importante."</div>
+    <div class="decir">"Ya hay varios descuadres con confianza muy alta, 99%, 98%, tanto de Unide como de Cash Levante. Vamos a abrir uno."</div>
+    <div class="hacer">Clic en la factura de <b>Cash Levante</b> elegida (la de descuadre real, alta confianza).</div>
+    <div class="fase-chk"><input type="checkbox"><label>Hecho</label></div>
+  </div>
+
+  <h3 class="sec">3 · Factura (la clave — tómate tu tiempo)</h3>
+  <div class="card">
+    <div class="hacer"><b>Cabecera:</b></div>
+    <div class="decir">"Total factura, total de los albaranes, diferencia, y la confianza del cotejo. Y aquí, de qué albarán exacto del ERP sale la comparación — no es un número que os pedimos que os creáis."</div>
+
+    <div class="hacer"><b>Cotejo línea a línea:</b></div>
+    <div class="decir">"De 41 líneas, 5 tienen incidencia. Las demás cuadran perfectas, mismo artículo, cantidad y precio."</div>
+    <div class="hacer">Bajar hasta la línea marcada, pinchar, mostrar el detalle del albarán del ERP.</div>
+    <div class="decir">"Aquí está la línea que falla. Pincho y se abre el albarán de vuestro ERP — se puede comprobar."</div>
+
+    <div class="hacer"><b>Validación de lectura (derecha):</b></div>
+    <div class="decir">"Aquí Administración compara cada dato con el PDF y marca correcto o incorrecto. Eso alimenta el porcentaje de fiabilidad real."</div>
+
+    <div class="hacer"><b>Botones de abajo:</b></div>
+    <div class="decir">"Editar dato y recotejar: si algo se leyó mal, se corrige y se vuelve a comparar al momento."</div>
+    <div class="decir">"Aceptar descuadre con justificación: si se da por bueno, queda registrado el motivo."</div>
+    <div class="decir">"Borrador al proveedor: genera el texto de reclamación, editable, no se envía solo."</div>
+    <div class="decir">"Rechazar: con motivo obligatorio."</div>
+    <div class="decir">"Aprobar y crear borrador ERP: deja la aprobación lista. La escritura final en vuestro ERP está pendiente del desarrollo que hará Sistemas; hasta entonces, el sistema nunca escribe en el ERP."</div>
+    <div class="decir">"Toda acción queda registrada: usuario, fecha y hora."</div>
+    <div class="fase-chk"><input type="checkbox"><label>Hecho</label></div>
+  </div>
+
+  <h3 class="sec">4 · Caso Unide (el desfase de albaranes)</h3>
+  <div class="card">
+    <div class="hacer">Abrir una factura de <b>Unide del 14/09</b> en revisión.</div>
+    <div class="decir">"Fijaos en Unide. La mayoría son facturas del día 14, de anteayer. El sistema las deja en revisión: vuestro ERP tiene los albaranes de Unide registrados hasta el 11. Esta factura es del 14, así que su albarán todavía no está grabado."</div>
+    <div class="decir">"El sistema no inventa un OK ni un descuadre falso: espera a tener el dato. En cuanto el almacén registre el albarán, se recoteja y sale con veredicto firme."</div>
+    <div class="decir">"Esto os da un dato útil: hay unos días de desfase entre la factura y el registro del albarán en vuestro ERP."</div>
+    <div class="fase-chk"><input type="checkbox"><label>Hecho</label></div>
+  </div>
+
+  <h3 class="sec">5 · Bemalu — ARREGLADO, sí se puede mostrar</h3>
+  <div class="card ok-box">
+    <div class="hacer"><b>Arreglado a última hora.</b> Abrir <b>23Z/348020 (San Javier)</b> — ahora OK, 351 de 351 líneas perfectas.</div>
+    <div class="decir">"Y con Almacenes Bemalu, esta factura de San Javier: 351 líneas, todas cuadran perfectas contra el albarán."</div>
+    <div class="hacer">Si quieres mostrar un descuadre real de Bemalu: <b>23Z/348003 (Lorca)</b> — 2 líneas con diferencia de precio real (AXE y DOVE desodorante), suman exacto los +1,16€ de diferencia total.</div>
+    <div class="decir">"Aquí sí hay una diferencia real: estos dos artículos tienen un precio distinto entre factura y albarán, y explican exactamente la diferencia del total."</div>
+    <div class="hacer" style="color:var(--rojo2)"><b>⚠️ NO abrir 23Z/348000 (Lorca)</b> — tiene una línea rara (DOVE GEL 450) sin revisar todavía. Evítala hoy.</div>
+    <div class="fase-chk"><input type="checkbox"><label>Hecho</label></div>
+  </div>
+
+  <h3 class="sec">Cierre</h3>
+  <div class="card">
+    <div class="decir">"El sistema está funcionando en vuestra máquina, contra vuestro ERP. El siguiente paso es que Virginia lo use en paralelo unos días y validemos que coincide con su criterio. Cuando cuadre de forma sostenida, a producción."</div>
+    <div class="fase-chk"><input type="checkbox"><label>Hecho</label></div>
+  </div>
+
+  <h3 class="sec">🛟 Si algo va mal</h3>
+  <div class="card warn">
+    <div class="hacer"><b>Dashboard a 0 / no carga:</b> se recupera solo en ~1,5 min. Sigue hablando; si tarda, tira de capturas.</div>
+    <div class="hacer"><b>Factura rara:</b> "Justo el caso que el piloto sirve para afinar." No lo defiendas.</div>
+    <div class="hacer"><b>¿% exacto?:</b> "Es lo que mediremos en el piloto con Virginia."</div>
+    <div class="hacer"><b>¿Escaneados/fotos?:</b> "Los pedimos en PDF al proveedor."</div>
+  </div>
+
+  <h3 class="sec">🚫 No hacer</h3>
+  <div class="card">
+    <ul class="chk">
+      <li><input type="checkbox"><label>No abrir por el número pelado sin contexto</label></li>
+      <li><input type="checkbox"><label>No prometer % ni fecha de producción</label></li>
+      <li><input type="checkbox"><label>No tocar botones sobre facturas reales — solo <code>?pruebas=1</code></label></li>
+      <li><input type="checkbox"><label>No defender un caso dudoso</label></li>
+    </ul>
+  </div>
+
+</main>
+
+<button class="reset" onclick="if(confirm('¿Desmarcar todo?')){document.querySelectorAll('input[type=checkbox]').forEach(c=>{c.checked=false});upd()}">↺ Reiniciar</button>
+
+<script>
+  function upd(){
+    var all=document.querySelectorAll('input[type=checkbox]');
+    var done=0;
+    all.forEach(function(c){
+      var li=c.closest('li'); if(li){li.classList.toggle('done',c.checked)}
+      if(c.checked)done++;
+    });
+    var pct=all.length?Math.round(done/all.length*100):0;
+    document.getElementById('barfill').style.width=pct+'%';
+    document.getElementById('progtxt').textContent=done+' / '+all.length;
+  }
+  document.querySelectorAll('input[type=checkbox]').forEach(function(c){c.addEventListener('change',upd)});
+  upd();
+</script>
+</body>
+</html>
