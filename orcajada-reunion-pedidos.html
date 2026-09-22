@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reunión Orcajada · Módulo Pedidos</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F8FA;
+    --surface: #FFFFFF;
+    --border: #E2E5EA;
+    --accent: #1A56E8;
+    --accent-light: #EBF0FD;
+    --warn: #B45309;
+    --warn-light: #FEF3C7;
+    --ok: #065F46;
+    --ok-light: #D1FAE5;
+    --text: #111827;
+    --muted: #6B7280;
+    --label: #374151;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 32px 16px 80px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .header-title { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; line-height: 1.2; }
+  .header-sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .badge {
+    background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+    white-space: nowrap; align-self: flex-start; margin-top: 4px;
+  }
+
+  /* SECTION */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ARGUMENTO BLOCK */
+  .argblock {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+  }
+  .argblock-head {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .argblock p { font-size: 14px; color: #1e3a8a; line-height: 1.55; }
+
+  /* FORM FIELDS */
+  .field { margin-bottom: 20px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--label);
+    margin-bottom: 6px;
+  }
+  .field label .req { color: var(--accent); margin-left: 2px; }
+  .field input[type="text"],
+  .field input[type="email"],
+  .field textarea,
+  .field select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    transition: border-color .15s;
+    outline: none;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus { border-color: var(--accent); background: #fff; }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .field .hint { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+  /* CHECKBOX GROUP */
+  .check-group { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .check-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+  .check-item span { font-size: 14px; color: var(--text); }
+
+  /* RADIO */
+  .radio-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .radio-item {
+    display: flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 14px; cursor: pointer; background: var(--bg);
+    transition: border-color .15s, background .15s;
+    font-size: 14px;
+  }
+  .radio-item:has(input:checked) { border-color: var(--accent); background: var(--accent-light); }
+  .radio-item input { accent-color: var(--accent); }
+
+  /* WARN BOX */
+  .warnbox {
+    background: var(--warn-light);
+    border-left: 3px solid var(--warn);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #92400e;
+  }
+  .warnbox strong { display: block; margin-bottom: 2px; }
+
+  /* COMMERCIAL TABLE */
+  .com-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .com-table th {
+    background: var(--bg); border: 1px solid var(--border);
+    padding: 8px 10px; font-size: 12px; color: var(--muted);
+    font-weight: 500; text-align: left;
+  }
+  .com-table td { border: 1px solid var(--border); padding: 6px 8px; }
+  .com-table input[type="text"], .com-table input[type="email"] {
+    border: none; background: transparent; padding: 2px 4px;
+    font-size: 13px; width: 100%;
+  }
+  .com-table input:focus { background: var(--accent-light); outline: none; }
+  .add-row-btn {
+    margin-top: 8px; padding: 6px 14px;
+    border: 1px dashed var(--border); border-radius: 6px;
+    background: transparent; font-size: 12px; color: var(--muted);
+    cursor: pointer;
+  }
+  .add-row-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* STATES TABLE */
+  .states-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .states-table th { background: var(--text); color: #fff; padding: 8px 10px; text-align: left; }
+  .states-table td { border: 1px solid var(--border); padding: 8px 10px; vertical-align: top; }
+  .states-table tr:nth-child(even) td { background: var(--bg); }
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 4px;
+    background: var(--accent-light); color: var(--accent);
+    font-family: monospace;
+  }
+
+  /* SUBMIT */
+  .submit-btn {
+    width: 100%; padding: 14px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 10px;
+    font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: opacity .15s;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { opacity: .88; }
+
+  .divider { height: 1px; background: var(--border); margin: 8px 0 24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div>
+      <div class="header-title">Módulo Pedidos<br>Adhesivos Orcajada</div>
+      <div class="header-sub">Reunión de arranque · Recogida de datos pendientes</div>
+    </div>
+    <span class="badge">H2 · Pedidos</span>
+  </div>
+
+  <form action="https://formspree.io/f/xqenkjpv" method="POST">
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 1 — ACCESO AL BUZÓN
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Acceso al buzón</div>
+
+      <div class="field">
+        <label>Dirección del buzón de pedidos <span class="req">*</span></label>
+        <input type="email" name="buzon_pedidos" placeholder="pedidos@orcajada.es">
+      </div>
+
+      <div class="field">
+        <label>¿Es el mismo buzón que ya tenemos conectado en el H1, o uno distinto?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="buzon_mismo" value="mismo"> El mismo</label>
+          <label class="radio-item"><input type="radio" name="buzon_mismo" value="distinto"> Buzón distinto</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>¿El acceso es por App Password (Google Workspace) o hay que crear uno nuevo?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="acceso_tipo" value="ya_tiene"> Ya tenéis uno creado</label>
+          <label class="radio-item"><input type="radio" name="acceso_tipo" value="crear"> Hay que crearlo en reunión</label>
+          <label class="radio-item"><input type="radio" name="acceso_tipo" value="otro"> Otro sistema</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         ARG 1
+    ════════════════════════════════════════════ -->
+    <div class="argblock">
+      <div class="argblock-head">💬 Argumento · Por qué tiene el mismo precio</div>
+      <p><strong>El flujo de pedidos no es una copia del de presupuestos.</strong> El H1 clasifica y enruta. Este módulo gestiona un ciclo de vida completo con 5 estados distintos, palabras clave propias, lógica de confirmación, liberación de OFs y anulación. Son dos máquinas de estados diferentes aunque compartan arquitectura base.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 2 — CLIENTES AUTOMATIZADOS
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Clientes automatizados (ERP)</div>
+
+      <div class="warnbox">
+        <strong>Esto es nuevo respecto al H1 de presupuestos.</strong>
+        Cuando llega un correo de estos clientes, se reenvía al buzón de automatización y vuelve procesado. El asistente tiene que detectarlo y no duplicar el registro.
+      </div>
+
+      <div class="field">
+        <label>¿Cuáles son los clientes que ya tienen automatización ERP? <span class="req">*</span><br>
+        <small style="font-weight:400;color:var(--muted)">Lista de nombres o dominios de email, uno por línea</small></label>
+        <textarea name="clientes_automatizados" placeholder="Nombre cliente 1&#10;Nombre cliente 2&#10;..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Dirección del buzón de automatización al que se reenvían esos correos</label>
+        <input type="email" name="buzon_automatizacion" placeholder="automatizacion@orcajada.es">
+      </div>
+
+      <div class="field">
+        <label>¿Cómo identificamos en el correo de vuelta si el ERP lo insertó bien o falló?</label>
+        <textarea name="erp_identificacion" placeholder="Ej: en el asunto pone 'OK INSERCIÓN' o 'ERROR ERP'..."></textarea>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         ARG 2
+    ════════════════════════════════════════════ -->
+    <div class="argblock">
+      <div class="argblock-head">💬 Argumento · Capa nueva que no existe en H1</div>
+      <p>La integración con los clientes automatizados es lógica que no existe en presupuestos. Hay que detectar al remitente, no procesarlo como pedido manual, interpretar la respuesta del ERP y registrar el estado correctamente. Es desarrollo adicional que no se reutiliza.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 3 — COMERCIALES
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Comerciales activas para pedidos</div>
+
+      <div class="field">
+        <label>Lista de comerciales y sus emails <span class="req">*</span></label>
+        <table class="com-table" id="com-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>¿Activa ahora?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" name="com_nombre_1" placeholder="Nombre"></td>
+              <td><input type="email" name="com_email_1" placeholder="email@orcajada.es"></td>
+              <td>
+                <select name="com_activa_1">
+                  <option value="si">Sí</option>
+                  <option value="no">No / Vacaciones</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="text" name="com_nombre_2" placeholder="Nombre"></td>
+              <td><input type="email" name="com_email_2" placeholder="email@orcajada.es"></td>
+              <td>
+                <select name="com_activa_2">
+                  <option value="si">Sí</option>
+                  <option value="no">No / Vacaciones</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="text" name="com_nombre_3" placeholder="Nombre"></td>
+              <td><input type="email" name="com_email_3" placeholder="email@orcajada.es"></td>
+              <td>
+                <select name="com_activa_3">
+                  <option value="si">Sí</option>
+                  <option value="no">No / Vacaciones</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="text" name="com_nombre_4" placeholder="Nombre"></td>
+              <td><input type="email" name="com_email_4" placeholder="email@orcajada.es"></td>
+              <td>
+                <select name="com_activa_4">
+                  <option value="si">Sí</option>
+                  <option value="no">No / Vacaciones</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="text" name="com_nombre_5" placeholder="Nombre"></td>
+              <td><input type="email" name="com_email_5" placeholder="email@orcajada.es"></td>
+              <td>
+                <select name="com_activa_5">
+                  <option value="si">Sí</option>
+                  <option value="no">No / Vacaciones</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="field">
+        <label>¿Las comerciales de pedidos son las mismas que las de presupuestos, o hay diferencias?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="com_mismas" value="mismas"> Las mismas</label>
+          <label class="radio-item"><input type="radio" name="com_mismas" value="distintas"> Hay diferencias</label>
+        </div>
+        <textarea name="com_diferencias" placeholder="Si hay diferencias, explica cuáles..." style="margin-top:10px"></textarea>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         ARG 3
+    ════════════════════════════════════════════ -->
+    <div class="argblock">
+      <div class="argblock-head">💬 Argumento · El Excel es diferente</div>
+      <p>El Excel de clientes necesita una columna nueva: hasta 3 comerciales asignadas por cliente para pedidos (distinto del H1 de presupuestos). Hay que rehacer la lógica de reparto y carga con esta nueva estructura. No es copiar y pegar.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 4 — EXCEL CLIENTES
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Excel de clientes</div>
+
+      <div class="field">
+        <label>¿El Excel que usáis para pedidos es el mismo que el de presupuestos, con columnas nuevas añadidas?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="excel_mismo" value="mismo"> El mismo base, añadimos columnas</label>
+          <label class="radio-item"><input type="radio" name="excel_mismo" value="nuevo"> Un Excel diferente</label>
+          <label class="radio-item"><input type="radio" name="excel_mismo" value="pendiente"> Hay que prepararlo</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>El Excel necesita hasta 3 columnas de comercial por cliente. ¿Lo tenéis ya así o hay que adaptarlo?</label>
+        <textarea name="excel_estado" placeholder="Describe el estado actual del Excel y qué columnas tiene..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>¿Cómo nos llega el Excel? ¿Mismo Google Drive/SharePoint del H1?</label>
+        <input type="text" name="excel_ubicacion" placeholder="Ej: misma carpeta Drive, nueva ruta...">
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 5 — ESTADOS Y PALABRAS CLAVE
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Validación de estados y palabras clave</div>
+
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Confirma que estos son los estados y palabras clave definitivos para el módulo de pedidos:</p>
+
+      <table class="states-table">
+        <thead>
+          <tr><th>Palabra clave</th><th>Estado resultante</th><th>¿Correcto?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag">—</span> (correo nuevo)</td>
+            <td>PENDIENTE</td>
+            <td><input type="text" name="estado_pendiente" placeholder="✓ o corrección"></td>
+          </tr>
+          <tr>
+            <td><span class="tag">ENV</span></td>
+            <td>CONFIRMACION ENVIADA</td>
+            <td><input type="text" name="estado_env" placeholder="✓ o corrección"></td>
+          </tr>
+          <tr>
+            <td><span class="tag">ENV LIB</span></td>
+            <td>PUESTO EN MARCHA (cierra pedido)</td>
+            <td><input type="text" name="estado_envlib" placeholder="✓ o corrección"></td>
+          </tr>
+          <tr>
+            <td><span class="tag">REVISAR</span></td>
+            <td>REVISIÓN (en espera)</td>
+            <td><input type="text" name="estado_revisar" placeholder="✓ o corrección"></td>
+          </tr>
+          <tr>
+            <td><span class="tag">CONSULTA</span></td>
+            <td>EN ESPERA</td>
+            <td><input type="text" name="estado_consulta" placeholder="✓ o corrección"></td>
+          </tr>
+          <tr>
+            <td><span class="tag">ANULADO</span></td>
+            <td>ANULADO (cierra pedido)</td>
+            <td><input type="text" name="estado_anulado" placeholder="✓ o corrección"></td>
+          </tr>
+          <tr>
+            <td><span class="tag">ASIGNAR + nombre</span></td>
+            <td>Reasigna a comercial indicada</td>
+            <td><input type="text" name="estado_asignar" placeholder="✓ o corrección"></td>
+          </tr>
+          <tr>
+            <td><span class="tag">DATOS</span></td>
+            <td>Reenvía info a la comercial asignada</td>
+            <td><input type="text" name="estado_datos" placeholder="✓ o corrección"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="field" style="margin-top:16px">
+        <label>¿Hay alguna palabra clave que falta o que queréis cambiar?</label>
+        <textarea name="palabras_clave_extra" placeholder="Describe aquí cualquier ajuste..."></textarea>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         ARG 4
+    ════════════════════════════════════════════ -->
+    <div class="argblock">
+      <div class="argblock-head">💬 Argumento · La extracción de datos es distinta</div>
+      <p>En presupuestos se extraen datos técnicos de etiquetas (tamaño, material, tintas, acabado). En pedidos se extrae referencia, dirección de entrega, fecha de servicio, si es repetición o nueva. Es un prompt diferente, nueva validación, nuevo mapeo a base de datos. No se reutiliza el extractor del H1.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 6 — DETECCIÓN DE PEDIDOS
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Detección de pedidos · Condiciones</div>
+
+      <div class="warnbox">
+        <strong>Pendiente crítico que ellos mismos señalan.</strong>
+        Necesitan un mecanismo para añadir condiciones nuevas cuando el asistente no identifique un correo como pedido.
+      </div>
+
+      <div class="field">
+        <label>¿Qué frases en el asunto identifican un pedido? <span class="req">*</span><br>
+        <small style="font-weight:400;color:var(--muted)">Una por línea. Ej: "pedido", "order", "PO", etc.</small></label>
+        <textarea name="frases_asunto" placeholder="pedido&#10;order&#10;PO&#10;..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>¿Qué frases o palabras en el asunto excluyen que sea un pedido (excepciones)?</label>
+        <textarea name="frases_excepcion" placeholder="Ej: 'acuse', 'RE: confirmación', 'factura'..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>¿En los adjuntos buscamos las palabras "PEDIDO" / "ORDER"? ¿Hay más?</label>
+        <textarea name="frases_adjunto" placeholder="PEDIDO&#10;ORDER&#10;..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>¿Quién será el responsable de añadir nuevas condiciones cuando un correo se escape?<br>
+        <small style="font-weight:400;color:var(--muted)">Necesitamos un contacto técnico o proceso definido (¿email a César?, ¿formulario en el panel?)</small></label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="condicion_responsable" value="cesar"> Reportáis a César y lo añade</label>
+          <label class="radio-item"><input type="radio" name="condicion_responsable" value="panel"> Panel con opción de añadir condición</label>
+          <label class="radio-item"><input type="radio" name="condicion_responsable" value="otro"> Otro</label>
+        </div>
+        <input type="text" name="condicion_responsable_otro" placeholder="Describir si elegiste Otro..." style="margin-top:10px">
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         ARG 5
+    ════════════════════════════════════════════ -->
+    <div class="argblock">
+      <div class="argblock-head">💬 Argumento · El dashboard tiene que actualizarse</div>
+      <p>Aunque el panel esté en la misma URL (orcajada.iagusto.app), el módulo de pedidos necesita nuevas columnas, nuevos estados, nuevos filtros y nueva lógica de cierre de pedido. Es una vista nueva con su propia tabla en base de datos. El tiempo de desarrollo es real.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 7 — DASHBOARD
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Dashboard y registro</div>
+
+      <div class="field">
+        <label>¿El panel de pedidos va en la misma app (orcajada.iagusto.app) como pestaña nueva?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="dashboard_ubicacion" value="misma_app"> Sí, pestaña nueva en la misma app</label>
+          <label class="radio-item"><input type="radio" name="dashboard_ubicacion" value="nueva_url"> URL separada</label>
+          <label class="radio-item"><input type="radio" name="dashboard_ubicacion" value="decidir"> Por decidir</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Columnas que queréis ver en el panel de pedidos <span class="req">*</span><br>
+        <small style="font-weight:400;color:var(--muted)">Marcad las que sí queréis. Podéis añadir más abajo.</small></label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" name="col_fecha" value="1"><span>Fecha entrada pedido</span></label>
+          <label class="check-item"><input type="checkbox" name="col_cliente" value="1" checked><span>Cliente</span></label>
+          <label class="check-item"><input type="checkbox" name="col_comercial" value="1" checked><span>Comercial asignada</span></label>
+          <label class="check-item"><input type="checkbox" name="col_estado" value="1" checked><span>Estado</span></label>
+          <label class="check-item"><input type="checkbox" name="col_referencia" value="1"><span>Referencia cliente</span></label>
+          <label class="check-item"><input type="checkbox" name="col_descripcion" value="1"><span>Descripción</span></label>
+          <label class="check-item"><input type="checkbox" name="col_cantidad" value="1"><span>Cantidad etiquetas</span></label>
+          <label class="check-item"><input type="checkbox" name="col_fecha_servicio" value="1"><span>Fecha servicio solicitada</span></label>
+          <label class="check-item"><input type="checkbox" name="col_tipo" value="1"><span>Tipo (repetición / modificación / nueva)</span></label>
+          <label class="check-item"><input type="checkbox" name="col_urgencia" value="1"><span>Urgencia</span></label>
+          <label class="check-item"><input type="checkbox" name="col_enlace" value="1"><span>Enlace al correo</span></label>
+          <label class="check-item"><input type="checkbox" name="col_erp" value="1"><span>Flag: procesado por ERP automático</span></label>
+        </div>
+        <input type="text" name="col_extra" placeholder="Columnas adicionales que necesitáis..." style="margin-top:10px">
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 8 — VACACIONES / DISPONIBILIDAD
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Disponibilidad de comerciales</div>
+
+      <div class="field">
+        <label>¿Cómo comunicáis que una comercial está de vacaciones o no disponible?<br>
+        <small style="font-weight:400;color:var(--muted)">En el H1 de presupuestos hay un mecanismo definido. ¿El mismo, o queréis algo diferente?</small></label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="vacaciones_metodo" value="mismo"> El mismo que en presupuestos</label>
+          <label class="radio-item"><input type="radio" name="vacaciones_metodo" value="excel"> Columna en el Excel</label>
+          <label class="radio-item"><input type="radio" name="vacaciones_metodo" value="panel"> Desde el panel</label>
+          <label class="radio-item"><input type="radio" name="vacaciones_metodo" value="otro"> Otro</label>
+        </div>
+        <textarea name="vacaciones_detalle" placeholder="Detalla si es necesario..." style="margin-top:10px"></textarea>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         ARG 6
+    ════════════════════════════════════════════ -->
+    <div class="argblock">
+      <div class="argblock-head">💬 Argumento · Lo que se reutiliza ya está pagado</div>
+      <p>La arquitectura (n8n, Supabase, panel) ya está amortizada en el precio del H1 y eso os beneficia directamente: arrancamos más rápido y con menos riesgo. Pero lo que se reutiliza es la base, no el trabajo nuevo. Un coche y una furgoneta comparten motor, nadie espera pagar igual por los dos.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BLOQUE 9 — NOTAS LIBRES
+    ════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Notas y casos especiales</div>
+
+      <div class="field">
+        <label>¿Hay algún tipo de pedido o cliente con un flujo diferente que no encaje en lo descrito?</label>
+        <textarea name="casos_especiales" placeholder="Describid cualquier excepción o caso raro que se os ocurra..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>¿Fecha objetivo de puesta en marcha?</label>
+        <input type="text" name="fecha_objetivo" placeholder="Ej: antes de fin de octubre, sin prisa...">
+      </div>
+
+      <div class="field">
+        <label>Notas adicionales de la reunión</label>
+        <textarea name="notas" placeholder="Cualquier cosa que haya salido en la reunión y no esté en el formulario..."></textarea>
+      </div>
+
+      <!-- hidden fields -->
+      <input type="hidden" name="_subject" value="Reunión Orcajada · Módulo Pedidos H2">
+      <input type="hidden" name="_next" value="https://orcajada.iagusto.app">
+    </div>
+
+    <button type="submit" class="submit-btn">Enviar resumen de la reunión →</button>
+
+  </form>
+
+</div>
+</body>
+</html>
