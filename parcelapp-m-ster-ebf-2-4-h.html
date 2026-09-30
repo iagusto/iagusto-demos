@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PARCELAPP · Máster EBF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B1220; --ink2:#141E33; --ink3:#1E2A44;
+  --paper:#F5F7F9; --card:#FFFFFF; --line:#DCE3EA;
+  --text:#0B1220; --muted:#526072;
+  --lime:#A3E635; --cyan:#22C3DE; --orange:#F7913D; --teal:#0F7A6E; --red:#E5484D; --amber:#F5A524;
+  --sans:"Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+:root{ box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+*,*::before,*::after{ box-sizing:inherit; }
+html{ scroll-padding-top:env(safe-area-inset-top,0px); height:100%; }
+body{ margin:0; height:100%; background:#000; font-family:var(--sans); color:var(--text); overflow:hidden; }
+button{ font-family:inherit; }
+
+/* ============ STAGE ============ */
+.frame{ position:relative; overflow:hidden; background:#000; }
+.stage{ position:absolute; left:0; top:0; width:1600px; height:900px; transform-origin:0 0; }
+.slide{ position:absolute; inset:0; background:var(--paper); color:var(--text); padding:76px 96px 90px; overflow:hidden; }
+.slide.light::before{ content:""; position:absolute; left:0; right:0; top:0; height:10px; background:var(--lime); }
+.slide.dark{ background:var(--ink); color:#EEF2F6; }
+.slide .foot{ position:absolute; left:96px; right:96px; bottom:30px; display:flex; gap:28px; align-items:center; font-size:17px; color:#7A8797; }
+.slide .foot b{ color:var(--teal); font-weight:800; }
+.slide.dark .foot b{ color:var(--lime); }
+.slide .foot .n{ margin-left:auto; font-variant-numeric:tabular-nums; }
+.lbl{ font-size:19px; font-weight:800; color:var(--teal); margin-bottom:18px; letter-spacing:.01em; }
+.dark .lbl{ color:var(--lime); }
+h1.t{ font-size:62px; line-height:1.04; margin:0 0 14px; font-weight:800; letter-spacing:-.025em; max-width:1300px; }
+.sub{ font-size:28px; color:var(--muted); margin:0 0 42px; font-weight:500; max-width:1250px; line-height:1.3; }
+.dark .sub{ color:#A9B6C6; }
+
+/* cards */
+.grid{ display:grid; gap:26px; }
+.card{ background:var(--card); border:1px solid var(--line); border-left:9px solid var(--cyan); border-radius:14px; padding:28px 30px; }
+.card h3{ margin:0 0 10px; font-size:29px; font-weight:800; letter-spacing:-.01em; }
+.card p{ margin:0; font-size:23px; line-height:1.38; color:#3B4858; }
+.dark .card{ background:var(--ink2); border-color:var(--ink3); }
+.dark .card p{ color:#B9C5D3; }
+.band{ margin-top:34px; background:var(--ink); color:#fff; border-radius:18px; padding:28px 36px; }
+.band .k{ font-size:18px; font-weight:800; color:var(--lime); margin-bottom:8px; }
+.band .v{ font-size:32px; font-weight:800; line-height:1.25; }
+.dark .band{ background:var(--ink2); }
+
+/* cols */
+.cols{ display:grid; gap:26px; }
+.col{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:26px 30px; border-top:9px solid var(--cyan); }
+.col h3{ margin:0 0 16px; font-size:27px; font-weight:800; }
+.col ul{ margin:0; padding:0; list-style:none; }
+.col li{ font-size:23px; line-height:1.35; padding:7px 0 7px 26px; position:relative; color:#2E3A4A; }
+.col li::before{ content:""; position:absolute; left:0; top:18px; width:11px; height:11px; border-radius:3px; background:currentColor; opacity:.35; }
+.dark .col{ background:var(--ink2); border-color:var(--ink3); }
+.dark .col li{ color:#C9D4E0; }
+
+/* flow */
+.flow{ display:flex; align-items:stretch; gap:0; }
+.step{ flex:1; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 22px; position:relative; }
+.step h4{ margin:0 0 8px; font-size:26px; font-weight:800; }
+.step p{ margin:0; font-size:20px; color:var(--muted); line-height:1.3; }
+.arrow{ width:46px; display:flex; align-items:center; justify-content:center; font-size:30px; color:#9AA7B6; flex:none; }
+.callout{ margin-top:40px; font-size:34px; font-weight:800; line-height:1.25; max-width:1300px; letter-spacing:-.01em; }
+.callout small{ display:block; font-size:25px; font-weight:500; color:var(--muted); margin-top:10px; }
+.dark .callout small{ color:#A9B6C6; }
+
+/* map rows */
+.maprow{ display:grid; grid-template-columns:1fr 60px 1fr; align-items:center; margin-bottom:12px; }
+.maprow .a{ background:#EAF0F4; border-radius:10px; padding:14px 20px; font-size:24px; font-weight:700; font-family:var(--mono); }
+.maprow .b{ background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 20px; font-size:24px; font-weight:700; }
+.maprow .ar{ text-align:center; color:#9AA7B6; font-size:26px; }
+
+/* code */
+pre.code{ margin:0; background:var(--ink); color:#D9E4EF; border-radius:16px; padding:28px 32px; font-family:var(--mono); font-size:22px; line-height:1.5; white-space:pre-wrap; word-break:break-word; }
+pre.code .c{ color:var(--lime); }
+pre.code .m{ color:#7E8CA0; }
+.dark pre.code{ background:#060B15; border:1px solid var(--ink3); }
+
+/* quote */
+.q{ font-size:58px; line-height:1.15; font-weight:800; letter-spacing:-.025em; max-width:1300px; }
+.q small{ display:block; font-size:28px; font-weight:500; color:#A9B6C6; margin-top:32px; letter-spacing:0; line-height:1.4; max-width:1150px; }
+.light .q small{ color:var(--muted); }
+
+/* table */
+table.tb{ border-collapse:separate; border-spacing:0; width:100%; font-size:23px; }
+table.tb th{ text-align:left; font-size:18px; color:var(--muted); font-weight:800; padding:10px 18px; border-bottom:2px solid var(--line); }
+table.tb td{ padding:15px 18px; border-bottom:1px solid var(--line); background:var(--card); }
+table.tb td:first-child{ font-weight:800; }
+.dark table.tb td{ background:var(--ink2); border-color:var(--ink3); }
+
+/* chips */
+.chips{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px 26px; }
+.chip{ display:flex; justify-content:space-between; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 22px; font-size:25px; font-weight:700; }
+.chip span{ font-size:17px; font-weight:600; color:#8391A2; }
+
+/* demo placeholder */
+.demo{ display:flex; flex-direction:column; justify-content:center; height:100%; }
+.demo .pulse{ width:26px; height:26px; border-radius:50%; background:var(--red); box-shadow:0 0 0 0 rgba(229,72,77,.6); animation:pulse 1.8s infinite; margin-bottom:30px; }
+@keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(229,72,77,.55)} 70%{box-shadow:0 0 0 26px rgba(229,72,77,0)} 100%{box-shadow:0 0 0 0 rgba(229,72,77,0)} }
+.demo .dk{ font-size:26px; font-weight:800; color:var(--lime); margin-bottom:12px; }
+.demo .dt{ font-size:76px; font-weight:800; letter-spacing:-.03em; line-height:1.03; max-width:1150px; }
+.demo .ds{ font-size:30px; color:#A9B6C6; margin-top:22px; max-width:1100px; line-height:1.35; }
+
+/* chat */
+.chat .ck{ font-size:26px; font-weight:800; color:var(--cyan); margin-bottom:22px; }
+.chat .cq{ font-size:70px; font-weight:800; letter-spacing:-.03em; line-height:1.08; max-width:1300px; }
+.chat .ch{ font-size:30px; color:#A9B6C6; margin-top:34px; }
+.chat .opts{ display:flex; gap:16px; margin-top:34px; flex-wrap:wrap; }
+.chat .opts span{ border:2px solid var(--ink3); background:var(--ink2); border-radius:40px; padding:12px 26px; font-size:26px; font-weight:700; }
+
+/* break */
+.brk{ display:flex; flex-direction:column; justify-content:center; height:100%; }
+.brk .count{ font-size:230px; font-weight:800; letter-spacing:-.05em; font-variant-numeric:tabular-nums; line-height:1; color:#fff; }
+.brk .bk{ font-size:30px; font-weight:800; color:var(--lime); margin-bottom:10px; }
+.brk .bn{ font-size:32px; color:#A9B6C6; margin-top:26px; }
+
+/* section */
+.sec .num{ font-size:220px; font-weight:800; line-height:.85; letter-spacing:-.06em; color:var(--lime); }
+.sec .st{ font-size:74px; font-weight:800; letter-spacing:-.03em; line-height:1.03; margin-top:26px; max-width:900px; }
+.sec .ss{ font-size:30px; color:#A9B6C6; margin-top:20px; max-width:850px; line-height:1.35; }
+.parcelbg{ position:absolute; right:-40px; top:0; bottom:0; width:760px; opacity:.95; }
+
+/* cover */
+.cover h1{ font-size:132px; font-weight:800; letter-spacing:-.05em; margin:40px 0 0; line-height:.95; }
+.cover .cl{ font-size:40px; color:var(--lime); font-weight:700; margin-top:26px; max-width:820px; line-height:1.2; }
+.cover .cm{ font-size:27px; color:#A9B6C6; margin-top:34px; max-width:780px; line-height:1.4; }
+.cover .cday{ position:absolute; left:96px; bottom:96px; font-size:24px; color:#EEF2F6; font-weight:700; }
+.cover .cday span{ color:var(--lime); }
+
+/* agenda */
+.ag{ display:grid; grid-template-columns:150px 1fr; row-gap:14px; column-gap:28px; align-items:center; }
+.ag .tm{ font-family:var(--mono); font-size:24px; color:var(--muted); text-align:right; }
+.ag .it{ background:var(--card); border:1px solid var(--line); border-left:9px solid var(--cyan); border-radius:12px; padding:16px 24px; font-size:26px; font-weight:700; display:flex; justify-content:space-between; }
+.ag .it small{ font-size:20px; font-weight:500; color:var(--muted); }
+.ag .it.pause{ background:transparent; border-style:dashed; border-left:9px solid #B7C2CE; color:var(--muted); }
+
+/* mock dashboard */
+.mock{ background:#fff; border:1px solid var(--line); border-radius:22px; overflow:hidden; box-shadow:0 30px 60px -30px rgba(11,18,32,.35); }
+.mock .mh{ background:var(--ink); color:var(--lime); font-weight:800; font-size:20px; padding:16px 24px; display:flex; justify-content:space-between; }
+.mock .mh span{ color:#7E8CA0; font-weight:600; }
+.mock .mb{ padding:22px 24px; }
+.kpis{ display:flex; gap:14px; margin-bottom:18px; }
+.kpi{ flex:1; border:1px solid var(--line); border-radius:12px; padding:12px 16px; background:#F8FAFB; }
+.kpi b{ display:block; font-size:32px; font-weight:800; }
+.kpi span{ font-size:15px; color:var(--muted); }
+.mrow{ display:grid; grid-template-columns:1.1fr 1fr; gap:18px; }
+.top h5{ margin:4px 0 8px; font-size:16px; font-weight:800; }
+.top div{ display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding:9px 0; font-size:17px; color:#3B4858; }
+.top div b{ color:var(--teal); font-size:19px; }
+
+/* states */
+.states{ display:flex; gap:18px; align-items:center; margin:20px 0 40px; }
+.stt{ padding:22px 30px; border-radius:14px; font-family:var(--mono); font-size:28px; font-weight:600; background:#fff; border:2px solid var(--line); }
+
+/* score bars */
+.wbar{ display:flex; height:120px; border-radius:16px; overflow:hidden; margin:10px 0 18px; }
+.wbar div{ display:flex; align-items:center; justify-content:center; font-size:40px; font-weight:800; color:var(--ink); }
+.wlab{ display:flex; }
+.wlab div{ font-size:24px; font-weight:700; color:#3B4858; padding-top:6px; }
+
+/* ============ PROJECTOR ============ */
+#proj{ position:fixed; inset:0; }
+#proj .frame{ position:absolute; inset:0; }
+.blackout{ position:absolute; inset:0; background:#000; display:none; z-index:5; align-items:center; justify-content:center; }
+.blackout.on{ display:flex; }
+.blackout span{ color:#1E2A44; font-weight:800; font-size:28px; }
+.projhint{ position:fixed; left:16px; bottom:14px; z-index:9; color:#8391A2; font-size:13px; background:rgba(0,0,0,.6); padding:6px 10px; border-radius:6px; transition:opacity .6s; }
+
+/* ============ PRESENTER ============ */
+#pres{ position:fixed; inset:0; background:#0A0F1A; color:#E6ECF2; display:grid; grid-template-rows:auto 1fr; font-size:15px; }
+.pbar{ display:flex; align-items:center; gap:10px; padding:10px 14px; background:#0F1626; border-bottom:1px solid #1E2A44; flex-wrap:wrap; }
+.pbar .blk{ font-weight:800; color:var(--lime); font-size:16px; margin-right:6px; }
+.pbar .pos{ font-variant-numeric:tabular-nums; color:#A9B6C6; margin-right:8px; }
+.pbar .sp{ flex:1; }
+.pbtn{ background:#1A2438; color:#E6ECF2; border:1px solid #2A3854; border-radius:8px; padding:8px 12px; font-size:14px; font-weight:700; cursor:pointer; }
+.pbtn:hover{ background:#223051; }
+.pbtn:focus-visible{ outline:2px solid var(--lime); outline-offset:2px; }
+.pbtn.pri{ background:var(--lime); color:var(--ink); border-color:var(--lime); }
+.pbtn.on{ background:var(--red); border-color:var(--red); color:#fff; }
+.pmain{ display:grid; grid-template-columns:minmax(380px, 38%) 1fr; gap:14px; padding:14px; min-height:0; }
+.pleft{ display:flex; flex-direction:column; gap:12px; min-height:0; overflow:auto; }
+.pleft > *{ flex:none; }
+.pright{ display:flex; flex-direction:column; min-height:0; gap:12px; }
+.box{ background:#0F1626; border:1px solid #1E2A44; border-radius:12px; padding:12px 14px; }
+.box h6{ margin:0 0 8px; font-size:12px; color:#8391A2; font-weight:800; letter-spacing:.04em; }
+.thumb{ width:100%; aspect-ratio:16/9; border-radius:8px; }
+.thumb.next{ opacity:.8; }
+.timers{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.tim{ background:#0F1626; border:1px solid #1E2A44; border-radius:12px; padding:10px 12px; }
+.tim small{ display:block; font-size:11px; color:#8391A2; font-weight:800; letter-spacing:.04em; }
+.tim b{ font-size:30px; font-variant-numeric:tabular-nums; font-weight:800; }
+.tim .dlt{ font-size:13px; font-weight:700; }
+.rhythm{ height:8px; border-radius:6px; background:#1E2A44; overflow:hidden; margin-top:8px; }
+.rhythm i{ display:block; height:100%; width:0; background:var(--lime); transition:width .5s, background .5s; }
+.prog{ height:6px; background:#1E2A44; border-radius:4px; overflow:hidden; }
+.prog i{ display:block; height:100%; background:var(--cyan); }
+.notes{ font-size:16px; line-height:1.5; color:#D2DBE5; white-space:pre-wrap; }
+.promptbox pre{ margin:8px 0 0; white-space:pre-wrap; font-family:var(--mono); font-size:13px; line-height:1.5; color:#CFE0C0; background:#070B13; border-radius:8px; padding:12px; max-height:260px; overflow:auto; }
+.steps{ margin:6px 0 0; padding-left:22px; font-size:16px; line-height:1.55; color:#D2DBE5; }
+.urlrow{ display:flex; gap:8px; margin-top:10px; }
+.urlrow input{ flex:1; background:#070B13; border:1px solid #2A3854; color:#E6ECF2; border-radius:8px; padding:8px 10px; font-size:14px; }
+.tele{ flex:1; min-height:0; display:flex; flex-direction:column; background:#05080F; border:1px solid #1E2A44; border-radius:12px; overflow:hidden; }
+.telebar{ display:flex; gap:8px; align-items:center; padding:8px 10px; border-bottom:1px solid #1E2A44; background:#0B111D; flex-wrap:wrap; }
+.telebar .lab{ font-size:12px; color:#8391A2; font-weight:800; letter-spacing:.04em; margin-right:auto; }
+.telebar .val{ font-variant-numeric:tabular-nums; color:#A9B6C6; min-width:34px; text-align:center; font-weight:700; }
+.telescroll{ flex:1; overflow-y:auto; padding:22px 34px 60vh; scroll-behavior:auto; position:relative; }
+.teletext{ font-size:34px; line-height:1.5; color:#F1F5F9; max-width:1100px; }
+.teletext p{ margin:0 0 .8em; }
+.telemark{ position:sticky; top:0; height:0; }
+.telemark::before{ content:""; position:absolute; left:-34px; right:-34px; top:84px; height:2px; background:rgba(163,230,53,.25); }
+.ov{ position:fixed; inset:0; background:rgba(5,8,15,.97); z-index:50; display:none; overflow:auto; padding:24px; }
+.ov.on{ display:block; }
+.ov h2{ margin:0 0 14px; font-size:18px; color:var(--lime); }
+.ovgrid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:10px; margin-bottom:26px; }
+.ovc{ background:#0F1626; border:1px solid #1E2A44; border-radius:10px; padding:10px 12px; cursor:pointer; text-align:left; color:#E6ECF2; }
+.ovc:hover,.ovc.cur{ border-color:var(--lime); }
+.ovc small{ color:#8391A2; font-weight:800; font-size:11px; display:block; }
+.ovc b{ font-size:14px; display:block; margin-top:4px; line-height:1.3; }
+.ovc i{ font-style:normal; font-size:11px; color:#8391A2; }
+.toast{ position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:var(--lime); color:var(--ink); font-weight:800; padding:10px 18px; border-radius:10px; z-index:60; display:none; }
+.keys{ font-size:12px; color:#6F7D8F; line-height:1.6; }
+.keys kbd{ background:#1A2438; border:1px solid #2A3854; border-radius:4px; padding:0 5px; font-family:var(--mono); color:#C9D4E0; }
+@media (max-width:900px){ .pmain{ grid-template-columns:1fr; overflow:auto; } .pright{ min-height:70vh; } }
+@media (prefers-reduced-motion:reduce){ .demo .pulse{ animation:none; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+<script>
+/* ======================================================================
+   UTILIDADES DE DIBUJO
+   ====================================================================== */
+function rng(seed){ let s=seed>>>0; return ()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; }; }
+function parcels(opts){
+  const o=Object.assign({w:760,h:900,cols:6,rows:8,seed:7,hi:[],dark:true,scores:{}},opts||{});
+  const r=rng(o.seed), cw=o.w/o.cols, ch=o.h/o.rows, pts=[];
+  for(let y=0;y<=o.rows;y++){ pts[y]=[]; for(let x=0;x<=o.cols;x++){
+    const edgeX=(x===0||x===o.cols), edgeY=(y===0||y===o.rows);
+    pts[y][x]=[x*cw+(edgeX?0:(r()-.5)*cw*.5), y*ch+(edgeY?0:(r()-.5)*ch*.5)];
+  }}
+  let s='';
+  const base=o.dark?'#162238':'#E3E9EF', stroke=o.dark?'#0B1220':'#F5F7F9';
+  for(let y=0;y<o.rows;y++) for(let x=0;x<o.cols;x++){
+    const k=y*o.cols+x, p=[pts[y][x],pts[y][x+1],pts[y+1][x+1],pts[y+1][x]];
+    const hi=o.hi.indexOf(k)>=0;
+    const fill=hi?'#A3E635':(r()<.12?(o.dark?'#1E2E4A':'#D3DCE5'):base);
+    s+=`<polygon points="${p.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" fill="${fill}" stroke="${stroke}" stroke-width="5"/>`;
+    if(o.scores[k]!==undefined){
+      const cx=(p[0][0]+p[1][0]+p[2][0]+p[3][0])/4, cy=(p[0][1]+p[1][1]+p[2][1]+p[3][1])/4;
+      s+=`<text x="${cx.toFixed(1)}" y="${(cy+14).toFixed(1)}" text-anchor="middle" font-family="Manrope, Segoe UI, Arial, sans-serif" font-weight="800" font-size="40" fill="#0B1220">${o.scores[k]}</text>`;
+    }
+  }
+  return `<svg viewBox="0 0 ${o.w} ${o.h}" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" aria-hidden="true">${s}</svg>`;
+}
+function mock(){
+  return `<div class="mock"><div class="mh">PARCELAPP <span>Estudio · Zona norte (demo)</span></div><div class="mb">
+  <div class="kpis"><div class="kpi"><b>1.247</b><span>Parcelas analizadas</span></div><div class="kpi"><b>127</b><span>Candidatas</span></div><div class="kpi"><b>18</b><span>Score &gt; 75</span></div></div>
+  <div class="mrow"><div style="height:250px;border-radius:14px;overflow:hidden">${parcels({w:420,h:250,cols:6,rows:4,seed:11,hi:[9,16,17],dark:false})}</div>
+  <div class="top"><h5>Mejores candidatas</h5><div>DEMO-001<b>91</b></div><div>DEMO-018<b>87</b></div><div>DEMO-032<b>83</b></div><div>DEMO-007<b>79</b></div></div></div></div></div>`;
+}
+const C={cyan:'var(--cyan)',lime:'var(--lime)',orange:'var(--orange)',teal:'var(--teal)',red:'var(--red)',slate:'#8391A2'};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+/* ======================================================================
+   PROMPTS DEL HILO VIBE CODING (Lovable)
+   ====================================================================== */
+const P1=`Crea una aplicación web llamada PARCELAPP para técnicos de departamentos de Estudios de constructoras y promotoras. Sirve para priorizar las parcelas de una zona y decidir cuáles merecen un estudio en profundidad.
+
+Esta primera versión usa SOLO datos de ejemplo (mock): sin backend, sin login y sin APIs externas.
+
+Pantallas:
+1) Dashboard: 3 KPIs (parcelas analizadas, candidatas, score > 75) y la lista de estudios.
+2) Resultados de un estudio: ranking de parcelas ordenado por score 0–100, con filtros por score mínimo y por uso.
+3) Detalle de parcela: referencia catastral, superficie de parcela, superficie construida, ocupación, uso principal, año de construcción y el desglose del score por regla.
+
+Datos mock: 2 estudios y 20 parcelas con referencias ficticias tipo DEMO-001, scores variados y algún dato ausente (null).
+
+Estilo: interfaz profesional de trabajo, fondo claro, azul marino #0B1220 y acento verde lima #A3E635.`;
+const P2=`Reorganiza PARCELAPP en capas SIN cambiar nada de lo que se ve en pantalla:
+
+- src/domain: tipos (Parcel, StudyZone, ScoreResult) y la interfaz ParcelRepository. Sin React y sin fetch.
+- src/application: casos de uso listStudies, getStudyRanking y getParcelDetail. Reciben un ParcelRepository.
+- src/infrastructure: MockParcelRepository, que implementa ParcelRepository con los datos de ejemplo actuales.
+- src/ui: componentes y páginas. Solo llaman a casos de uso de application.
+
+Reglas:
+- Ningún componente importa los datos mock directamente.
+- Ningún componente calcula scores.
+
+Antes de modificar nada, enumera los archivos que vas a crear o mover y explica el plan en 5 líneas.`;
+const P3=`Conecta PARCELAPP a Supabase.
+
+Crea estas tablas:
+- study_zones: id uuid pk, owner_id uuid (referencia a auth.users), name text, criteria jsonb, status text con check in ('pending','running','completed','partial','failed'), created_at timestamptz default now().
+- parcels: id uuid pk, study_zone_id uuid fk a study_zones on delete cascade, cadastral_ref text, parcel_area_m2 numeric, constructed_area_m2 numeric, main_use text, construction_year int, source text, fetched_at timestamptz, raw_snapshot jsonb, unique (study_zone_id, cadastral_ref).
+- parcel_scores: id uuid pk, parcel_id uuid fk a parcels on delete cascade, rules_version text, total int, breakdown jsonb, created_at timestamptz default now().
+
+Activa RLS en las tres tablas: cada usuario solo lee y escribe los estudios con owner_id = auth.uid(), y las parcelas y scores que cuelgan de esos estudios.
+
+Añade login con email y contraseña.
+
+Crea SupabaseParcelRepository en src/infrastructure implementando la misma interfaz ParcelRepository y úsalo en lugar del mock. La UI no debe cambiar.`;
+const P4=`Implementa la pantalla "Nuevo estudio".
+
+Objetivo: el usuario crea un estudio con nombre, criterios (superficie mínima en m², ocupación máxima en %, usos preferidos) y una lista de referencias catastrales pegadas en un textarea, una por línea.
+
+Contrato: valida con Zod que cada referencia tenga 14, 18 o 20 caracteres alfanuméricos. Muestra cuáles son inválidas sin bloquear las válidas.
+
+Arquitectura:
+- La validación vive en src/domain.
+- El caso de uso createStudy vive en src/application.
+- La escritura en Supabase la hace el repositorio de src/infrastructure.
+- El estudio se crea con status 'pending'.
+
+Límites: no llames a Catastro desde React, no uses la clave service_role y no toques el scoring.
+
+UI: estados de carga, error y vacío.
+
+Antes de escribir código: lista los archivos afectados y explica el plan.`;
+const P5=`Crea en src/domain la función pura calculateOpportunityScore(parcel, rules) que devuelve { total, breakdown, reasons, warnings }.
+
+Pesos por defecto (rules_version "1.0-demo"): superficie 25, baja ocupación 25, antigüedad 20, uso 15, vecinos 15. Total máximo 100.
+
+Superficie: menos de 1500 m² = 0; de 1500 a 2499 = 8; de 2500 a 4999 = 16; 5000 o más = 25.
+Para ocupación, antigüedad, uso y vecinos define umbrales razonables y déjalos en src/domain/scoring_rules.json.
+
+Si falta un dato, esa regla puntúa 0 y añade un warning. Un dato ausente nunca puntúa como favorable.
+
+Sin red, sin Supabase y sin IA dentro de la función.
+
+Añade tests con Vitest para 1499, 1500, 2500 y 5000 m² y para superficie ausente.
+
+En el detalle de parcela, muestra el breakdown regla a regla y la rules_version.`;
+const P6=`Añade el botón "Generar preestudio" en el detalle de parcela.
+
+Al pulsarlo, haz un POST a la URL del webhook de n8n definida en la variable de entorno VITE_N8N_PREESTUDIO_URL con este JSON:
+{
+  "observed": datos normalizados de la parcela, incluidos source y fetched_at,
+  "derived": { "score", "breakdown", "rules_version", "occupancy" },
+  "neighbours": [],
+  "pending_checks": ["planeamiento", "propiedad", "cargas", "viabilidad"]
+}
+
+Muestra la respuesta en tres bloques separados: Observado, Derivado y Pendiente de comprobar. Debajo, la traza: fecha de la fuente, versión de reglas y modelo usado.
+
+Estados de carga y error. La app no genera texto con IA por su cuenta: solo muestra lo que devuelve n8n.`;
+
+/* ======================================================================
+   SLIDES
+   min = minutos previstos · script = teleprompter · notes = apoyo
+   ====================================================================== */
+const S=[
+/* ------------------------------ DÍA 1 ------------------------------ */
+{day:1,blk:'Apertura',type:'cover',min:2,dayLabel:'Día 1',dayTitle:'De cero a arquitectura',
+ title:'PARCELAPP', lead:'Vibe coding y arquitectura de software', meta:'Dos sesiones construyendo un radar de preestudio para departamentos de Estudios y Promoción.',
+ script:`Buenas tardes a todos. Hoy y mañana vamos a pasar ocho horas juntos, cuatro cada día.
+Vamos a empezar desde cero de verdad. No voy a asumir que sabéis arquitectura de software, React, Supabase ni patrones de diseño.
+Lo que sí voy a aprovechar es que ya conocéis n8n, porque n8n os ha enseñado muchas ideas de programación sin llamarlas por su nombre.
+Durante estas dos sesiones vamos a construir, mentalmente y en varios puntos también técnicamente, una aplicación llamada PARCELAPP.`,
+ notes:`ANTES DE ENTRAR (15 min):
+• Compartir en Zoom SOLO la ventana del proyector.
+• n8n abierto con el workflow y una ejecución válida preparada.
+• Supabase con el esquema y un estudio de muestra.
+• Lovable abierto en otra pestaña.
+• Preestudio ya generado como respaldo.
+• Notificaciones silenciadas. Grabación de Zoom si corresponde.`},
+
+{day:1,blk:'Apertura',type:'agenda',min:3,title:'Hoy, en cuatro horas',sub:'Primero el mapa mental. Después la tecnología.',
+ rows:[['0:00','H1 · Qué es una aplicación y qué vamos a construir','55 min'],['0:55','H2 · Arquitectura sin dar nada por sabido','55 min'],['1:50','Pausa','15 min','pause'],['2:05','H3 · HTTP, JSON, APIs y Catastro','55 min'],['3:00','H4 · Base de datos, seguridad y estado','50 min'],['3:50','Cierre y lo que viene mañana','10 min']],
+ script:`Os cuento cómo va a ir la tarde. Tenemos cuatro bloques y una pausa de quince minutos a mitad.
+La primera hora es nivel cero: qué es una aplicación y qué problema resuelve PARCELAPP.
+La segunda es arquitectura: cómo se reparten las piezas.
+Después de la pausa, cómo hablamos con el mundo exterior, que en nuestro caso es Catastro.
+Y la última hora, cómo guardamos datos de forma segura y cómo gestionamos procesos que tardan o fallan.
+Mañana cogemos todo esto y lo convertimos en código con IA.
+Una cosa: al final de cada hora os voy a enseñar un trocito de PARCELAPP construyéndose en directo con Lovable. La app va a ir creciendo delante de vosotros durante los dos días.`},
+
+{day:1,blk:'Apertura',type:'quote',tone:'dark',min:2,
+ text:'PARCELAPP es solo el vehículo. El objetivo real es que entendáis el patrón.',
+ small:'IA para acelerar el desarrollo · n8n para orquestar · una base de datos para recordar · APIs para traer información.',
+ script:`Esta es la frase que voy a repetir durante los dos días.
+Hoy no vamos a aprender una herramienta aislada. Vamos a aprender cómo se diseña una aplicación moderna: usando IA para acelerar el desarrollo, n8n para orquestar procesos, una base de datos para conservar el estado y APIs externas para traer información.
+PARCELAPP es solo el vehículo. Lo que os tenéis que llevar es el patrón, porque ese patrón lo vais a poder aplicar a vuestro TFM con otra fuente de datos y otro problema.`},
+
+{day:1,blk:'Apertura',type:'cards',min:3,title:'Lo que vamos a construir en estos dos días',sub:'Un producto, no una colección de prompts.',ncols:4,
+ cards:[{t:'Radar',d:'Crear estudios y reunir parcelas candidatas de una zona.',c:'lime'},{t:'Score',d:'Priorizar con reglas transparentes y versionadas.',c:'cyan'},{t:'Orquestación',d:'n8n consume Catastro, normaliza e integra.',c:'orange'},{t:'Preestudio',d:'La IA redacta sobre datos trazables. No decide el score.',c:'teal'}],
+ band:{k:'Al terminar el día 2',v:'MVP + arquitectura + workflow n8n + Supabase + score + demo comercial'},
+ script:`PARCELAPP tiene cuatro piezas.
+El radar: crear un estudio y reunir parcelas candidatas de una zona.
+El score: priorizarlas con reglas transparentes. Transparentes quiere decir que cualquiera puede ver por qué una parcela tiene un 82.
+La orquestación: n8n es quien habla con Catastro, normaliza lo que llega y lo integra.
+Y el preestudio: una ficha ejecutiva que redacta la IA, pero siempre sobre datos que podemos rastrear. Fijaos en el matiz: la IA redacta, no decide la puntuación.
+Al terminar mañana, habréis visto un MVP completo con su arquitectura, el workflow, la base de datos, el score y una demo comercial.`},
+
+{day:1,blk:'Apertura',type:'flow',min:4,title:'El dolor que PARCELAPP ataca',sub:'La venta empieza en el proceso, no en la palabra “IA”.',
+ steps:[{t:'Buscar zona',d:'muchas fuentes'},{t:'Abrir parcela',d:'dato disperso'},{t:'Comparar',d:'hojas y criterio'},{t:'Priorizar',d:'experiencia manual'},{t:'Documentar',d:'copiar y pegar'}],
+ callout:'PARCELAPP no “descarga Catastro”.',calloutSmall:'Reduce pasos y convierte datos en una cola de trabajo priorizada.',
+ script:`La idea es sencilla de explicar. Un departamento de Estudios de una constructora quiere analizar una zona y localizar parcelas que merecen una revisión más profunda.
+Hoy eso se hace así: buscas la zona en varias fuentes, abres parcela por parcela, comparas en hojas de cálculo, priorizas con la experiencia de cada técnico y al final documentas copiando y pegando.
+Catastro aporta datos públicos. Nosotros los organizamos, filtramos, puntuamos y convertimos en un preestudio.
+Fijaos en algo importante: el producto no es consultar Catastro. Eso ya existe. El producto es reducir el trabajo manual de decidir qué parcelas merece la pena estudiar.
+Una API no es un producto. Un dato no es un producto. Un workflow tampoco es necesariamente un producto. El producto aparece cuando combinamos piezas para resolver un problema concreto.`},
+
+{day:1,blk:'Apertura',type:'mock',min:4,title:'La película final',sub:'Esto es lo que veréis funcionando al acabar mañana.',
+ side:[{t:'Entrada',d:'Zona, referencias y criterios de la empresa.',c:'cyan'},{t:'Decisión',d:'Score 0–100 con razones, no una “opinión de IA”.',c:'lime'},{t:'Salida',d:'Detalle, colindantes y preestudio con trazabilidad.',c:'orange'}],
+ foot:'La app hace el cribado. El técnico conserva la decisión.',
+ script:`Os enseño el final antes del principio, como en las películas.
+Esto es el dashboard de PARCELAPP. Arriba, cuántas parcelas hemos analizado, cuántas son candidatas y cuántas superan un score de 75.
+A la izquierda, el mapa con las parcelas destacadas. A la derecha, las mejores candidatas ordenadas.
+El flujo tiene tres partes. Entrada: una zona, unas referencias y los criterios de la empresa. Decisión: un score de cero a cien con razones. Salida: el detalle, las parcelas colindantes y un preestudio.
+Y la frase que resume la filosofía: la app hace el cribado, el técnico conserva la decisión.`},
+
+{day:1,blk:'Apertura',type:'cols',min:2,title:'Ocho horas en dos días',sub:'La dificultad sube de forma deliberada.',ncols:2,
+ cols:[{h:'Día 1 · Entender el sistema',c:'cyan',items:['H1 · Producto: qué resolvemos','H2 · Arquitectura: dónde vive cada cosa','H3 · Catastro: la API viva','H4 · Datos: Supabase, seguridad y estado']},{h:'Día 2 · Construirlo con IA',c:'lime',items:['H5 · Vibe coding con intención','H6 · Scoring explicable','H7 · n8n + IA + preestudio','H8 · Hardening, demo comercial y TFM']}],
+ script:`El mapa de los dos días.
+Hoy es entender el sistema: producto, arquitectura, la API de Catastro y los datos.
+Mañana es construirlo con IA: vibe coding con criterio, el scoring, n8n con IA y el preestudio, y por último cómo pasar de demo a producto y cómo llevarlo a vuestro TFM.
+Si en algún momento os perdéis, pensad en esto: hoy decidimos dónde va cada pieza; mañana dejamos que la IA escriba las piezas.`},
+
+{day:1,blk:'H1 · Producto',type:'section',min:1,num:'H1',st:'Qué es una aplicación',ss:'Interfaz, lógica, datos y conexiones. Todo lo demás cabe en una de estas cuatro cajas.',seed:3,
+ script:`Primera hora. Empezamos por lo más básico: qué es una aplicación.`},
+
+{day:1,blk:'H1 · Producto',type:'cards',min:8,title:'Una aplicación son cuatro cajas',sub:'Si solo recordáis cuatro palabras de esta primera hora, que sean estas.',ncols:2,
+ cards:[{t:'Interfaz',d:'Lo que toca el usuario: formularios, mapa, tabla, botones. Muestra información y recoge acciones.',c:'cyan'},{t:'Lógica',d:'Las reglas. Si la parcela es grande, suma puntos; si está muy ocupada, resta interés.',c:'lime'},{t:'Datos',d:'Estudios, parcelas, puntuaciones y cuándo descargamos cada dato. Viven en una base de datos.',c:'orange'},{t:'Conexiones',d:'Catastro, correo, IA, un CRM. Se hacen mediante APIs: puertas con reglas.',c:'teal'}],
+ script:`Cuando decimos aplicación, normalmente estamos mezclando varias cosas. Voy a separarlas porque a partir de aquí todo será más fácil.
+Primera pieza: la interfaz. Es lo que toca el usuario. Un formulario, un mapa, una tabla, un botón. A esto solemos llamarlo frontend. No tiene por qué saber cómo funciona Catastro ni cómo calculamos un score. Su trabajo es mostrar información y recoger acciones.
+Segunda pieza: la lógica. Son las reglas. Si una parcela tiene más de cierta superficie, suma puntos. Si está muy ocupada, resta interés. Si tiene parcelas vecinas compatibles, suma. Eso ya no es interfaz. Es lógica de negocio.
+Tercera pieza: los datos. Necesitamos guardar estudios, parcelas encontradas, puntuaciones y cuándo descargamos cada dato. Para eso usamos una base de datos.
+Cuarta pieza: las conexiones con otros sistemas. Catastro, correo, IA, quizá un CRM. Esas conexiones suelen hacerse mediante APIs. Una API no es magia: es una puerta con reglas. Tú llamas con un formato concreto y recibes una respuesta.
+Interfaz, lógica, datos y conexiones. Todo lo que veamos en estos dos días cabe en una de estas cuatro cajas.`,
+ notes:`Si vas rápido: pon un ejemplo cotidiano (app del banco): pantalla = interfaz, "no puedes transferir más de X" = lógica, tu saldo = datos, Bizum = conexión.`},
+
+{day:1,blk:'H1 · Producto',type:'cols',min:6,title:'De n8n a una aplicación',sub:'n8n es una magnífica centralita. Pero una centralita no sustituye al edificio entero.',ncols:2,
+ cols:[{h:'Lo que ya hacéis en n8n',c:'cyan',items:['Webhook: una puerta de entrada','IF: una regla','HTTP Request: llamar a otra aplicación','Postgres: persistir datos','Encadenar nodos: orquestar un proceso']},{h:'Lo que cambia en una app',c:'orange',items:['No todo vive en un único workflow','La pantalla no conoce el endpoint de Catastro','El score no depende de un botón','Generar un PDF no bloquea al usuario','Pasamos de automatizar tareas a diseñar sistemas']}],
+ script:`Ahora conecto esto con algo que ya conocéis.
+En n8n, cuando usáis un Webhook, estáis creando una puerta de entrada. Cuando usáis un IF, estáis expresando una regla. Cuando usáis un HTTP Request, estáis llamando a otra aplicación. Cuando guardáis en Postgres, estáis persistiendo datos. Cuando encadenáis nodos, estáis orquestando un proceso.
+La diferencia al construir una aplicación completa es que ya no queremos que todo viva dentro de un único workflow. Queremos repartir responsabilidades.
+La pantalla no debería saber cómo se llama el endpoint concreto de Catastro. El cálculo del score no debería depender de un botón. El sistema que genera un PDF no debería bloquear al usuario durante veinte segundos.
+Pensad en n8n como una magnífica centralita de procesos. Puede coordinar llamadas, transformar datos, lanzar trabajos y conectarse con servicios. Pero una centralita no sustituye al edificio entero.
+Ésa es la transición de estos dos días: de automatizar tareas a diseñar sistemas.`},
+
+{day:1,blk:'H1 · Producto',type:'html',min:4,title:'Una user story que sí sirve',sub:'El caso de uso condiciona toda la arquitectura.',
+ html:`<div style="display:grid;grid-template-columns:1.35fr 1fr;gap:40px;align-items:start">
+ <div style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:40px 44px;font-size:38px;line-height:1.35;font-weight:600">
+ <span style="color:var(--muted)">Como</span> <b>técnico de Estudios</b><br><span style="color:var(--muted)">quiero</span> <b>priorizar las parcelas de una zona</b><br><span style="color:var(--muted)">para</span> <b>decidir cuáles merece la pena estudiar en profundidad.</b></div>
+ <div class="col" style="border-top-color:var(--orange)"><h3>Fijaos en lo que no dice</h3><ul><li>No dice “hacer scraping”.</li><li>No dice “usar IA”.</li><li>Habla de una decisión de negocio.</li></ul></div></div>
+ <div class="band"><div class="k">Criterio de éxito</div><div class="v">El técnico entiende por qué una parcela está arriba del ranking.</div></div>`,
+ script:`Antes de escribir una línea de código hay que decidir qué problema resolvemos.
+PARCELAPP tiene un usuario muy concreto: una persona de un departamento de Estudios, Promoción, Suelo o Expansión.
+Su user story es esta: como técnico de Estudios, quiero priorizar las parcelas de una zona, para decidir cuáles merece la pena estudiar en profundidad.
+Fijaos en lo que no dice. No dice hacer scraping. No dice usar IA. Habla de una decisión de negocio.
+Ese usuario no quiere una API. Quiere responder preguntas. ¿Qué parcelas de esta zona encajan con mis criterios? ¿Cuáles son grandes? ¿Cuáles están poco ocupadas? ¿Hay varias contiguas? ¿Dónde merece la pena invertir tiempo humano?
+Y el criterio de éxito: el técnico entiende por qué una parcela está arriba del ranking. Si no lo entiende, no se va a fiar, y si no se fía, no lo va a usar.`},
+
+{day:1,blk:'H1 · Producto',type:'cols',min:4,title:'MVP, PRO y WOW',sub:'Acotar también es arquitectura.',ncols:3,
+ cols:[{h:'MVP',c:'lime',items:['Login y estudio','Añadir referencias catastrales','n8n consulta Catastro','Guardar en Supabase','Score y ranking','Detalle de parcela']},{h:'PRO',c:'cyan',items:['Zona por coordenadas','WFS de parcelas','Procesado por lotes','Mapa','Colindantes','Comparador']},{h:'WOW',c:'orange',items:['Criterios por empresa','IA con datos verificados','Informe','Email o CRM','Fuente urbanística','Alertas']}],
+ script:`Dividimos el producto en tres niveles.
+MVP, el mínimo que demuestra el ciclo completo: puedo crear un estudio, añadir referencias, consultar Catastro, guardar los datos, puntuar y ver el detalle.
+PRO: puedo trabajar por zona, procesar muchas parcelas por lotes, verlas en un mapa, detectar colindantes y comparar.
+WOW: criterios distintos por empresa, explicación con IA, informe, envío por correo o CRM, otras fuentes y alertas.
+Acotar es una decisión de arquitectura. Si intentáis hacer el WOW antes que el MVP, lo que tenéis no es un producto: es ansiedad con Tailwind.`},
+
+{day:1,blk:'H1 · Producto',type:'cards',min:3,title:'Cómo sabremos que funciona',sub:'Métricas del producto, no “qué bonito está”.',ncols:3,
+ cards:[{t:'Tiempo de cribado',d:'Desde una lista de referencias hasta un ranking entendible. Se mide antes y después, en el proceso real.',c:'cyan'},{t:'Trazabilidad',d:'Cada dato tiene fuente y fecha. Cada score tiene versión de reglas.',c:'lime'},{t:'Revisión humana',d:'El técnico abre el detalle, comprueba los motivos y descarta falsos positivos.',c:'orange'}],
+ band:{k:'Qué prometer',v:'No “detecta oportunidades automáticamente”. Sí “prioriza candidatas según criterios explícitos”.'},
+ script:`¿Cómo sabremos que PARCELAPP funciona? No porque sea bonita.
+Tiempo de cribado: cuánto tardamos desde una lista de referencias hasta un ranking que se entiende. Lo medimos antes y después.
+Trazabilidad: cada dato tiene fuente y fecha, y cada score tiene la versión de las reglas que lo produjo.
+Revisión humana: el técnico puede abrir el detalle, comprobar los motivos y descartar falsos positivos.
+Y ojo con lo que prometemos. No prometáis que detecta oportunidades automáticamente. Prometed que prioriza candidatas según criterios explícitos. Es menos espectacular y muchísimo más defendible.`},
+
+{day:1,blk:'H1 · Producto',type:'cols',min:3,title:'Qué sabe PARCELAPP y qué no',sub:'Una buena demo también enseña sus límites.',ncols:2,
+ cols:[{h:'Sí puede',c:'lime',items:['Datos catastrales no protegidos','Geometría y referencia','Indicadores derivados','Reglas internas','Colindantes','Ranking para revisar']},{h:'No debe afirmar',c:'red',items:['Titularidad','Valor catastral','Edificabilidad','Cargas registrales','Viabilidad urbanística','Recomendación de inversión']}],
+ script:`Otra idea profesional: el sistema nunca debe confundir dato catastral con viabilidad urbanística.
+PARCELAPP puede trabajar con datos catastrales no protegidos, geometría, indicadores que calculamos nosotros, nuestras reglas, colindantes y un ranking para revisar.
+Pero no debe afirmar titularidad, valor catastral, edificabilidad, cargas registrales, viabilidad urbanística ni recomendar una inversión.
+Catastro no nos autoriza a afirmar qué se puede construir. Nuestro score no es una sentencia: es una priorización interna para decidir dónde mirar primero.
+Este tipo de límite hace que una aplicación sea más seria, no menos.`},
+
+{day:1,blk:'H1 · Producto',type:'demo',min:5,tool:'Lovable',title:'PARCELAPP nace: esqueleto con datos de ejemplo',ds:'Hilo vibe coding · 1 de 6',
+ steps:['Abre Lovable y crea un proyecto nuevo.','Pega el prompt (botón Copiar prompt) y lánzalo.','Mientras genera: “no le he pedido tecnología, le he pedido un problema, un usuario y tres pantallas”.','Enseña el dashboard, el ranking y el detalle.','Señala un dato null en el detalle: “mañana veremos qué hacer con esto”.'],
+ prompt:P1,
+ script:`Primer trocito del hilo de vibe coding. Voy a crear PARCELAPP en Lovable con datos de ejemplo.
+Fijaos en el prompt. No le pido React ni ninguna tecnología concreta. Le doy el usuario, el problema, tres pantallas, qué datos de ejemplo quiero y el estilo.
+Y le digo explícitamente lo que NO quiero todavía: ni backend, ni login, ni APIs. Acotar también se hace en el prompt.
+Mientras genera: lo que estáis viendo es la interfaz. Una de nuestras cuatro cajas. Todavía no hay lógica de verdad, ni datos de verdad, ni conexiones.
+Esta app va a ir creciendo cada hora. Mañana tendrá base de datos, validación, score y preestudio.`},
+
+{day:1,blk:'H1 · Producto',type:'chat',min:1,q:'En una frase: ¿qué problema resuelve PARCELAPP?',hint:'Escribidlo en el chat de Zoom. Leo algunas respuestas en voz alta.',
+ script:`Antes de pasar a arquitectura, una pregunta rápida al chat. En una frase: ¿qué problema resuelve PARCELAPP?
+Escribidlo en el chat, leo algunas.
+Recapitulamos. Una aplicación tiene interfaz, lógica, datos y conexiones con otros sistemas. PARCELAPP no pretende reemplazar a un técnico ni decidir si un suelo es viable. Pretende transformar datos dispersos en una cola priorizada de oportunidades para estudiar.
+En la siguiente hora respondemos a la pregunta clave: si tenemos todas estas piezas, ¿dónde ponemos cada una para que el sistema no se convierta en una bola imposible de mantener?`,
+ notes:`La respuesta buena: "reducir el trabajo manual de decidir qué parcelas merece la pena estudiar". Si alguien dice "consultar Catastro", aprovéchalo.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'section',min:1,num:'H2',st:'Arquitectura sin dar nada por sabido',ss:'De n8n a arquitectura: lo que ya sabéis cambia de nombre, no de planeta.',seed:9,
+ script:`Segunda hora: arquitectura de software.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'quote',tone:'light',min:5,
+ text:'Arquitectura es decidir cómo dividimos un sistema y cómo se hablan sus partes.',
+ small:'No sirve para dibujar cajitas en LinkedIn. Sirve para reducir el coste de cambiar cosas.',
+ script:`Arquitectura de software suena solemne porque los informáticos somos muy aficionados a bautizar con palabras caras ideas bastante humanas.
+Arquitectura significa decidir cómo dividimos un sistema y cómo se hablan esas partes.
+Si toda la lógica está mezclada en la pantalla, cualquier cambio visual puede romper reglas de negocio. Si cada componente llama directamente a Catastro, cambiar el proveedor será doloroso. Si n8n contiene reglas críticas y la base de datos las repite, tendremos dos verdades distintas.
+Arquitectura no es dibujar cajitas para LinkedIn. Sirve para reducir el coste de cambiar cosas. Una buena arquitectura no evita los cambios: asume que llegarán.
+Y en un proyecto con IA esto importa todavía más, porque la IA puede generar muchísimo código muy deprisa. Si no sabemos dónde debe vivir ese código, solamente fabricamos desorden a velocidad industrial.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'map',min:7,title:'Ya sabéis más arquitectura de la que creéis',sub:'Traducimos nodos de n8n a conceptos de software.',
+ rows:[['Webhook','Endpoint / controlador'],['IF / Switch','Regla / enrutado'],['Code','Servicio / dominio'],['HTTP Request','Adaptador'],['Postgres / Supabase','Repositorio'],['Error workflow','Gestor de errores']],
+ side:{k:'Cambio mental',v:'Un workflow puede orquestar un sistema. Pero no debería ser el lugar donde vive todo el negocio.'},
+ script:`Esto es lo que os decía: ya sabéis más arquitectura de la que creéis.
+Un Webhook es un endpoint, la puerta por la que entra una petición. En software lo llamaríamos controlador.
+Un IF o un Switch es una regla o un enrutado.
+Un nodo Code donde metéis lógica es un servicio, y si esa lógica es la esencia del negocio, es dominio.
+Un HTTP Request que habla con otro sistema es un adaptador.
+Un nodo de Postgres o Supabase es un repositorio: la pieza que guarda y recupera datos.
+Y el error workflow es un gestor de errores.
+El cambio mental es este: un workflow puede orquestar un sistema, pero no debería convertirse en el lugar donde vive todo el negocio.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'html',min:7,title:'Cliente, servidor y C4 nivel 1',sub:'Primero vemos el sistema desde fuera.',
+ html:`<div style="display:flex;align-items:center;gap:0;margin-top:30px">
+ <div class="step" style="flex:1;text-align:center;padding:40px 20px"><h4>Técnico de Estudios</h4><p>usuario</p></div><div class="arrow">→</div>
+ <div class="step" style="flex:1.3;text-align:center;padding:52px 20px;background:var(--ink);color:#fff;border-color:var(--ink)"><h4 style="font-size:36px;color:var(--lime)">PARCELAPP</h4><p style="color:#A9B6C6">prioriza y documenta</p></div><div class="arrow">→</div>
+ <div style="flex:1;display:flex;flex-direction:column;gap:18px"><div class="step" style="text-align:center"><h4>Catastro</h4><p>fuente externa</p></div><div class="step" style="text-align:center"><h4>IA y correo</h4><p>servicios externos</p></div></div></div>
+ <div class="callout" style="font-size:30px">¿Qué responsabilidad pertenece a PARCELAPP y cuál es externa?</div>`,
+ script:`La primera separación es cliente y servidor. El cliente normalmente es la aplicación que usa la persona: el navegador. El servidor es el conjunto de servicios que trabajan detrás.
+Cuando el usuario abre PARCELAPP, el navegador descarga la interfaz. Cuando pulsa analizar zona, esa interfaz pide algo al servidor. El servidor valida la petición, guarda un estudio, lanza un proceso y devuelve un resultado o un identificador.
+C4 es una forma de dibujar software de fuera hacia dentro. El nivel 1 no entra en detalle. Solo pregunta: ¿quién usa el sistema y con qué sistemas externos se relaciona?
+En nuestro caso: técnico de Estudios, PARCELAPP, y fuera, Catastro, un servicio de IA y quizá correo o CRM.
+Este diagrama sirve para que una persona no técnica entienda el perímetro del producto en treinta segundos.
+Fijaos en que aún no hemos dicho React, TypeScript ni PostgreSQL. Es deliberado. Primero explicamos qué hace el sistema. Después decidimos con qué tecnología.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'html',min:7,title:'C4 nivel 2: abrimos la caja',sub:'Ahora podemos repartir responsabilidades.',
+ html:`<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:10px">
+ ${[['Interfaz','React · Lovable','cyan'],['Aplicación','casos de uso','lime'],['Supabase','datos + auth','orange'],['n8n','orquestación','teal'],['Catastro','fuente externa','slate']].map(x=>`<div class="card" style="border-left:none;border-top:9px solid ${C[x[2]]};text-align:center;padding:40px 16px"><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join('')}
+ </div><div class="band"><div class="k">La idea</div><div class="v">n8n no desaparece. Deja de ser “la aplicación” y pasa a ser el motor de integración y orquestación.</div></div>`,
+ script:`En C4 nivel 2 ya abrimos PARCELAPP y vemos sus piezas principales.
+Interfaz: lo que ve el técnico, hecho en React con Lovable.
+Aplicación: los casos de uso, es decir, las operaciones que el usuario puede hacer: crear un estudio, ver un ranking, pedir un preestudio.
+Supabase: la base de datos y la autenticación.
+n8n: la orquestación y las integraciones.
+Y fuera, Catastro.
+Podemos añadir un backend o funciones de servidor cuando queramos exponer operaciones controladas.
+La idea importante: n8n no desaparece. Deja de ser la aplicación y pasa a ser el motor de integración y orquestación.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'cards',min:5,title:'Estado: cómo están las cosas ahora',sub:'Si no guardamos el estado, todo depende de que un workflow termine perfecto cada vez.',ncols:3,
+ cards:[{t:'n8n hace el trabajo',d:'Llama, transforma, lanza procesos.',c:'teal'},{t:'La base de datos recuerda',d:'Resultados y estado: pending, running, completed, failed.',c:'orange'},{t:'La interfaz lee la verdad',d:'Consulta lo persistido, no la memoria temporal de un workflow.',c:'cyan'}],
+ script:`Aquí aparece una palabra que vais a escuchar mucho: estado. El estado es cómo están las cosas ahora.
+Un estudio puede estar pendiente, en proceso, completado o fallido. Una parcela puede tener datos descargados ayer y un score calculado con la versión 3 de nuestras reglas.
+Si no guardamos ese estado, todo depende de que un workflow termine perfecto cada vez. Eso es frágil.
+Por eso separar base de datos y orquestación es tan útil. n8n hace el trabajo. La base de datos recuerda el resultado y el estado. Y la interfaz consulta la verdad persistida, no la memoria temporal de un workflow.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'html',min:8,title:'Arquitectura hexagonal sin incienso',sub:'El dominio no conoce las herramientas.',
+ html:`<div style="position:relative;height:560px">
+ <svg viewBox="0 0 1400 560" width="100%" height="100%" aria-hidden="true">
+ <polygon points="700,60 900,170 900,390 700,500 500,390 500,170" fill="#0B1220"/>
+ <text x="700" y="265" text-anchor="middle" font-family="Manrope, Segoe UI, Arial, sans-serif" font-weight="800" font-size="44" fill="#A3E635">Dominio</text>
+ <text x="700" y="315" text-anchor="middle" font-family="Manrope, Segoe UI, Arial, sans-serif" font-weight="600" font-size="26" fill="#A9B6C6">score · validaciones</text>
+ <text x="700" y="350" text-anchor="middle" font-family="Manrope, Segoe UI, Arial, sans-serif" font-weight="600" font-size="26" fill="#A9B6C6">reglas puras</text>
+ ${[['Interfaz',180,120,'#22C3DE'],['Supabase',1220,120,'#F7913D'],['n8n',180,440,'#0F7A6E'],['Catastro',1220,440,'#8391A2']].map(a=>`<line x1="${a[1]<700?a[1]+130:a[1]-130}" y1="${a[2]}" x2="${a[1]<700?520:880}" y2="${a[2]<280?190:370}" stroke="#B7C2CE" stroke-width="4" stroke-dasharray="10 8"/><rect x="${a[1]-130}" y="${a[2]-50}" width="260" height="100" rx="16" fill="#fff" stroke="${a[3]}" stroke-width="5"/><text x="${a[1]}" y="${a[2]+4}" text-anchor="middle" font-family="Manrope, Segoe UI, Arial, sans-serif" font-weight="800" font-size="32" fill="#0B1220">${a[0]}</text><text x="${a[1]}" y="${a[2]+34}" text-anchor="middle" font-family="Manrope, Segoe UI, Arial, sans-serif" font-size="20" fill="#526072">adaptador</text>`).join('')}
+ </svg></div>`,
+ script:`Arquitectura hexagonal tiene un nombre bastante más intimidante que la idea.
+En el centro están las reglas que hacen especial a nuestro producto. Eso es el dominio: el score, las validaciones, las reglas de negocio.
+Fuera están las tecnologías que pueden cambiar: Catastro, Supabase, la IA, el correo, n8n. Cada una se conecta a través de un adaptador.
+El dominio no debería decir llama a esta URL exacta de Catastro. Debería decir: necesito obtener información de una parcela. Luego un adaptador concreto sabe cómo hacerlo con Catastro.
+¿Por qué? Porque así podemos probar el dominio con datos falsos. Podemos cambiar de proveedor. Podemos usar un CSV de emergencia si Catastro está caído. El corazón de PARCELAPP no se rompe porque cambie la tecnología exterior.
+En n8n hacéis algo parecido sin llamarlo hexagonal: un workflow puede recibir datos de Telegram hoy y de un webhook mañana si habéis separado bien la lógica intermedia. La arquitectura simplemente vuelve consciente y sistemático ese principio.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'cols',min:5,title:'Regla práctica para PARCELAPP',sub:'No es religión. Es una brújula.',ncols:4,
+ cols:[{h:'Dominio · decide',c:'lime',items:['Score','Validaciones','Reglas de negocio','Tipos']},{h:'n8n · coordina',c:'teal',items:['Catastro','Lotes','Correo','IA']},{h:'Supabase · recuerda',c:'orange',items:['Auth','Persistencia','RLS','Snapshots']},{h:'Interfaz · muestra',c:'cyan',items:['Mapa','Filtros','Ranking','Detalle']}],
+ band:{k:'Tres preguntas',v:'¿Enviar un email? n8n. ¿Calcular el score? Dominio. ¿Ocultar filas de otro usuario? RLS.'},
+ script:`Vamos con una regla práctica. Interfaz: mostrar y recoger. Dominio: decidir. Base de datos: recordar. n8n: coordinar. Adaptadores: hablar con el exterior.
+Ejemplos. Pintar un mapa: interfaz. Calcular si 6.000 metros cuadrados supera un umbral: dominio. Guardar la fecha de captura: base de datos. Mandar el informe por correo: n8n. Transformar una respuesta de Catastro a nuestro formato interno: adaptador.
+No es una ley divina. Hay sistemas donde moveríamos piezas. Lo importante es poder justificar la decisión.`},
+
+{day:1,blk:'H2 · Arquitectura',type:'chips',min:6,title:'¿Dónde vive esto?',sub:'Respondedlo en el chat: interfaz, dominio, Supabase o n8n.',
+ items:['Mostrar el ranking','Calcular el score','Consultar Catastro','Guardar el snapshot original','Validar una referencia catastral','Impedir ver estudios ajenos','Enviar un email','Explicar el score con IA','Comparar 3 parcelas','Reintentar una API'],
+ script:`Os propongo un juego rápido. Os leo cada caso y quien quiera responde en el chat: interfaz, dominio, Supabase o n8n.
+Mostrar el ranking. Calcular el score. Consultar Catastro. Guardar el snapshot original.
+Validar una referencia catastral. Impedir ver estudios ajenos. Enviar un email.
+Explicar el score con IA. Comparar tres parcelas. Reintentar una API.
+Os doy las respuestas y, sobre todo, el porqué.`,
+ notes:`RESPUESTAS:
+• Ranking → interfaz (los datos ya vienen ordenados)
+• Calcular score → dominio
+• Consultar Catastro → n8n (adaptador)
+• Snapshot original → Supabase
+• Validar RC → dominio (y se reutiliza en la interfaz)
+• Estudios ajenos → Supabase (RLS)
+• Email → n8n
+• Explicar con IA → n8n, sobre datos del dominio
+• Comparar 3 → interfaz
+• Reintentar API → n8n`},
+
+{day:1,blk:'H2 · Arquitectura',type:'demo',min:4,tool:'Lovable',title:'Ordenamos la casa: capas en el código',ds:'Hilo vibe coding · 2 de 6',
+ steps:['Abre el proyecto de H1 en Lovable.','Pega el prompt de capas.','Enseña el plan que devuelve ANTES de aprobar.','Tras aplicar: enseña src/domain, src/application, src/infrastructure y src/ui.','Remata: “la pantalla es idéntica, pero ahora podremos cambiar el mock por Supabase sin tocar la UI”.'],
+ prompt:P2,
+ script:`Segundo trocito del hilo. La app de antes funciona, pero probablemente todo está mezclado en los componentes.
+Le pido a Lovable que la reorganice en las capas que acabamos de ver: dominio, aplicación, infraestructura e interfaz. Y le pido que no cambie nada visible.
+Fijaos en la última línea del prompt: antes de tocar nada, enumera los archivos y explica el plan. Esa costumbre os va a ahorrar muchos disgustos.
+Resultado: la pantalla es idéntica. Pero ahora, cuando conectemos Supabase, solo cambiaremos una pieza: el repositorio. La interfaz ni se entera.`},
+
+{day:1,blk:'Pausa',type:'break',min:15,mins:15,next:'H3 · HTTP, JSON, APIs y Catastro',
+ script:`Paramos quince minutos. Al volver entramos en la primera integración real: qué ocurre técnicamente cuando PARCELAPP le pregunta algo a Catastro.`},
+
+{day:1,blk:'H3 · Catastro',type:'section',min:1,num:'H3',st:'HTTP, JSON, APIs y Catastro',ss:'API oficial antes que scraping frágil.',seed:15,
+ script:`Tercera hora. Vamos a desmontar una llamada a una API.`},
+
+{day:1,blk:'H3 · Catastro',type:'html',min:9,title:'Una petición HTTP por dentro',sub:'El mismo protocolo que usa el navegador para cargar una página.',
+ html:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:30px">
+ <div><div class="lbl">Petición</div><pre class="code"><span class="c">GET</span> /Consulta_DNPRC?RefCat=...
+<span class="m">Host:</span> ovc.catastro.meh.es
+<span class="m">Accept:</span> application/json</pre>
+ <p style="font-size:22px;color:var(--muted);line-height:1.4;margin-top:18px">URL, método, parámetros, cabeceras y a veces credenciales. <b style="color:var(--text)">GET</b> pide información; <b style="color:var(--text)">POST</b> envía un cuerpo o pide una operación.</p></div>
+ <div><div class="lbl">Respuesta: el código importa</div>
+ <table class="tb"><tr><td style="color:var(--teal)">200</td><td>Ha ido bien</td></tr><tr><td style="color:var(--orange)">400</td><td>Me has pedido algo mal</td></tr><tr><td style="color:var(--orange)">401 / 403</td><td>Autenticación o permisos</td></tr><tr><td style="color:var(--orange)">404</td><td>No existe el recurso</td></tr><tr><td style="color:var(--red)">500</td><td>Error del servidor</td></tr></table></div></div>`,
+ script:`Una aplicación necesita pedir información a otra. Para eso usamos HTTP, el mismo protocolo que usa el navegador para cargar páginas.
+Una petición tiene una dirección, que es la URL. Tiene un método: GET suele pedir información; POST suele enviar información o solicitar una operación con un cuerpo. Puede llevar parámetros, cabeceras y a veces credenciales.
+La respuesta tiene un código. Un 200 suele significar que ha ido bien. Un 400, que me has pedido algo mal. Un 401 o 403, un problema de autenticación o permisos. Un 404, que no existe el recurso. Un 500, un error del servidor.
+Esto es importante porque un sistema profesional no trata todas las respuestas como si fueran éxito. En n8n es muy tentador conectar el nodo siguiente y confiar. En producción debemos distinguir un fallo temporal, de un dato inexistente, de una petición mal formada.`,
+ notes:`OJO: algunas APIs devuelven 200 con el error dentro del cuerpo. Compruébalo con Catastro en la demo A y úsalo como ejemplo si pasa.`},
+
+{day:1,blk:'H3 · Catastro',type:'html',min:7,title:'JSON y contrato propio',sub:'No dejes que el formato externo se cuele hasta el corazón del sistema.',
+ html:`<div style="display:grid;grid-template-columns:1fr 80px 1fr;align-items:center">
+ <div><div class="lbl">Lo que devuelve el proveedor</div><pre class="code"><span class="m">// nombres y estructura del proveedor</span>
+{ "bico": { "bi": { "debi": {
+  "luso": "Industrial",
+  "sfc": "780",
+  "ant": "1987" } } } }</pre></div>
+ <div class="arrow" style="width:auto;font-size:44px">→</div>
+ <div><div class="lbl">Nuestro contrato</div><pre class="code">{
+  "parcel_reference": "...",
+  "main_use": "INDUSTRIAL",
+  "built_area_m2": 780,
+  "construction_year": 1987,
+  "source": "catastro",
+  "fetched_at": "2026-10-01T16:05Z" }</pre></div></div>
+ <div class="callout" style="font-size:30px">A esta traducción la llamamos normalización.<small>Si mañana cambia la fuente, solo cambia el adaptador.</small></div>`,
+ script:`Muchas APIs devuelven JSON. JSON es simplemente una forma textual de representar objetos y listas.
+El problema es que cada proveedor usa sus propios nombres y estructuras, a veces con abreviaturas bastante crípticas. A la izquierda tenéis un ejemplo ilustrativo de cómo puede venir un dato anidado con nombres cortos.
+Por eso no conviene que toda nuestra aplicación dependa del JSON exacto de Catastro. Creamos nuestro propio contrato interno: parcel_reference, main_use, built_area_m2, construction_year, y además source y fetched_at: de dónde viene y cuándo lo obtuvimos.
+A esa traducción la llamamos normalización. Catastro puede devolver un nombre extraño; dentro de PARCELAPP usamos un vocabulario estable. Si mañana cambia la fuente, solo modificamos el adaptador.`,
+ notes:`El JSON de la izquierda es ILUSTRATIVO. En la demo A enseña el real de Catastro y di "comparad con lo que os enseñé".`},
+
+{day:1,blk:'H3 · Catastro',type:'cards',min:5,title:'Servicios libres del Catastro',sub:'No necesitamos rascar HTML como mapaches digitales.',ncols:3,
+ cards:[{t:'DNPRC',d:'Consulta de datos no protegidos por referencia catastral.',c:'cyan'},{t:'WFS de parcelas',d:'Geometrías y referencias de una zona. Sirve para obtener el universo.',c:'lime'},{t:'Vecinos',d:'Consulta que devuelve la parcela y sus colindantes.',c:'orange'}],
+ band:{k:'Servicios libres',v:'Datos no protegidos. Titularidad y valor catastral quedan fuera.'},
+ script:`Ahora sí entramos en Catastro. Tenemos dos necesidades distintas: enriquecer una referencia concreta y rastrear una zona para descubrir muchas parcelas.
+Para una referencia, usamos la consulta de datos no protegidos, DNPRC.
+Para una zona, nos apoyamos en servicios geográficos como WFS, que permiten trabajar con entidades y geometrías. WMS, en cambio, está más orientado a visualizar mapas. Ver una capa y extraer datos no son lo mismo.
+Y hay una consulta que devuelve una parcela con sus colindantes.
+No hacemos scraping salvaje de una web si existe una interfaz oficial más estable. El scraping es útil cuando no hay alternativa, pero es frágil: cambia un selector y el robot se rompe.
+Recordad: servicios libres significa datos no protegidos. Titularidad y valor quedan fuera.`},
+
+{day:1,blk:'H3 · Catastro',type:'code',min:5,title:'Primera llamada real',sub:'DNPRC en JSON por referencia catastral.',
+ code:`<span class="c">GET</span> https://ovc.catastro.meh.es/OVCServWeb/OVCWcfCallejero/
+    COVCCallejero.svc/json/Consulta_DNPRC
+    ?RefCat=2749704YJ0624N0001DI`,
+ side:[{h:'Entrada',t:'Referencia catastral de 14, 18 o 20 posiciones según la consulta.',c:'cyan'},{h:'Salida',t:'Datos no protegidos: uso, superficie, antigüedad, unidades.',c:'lime'},{h:'Norma',t:'Nunca acoples la interfaz al JSON crudo. Normaliza.',c:'orange'}],
+ script:`Esta es la primera llamada real. Una petición GET a un servicio de Catastro que devuelve JSON, pasándole una referencia catastral como parámetro.
+La referencia de ejemplo está tomada de la documentación oficial.
+Entrada: la referencia catastral. Salida: datos no protegidos, como el uso, la superficie, la antigüedad o las unidades.
+Y la norma: nunca acoples la interfaz al JSON crudo. Siempre normalizas.`,
+ notes:`VERIFICAR ESTA NOCHE: lanza esta URL exacta en el navegador. Si no responde JSON, corrige la ruta aquí (dime y lo cambio).`},
+
+{day:1,blk:'H3 · Catastro',type:'code',min:5,title:'Para rastrear una zona: WFS',sub:'El servicio pone límites. Nuestra arquitectura debe respetarlos.',
+ code:`<span class="c">GET</span> .../INSPIRE/wfsCP.aspx?service=WFS
+    &request=GetFeature
+    &typenames=CP:CadastralParcel
+    &SRSname=EPSG::25830
+    &bbox=...`,
+ side:[{h:'Límite por petición',t:'Superficie máxima y número de elementos acotados por el servicio.',c:'orange'},{h:'Formato',t:'GML, no JSON: hay que convertirlo.',c:'cyan'},{h:'Diseño resultante',t:'Zona pequeña → universo de referencias → prefiltro por área → enriquecer solo las mejores.',c:'lime'}],
+ script:`Para rastrear una zona usamos WFS. Le pedimos las parcelas catastrales dentro de un rectángulo de coordenadas, el bbox.
+El servicio define límites: hay un tamaño máximo de zona por petición y un número máximo de elementos. Y devuelve GML, un formato XML geográfico, no JSON.
+Esos límites no son un problema: son información de diseño. Nos obligan a trabajar por zonas pequeñas, sacar el universo de referencias, prefiltrar por área y solo enriquecer las mejores.`,
+ notes:`La presentación anterior decía "1 km² y hasta 5.000 elementos". NO lo he podido verificar: compruébalo en el PDF oficial del WFS (enlace en Referencias) antes de decir la cifra en voz alta.`},
+
+{day:1,blk:'H3 · Catastro',type:'html',min:4,title:'La función que huele a producto',sub:'Colindantes: de parcela individual a oportunidad de análisis conjunto.',
+ html:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+ <div style="height:470px;border-radius:20px;overflow:hidden;border:1px solid var(--line)">${parcels({w:700,h:470,cols:5,rows:3,seed:21,hi:[6,7,8],dark:false,scores:{6:82,7:91,8:77}})}</div>
+ <div><div class="card" style="border-left-color:var(--orange);margin-bottom:22px"><h3>Consulta de vecinos</h3><p>Entrada: referencia de parcela. Salida: la parcela y sus colindantes.</p></div>
+ <div class="card" style="border-left-color:var(--lime)"><h3>Valor comercial</h3><p>Ver si alrededor hay otras candidatas según nuestras propias reglas.</p></div></div></div>`,
+ script:`Esta es la función que da olor a producto: los colindantes.
+Una parcela aislada puede ser interesante. Pero si la parcela de 91 puntos tiene al lado una de 82 y otra de 77, la conversación cambia: ya no hablamos de una parcela, hablamos de una posible oportunidad de análisis conjunto.
+Catastro ofrece una consulta que, dada una parcela, devuelve sus colindantes. Nosotros cruzamos eso con nuestras reglas.
+Cuidado con el lenguaje: detectar contigüidad no significa que se puedan comprar, agrupar o construir. Es una señal para estudiar.`},
+
+{day:1,blk:'H3 · Catastro',type:'funnel',min:4,title:'Estrategia de adquisición de datos',sub:'No enriquecemos 5.000 parcelas a lo bruto.',
+ rows:[['WFS: universo de la zona','1.000 referencias',100,'#8391A2'],['Prefiltro geométrico','220 enriquecidas con DNPRC',62,'#22C3DE'],['Score > 60','40 candidatas',36,'#F7913D'],['Vecinos','14 consultas',20,'#A3E635']],
+ foot:'Menos llamadas externas · más control · mejor coste · mejor resiliencia',
+ script:`Con esos límites, la estrategia es un embudo.
+Primero, WFS nos da el universo de la zona: pongamos mil referencias.
+Segundo, un prefiltro geométrico barato, por ejemplo por área, reduce a doscientas veinte. Solo esas se enriquecen con la consulta de datos.
+Tercero, puntuamos y nos quedamos con las que superan 60: cuarenta.
+Y solo para las mejores pedimos vecinos.
+Menos llamadas externas, más control, mejor coste y mejor resiliencia. Las cifras son de ejemplo; lo importante es el orden.`},
+
+{day:1,blk:'H3 · Catastro',type:'demo',min:14,tool:'n8n',title:'n8n + Catastro: de una referencia a nuestro contrato',ds:'Demo A',
+ steps:['Abre parcelapp_enrich_rc y enseña la vista completa SIN ejecutar: “entra una referencia, la valido, pregunto a una fuente, normalizo y devuelvo un contrato propio”.','Webhook: endpoint, método y payload. “Es la puerta de entrada de una API”.','Validación: fail fast. Rechazar datos malos antes de pagar llamadas.','HTTP Request: URL, parámetros, timeout, códigos HTTP.','Normalización: nombres externos → modelo interno.','Ejecuta una referencia válida. Después una rota a propósito. Narra error esperado vs fallo técnico.','Añade source y fetched_at a la salida.','Cierra: “Esto es integración. Todavía no es el producto completo”.'],
+ script:`Ahora abro n8n. No quiero que miréis los nodos como piezas aisladas; quiero que veáis la arquitectura que acabamos de contar.
+Antes de entrar en nodos, recorro el flujo como una historia: entra una referencia, la valido, pregunto a una fuente, normalizo y devuelvo un contrato propio.
+Primero, el Webhook. Es nuestra puerta. Recibimos una referencia.
+Segundo, la validación. Antes de llamar fuera, comprobamos que el formato mínimo tiene sentido. Es mejor rechazar datos malos antes de gastar llamadas.
+Tercero, el HTTP Request. Éste es el adaptador que habla con Catastro.
+Cuarto, la transformación. Cogemos la respuesta externa y la convertimos a nuestro formato.
+Mientras ejecuto, fijaos en que n8n nos deja ver entradas y salidas de cada nodo. Eso es trazabilidad técnica. Si algo sale mal, sabemos en qué frontera ocurrió.
+Ahora provoco un error con una referencia incorrecta. Esto no es una molestia: es parte del diseño. Un sistema se define tanto por su camino feliz como por lo que hace cuando el mundo exterior responde mal.`,
+ notes:`Si Catastro no responde: usa el CSV demo y dilo en voz alta — "esto es exactamente por qué tenemos un adaptador".`},
+
+{day:1,blk:'H3 · Catastro',type:'chat',min:1,q:'Si una API devuelve 400, ¿la reintentarías?',hint:'Sí o no en el chat.',opts:['Sí','No'],
+ script:`Pregunta rápida al chat: si una API devuelve un 400, ¿la reintentaríais? Sí o no.
+La respuesta es no. Un 400 significa que la petición está mal. Repetirla diez veces solo produce diez errores más disciplinados. Un 500 temporal, en cambio, sí puede merecer un reintento con espera.
+Ya hemos cruzado una frontera importante: HTTP, parámetros, respuesta, JSON, normalización y gestión de error. La siguiente pregunta es inevitable: cuando obtenemos esos datos, ¿dónde los guardamos, y cómo impedimos que un usuario vea datos que no le corresponden?`},
+
+{day:1,blk:'H4 · Datos',type:'section',min:1,num:'H4',st:'Base de datos, seguridad y estado',ss:'Una base de datos no es un cajón.',seed:27,
+ script:`Cuarta hora, la última de hoy: datos, seguridad y estado.`},
+
+{day:1,blk:'H4 · Datos',type:'html',min:8,title:'Una base de datos no es un Excel grande',sub:'Representa entidades relacionadas, aplica reglas y consulta de forma consistente.',
+ html:`<div style="display:grid;grid-template-columns:1fr 120px 1fr;align-items:center;gap:0">
+ <div class="mock"><div class="mh">study_zones</div><div class="mb" style="font-family:var(--mono);font-size:20px;line-height:1.9"><div><b style="color:var(--teal)">id</b> <span style="color:var(--muted)">· clave primaria</span></div><div>name</div><div>owner_id</div><div>status</div></div></div>
+ <div class="arrow" style="width:auto;font-size:48px">←</div>
+ <div class="mock"><div class="mh">parcels</div><div class="mb" style="font-family:var(--mono);font-size:20px;line-height:1.9"><div><b style="color:var(--teal)">id</b> <span style="color:var(--muted)">· clave primaria</span></div><div><b style="color:var(--orange)">study_zone_id</b> <span style="color:var(--muted)">· clave foránea</span></div><div>cadastral_ref</div><div>parcel_area_m2</div></div></div></div>
+ <div class="callout" style="font-size:32px">Una clave identifica. La otra relaciona.<small>“Dame todas las parcelas del estudio X” es una pregunta natural para una base de datos relacional.</small></div>`,
+ script:`Una base de datos no es simplemente una hoja de cálculo grande. Nos permite representar entidades relacionadas, aplicar reglas y consultar información de forma consistente.
+En PARCELAPP tenemos estudios, parcelas, scores, relaciones de vecindad e informes. Cada cosa tiene identidad.
+Una fila de study_zones representa un estudio. Una fila de parcels representa una parcela capturada dentro de un estudio.
+La clave primaria identifica de forma única una fila. La clave foránea conecta una fila con otra. Por ejemplo, parcels.study_zone_id apunta al estudio al que pertenece. Esa relación nos permite preguntar: dame todas las parcelas del estudio X.
+La base de datos es la memoria del producto. Si cerramos n8n, reiniciamos el navegador o falla una integración, el estado importante sigue ahí.`},
+
+{day:1,blk:'H4 · Datos',type:'cards',min:7,title:'Modelo de datos mínimo',sub:'Persistimos hechos, reglas y resultados por separado.',ncols:5,
+ cards:[{t:'study_zones',d:'zona y criterios',c:'cyan'},{t:'parcels',d:'dato normalizado',c:'lime'},{t:'parcel_scores',d:'resultado versionado',c:'orange'},{t:'parcel_neighbours',d:'relaciones',c:'teal'},{t:'reports',d:'salida ejecutiva',c:'slate'}],
+ band:{k:'Tres columnas que marcan la diferencia',v:'source + fetched_at + raw_snapshot   ·   rules_version + breakdown   ·   status'},
+ script:`Este es el modelo mínimo de PARCELAPP. Cinco tablas.
+study_zones guarda el estudio y sus criterios. parcels, el dato normalizado de cada parcela. parcel_scores, el resultado del score, versionado. parcel_neighbours, las relaciones de vecindad. Y reports, la salida ejecutiva.
+Fijaos en que el score no vive dentro de la tabla de parcelas. Separamos hechos, reglas y resultados.
+Y hay tres grupos de columnas que marcan la diferencia entre una demo y un producto. Fuente: source, fetched_at y raw_snapshot. Regla: rules_version y breakdown. Y estado: status.`},
+
+{day:1,blk:'H4 · Datos',type:'flow',min:5,title:'¿Por qué guardar el snapshot?',sub:'Porque “lo vi ayer” no es trazabilidad.',
+ steps:[{t:'Catastro',d:'respuesta externa, tal cual'},{t:'Normalizado',d:'nuestro contrato'},{t:'Score v1.0',d:'resultado'}],
+ callout:'Mañana podemos ejecutar el score v1.1 sobre el dato guardado.',calloutSmall:'Comparar, explicar por qué cambió y no volver a pedir nada a Catastro.',
+ script:`Una decisión que quiero subrayar: guardar no solo el dato transformado, sino también su procedencia. source, fetched_at y, cuando tenga sentido, raw_snapshot: la respuesta original tal cual llegó.
+¿Por qué? Porque mañana un técnico puede preguntar por qué el sistema mostró un valor. Si solo conservamos el resultado final, no podemos reconstruir la historia. Si guardamos la captura y la fecha, tenemos una pista de auditoría.
+Esto también nos permite reprocesar. Si cambiamos el scoring, no tenemos que volver a pedir a Catastro todas las parcelas: recalculamos con los datos que ya capturamos.
+En software empresarial, poder explicar de dónde sale un dato vale mucho. Y cuando añadimos IA, vale todavía más.`},
+
+{day:1,blk:'H4 · Datos',type:'html',min:8,title:'Autenticación no es autorización',sub:'RLS impide que “estar logueado” signifique “verlo todo”.',
+ html:`<div style="display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:26px;align-items:center">
+ <div class="card" style="text-align:center;border-left-color:var(--lime)"><h3>Usuario A</h3><p>auth.uid() = A</p><p style="font-size:60px;color:var(--teal);margin-top:10px">✓</p><p>ve sus estudios</p></div>
+ <div class="mock"><div class="mh">study_zones</div><div class="mb" style="font-family:var(--mono);font-size:21px;line-height:2"><div>Estudio norte · <b style="color:var(--teal)">owner A</b></div><div>Estudio puerto · <b style="color:var(--teal)">owner A</b></div><div style="color:#9AA7B6">Estudio sur · owner B</div></div></div>
+ <div class="card" style="text-align:center;border-left-color:var(--red)"><h3>Usuario B</h3><p>auth.uid() = B</p><p style="font-size:60px;color:var(--red);margin-top:10px">✕</p><p>no ve los de A</p></div></div>
+ <pre class="code" style="margin-top:34px"><span class="c">using</span> (owner_id = auth.uid())
+<span class="c">with check</span> (owner_id = auth.uid())</pre>`,
+ script:`Autenticación responde a quién eres. Autorización responde a qué puedes hacer. Son cosas distintas.
+Supabase gestiona el login y nos da la identidad del usuario. Pero que alguien esté autenticado no significa que deba leer todos los estudios de todos los clientes.
+Para eso usamos Row Level Security, RLS: reglas que aplica la propia base de datos, fila a fila. Aquí la regla es: solo ves y solo escribes filas cuyo owner_id coincide con tu identidad.
+Esto es mucho más robusto que confiar en que el frontend esconda un botón.
+Regla para toda la vida: ocultar algo en la interfaz no es seguridad. La seguridad debe vivir en el lado que controla los datos.`},
+
+{day:1,blk:'H4 · Datos',type:'html',min:5,title:'El mundo externo tarda y falla',sub:'Por eso modelamos estados.',
+ html:`<div class="states"><div class="stt">pending</div><div class="arrow">→</div><div class="stt" style="border-color:var(--cyan)">running</div><div class="arrow">→</div><div class="stt" style="border-color:var(--lime)">completed</div><div class="stt" style="border-color:var(--amber)">partial</div><div class="stt" style="border-color:var(--red)">failed</div></div>
+ <div class="callout">La interfaz no espera “mágicamente”.<small>Lee el estado y muestra progreso o error. El usuario no se queda mirando un spinner eterno.</small></div>`,
+ script:`Supongamos que analizar una zona tarda treinta segundos. Si el navegador se queda esperando una única petición durante todo ese tiempo, acoplamos la experiencia del usuario a un proceso externo lento.
+La alternativa: crear el estudio con estado pending, devolver inmediatamente el identificador y lanzar el trabajo. n8n procesa, va guardando resultados y finalmente marca completed, partial si algunas parcelas fallaron, o failed.
+La interfaz no espera mágicamente. Consulta el estado y muestra el progreso o el error.`},
+
+{day:1,blk:'H4 · Datos',type:'code',min:5,title:'Idempotencia',sub:'Repetir no debe multiplicar parcelas como gremlins.',
+ code:`<span class="c">UNIQUE</span> (study_zone_id, cadastral_ref)
+
+<span class="m">-- clave de operación</span>
+key = study_zone_id + refcat + rules_version`,
+ side:[{h:'Caso',t:'El webhook recibe la misma referencia dos veces por un reintento.',c:'orange'},{h:'Deseado',t:'Actualizar el registro existente (upsert). Nunca dos filas.',c:'lime'},{h:'Idea',t:'Los reintentos son parte del diseño, no una anomalía.',c:'cyan'}],
+ script:`Y aparece una palabra rara: idempotencia. Significa poder repetir una operación sin duplicar su efecto.
+Si por un reintento ejecutamos dos veces la misma orden, no queremos dos parcelas iguales, ni dos estudios idénticos, ni tres correos.
+La solución es diseñar una clave que reconozca la misma operación. En la base de datos, una restricción única por estudio y referencia. Y al escribir, un upsert: si ya existe, se actualiza; si no, se crea.
+En una demo quizá todo funcione a la primera. En el mundo real hay redes lentas, usuarios que hacen doble clic y servicios que contestan tarde. Los reintentos son parte del diseño.`},
+
+{day:1,blk:'H4 · Datos',type:'demo',min:11,tool:'Supabase',title:'PARCELAPP ya tiene memoria',ds:'Demo B · Hilo vibe coding 3 de 6',
+ steps:['Lanza el prompt de Supabase en Lovable (tarda: mientras, abre Supabase).','Table Editor: study_zones y parcels. “Una identifica, la otra relaciona”.','Enseña source y fetched_at: “el dato tiene procedencia y tiempo”.','Enseña la política RLS. “Ocultar una pantalla no protege datos”.','Enseña la columna status y conéctala con procesos largos de n8n.','Vuelve a Lovable: la app ya pide login y lee de Supabase. La UI es la misma.'],
+ prompt:P3,
+ script:`Ahora abro Supabase. No quiero que memoricéis SQL. Quiero que reconozcáis las entidades.
+Mientras Lovable conecta la base de datos con el prompt que os enseño, recorremos el esquema.
+Aquí study_zones. Aquí parcels. Fijaos en la relación. Aquí parcel_scores.
+Aquí source y fetched_at: cada dato tiene procedencia y tiempo.
+Ahora os muestro RLS. La base de datos participa en la seguridad.
+Y por último la columna status: pending, running, completed, partial, failed. Será esencial cuando n8n haga trabajo en segundo plano.
+Volvemos a Lovable: la app ya pide login y lee de Supabase. Y la interfaz es la misma que antes, porque solo hemos cambiado el repositorio. Esto es lo que ganamos ordenando capas en la segunda hora.`},
+
+{day:1,blk:'Cierre día 1',type:'quote',tone:'dark',min:10,
+ text:'Hoy hemos decidido dónde vive cada pieza. Mañana la IA escribe las piezas.',
+ small:'Interfaz, lógica, datos y conexiones · capas y adaptadores · HTTP y normalización · estado, RLS e idempotencia.',
+ script:`Cerramos el primer día.
+Empezamos con cuatro cajas: interfaz, lógica, datos y conexiones. Las hemos colocado en una arquitectura: la interfaz muestra, el dominio decide, la base de datos recuerda y n8n coordina.
+Hemos visto una integración real con Catastro, y por qué normalizamos lo que llega.
+Y hemos dado memoria a la aplicación, con seguridad fila a fila, estados para procesos lentos e idempotencia para los reintentos.
+Mañana cambiamos de marcha. Vamos a usar IA para escribir código, pero con todo lo de hoy como mapa. Vais a ver la diferencia entre pedirle a una IA hazme una app y dirigirla como a un desarrollador rapidísimo que necesita contexto.
+Y veremos el corazón de PARCELAPP: un score que se puede explicar punto a punto, y un preestudio que la IA redacta sin inventar nada.
+Gracias por la atención y nos vemos mañana.`},
+
+/* ------------------------------ DÍA 2 ------------------------------ */
+{day:2,blk:'Apertura día 2',type:'cover',min:1,dayLabel:'Día 2',dayTitle:'Construirlo con IA',
+ title:'PARCELAPP', lead:'Vibe coding y arquitectura de software', meta:'Ayer decidimos dónde vive cada pieza. Hoy la IA escribe las piezas.',
+ script:`Buenas tardes de nuevo. Segundo día.
+Ayer entendimos el sistema. Hoy lo construimos con IA.`,
+ notes:`ANTES DE ENTRAR: proyecto Lovable del día 1 abierto, scoring_rules.json, n8n con el workflow de preestudio, preestudio de respaldo ya generado.`},
+
+{day:2,blk:'Apertura día 2',type:'cols',min:7,title:'Ayer, en seis ideas',sub:'Lo que necesitamos tener fresco para hoy.',ncols:2,
+ cols:[{h:'El sistema',c:'cyan',items:['Una app = interfaz + lógica + datos + conexiones','Interfaz muestra, dominio decide, BD recuerda, n8n coordina','Catastro es una fuente, no el producto']},{h:'Lo que lo hace serio',c:'lime',items:['Normalizamos a un contrato propio','source + fetched_at + snapshot','RLS, estados e idempotencia']}],
+ script:`Repaso en seis ideas.
+Una: una aplicación son cuatro cajas: interfaz, lógica, datos y conexiones.
+Dos: la interfaz muestra, el dominio decide, la base de datos recuerda y n8n coordina.
+Tres: Catastro es una fuente externa, no el corazón del producto.
+Cuatro: todo lo que llega de fuera se normaliza a un contrato nuestro.
+Cinco: cada dato guarda de dónde viene y cuándo lo obtuvimos.
+Seis: la seguridad vive en la base de datos con RLS, los procesos lentos tienen estado y los reintentos no duplican nada.
+Y el estado de PARCELAPP: tenemos un esqueleto en Lovable, ordenado en capas y conectado a Supabase con login. Hoy le ponemos cerebro.`},
+
+{day:2,blk:'Apertura día 2',type:'agenda',min:2,title:'Hoy, en cuatro horas',sub:'De “hazme una app” a desarrollo guiado.',
+ rows:[['0:10','H5 · Vibe coding profesional','55 min'],['1:05','H6 · Lógica de negocio y scoring explicable','50 min'],['1:55','Pausa','15 min','pause'],['2:10','H7 · n8n + IA con datos verificados + preestudio','55 min'],['3:05','H8 · De demo a producto, demo comercial y TFM','55 min']],
+ script:`La tarde de hoy.
+Primero, vibe coding profesional: cómo dirigir a la IA.
+Segundo, el scoring: reglas deterministas, explicables y configurables.
+Pausa.
+Tercero, n8n con IA y el preestudio.
+Y cuarto, cómo pasar de demo a producto, cómo hacer una demo comercial de tres minutos y cómo llevar todo esto a vuestro TFM.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'section',min:1,num:'H5',st:'Vibe coding con intención',ss:'La IA escribe código. Tú defines el sistema.',seed:33,
+ script:`Quinta hora: vibe coding profesional.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'cols',min:7,title:'Qué es y qué no es vibe coding',sub:'Un desarrollador extremadamente rápido que necesita contexto, límites y revisión.',ncols:2,
+ cols:[{h:'No es',c:'red',items:['Escribir una frase vaga y aceptar todo','Apostar el repositorio a un prompt de tres líneas','Aceptar código que no entendemos']},{h:'Sí es',c:'lime',items:['Dar contexto, arquitectura y límites','Iterar con cambios pequeños','Revisar qué cambió y por qué','Seguir siendo responsables de las decisiones']}],
+ script:`Vibe coding no debería significar escribir una frase vaga y aceptar todo lo que salga. Eso sirve para prototipos muy pequeños.
+En un proyecto serio, usamos la IA como un desarrollador extremadamente rápido que necesita contexto, límites y revisión.
+Un modelo puede producir código correcto localmente y aun así tomar una mala decisión global. Puede duplicar lógica, crear una tabla innecesaria, poner una clave secreta en el frontend o inventarse una API.
+Por eso la arquitectura de ayer no era teoría decorativa. Es el mapa que usamos para dirigir al agente.
+La IA acelera la escritura. Nosotros seguimos siendo responsables de los requisitos, la estructura, las pruebas y las decisiones que afectan al negocio.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'flow',min:6,title:'Un buen prompt de desarrollo tiene estructura',sub:'Contexto antes que “hazme una app guapa”.',
+ steps:[{t:'Objetivo',d:'qué cambia'},{t:'Contexto',d:'qué existe ya'},{t:'Contrato',d:'entradas y salidas'},{t:'Límites',d:'qué no tocar'},{t:'Criterios',d:'cómo sé que acaba'}],
+ callout:'Antes de tocar código:',calloutSmall:'1) enumera los archivos afectados · 2) explica el plan · 3) espera aprobación si cambia varias capas.',
+ script:`Un prompt de desarrollo debería decir al menos cinco cosas.
+Objetivo: qué funcionalidad queremos.
+Contexto: qué existe ya y dónde debe vivir.
+Contrato: qué entra y qué sale.
+Límites: tecnologías, seguridad, cosas prohibidas.
+Criterios de aceptación: cómo sabremos que está terminado.
+Y una costumbre que ya visteis ayer: antes de tocar código, que enumere los archivos afectados, explique el plan y espere aprobación si el cambio toca varias capas.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'cols',min:6,title:'El mismo encargo, dos prompts',sub:'El segundo reduce grados de libertad. No limita la creatividad útil.',ncols:2,
+ cols:[{h:'Malo',c:'red',items:['“Hazme un dashboard de parcelas”']},{h:'Mucho mejor',c:'lime',items:['Crea una pantalla de ranking','que lea parcelas desde el repositorio','sin llamar directamente a Catastro','que muestre score y motivos','con estados de carga, error y vacío','y sin lógica de scoring en componentes React']}],
+ script:`Os pongo el mismo encargo con dos prompts.
+Malo: hazme un dashboard de parcelas.
+Mucho mejor: crea una pantalla de ranking que lea parcelas desde el repositorio, que no llame directamente a Catastro, que muestre score y motivos, que tenga estados de carga, error y vacío, y que no contenga lógica de scoring en componentes React.
+El segundo prompt reduce grados de libertad. No limita la creatividad útil: evita que el agente improvise sobre decisiones que ya hemos tomado.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'code',min:7,title:'AGENTS.md: reglas que viajan con el proyecto',sub:'Le damos al agente un mapa, no una adivinanza.',
+ code:`<span class="c"># Arquitectura</span>
+- domain: scoring puro, validaciones, tipos
+- application: casos de uso
+- infrastructure: Supabase, n8n, Catastro
+- ui: componentes
+
+<span class="c"># Reglas</span>
+- Validar con Zod todo lo que entra de fuera
+- Ningún secreto en el frontend
+- Score determinista y versionado
+- Todo dato externo lleva source + fetched_at
+- Nunca afirmar edificabilidad ni viabilidad`,
+ side:[{h:'Qué es',t:'Un archivo en el repositorio que el agente lee en cada tarea.',c:'cyan'},{h:'Ventaja',t:'Menos repetición, menos deriva y revisiones más fáciles.',c:'lime'},{h:'Para el TFM',t:'Documenta decisiones: se defiende solo.',c:'orange'}],
+ script:`Además del prompt puntual, queremos reglas persistentes del proyecto. Para eso usamos un AGENTS.md o las reglas equivalentes de cada herramienta.
+Ahí dejamos escrito: la arquitectura por capas, validar lo que entra de fuera, ningún secreto en el frontend, scoring determinista, APIs detrás de adaptadores, todo dato externo con su fuente y fecha, y los límites de lo que la app puede afirmar.
+Cada nueva tarea hereda ese contexto. Si cada prompt vuelve a explicar toda la arquitectura, perdemos tiempo y aumentamos las inconsistencias.
+El repositorio debe contarle al agente cómo queremos trabajar.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'cards',min:3,title:'Pantallas del MVP',sub:'Solo las necesarias para demostrar el ciclo completo.',ncols:3,
+ cards:[{t:'Dashboard',d:'KPIs y estudios',c:'cyan'},{t:'Nuevo estudio',d:'criterios y referencias',c:'cyan'},{t:'Resultados',d:'ranking y filtros',c:'cyan'},{t:'Detalle',d:'fuente y score',c:'lime'},{t:'Comparador',d:'hasta 3 parcelas',c:'cyan'},{t:'Preestudio',d:'salida ejecutiva',c:'orange'}],
+ script:`Estas son las pantallas del MVP. Seis. Solo las necesarias para demostrar el ciclo completo: dashboard, nuevo estudio, resultados, detalle, comparador y preestudio.
+Ya tenemos dashboard, resultados y detalle con datos de Supabase. Hoy añadimos nuevo estudio, el score real en el detalle y el preestudio.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'mock',min:3,title:'Una interfaz que vende la idea',sub:'El dashboard debe contar el proceso en 10 segundos.',
+ side:[{t:'1 · Cantidad analizada',d:'Lo que hemos revisado.',c:'cyan'},{t:'2 · Candidatas',d:'Lo que pasa el filtro.',c:'lime'},{t:'3 · Mejores + mapa',d:'Dónde mirar primero.',c:'orange'}],
+ script:`Un detalle de producto: el dashboard debe contar el proceso en diez segundos.
+Primero, cuánto hemos analizado. Segundo, cuántas pasan el filtro. Tercero, las mejores y dónde están.
+Un director de Estudios que abre esto entiende el valor sin que le expliquemos nada.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'code',min:5,title:'La interfaz no conoce Catastro',sub:'Conoce un contrato propio.',
+ code:`<span class="c">type</span> Parcel = {
+  refcat: string;
+  parcelAreaM2: number | null;
+  constructedAreaM2: number | null;
+  occupancyRatio: number | null;
+  mainUse: string | null;
+  constructionYear: number | null;
+  source: "catastro";
+  fetchedAt: string;
+}`,
+ side:[{h:'Fijaos en null',t:'Un dato puede faltar. El tipo lo dice en voz alta.',c:'orange'},{h:'Si Catastro cambia',t:'Arreglas el adaptador, no 14 componentes.',c:'lime'}],
+ script:`Así es el contrato que conoce la interfaz: un tipo Parcel.
+Fijaos en dos cosas. Primera: muchos campos pueden ser null. Un dato puede faltar, y el tipo lo dice en voz alta; eso obliga a la interfaz y al score a decidir qué hacer cuando falta.
+Segunda: la interfaz no sabe nada de cómo llama Catastro a sus campos. Si mañana Catastro cambia su formato, arreglamos el adaptador, no catorce componentes.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'demo',min:13,tool:'Lovable',title:'Nueva funcionalidad: “Nuevo estudio”',ds:'Demo C · Hilo vibe coding 4 de 6',
+ steps:['Lee el prompt por secciones: objetivo, contrato, arquitectura, límites, UI.','Lánzalo. Mientras genera: “el valor no está en la espera, está en el contexto que le hemos dado”.','Revisa el plan que propone ANTES de aprobar.','Revisa el resultado: ¿validación en domain? ¿escritura en el repositorio? ¿estados de carga, error y vacío?','Pide un cambio pequeño (p. ej. mensaje de error más claro) y enseña el diff.','Prueba con una referencia inválida pegada en el textarea.','Si falla: error exacto → hipótesis → corrección mínima. No lo escondas.'],
+ prompt:P4,
+ script:`Vamos a generar una funcionalidad nueva en PARCELAPP: la pantalla Nuevo estudio.
+Os leo el prompt por secciones. Objetivo: qué hace el usuario. Contrato: cómo validamos las referencias. Arquitectura: dónde vive cada cosa. Límites: nada de Catastro desde React, nada de service_role, no tocar el scoring. Y la interfaz con sus estados.
+Lo lanzo. Mientras genera, fijaos en que el valor no está en la espera sino en el contexto que le hemos dado.
+Cuando termina no pulso aceptar mentalmente y sigo. Reviso. ¿Dónde ha puesto la validación? ¿Ha metido lógica en un componente? ¿Maneja la carga y el error? ¿Qué pasa si pego una referencia mal escrita?
+Después hago un cambio pequeño y os enseño el diff: qué archivos cambió y qué líneas. Cambios pequeños son cambios auditables.`},
+
+{day:2,blk:'H5 · Vibe coding',type:'cards',min:4,title:'Tres errores clásicos',sub:'Y cómo salir de ellos.',ncols:3,
+ cards:[{t:'Pedir demasiado',d:'Un paso enorme es imposible de revisar.',c:'red'},{t:'Aceptar lo que no entiendes',d:'Mañana no sabrás arreglarlo.',c:'red'},{t:'Parchear sobre parches',d:'Hasta que nadie sabe qué ocurre.',c:'red'}],
+ band:{k:'Cuando el agente falla',v:'Error exacto + archivo exacto + comportamiento esperado. Primero diagnóstico, después un cambio pequeño.'},
+ script:`Tres errores clásicos.
+Uno: pedir demasiado en un solo paso.
+Dos: aceptar código que no entendemos.
+Tres: arreglar un bug añadiendo parches hasta que nadie sabe qué ocurre.
+Cuando el agente falla, volvemos a hechos: error exacto, archivo exacto y comportamiento esperado. Pedimos primero un diagnóstico y después un cambio pequeño. Y comprobamos el diff.
+En la siguiente hora entramos en el corazón de PARCELAPP: las reglas que convierten datos en una puntuación. Ahí se ve clarísimo por qué la lógica de negocio no debe depender de la IA generativa.`},
+
+{day:2,blk:'H6 · Scoring',type:'section',min:1,num:'H6',st:'Scoring explicable',ss:'Las reglas deciden. La IA explica.',seed:41,
+ script:`Sexta hora: el scoring.`},
+
+{day:2,blk:'H6 · Scoring',type:'quote',tone:'light',min:6,
+ text:'Un 87 no significa “esta parcela es buena”.',
+ small:'Significa: según este conjunto de criterios y pesos, esta parcela merece más atención que otras.',
+ script:`Un score de 87 no significa esta parcela es buena. Significa: según este conjunto de criterios y pesos, esta parcela merece más atención que otras.
+Esa diferencia es esencial.
+Podemos asignar puntos por superficie, baja ocupación construida, antigüedad, uso y presencia de vecinos candidatos. Pero esos pesos son una decisión de negocio. Una promotora residencial y una constructora industrial valoran cosas diferentes.
+Por eso el score debe ser explicable y configurable. Si un técnico ve 87, debería poder abrir el detalle y leer de dónde salen esos 87 puntos. Nada de caja negra misteriosa.`},
+
+{day:2,blk:'H6 · Scoring',type:'weights',min:5,title:'Score de 0 a 100',sub:'Un ranking interno y configurable.',
+ items:[[25,'Superficie','#A3E635'],[25,'Baja ocupación','#22C3DE'],[20,'Antigüedad','#F7913D'],[15,'Uso','#0F7A6E'],[15,'Vecinos','#8391A2']],
+ script:`Así reparte PARCELAPP los cien puntos en su versión de demostración.
+Veinticinco por superficie. Veinticinco por baja ocupación construida. Veinte por antigüedad. Quince por uso. Y quince por tener vecinos que también son candidatos.
+Estos pesos no son una verdad matemática. Son una decisión de negocio que el cliente puede cambiar.`},
+
+{day:2,blk:'H6 · Scoring',type:'code',min:7,title:'Una función pura',sub:'Misma entrada + mismas reglas = mismo resultado.',
+ code:`calculateOpportunityScore(parcel, rules)
+<span class="m">→</span> {
+  total: 82,
+  breakdown: { area: 25, occupancy: 25,
+               age: 12, use: 12, neighbours: 8 },
+  reasons: [ ... ],
+  warnings: [ ... ]
+}`,
+ side:[{h:'Testable',t:'Sin red, sin Supabase, sin IA.',c:'lime'},{h:'Explicable',t:'El usuario ve qué regla sumó cada punto.',c:'cyan'},{h:'Estable',t:'Cambiar la interfaz o n8n no cambia el cálculo.',c:'orange'}],
+ script:`Os presento un concepto de programación muy útil: función pura.
+Le damos unos datos y unas reglas y devuelve siempre el mismo resultado. No llama a Catastro, no manda correos, no escribe en la base de datos.
+calculateOpportunityScore recibe la parcela y las reglas, y devuelve el total, el desglose, las razones y los avisos.
+Esto la hace fácil de probar: le pasamos una parcela ficticia y comprobamos que devuelve lo esperado. Si mañana cambiamos la interfaz o n8n, el cálculo no cambia.
+La IA puede ayudarnos a escribir esta función, pero el resultado no depende de que un modelo opine. Es matemática y reglas. Esto es exactamente lo que debe vivir en el dominio.`},
+
+{day:2,blk:'H6 · Scoring',type:'html',min:6,title:'Los bordes rompen sistemas',sub:'Prueba 1.499 y 1.500, no solo 5.000.',
+ html:`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:10px">
+ ${[['1.499 m²','0 puntos','red'],['1.500 m²','8 puntos','orange'],['2.500 m²','16 puntos','cyan'],['5.000 m²','25 puntos','lime']].map(x=>`<div class="card" style="border-left:none;border-top:9px solid ${C[x[2]]};text-align:center;padding:36px 16px"><h3 style="font-size:40px">${x[0]}</h3><p style="font-size:28px;font-weight:700;color:var(--text)">${x[1]}</p></div>`).join('')}</div>
+ <div class="callout">¿Y si falta la superficie?<small>Ausente no es cero, y nunca puntúa como favorable. La regla no suma y deja un aviso.</small></div>`,
+ script:`Los sistemas se rompen en los bordes.
+¿Qué pasa con 1.499 metros? Cero puntos. ¿Y con 1.500? Ocho. Justo ahí es donde aparecen los errores de mayor o igual contra mayor estricto.
+¿Qué pasa si la superficie construida es cero? ¿Y si falta el año de construcción? ¿Y si Catastro devuelve un uso que nunca hemos visto?
+No queremos que la aplicación convierta un dato desconocido en cero silenciosamente. Desconocido y cero no significan lo mismo.
+Por eso definimos políticas: si falta el año, esa regla no puntúa y añadimos un aviso. El desglose devuelve no solo puntos, también motivos y avisos. Eso luego alimenta la interfaz y el preestudio.`},
+
+{day:2,blk:'H6 · Scoring',type:'html',min:5,title:'Un score sin explicación es una caja negra barata',sub:'PARCELAPP enseña el desglose.',
+ html:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start">
+ <div class="mock"><div class="mh">Parcela demo <span>rules 1.0-demo</span></div><div class="mb">
+ <div style="font-size:64px;font-weight:800;letter-spacing:-.03em">82<span style="font-size:30px;color:var(--muted)"> / 100</span></div>
+ <div style="font-size:24px;line-height:1.9;margin-top:6px">${[['+25','Superficie'],['+25','Baja ocupación'],['+12','Antigüedad'],['+12','Uso'],['+8','Vecinos']].map(r=>`<div><b style="color:var(--teal);display:inline-block;width:70px">${r[0]}</b>${r[1]}</div>`).join('')}</div></div></div>
+ <div><div class="card" style="border-left-color:var(--lime);margin-bottom:22px"><h3>Razón</h3><p>Cumple el umbral de superficie y tiene baja ocupación construida.</p></div>
+ <div class="card" style="border-left-color:var(--orange)"><h3>Límite</h3><p>Requiere comprobar planeamiento, propiedad, cargas y viabilidad.</p></div></div></div>`,
+ script:`Un score sin explicación es una caja negra barata.
+PARCELAPP enseña el desglose: veinticinco por superficie, veinticinco por baja ocupación, doce por antigüedad, doce por uso y ocho por vecinos. Ochenta y dos.
+Debajo, la versión de reglas que lo produjo.
+Al lado, la razón en lenguaje humano y, muy importante, el límite: lo que hay que comprobar antes de tomar ninguna decisión.`},
+
+{day:2,blk:'H6 · Scoring',type:'code',min:7,title:'La personalización es el producto',sub:'Los criterios pertenecen a la empresa.',
+ code:`{
+  "rules_version": "1.1-constructora-a",
+  "min_area": 2500,
+  "max_occupancy": 0.35,
+  "preferred_uses": ["INDUSTRIAL", "SOLAR"],
+  "min_score": 70
+}`,
+ side:[{h:'Constructora A',t:'Suelo industrial grande y poco ocupado.',c:'cyan'},{h:'Promotora B',t:'Otros pesos, otras fuentes.',c:'orange'},{h:'Condición',t:'Versionar siempre: score + breakdown + rules_version.',c:'lime'}],
+ script:`Aquí aparece el verdadero producto comercial. No vendemos un score universal. Vendemos un motor de criterios configurable según cómo trabaja cada cliente.
+Cliente A busca parcelas grandes y poco ocupadas. Cliente B prioriza agrupaciones contiguas. Cliente C tiene un umbral mínimo distinto. Mismo motor, reglas distintas.
+Las reglas se guardan como configuración. Pero con una condición: versionarlas. Si hoy una parcela obtiene 82 con la versión 3 y mañana 71 con la versión 4, debemos saber por qué.
+Esto convierte una demo simpática en software empresarial defendible.`},
+
+{day:2,blk:'H6 · Scoring',type:'demo',min:12,tool:'Lovable',title:'El score de verdad, con tests',ds:'Demo D · Hilo vibe coding 5 de 6',
+ steps:['Lanza el prompt del score.','Mientras genera, abre scoring_rules.json y explica cada peso como decisión de negocio.','Enseña los tests que ha creado: 1499, 1500, 2500, 5000 y ausente.','Abre el detalle de una parcela: breakdown + rules_version.','Cambia un peso en scoring_rules.json, sube la versión y enseña cómo cambia el ranking.','Remata: “no he tocado la interfaz ni la integración con Catastro, solo configuración de negocio”.'],
+ prompt:P5,
+ script:`Le pedimos a Lovable la función del score. Fijaos en lo que exige el prompt: función pura, pesos, umbrales, qué hacer con los datos ausentes, tests de los bordes y mostrar el desglose.
+Mientras genera, abro el archivo de reglas. Cada peso es una decisión de negocio, no una verdad matemática.
+Aquí están los tests: 1.499, 1.500, 2.500, 5.000 y superficie ausente.
+Ahora cambio el peso de superficie y el de vecinos, subo la versión y recalculo. Mirad cómo cambia el ranking.
+No he tocado la interfaz ni la integración con Catastro. Solo he cambiado configuración de negocio. Ésta es la señal de una buena separación de responsabilidades.
+Y éste es el momento comercial: el cliente nos dice qué considera oportunidad, y nosotros parametrizamos el motor sin reconstruir la aplicación.`},
+
+{day:2,blk:'H6 · Scoring',type:'chat',min:1,q:'¿Quién decide que la parcela tiene un 82?',hint:'En el chat: las reglas o el modelo de IA.',opts:['Las reglas','El modelo de IA'],
+ script:`Pregunta al chat: ¿quién decide que la parcela tiene un 82, las reglas o el modelo de IA?
+Las reglas. Siempre. El modelo puede ayudarnos a escribir la función y a explicar el resultado, pero no decide la puntuación.
+Paramos quince minutos y al volver le damos a la IA su papel: explicar sin inventar.`},
+
+{day:2,blk:'Pausa',type:'break',min:15,mins:15,next:'H7 · n8n + IA + preestudio',
+ script:`Pausa de quince minutos.`},
+
+{day:2,blk:'H7 · n8n + IA',type:'section',min:1,num:'H7',st:'n8n, IA y preestudio',ss:'Automatizar sin regalarle el volante al modelo.',seed:47,
+ script:`Séptima hora: n8n como orquestador, IA y preestudio.`},
+
+{day:2,blk:'H7 · n8n + IA',type:'flow',min:7,title:'Workflow de producción',sub:'n8n orquesta el proceso externo.',
+ steps:[{t:'Webhook',d:'entrada'},{t:'Validar',d:'referencia'},{t:'Catastro',d:'HTTP'},{t:'Normalizar',d:'contrato'},{t:'Supabase',d:'upsert'},{t:'Responder',d:'estado'}],
+ callout:'Error externo → estado controlado.',calloutSmall:'Reintento → idempotencia. Respuesta original → trazabilidad.',
+ script:`Volvemos a n8n con una arquitectura mucho más clara.
+Su trabajo es coordinar pasos: recibir un estudio, validar, llamar al adaptador de Catastro, normalizar, guardar con upsert y responder con un estado.
+No queremos esconder reglas centrales en veinte nodos IF. Si la regla del score es crítica y la necesitan la interfaz, los tests y n8n, vive en código, en el dominio.
+n8n brilla cuando conecta sistemas y gobierna procesos. Es excelente para lo que cambia a menudo: correo, CRM, notificaciones, PDFs.
+El criterio no es n8n sí o no. El criterio es responsabilidad y coste de cambio.`},
+
+{day:2,blk:'H7 · n8n + IA',type:'cols',min:7,title:'Lotes, límites y reintentos',sub:'Más paralelismo no siempre significa más inteligencia.',ncols:3,
+ cols:[{h:'Mal',c:'red',items:['500 referencias','500 peticiones a la vez','API enfadada']},{h:'Mejor',c:'lime',items:['Prefiltro','Lotes controlados','Caché y reintento con espera']},{h:'Estado final',c:'cyan',items:['completed','partial: 980 bien, 20 fallidas','failed','Reanudar solo las 20']}],
+ script:`Si analizamos mil parcelas, no lanzamos mil peticiones simultáneas sin control. Trabajamos por lotes: de veinte, de cincuenta, lo que permita el servicio.
+Distinguimos reintentos. Un 500 temporal quizá merece reintento con espera. Un 400 no, ya lo vimos ayer.
+Añadimos tiempos máximos, límites de concurrencia y registro de fallos.
+Una ejecución puede terminar parcialmente: 980 parcelas procesadas y 20 fallidas. Un buen sistema reanuda esas 20 sin rehacer todo. Y el usuario sabe exactamente qué ocurrió.`},
+
+{day:2,blk:'H7 · n8n + IA',type:'code',min:9,title:'La IA recibe hechos, no libertad creativa',sub:'Grounding: responder apoyándose solo en lo suministrado.',
+ code:`{
+  "observed": { ...datos normalizados... },
+  "derived": { "score": 82, "occupancy": 0.12 },
+  "neighbours": [ ... ],
+  "pending_checks": [
+    "planeamiento", "propiedad", "cargas"
+  ]
+}`,
+ side:[{h:'Observado',t:'Viene de una fuente y un snapshot.',c:'cyan'},{h:'Derivado',t:'Fórmula conocida y reproducible.',c:'lime'},{h:'Pendiente',t:'No se inventa. Se señala para comprobar.',c:'orange'}],
+ script:`Ahora sí entra la IA generativa. Pero entra después de tener hechos estructurados.
+Le damos lo observado: superficie, construido, uso, antigüedad, con su fuente. Lo derivado: el score, el desglose, la ocupación. Los vecinos. Y lo pendiente de comprobar.
+Le pedimos un resumen con un esquema de salida concreto y le prohibimos inventar datos que no estén presentes. Esto se llama grounding: la respuesta se apoya en información suministrada.
+Si falta la edificabilidad, debe decir no disponible o requiere comprobación, no imaginar una cifra plausible.
+La IA es muy buena explicando y sintetizando. No necesitamos usarla para dividir 780 entre 6.245. Para eso ya existen las matemáticas desde hace un tiempo.`},
+
+{day:2,blk:'H7 · n8n + IA',type:'html',min:6,title:'El preestudio que vende la demo',sub:'Una salida ejecutiva, pero honesta.',
+ html:`<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:34px;align-items:start">
+ <div class="mock"><div class="mh">PARCELAPP · Preestudio <span>demo</span></div><div class="mb" style="padding:30px 34px">
+ <div style="font-size:40px;font-weight:800;letter-spacing:-.02em">Parcela demo · Score 82/100</div>
+ <div style="font-size:22px;color:var(--muted);margin:12px 0 22px">Superficie 6.245 m² · Construido 780 m² · Ocupación 12,5 %</div>
+ <div style="font-size:24px;font-weight:800;margin-bottom:6px">Razones de priorización</div>
+ <div style="font-size:22px;line-height:1.7;color:#3B4858">Baja ocupación construida<br>Antigüedad relevante<br>2 colindantes candidatas</div>
+ <div style="font-size:22px;font-weight:800;color:var(--orange);margin-top:20px">Pendiente: planeamiento, registro, cargas y viabilidad.</div></div></div>
+ <div><div class="card" style="border-left-color:var(--orange);margin-bottom:22px"><h3>Salida</h3><p>HTML, PDF, email o CRM según el proyecto.</p></div>
+ <div class="card" style="border-left-color:var(--cyan)"><h3>Traza</h3><p>Fecha de la fuente, versión de reglas y modelo usado.</p></div></div></div>`,
+ script:`El preestudio es la pieza que hace tangible todo el flujo.
+Un técnico abre una oportunidad y obtiene una ficha con los datos, el score, las razones, los vecinos y lo que queda por comprobar.
+Fijaos en la última línea, en naranja: pendiente de planeamiento, registro, cargas y viabilidad. Esa línea no resta valor: da confianza.
+El informe separa hechos, derivados y texto generado por IA. Y lleva su traza: fecha de la fuente, versión de reglas y modelo usado.
+Datos fuente, métricas calculadas, interpretación asistida. Ésa es la estructura.`},
+
+{day:2,blk:'H7 · n8n + IA',type:'html',min:4,title:'Vecinos + score = contexto',sub:'No “fusionamos parcelas”. Detectamos dónde mirar.',
+ html:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+ <div style="height:470px;border-radius:20px;overflow:hidden;border:1px solid var(--line)">${parcels({w:700,h:470,cols:5,rows:3,seed:21,hi:[2,7,12],dark:false,scores:{2:78,7:91,12:74}})}</div>
+ <div><div class="card" style="border-left-color:var(--lime);margin-bottom:22px"><h3>Parcela principal</h3><p>Score 91.</p></div>
+ <div class="card" style="border-left-color:var(--cyan);margin-bottom:22px"><h3>Colindantes</h3><p>Dos vecinas también superan el umbral interno.</p></div>
+ <div class="card" style="border-left-color:var(--orange)"><h3>Resultado</h3><p>Priorizar un análisis conjunto.</p></div></div></div>`,
+ script:`Las parcelas vecinas añaden contexto. Una parcela aislada puede ser interesante; tres candidatas contiguas pueden cambiar completamente la prioridad.
+Pero cuidado: detectar contigüidad no significa que podamos comprar, agrupar o construir. Seguimos hablando de una señal para estudiar.
+El resultado que proponemos no es fusionar parcelas. Es priorizar un análisis conjunto.`},
+
+{day:2,blk:'H7 · n8n + IA',type:'demo',min:21,tool:'n8n',title:'De principio a fin: del estudio al preestudio',ds:'Demo E · Hilo vibe coding 6 de 6',
+ steps:['Lanza el prompt del preestudio en Lovable (tarda: mientras, sigue con n8n).','Empieza desde PARCELAPP, no desde n8n: crea o abre un estudio.','Enseña el estado running: “la app no se bloquea”.','Salta a n8n solo para enseñar que el trabajo ocurre detrás.','Enseña el nodo de IA: el JSON de entrada con observed / derived / pending_checks y el prompt que prohíbe inventar.','Vuelve a la app: ranking, detalle, vecinos, motivos.','Pulsa Generar preestudio. Si tarda o falla: enseña el preestudio de respaldo.','Revisa en voz alta: ¿cada afirmación se puede rastrear a un dato o a una fórmula?','Cierra: “la tecnología desaparece y queda el flujo de trabajo del técnico”.'],
+ prompt:P6,
+ script:`Voy a recorrer el flujo completo.
+Empiezo desde PARCELAPP, no desde n8n, porque así lo vivirá el usuario. Creo un estudio. Fijaos en el estado: está procesando y la app no se bloquea.
+Salto a n8n solo un momento para que veáis que el trabajo ocurre detrás: obtenemos datos, normalizamos, persistimos, calculamos el score y buscamos vecinos.
+Aquí está el nodo de IA. Mirad lo que recibe: lo observado, lo derivado y lo pendiente. Y mirad el prompt: no puede inventar nada que no esté en ese JSON.
+Vuelvo a la app. Ranking, detalle, vecinos, motivos. Y genero el preestudio.
+Ahora lo reviso en voz alta, como haría un técnico: ¿puedo rastrear cada afirmación importante a un dato o a una fórmula?
+Ninguna herramienta por sí sola es PARCELAPP. El producto aparece por la coordinación: interfaz para trabajar, base de datos para recordar, dominio para decidir, n8n para orquestar, Catastro como fuente e IA para explicar.`,
+ notes:`Si la IA inventa algo en directo: ¡mejor! Úsalo: "esto es exactamente lo que hay que rechazar; por eso separamos observado / derivado / pendiente".`},
+
+{day:2,blk:'H8 · Producto',type:'section',min:1,num:'H8',st:'De demo a producto',ss:'Que funcione es el principio, no el final.',seed:53,
+ script:`Última hora. La pregunta más incómoda: ¿qué falta para que esto deje de ser una demo y parezca un producto que puedas enseñar a un cliente?`},
+
+{day:2,blk:'H8 · Producto',type:'cols',min:7,title:'La IA corre. Git pone las barandillas.',sub:'Más código generado exige más mecanismos de control, no menos.',ncols:3,
+ cols:[{h:'AGENTS.md',c:'cyan',items:['Arquitectura','Seguridad','Definición de terminado','Reglas persistentes']},{h:'Commits',c:'lime',items:['Pequeños','Revisables','Reversibles']},{h:'Diff',c:'orange',items:['¿Qué cambió?','¿Por qué?','¿Rompe capas?']}],
+ band:{k:'Regla',v:'Vibe coding sin revisión = velocidad para equivocarse.'},
+ script:`Hasta ahora hemos construido capacidad. Hardening significa reducir la probabilidad de que esa capacidad falle de forma peligrosa o imprevisible.
+Primero, Git. Cada cambio importante queda versionado. Podemos volver atrás, comparar y revisar.
+Segundo, las reglas del agente en AGENTS.md: convenciones, límites y arquitectura.
+Tercero, pruebas. El scoring, por ejemplo, con tests de casos conocidos.
+Cuarto, secretos. Nunca en el frontend ni dentro del repositorio.
+Quinto, entornos. Desarrollo no debería ser producción.
+La IA nos permite generar más código. Eso aumenta, no reduce, la necesidad de tener mecanismos de control.`},
+
+{day:2,blk:'H8 · Producto',type:'table',min:6,title:'Matriz de fallos',sub:'Una demo seria sabe qué hacer cuando algo falla.',
+ head:['Qué pasa si…','Respuesta del sistema'],
+ rows:[['La referencia es inválida','Rechazo inmediato con mensaje claro'],['Catastro no responde','Reintento con espera · estado partial'],['Falta un campo','Desconocido, no cero · aviso visible'],['Llega un duplicado','Upsert: nunca dos filas'],['Un usuario pide datos ajenos','RLS lo impide en la base de datos'],['La IA inventa','Se rechaza: grounding y validación del esquema']],
+ script:`Un producto profesional se diseña preguntando qué pasa si.
+¿Qué pasa si la referencia es inválida? Rechazo inmediato con un mensaje claro.
+¿Si Catastro no responde? Reintento con espera y estado parcial.
+¿Si falta un campo? Desconocido, no cero, con un aviso visible.
+¿Si llega un duplicado? Upsert.
+¿Si un usuario pide datos ajenos? RLS.
+¿Si la IA inventa? Se rechaza, porque tenemos grounding y validamos el esquema de salida.
+Cada riesgo tiene una detección y una respuesta.`},
+
+{day:2,blk:'H8 · Producto',type:'cards',min:5,title:'Observabilidad',sub:'Poder entender qué está ocurriendo sin jugar a la ouija con los logs.',ncols:3,
+ cards:[{t:'correlation_id',d:'Un identificador que sigue a un estudio por todo el sistema.',c:'cyan'},{t:'Estado + timestamps',d:'Qué pasó y cuándo, en la base de datos.',c:'lime'},{t:'Errores registrados',d:'Con el paso exacto donde ocurrieron.',c:'orange'}],
+ script:`Observabilidad significa poder entender qué está ocurriendo.
+Logs con un correlation_id, un identificador que acompaña a un estudio por todo el sistema: la app, n8n, la base de datos.
+El estado del estudio con sus marcas de tiempo.
+Y los errores registrados con el paso exacto donde ocurrieron.
+Si un cliente llama diciendo el informe 438 no salió, debemos poder seguir su historia en dos minutos, sin jugar a la ouija con los logs.`},
+
+{day:2,blk:'H8 · Producto',type:'table',min:9,title:'Demo comercial en 3 minutos',sub:'Problema → proceso → resultado → límite → siguiente paso.',
+ head:['Minuto','Momento','Qué haces'],
+ rows:[['0:00','Dolor','“Hoy cribáis esto manualmente”'],['0:30','Entrada','Creo un estudio o una zona'],['1:00','Resultado','Ranking y por qué'],['1:45','Detalle','Fuente, vecinos y trazabilidad'],['2:20','Salida','Preestudio'],['2:45','Límite','Qué hay que verificar']],
+ script:`La demo comercial no debe enseñar todas las tecnologías. Al cliente no le interesa que usemos siete herramientas. La demo cuenta una historia.
+Minuto cero: el problema. Vuestro equipo revisa muchas parcelas manualmente.
+Medio minuto: la acción. Creo un estudio.
+Minuto uno: el resultado. Aparece un ranking que se explica.
+Minuto uno cuarenta y cinco: la profundidad. Abro una oportunidad, veo vecinos, motivos y de dónde sale cada dato.
+Dos veinte: la salida. Genero un preestudio.
+Dos cuarenta y cinco: el límite, dicho por nosotros antes de que nos lo pregunten.
+Tres minutos. Después sí respondemos preguntas técnicas.
+Si empezamos la demo enseñando un webhook, hemos perdido al director de Estudios antes de que n8n termine de cargar.`,
+ notes:`Si tienes tiempo: haz la demo de 3 minutos en directo con PARCELAPP, cronómetro en mano.`},
+
+{day:2,blk:'H8 · Producto',type:'flow',min:7,title:'El patrón que os lleváis al TFM',sub:'Cambias la fuente. Conservas la arquitectura.',
+ steps:[{t:'Fuente',d:'Catastro, ERP, documentos'},{t:'Normalizar',d:'contrato propio'},{t:'Dominio',d:'reglas'},{t:'Automatizar',d:'n8n'},{t:'Interfaz',d:'decisión humana'}],
+ callout:'No enseñáis “una app hecha con IA”.',calloutSmall:'Defendéis decisiones, límites, contratos, seguridad y el valor del proceso.',
+ script:`PARCELAPP es un ejemplo, pero el patrón sirve para muchos TFM.
+Sustituid Catastro por la fuente de vuestro proyecto: un ERP, documentos, otra API. Sustituid el scoring por vuestra lógica de negocio. Y mantened las capas: interfaz, dominio, persistencia, orquestación, adaptadores e IA donde aporte valor.
+Para defender un TFM no basta con decir funciona. Hay que explicar decisiones: por qué esta lógica está fuera de n8n, por qué guardamos snapshots, por qué usamos procesos asíncronos, cómo evitamos duplicados, cómo controlamos a la IA.
+Ese lenguaje transforma una demo en un trabajo de ingeniería.`},
+
+{day:2,blk:'H8 · Producto',type:'cols',min:6,title:'Tarea para vuestro TFM',sub:'Una mejora con valor real. No gana quien genera más código: gana quien puede explicarlo.',ncols:3,
+ cols:[{h:'Elegid una',c:'lime',items:['Criterio configurable','Vecinos candidatos','Comparador','Exportación','Alerta','Fuente adicional']},{h:'Defendedla',c:'cyan',items:['En qué capa vive','Qué contrato tiene','Qué pasa si falla','Qué seguridad necesita','Cuándo está terminada']},{h:'Presentadla',c:'orange',items:['3 minutos de producto','2 minutos técnicos']}],
+ script:`Os dejo una tarea para vuestro TFM, con PARCELAPP o con vuestro propio proyecto.
+Elegid una mejora con valor real: un criterio configurable, vecinos candidatos, un comparador, una exportación, una alerta o una fuente adicional.
+Defendedla con cinco preguntas: en qué capa vive, qué contrato tiene, qué pasa si falla, qué seguridad necesita y cuándo está terminada.
+Y presentadla en tres minutos de producto y dos de técnica.
+No gana quien genera más código. Gana quien puede explicarlo.`},
+
+{day:2,blk:'H8 · Producto',type:'cols',min:5,title:'Checklist antes de decir “terminado”',sub:'La parte que los agentes curiosamente no celebran.',ncols:2,
+ cols:[{h:'Seguridad y datos',c:'lime',items:['Sin secretos en el frontend','RLS activado','Sin duplicados','Fuente y fecha en cada dato']},{h:'Lógica y experiencia',c:'cyan',items:['Score determinista','Desglose visible','Carga, vacío y error','IA con datos verificados']}],
+ script:`Y el checklist antes de decir terminado.
+Sin secretos en el frontend. RLS activado. Sin duplicados. Fuente y fecha en cada dato.
+Score determinista. Desglose visible. Estados de carga, vacío y error. IA con datos verificados.
+Si vuestro TFM pasa estas ocho, ya está por encima de la mayoría de lo que se genera con IA.`},
+
+{day:2,blk:'H8 · Producto',type:'cols',min:2,title:'Fuentes oficiales usadas',sub:'Guardadlas. Las APIs públicas también envejecen.',ncols:2,
+ cols:[{h:'Catastro · servicios libres',c:'cyan',items:['catastro.hacienda.gob.es/ws/Webservices_Libres.pdf','catastro.hacienda.gob.es/ayuda/ayuda_cl.htm']},{h:'Catastro · INSPIRE',c:'lime',items:['catastro.hacienda.gob.es/webinspire/index.html','…/webinspire/documentos/inspire-cp-WFS.pdf']}],
+ script:`Os dejo las fuentes oficiales que hemos usado. Guardadlas, porque las APIs públicas también envejecen y la documentación cambia.`,
+ notes:`Rutas copiadas de tu presentación. Ábrelas antes de clase para confirmar que siguen vivas.`},
+
+{day:2,blk:'Cierre',type:'quote',tone:'dark',min:7,
+ text:'La IA acelera el código. La arquitectura decide si lo que construyes aguanta.',
+ small:'Fuente → normalización → dominio → n8n → interfaz → decisión humana.',
+ script:`Voy a cerrar volviendo al nivel cero.
+Empezamos ayer con cuatro cajas: interfaz, lógica, datos y conexiones. Ocho horas después esas mismas cuatro cajas siguen ahí; simplemente las hemos refinado.
+Interfaz: React con Lovable. Lógica: dominio y scoring. Datos: Supabase. Conexiones: adaptadores, Catastro, n8n e IA.
+Y encima hemos añadido seguridad, trazabilidad, asincronía, gestión de errores, Git y pruebas.
+Ése es el aprendizaje que quiero que os llevéis. No es PARCELAPP. No es Supabase. No es n8n. Es aprender a decidir qué responsabilidad tiene cada pieza, y usar la IA para acelerar sin renunciar a esa estructura.
+La IA puede escribir muchísimo código. La arquitectura decide si ese código acaba formando un producto o una montaña de archivos que funciona únicamente mientras nadie la toca.
+Muchas gracias.`}
+];
+
+/* ======================================================================
+   RENDER DE SLIDES
+   ====================================================================== */
+const dayStart={}; S.forEach((s,i)=>{ if(dayStart[s.day]===undefined) dayStart[s.day]=i; });
+const dayCount=d=>S.filter(s=>s.day===d).length;
+function footer(s,i){
+  const n=i-dayStart[s.day]+1;
+  return `<div class="foot"><b>PARCELAPP</b><span>Día ${s.day} · ${esc(s.blk)}</span><span class="n">${n} / ${dayCount(s.day)}</span></div>`;
+}
+function head(s){ return `${s.title?`<h1 class="t">${esc(s.title)}</h1>`:''}${s.sub?`<p class="sub">${esc(s.sub)}</p>`:''}`; }
+function cardsHTML(cards,n){ return `<div class="grid" style="grid-template-columns:repeat(${n||cards.length},1fr)">${cards.map(c=>`<div class="card" style="border-left-color:${C[c.c]||C.cyan}"><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></div>`).join('')}</div>`; }
+function bandHTML(b){ return b?`<div class="band"><div class="k">${esc(b.k)}</div><div class="v">${esc(b.v)}</div></div>`:''; }
+
+function renderSlide(i){
+  const s=S[i]; let cls='light', inner='';
+  switch(s.type){
+    case 'cover':
+      cls='dark cover';
+      inner=`<div class="parcelbg">${parcels({seed:5+s.day,hi:[9,14,15,26,33],scores:{14:91,15:87,26:83}})}</div>
+      <div style="position:relative;max-width:820px"><div class="lbl">Máster EBF</div><h1>${esc(s.title)}</h1><div class="cl">${esc(s.lead)}</div><div class="cm">${esc(s.meta)}</div></div>
+      <div class="cday"><span>${esc(s.dayLabel)}</span> · ${esc(s.dayTitle)}</div>`; break;
+    case 'section':
+      cls='dark sec';
+      inner=`<div class="parcelbg">${parcels({seed:s.seed,hi:[s.seed%40,(s.seed*3)%40]})}</div>
+      <div style="position:relative;margin-top:60px"><div class="num">${esc(s.num)}</div><div class="st">${esc(s.st)}</div><div class="ss">${esc(s.ss)}</div></div>`; break;
+    case 'agenda':
+      inner=head(s)+`<div class="ag">${s.rows.map(r=>`<div class="tm">${r[0]}</div><div class="it ${r[3]||''}">${esc(r[1])}<small>${esc(r[2])}</small></div>`).join('')}</div>`; break;
+    case 'quote':
+      cls=s.tone==='dark'?'dark':'light';
+      inner=`${s.tone==='dark'?`<div class="parcelbg" style="opacity:.35">${parcels({seed:61,hi:[]})}</div>`:''}<div style="position:relative;display:flex;flex-direction:column;justify-content:center;height:100%"><div class="q">${esc(s.text)}<small>${esc(s.small)}</small></div></div>`; break;
+    case 'cards':
+      inner=head(s)+cardsHTML(s.cards,s.ncols)+bandHTML(s.band); break;
+    case 'cols':
+      inner=head(s)+`<div class="cols" style="grid-template-columns:repeat(${s.ncols||s.cols.length},1fr)">${s.cols.map(c=>`<div class="col" style="border-top-color:${C[c.c]||C.cyan}"><h3>${esc(c.h)}</h3><ul>${c.items.map(x=>`<li style="color:${C[c.c]||C.cyan}"><span style="color:#2E3A4A">${esc(x)}</span></li>`).join('')}</ul></div>`).join('')}</div>`+bandHTML(s.band); break;
+    case 'flow':
+      inner=head(s)+`<div class="flow">${s.steps.map((st,k)=>`${k?'<div class="arrow">→</div>':''}<div class="step"><h4>${esc(st.t)}</h4><p>${esc(st.d)}</p></div>`).join('')}</div>`+(s.callout?`<div class="callout">${esc(s.callout)}<small>${esc(s.calloutSmall||'')}</small></div>`:''); break;
+    case 'map':
+      inner=head(s)+`<div style="display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start"><div>${s.rows.map(r=>`<div class="maprow"><div class="a">${esc(r[0])}</div><div class="ar">→</div><div class="b">${esc(r[1])}</div></div>`).join('')}</div><div class="band" style="margin-top:0"><div class="k">${esc(s.side.k)}</div><div class="v" style="font-size:30px">${esc(s.side.v)}</div></div></div>`; break;
+    case 'code':
+      inner=head(s)+`<div style="display:grid;grid-template-columns:1.45fr 1fr;gap:34px;align-items:start"><pre class="code">${s.code}</pre><div style="display:flex;flex-direction:column;gap:18px">${s.side.map(c=>`<div class="card" style="border-left-color:${C[c.c]||C.cyan};padding:22px 26px"><h3 style="font-size:25px">${esc(c.h)}</h3><p style="font-size:21px">${esc(c.t)}</p></div>`).join('')}</div></div>`; break;
+    case 'mock':
+      inner=head(s)+`<div style="display:grid;grid-template-columns:1.55fr 1fr;gap:36px;align-items:start">${mock()}<div style="display:flex;flex-direction:column;gap:18px">${s.side.map(c=>`<div class="card" style="border-left-color:${C[c.c]};padding:22px 26px"><h3 style="font-size:26px">${esc(c.t)}</h3><p style="font-size:21px">${esc(c.d)}</p></div>`).join('')}${s.foot?`<div style="font-size:27px;font-weight:800;line-height:1.3;margin-top:8px">${esc(s.foot)}</div>`:''}</div></div>`; break;
+    case 'funnel':
+      inner=head(s)+`<div style="display:flex;flex-direction:column;gap:18px">${s.rows.map(r=>`<div style="display:grid;grid-template-columns:420px 1fr;align-items:center;gap:26px"><div style="font-size:26px;font-weight:800">${esc(r[0])}</div><div style="width:${r[2]}%;background:${r[3]};border-radius:12px;padding:20px 26px;font-size:26px;font-weight:800;color:#0B1220">${esc(r[1])}</div></div>`).join('')}</div><div class="callout" style="font-size:28px">${esc(s.foot)}</div>`; break;
+    case 'weights':
+      inner=head(s)+`<div class="wbar">${s.items.map(x=>`<div style="flex:${x[0]};background:${x[2]};${x[2]==='#0F7A6E'||x[2]==='#8391A2'?'color:#fff':''}">${x[0]}</div>`).join('')}</div><div class="wlab">${s.items.map(x=>`<div style="flex:${x[0]}">${esc(x[1])}</div>`).join('')}</div><div class="callout">Σ = 100 puntos<small>Los pesos son una decisión de negocio, no una verdad matemática.</small></div>`; break;
+    case 'table':
+      inner=head(s)+`<table class="tb"><tr>${s.head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr>${s.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</table>`; break;
+    case 'chips':
+      inner=head(s)+`<div class="chips">${s.items.map((x,k)=>`<div class="chip">${esc(x)}<span>¿dónde vive?</span></div>`).join('')}</div>`; break;
+    case 'html':
+      inner=head(s)+s.html; break;
+    case 'demo':
+      cls='dark';
+      inner=`<div class="parcelbg" style="opacity:.25">${parcels({seed:71,hi:[]})}</div><div class="demo" style="position:relative"><div class="pulse"></div><div class="dk">Demo en directo · ${esc(s.tool)}</div><div class="dt">${esc(s.title)}</div><div class="ds">${esc(s.ds)}</div></div>`; break;
+    case 'chat':
+      cls='dark chat';
+      inner=`<div style="display:flex;flex-direction:column;justify-content:center;height:100%"><div class="ck">Pregunta al chat de Zoom</div><div class="cq">${esc(s.q)}</div>${s.opts?`<div class="opts">${s.opts.map(o=>`<span>${esc(o)}</span>`).join('')}</div>`:''}<div class="ch">${esc(s.hint)}</div></div>`; break;
+    case 'break':
+      cls='dark brk';
+      inner=`<div class="parcelbg" style="opacity:.3">${parcels({seed:81,hi:[]})}</div><div class="brk" style="position:relative"><div class="bk">Pausa</div><div class="count" data-mins="${s.mins}">${s.mins}:00</div><div class="bn">Volvemos con ${esc(s.next)}</div></div>`; break;
+  }
+  return `<div class="slide ${cls}">${inner}${footer(s,i)}</div>`;
+}
+
+/* ======================================================================
+   ESTADO, SINCRONIZACIÓN Y ESCALADO
+   ====================================================================== */
+const VIEW=(location.hash||'').toLowerCase().indexOf('proyector')>=0?'proj':'pres';
+const st={ i:0, black:false };
+const enterAt={ t:Date.now() };
+let chan=null; try{ chan=new BroadcastChannel('parcelapp-master'); }catch(e){}
+let projWin=null;
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+st.i=Math.min(S.length-1,Math.max(0,parseInt(lsGet('pa_i','0'),10)||0));
+
+function send(msg){
+  msg.src=VIEW;
+  try{ chan&&chan.postMessage(msg); }catch(e){}
+  try{ if(projWin&&!projWin.closed) projWin.postMessage(msg,'*'); }catch(e){}
+  try{ if(window.opener&&!window.opener.closed) window.opener.postMessage(msg,'*'); }catch(e){}
+}
+function onMsg(m){
+  if(!m||m.src===VIEW) return;
+  if(m.type==='state'){ const ch=m.i!==st.i; st.i=m.i; st.black=m.black; if(ch) enterAt.t=Date.now(); update(false); }
+  else if(m.type==='nav'){ go(st.i+m.d); }
+  else if(m.type==='hello' && VIEW==='pres'){ send({type:'state',i:st.i,black:st.black}); }
+}
+if(chan) chan.onmessage=e=>onMsg(e.data);
+window.addEventListener('message',e=>{ if(e.data&&e.data.type) onMsg(e.data); });
+
+function fit(frame,stage){
+  const w=frame.clientWidth, h=frame.clientHeight; if(!w||!h) return;
+  const sc=Math.min(w/1600,h/900);
+  stage.style.transform=`translate(${(w-1600*sc)/2}px,${(h-900*sc)/2}px) scale(${sc})`;
+}
+const frames=[];
+function makeFrame(el){ const st=document.createElement('div'); st.className='stage'; el.appendChild(st); frames.push([el,st]); try{ new ResizeObserver(()=>fit(el,st)).observe(el); }catch(e){} return st; }
+window.addEventListener('resize',()=>frames.forEach(f=>fit(f[0],f[1])));
+
+function go(n){
+  n=Math.max(0,Math.min(S.length-1,n));
+  if(n===st.i) return;
+  st.i=n; enterAt.t=Date.now(); lsSet('pa_i',String(n));
+  update(true);
+}
+function setBlack(v){ st.black=v; update(true); }
+
+/* cuenta atrás de pausas */
+function tickCountdowns(){
+  document.querySelectorAll('.count').forEach(el=>{
+    const total=parseInt(el.dataset.mins,10)*60, left=Math.max(0,total-Math.floor((Date.now()-enterAt.t)/1000));
+    el.textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+  });
+}
+
+/* ======================================================================
+   VISTA PROYECTOR
+   ====================================================================== */
+let projStage, projBlack;
+function buildProj(){
+  document.getElementById('app').innerHTML=`<div id="proj"><div class="frame" id="pf"></div><div class="blackout" id="pb"><span>PARCELAPP</span></div></div><div class="projhint" id="ph">Comparte esta ventana en Zoom · F pantalla completa · ← → también funcionan aquí</div>`;
+  projStage=makeFrame(document.getElementById('pf'));
+  projBlack=document.getElementById('pb');
+  setTimeout(()=>{ const h=document.getElementById('ph'); if(h) h.style.opacity=0; },6000);
+  send({type:'hello'});
+}
+function updateProj(){
+  projStage.innerHTML=renderSlide(st.i);
+  fit(document.getElementById('pf'),projStage);
+  projBlack.classList.toggle('on',st.black);
+  tickCountdowns();
+}
+
+/* ======================================================================
+   VISTA PRESENTADOR
+   ====================================================================== */
+const T={ running:false, dayStart:null, pausedAcc:0, pauseAt:null };
+const tele={ play:false, speed:parseFloat(lsGet('pa_speed','1.2')), font:parseInt(lsGet('pa_font','34'),10) };
+function fmt(ms){ const s=Math.max(0,Math.floor(ms/1000)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); }
+function dayElapsed(){ if(!T.dayStart) return 0; const now=T.running?Date.now():T.pauseAt; return now-T.dayStart-T.pausedAcc; }
+function plannedBefore(i){ const d=S[i].day; let m=0; for(let k=dayStart[d];k<i;k++) m+=S[k].min; return m; }
+
+let curStage,nextStage;
+function buildPres(){
+  document.getElementById('app').innerHTML=`
+  <div id="pres">
+   <div class="pbar">
+    <span class="blk" id="pblk"></span><span class="pos" id="ppos"></span>
+    <button class="pbtn" id="bprev" aria-label="Anterior">←</button>
+    <button class="pbtn pri" id="bnext" aria-label="Siguiente">Siguiente →</button>
+    <button class="pbtn" id="bov">Índice (O)</button>
+    <button class="pbtn" id="bblack">Negro (B)</button>
+    <span class="sp"></span>
+    <button class="pbtn" id="bd1">Ir a Día 1</button>
+    <button class="pbtn" id="bd2">Ir a Día 2</button>
+    <button class="pbtn" id="btimer">Iniciar reloj de clase</button>
+    <button class="pbtn" id="breset">Reiniciar</button>
+    <button class="pbtn pri" id="bproj">Abrir ventana proyector</button>
+   </div>
+   <div class="pmain">
+    <div class="pleft">
+     <div class="timers">
+      <div class="tim"><small>HORA (Madrid)</small><b id="tclock">--:--</b></div>
+      <div class="tim"><small>CLASE</small><b id="tday">0:00</b><div class="dlt" id="tdelta"></div></div>
+      <div class="tim"><small>ESTA DIAPOSITIVA</small><b id="tslide">0:00</b><div class="dlt" id="tplan"></div><div class="rhythm"><i id="rbar"></i></div></div>
+     </div>
+     <div class="prog"><i id="pprog"></i></div>
+     <div class="frame thumb" id="fcur"></div>
+     <div class="box"><h6>SIGUIENTE</h6><div class="frame thumb next" id="fnext" style="width:55%"></div><div id="nexttitle" style="margin-top:6px;color:#A9B6C6;font-size:13px"></div></div>
+     <div class="box" id="demobox" style="display:none"><h6>DEMO · PASOS</h6><ol class="steps" id="dsteps"></ol>
+      <div class="urlrow"><input id="durl" placeholder="URL de la herramienta" aria-label="URL de la herramienta"><button class="pbtn pri" id="dopen">Abrir</button></div></div>
+     <div class="box promptbox" id="promptbox" style="display:none"><h6>PROMPT PARA LOVABLE <button class="pbtn" id="bcopy" style="float:right;padding:4px 10px;font-size:12px">Copiar prompt</button></h6><pre id="ptext"></pre></div>
+     <div class="box" id="notesbox"><h6>NOTAS</h6><div class="notes" id="pnotes"></div></div>
+     <div class="keys"><kbd>→</kbd>/<kbd>Espacio</kbd> siguiente · <kbd>←</kbd> anterior · <kbd>T</kbd> teleprompter · <kbd>B</kbd> negro · <kbd>O</kbd> índice · <kbd>+</kbd>/<kbd>-</kbd> tamaño · <kbd>[</kbd>/<kbd>]</kbd> velocidad</div>
+    </div>
+    <div class="pright">
+     <div class="tele">
+      <div class="telebar"><span class="lab">TELEPROMPTER</span>
+       <button class="pbtn" id="tplay">▶ Reproducir (T)</button>
+       <button class="pbtn" id="tslow" aria-label="Más lento">Lento [</button><span class="val" id="tspeed"></span><button class="pbtn" id="tfast" aria-label="Más rápido">] Rápido</button>
+       <button class="pbtn" id="tsm" aria-label="Letra más pequeña">A−</button><span class="val" id="tfont"></span><button class="pbtn" id="tlg" aria-label="Letra más grande">A+</button>
+       <button class="pbtn" id="ttop">Arriba</button>
+      </div>
+      <div class="telescroll" id="tscroll"><div class="telemark"></div><div class="teletext" id="ttext"></div></div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="ov" id="ov"></div>`;
+  curStage=makeFrame(document.getElementById('fcur'));
+  nextStage=makeFrame(document.getElementById('fnext'));
+  const $=id=>document.getElementById(id);
+  $('bprev').onclick=()=>go(st.i-1);
+  $('bnext').onclick=()=>go(st.i+1);
+  $('bblack').onclick=()=>setBlack(!st.black);
+  $('bov').onclick=toggleOv;
+  $('bd1').onclick=()=>{ go(dayStart[1]); resetTimer(); };
+  $('bd2').onclick=()=>{ go(dayStart[2]); resetTimer(); };
+  $('btimer').onclick=toggleTimer;
+  $('breset').onclick=resetTimer;
+  $('bproj').onclick=openProj;
+  $('bcopy').onclick=()=>copy(S[st.i].prompt||'');
+  $('dopen').onclick=()=>{ const u=$('durl').value.trim(); if(!u){ toast('Pega primero la URL'); return; } lsSet('pa_url_'+S[st.i].tool,u); window.open(u,'_blank'); };
+  $('durl').onchange=()=>lsSet('pa_url_'+S[st.i].tool,$('durl').value.trim());
+  $('tplay').onclick=togglePlay;
+  $('tslow').onclick=()=>setSpeed(tele.speed-0.2);
+  $('tfast').onclick=()=>setSpeed(tele.speed+0.2);
+  $('tsm').onclick=()=>setFont(tele.font-2);
+  $('tlg').onclick=()=>setFont(tele.font+2);
+  $('ttop').onclick=()=>{ $('tscroll').scrollTop=0; };
+  setSpeed(tele.speed); setFont(tele.font);
+  buildOv();
+  requestAnimationFrame(teleLoop);
+}
+const DEF_URL={ 'Lovable':'https://lovable.dev', 'Supabase':'https://supabase.com/dashboard', 'n8n':'' };
+function updatePres(){
+  const s=S[st.i], $=id=>document.getElementById(id);
+  $('pblk').textContent=`Día ${s.day} · ${s.blk}`;
+  $('ppos').textContent=`${st.i-dayStart[s.day]+1}/${dayCount(s.day)} (total ${st.i+1}/${S.length})`;
+  $('bblack').classList.toggle('on',st.black);
+  $('pprog').style.width=((st.i-dayStart[s.day]+1)/dayCount(s.day)*100)+'%';
+  curStage.innerHTML=renderSlide(st.i);
+  nextStage.innerHTML=st.i+1<S.length?renderSlide(st.i+1):'';
+  $('nexttitle').textContent=st.i+1<S.length?titleOf(st.i+1):'Fin';
+  frames.forEach(f=>fit(f[0],f[1]));
+  $('ttext').innerHTML=(s.script||'').split('\n').map(p=>`<p>${esc(p)}</p>`).join('');
+  $('tscroll').scrollTop=0;
+  $('pnotes').textContent=s.notes||'—';
+  $('notesbox').style.display=s.notes?'block':'none';
+  $('promptbox').style.display=s.prompt?'block':'none';
+  $('ptext').textContent=s.prompt||'';
+  if(s.type==='demo'){
+    $('demobox').style.display='block';
+    $('dsteps').innerHTML=s.steps.map(x=>`<li>${esc(x)}</li>`).join('');
+    $('durl').value=lsGet('pa_url_'+s.tool,DEF_URL[s.tool]||'');
+    $('durl').placeholder=`URL de ${s.tool}`;
+  } else $('demobox').style.display='none';
+  document.querySelectorAll('.ovc').forEach(el=>el.classList.toggle('cur',+el.dataset.i===st.i));
+  tickCountdowns();
+}
+function titleOf(i){ const s=S[i]; return s.title||s.st||s.q||s.text||(s.type==='break'?'Pausa':'')||s.dayTitle||''; }
+
+/* reloj */
+function toggleTimer(){
+  const b=document.getElementById('btimer');
+  if(!T.dayStart){ T.dayStart=Date.now(); T.running=true; enterAt.t=Date.now(); }
+  else if(T.running){ T.running=false; T.pauseAt=Date.now(); }
+  else { T.pausedAcc+=Date.now()-T.pauseAt; T.running=true; T.pauseAt=null; }
+  b.textContent=T.running?'Pausar reloj':'Reanudar reloj';
+  b.classList.toggle('on',!T.running&&!!T.dayStart);
+}
+function resetTimer(){ T.running=false; T.dayStart=null; T.pausedAcc=0; T.pauseAt=null; const b=document.getElementById('btimer'); b.textContent='Iniciar reloj de clase'; b.classList.remove('on'); }
+function tickPres(){
+  const $=id=>document.getElementById(id), s=S[st.i];
+  try{ $('tclock').textContent=new Date().toLocaleTimeString('es-ES',{timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit'}); }catch(e){ $('tclock').textContent=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}); }
+  const el=dayElapsed(); $('tday').textContent=fmt(el);
+  const sl=Date.now()-enterAt.t; $('tslide').textContent=fmt(sl);
+  const plan=s.min*60000, r=sl/plan;
+  $('tplan').textContent=`previsto ${s.min} min`;
+  const bar=$('rbar'); bar.style.width=Math.min(100,r*100)+'%';
+  bar.style.background=r<0.8?'var(--lime)':(r<=1?'var(--amber)':'var(--red)');
+  if(T.dayStart){
+    const exp=plannedBefore(st.i)*60000, d=Math.round((el-exp)/60000);
+    const dl=$('tdelta');
+    dl.textContent=d===0?'en hora':(d>0?`vas ${d} min tarde`:`vas ${-d} min adelantado`);
+    dl.style.color=Math.abs(d)<=2?'var(--lime)':(d>0?'var(--red)':'var(--cyan)');
+  } else { $('tdelta').textContent='pulsa Iniciar al empezar'; $('tdelta').style.color='#8391A2'; }
+}
+
+/* teleprompter */
+let lastT=performance.now(), acc=0;
+function teleLoop(t){
+  const dt=(t-lastT)/1000; lastT=t;
+  if(tele.play){ const el=document.getElementById('tscroll'); if(el){ acc+=tele.speed*28*dt; const px=Math.floor(acc); if(px>0){ el.scrollTop+=px; acc-=px; } } }
+  requestAnimationFrame(teleLoop);
+}
+function togglePlay(){ tele.play=!tele.play; const b=document.getElementById('tplay'); b.textContent=tele.play?'⏸ Pausar (T)':'▶ Reproducir (T)'; b.classList.toggle('pri',tele.play); }
+function setSpeed(v){ tele.speed=Math.max(0.2,Math.min(5,Math.round(v*10)/10)); lsSet('pa_speed',tele.speed); document.getElementById('tspeed').textContent=tele.speed.toFixed(1); }
+function setFont(v){ tele.font=Math.max(20,Math.min(64,v)); lsSet('pa_font',tele.font); document.getElementById('tfont').textContent=tele.font; document.getElementById('ttext').style.fontSize=tele.font+'px'; }
+
+/* índice */
+function buildOv(){
+  let h='';
+  [1,2].forEach(d=>{
+    h+=`<h2>Día ${d}</h2><div class="ovgrid">`;
+    S.forEach((s,i)=>{ if(s.day!==d) return; h+=`<button class="ovc" data-i="${i}"><small>${i-dayStart[d]+1} · ${esc(s.blk)}</small><b>${esc(titleOf(i))}</b><i>${s.min} min · plan ${plannedBefore(i)}′</i></button>`; });
+    h+='</div>';
+  });
+  const ov=document.getElementById('ov'); ov.innerHTML=h+'<p class="keys">Esc para cerrar</p>';
+  ov.querySelectorAll('.ovc').forEach(b=>b.onclick=()=>{ go(+b.dataset.i); toggleOv(false); });
+}
+function toggleOv(v){ const ov=document.getElementById('ov'); ov.classList.toggle('on',typeof v==='boolean'?v:!ov.classList.contains('on')); }
+
+function openProj(){
+  const url=location.href.split('#')[0]+'#proyector';
+  projWin=window.open(url,'parcelapp_proyector','width=1280,height=760');
+  if(!projWin){ toast('El navegador bloqueó la ventana. Permite ventanas emergentes.'); return; }
+  setTimeout(()=>send({type:'state',i:st.i,black:st.black}),700);
+  setTimeout(()=>send({type:'state',i:st.i,black:st.black}),2000);
+}
+function copy(txt){
+  const done=()=>toast('Prompt copiado');
+  try{ navigator.clipboard.writeText(txt).then(done,fallback); }catch(e){ fallback(); }
+  function fallback(){ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(); }catch(e){ toast('No se pudo copiar'); } ta.remove(); }
+}
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.style.display='block'; clearTimeout(toast._t); toast._t=setTimeout(()=>t.style.display='none',1800); }
+
+/* ======================================================================
+   TECLADO Y ARRANQUE
+   ====================================================================== */
+document.addEventListener('keydown',e=>{
+  if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')) return;
+  const k=e.key;
+  if(k==='ArrowRight'||k===' '||k==='PageDown'){ e.preventDefault(); VIEW==='proj'?(go(st.i+1)):go(st.i+1); }
+  else if(k==='ArrowLeft'||k==='PageUp'){ e.preventDefault(); go(st.i-1); }
+  else if(k==='b'||k==='B'||k==='.'){ setBlack(!st.black); }
+  else if(k==='f'||k==='F'){ try{ document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen(); }catch(err){} }
+  else if(VIEW==='pres'){
+    if(k==='o'||k==='O') toggleOv();
+    else if(k==='Escape') toggleOv(false);
+    else if(k==='t'||k==='T') togglePlay();
+    else if(k==='+'||k==='=') setFont(tele.font+2);
+    else if(k==='-') setFont(tele.font-2);
+    else if(k===']') setSpeed(tele.speed+0.2);
+    else if(k==='[') setSpeed(tele.speed-0.2);
+  }
+});
+function update(broadcast){
+  if(VIEW==='proj') updateProj(); else updatePres();
+  if(broadcast) send({type:'state',i:st.i,black:st.black});
+}
+if(VIEW==='proj') buildProj(); else buildPres();
+update(false);
+setInterval(()=>{ tickCountdowns(); if(VIEW==='pres') tickPres(); },500);
+</script>
+</body>
+</html>
