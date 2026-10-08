@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario · Asistente de voz ORDIAPP · iAgusto.app</title>
+<meta name="description" content="Cuestionario para diseñar el asistente de voz de ORDIAPP a la medida de cómo trabaja VIMAR.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tu asistente de voz · Cuestionario VIMAR">
+<meta property="og:description" content="10 minutos para contarnos qué le vas a pedir y cómo quieres que te conteste.">
+<meta property="og:site_name" content="iAgusto.app">
+<meta property="og:locale" content="es_ES">
+<meta name="theme-color" content="#1A3A5C">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A3A5C;--navy-dark:#0f2338;--navy-light:#2a5080;--orange:#E87722;--orange-light:#F4955A;--orange-pale:#FEF0E6;--bg:#f5f7fa;--text:#1d2733;--muted:#5b6878;--border:#d9e0e8}
+*{box-sizing:border-box}
+body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+#progress{position:fixed;top:0;left:0;height:5px;background:var(--orange);width:0;z-index:50;transition:width .3s}
+header{background:linear-gradient(160deg,var(--navy-dark),var(--navy));color:#fff;padding:48px 20px 56px;border-top:6px solid var(--orange)}
+.wrap{max-width:820px;margin:0 auto}
+header img{height:46px;margin-bottom:22px}
+header h1{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(28px,5vw,42px);margin:0 0 10px;line-height:1.15}
+header p{margin:6px 0;color:#d7e2ee;font-size:17px}
+header .tag{display:inline-block;background:var(--orange);color:#fff;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:14px}
+.intro{background:#fff;border-left:5px solid var(--orange);border-radius:10px;padding:18px 22px;margin:-28px auto 26px;box-shadow:0 6px 24px rgba(15,35,56,.08);font-size:15.5px}
+.intro b{color:var(--navy)}
+section.card{background:#fff;border-radius:14px;padding:26px 24px;margin-bottom:22px;box-shadow:0 3px 14px rgba(15,35,56,.06);border:1px solid var(--border)}
+section.card h2{font-family:'DM Serif Display',serif;font-weight:400;color:var(--navy);font-size:24px;margin:0 0 4px;display:flex;align-items:center;gap:12px}
+section.card h2 .n{background:var(--orange);color:#fff;font-family:'DM Sans';font-weight:700;font-size:15px;width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.sub{color:var(--muted);font-size:14.5px;margin:0 0 18px}
+.q{margin:20px 0}
+.q > label.t,.q > .t{display:block;font-weight:700;margin-bottom:8px;color:var(--navy-dark)}
+.hint{font-weight:400;color:var(--muted);font-size:13.5px;display:block;margin-top:2px}
+input[type=text],input[type=email],input[type=tel],input[type=number],textarea,select{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font:inherit;font-size:15px;background:#fbfcfd;color:var(--text)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange);background:#fff}
+textarea{min-height:90px;resize:vertical}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.opts label{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;cursor:pointer;font-size:14.5px;background:#fbfcfd;transition:.15s}
+.opts label:hover{border-color:var(--orange-light)}
+.opts input{margin-top:3px;accent-color:var(--orange)}
+.opts label:has(input:checked){border-color:var(--orange);background:var(--orange-pale)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.row2{grid-template-columns:1fr}}
+.req{color:var(--orange)}
+.note{background:var(--orange-pale);border-radius:10px;padding:14px 16px;font-size:14.5px;margin-top:10px}
+.scale{display:flex;gap:6px;flex-wrap:wrap}
+.scale label{flex:1;min-width:52px;text-align:center;padding:9px 4px;border:1.5px solid var(--border);border-radius:9px;cursor:pointer;font-weight:700;background:#fbfcfd}
+.scale input{display:none}
+.scale label:has(input:checked){background:var(--orange);border-color:var(--orange);color:#fff}
+.ej{background:#f0f4f8;border-radius:9px;padding:12px 15px;font-size:14px;color:var(--muted);margin:8px 0 12px;font-style:italic;border-left:3px solid var(--navy-light)}
+.ej b{color:var(--navy);font-style:normal}
+.submit{text-align:center;padding:10px 0 40px}
+button{background:var(--orange);color:#fff;border:none;padding:17px 44px;font:inherit;font-size:18px;font-weight:700;border-radius:12px;cursor:pointer;box-shadow:0 6px 18px rgba(232,119,34,.35)}
+button:hover{background:#d4691a}
+button:disabled{opacity:.6;cursor:wait}
+#err{color:#c0392b;font-weight:700;margin-top:12px;display:none}
+footer{background:var(--navy-dark);color:#9fb2c6;text-align:center;padding:24px 20px;font-size:13.5px}
+footer b{color:var(--orange-light)}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<header>
+ <div class="wrap">
+  <img src="data:image/png;base64,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" alt="iAgusto.app">
+  <div class="tag">Cuestionario · Asistente de voz</div>
+  <h1>Háblale a ORDIAPP<br>y que te conteste</h1>
+  <p>Hola Gabriel 👋 Con tus respuestas vamos a decidir qué le vas a poder pedir al asistente, en qué orden lo construimos y cómo quieres que te conteste.</p>
+  <p>Unos 10 minutos. No hay respuestas incorrectas: contesta pensando en tu día a día real.</p>
+ </div>
+</header>
+
+<div class="wrap" style="padding:0 16px">
+<div class="intro">
+ <b>Cómo rellenarlo:</b> marca lo que aplique y, si algo no encaja, escríbelo con tus palabras. Lo que no sepas, déjalo en blanco.<br><br>
+ 🎤 <b>Lo más valioso del cuestionario</b> son los recuadros donde te pido que escribas <b>las frases tal cual las dirías en voz alta</b>. De ahí sale el 80% del trabajo: cuantas más pongas, mejor te va a entender el asistente desde el primer día.
+</div>
+
+<form id="f" action="https://formspree.io/f/xqenkjpv" method="POST">
+<input type="hidden" name="_subject" value="Cuestionario VIMAR - Gabriel Molero - Asistente de voz ORDIAPP">
+
+<!-- 1 -->
+<section class="card">
+ <h2><span class="n">1</span>Tus datos</h2>
+ <p class="sub">Para saber a quién responder.</p>
+ <div class="row2">
+  <div class="q"><label class="t">Nombre <span class="req">*</span></label><input type="text" name="Nombre" required value="Gabriel Molero"></div>
+  <div class="q"><label class="t">Email <span class="req">*</span></label><input type="email" name="_replyto" required></div>
+ </div>
+ <div class="q"><label class="t">¿Quién va a usar el asistente de voz?</label>
+  <div class="opts" data-group="Quien lo usa">
+   <label><input type="checkbox" value="Solo yo">Solo yo</label>
+   <label><input type="checkbox" value="Administración">Administración</label>
+   <label><input type="checkbox" value="Comercial">Algún comercial</label>
+   <label><input type="checkbox" value="Taller / almacén">Alguien de taller o almacén</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">Si lo va a usar alguien más, ¿debería ver cosas distintas que tú? <span class="hint">Por ejemplo, que no pueda preguntar por importes o márgenes.</span></label>
+  <div class="opts">
+   <label><input type="radio" name="Permisos distintos" value="No, todos igual">No, todos lo mismo</label>
+   <label><input type="radio" name="Permisos distintos" value="Si, limitar a otros">Sí, a otros hay que limitarles cosas</label>
+   <label><input type="radio" name="Permisos distintos" value="Solo yo, no aplica">Solo lo uso yo, no aplica</label>
+  </div>
+ </div>
+</section>
+
+<!-- 2 -->
+<section class="card">
+ <h2><span class="n">2</span>Dónde y cuándo lo vas a usar</h2>
+ <p class="sub">Esto cambia mucho cómo tiene que contestarte: no es lo mismo conduciendo que sentado en la oficina.</p>
+ <div class="q"><label class="t">¿En qué situaciones te imaginas usándolo? <span class="hint">Marca todas las que apliquen.</span></label>
+  <div class="opts" data-group="Situaciones de uso">
+   <label><input type="checkbox" value="Conduciendo">Conduciendo</label>
+   <label><input type="checkbox" value="En la nave o el taller">En la nave o el taller</label>
+   <label><input type="checkbox" value="En casa de un cliente">En casa de un cliente o en una visita</label>
+   <label><input type="checkbox" value="En la oficina">En la oficina, en vez de buscar en la app</label>
+   <label><input type="checkbox" value="Fuera de horario">Por la noche o el fin de semana</label>
+   <label><input type="checkbox" value="En ferias o viajes">En ferias o viajes</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">De todas esas, ¿cuál es la más importante? <span class="hint">La que, si funciona bien, ya te compensa.</span></label>
+  <input type="text" name="Situacion principal" placeholder="Ej: conduciendo, que es cuando más preguntas me surgen">
+ </div>
+ <div class="q"><label class="t">¿Cuántas veces al día crees que lo usarías?</label>
+  <div class="opts">
+   <label><input type="radio" name="Frecuencia" value="1-3 veces">1 a 3 veces</label>
+   <label><input type="radio" name="Frecuencia" value="4-10 veces">4 a 10 veces</label>
+   <label><input type="radio" name="Frecuencia" value="Mas de 10">Más de 10</label>
+   <label><input type="radio" name="Frecuencia" value="Algunos dias si y otros no">Algunos días mucho y otros nada</label>
+  </div>
+ </div>
+</section>
+
+<!-- 3 -->
+<section class="card">
+ <h2><span class="n">3</span>Qué le vas a preguntar</h2>
+ <p class="sub">La parte más importante del cuestionario. Escribe las frases <b>tal cual las dirías</b>, con tus palabras, sin corregirlas.</p>
+ <div class="ej"><b>Ejemplos:</b> «¿cómo va el pedido de Lunimar?» · «¿qué máquinas me quedan sin facturar?» · «¿cuánto llevo facturado este mes?» · «¿dónde está la EMC-26091902?»</div>
+ <div class="q"><label class="t">Escribe aquí 5 o 6 preguntas que harías en un día normal <span class="req">*</span><span class="hint">Una por línea. Es lo que más nos sirve: cuantas más, mejor.</span></label>
+  <textarea name="Preguntas tipicas" required style="min-height:150px" placeholder="¿Cómo va el pedido de...?&#10;¿Qué máquinas...?&#10;..."></textarea>
+ </div>
+ <div class="q"><label class="t">De las cosas que consultas hoy en la app, ¿cuáles te cuestan más de encontrar? <span class="hint">Lo que te obliga a navegar por varias pantallas.</span></label>
+  <textarea name="Dificil de encontrar"></textarea>
+ </div>
+ <div class="q"><label class="t">¿Por qué palabra buscas normalmente las cosas?</label>
+  <div class="opts" data-group="Como buscas">
+   <label><input type="checkbox" value="Nombre del cliente">Por el nombre del cliente</label>
+   <label><input type="checkbox" value="Numero de oferta VE">Por el número de oferta (VE...)</label>
+   <label><input type="checkbox" value="Numero de serie">Por el número de serie de la máquina</label>
+   <label><input type="checkbox" value="Modelo de maquina">Por el modelo de máquina</label>
+   <label><input type="checkbox" value="Por fechas">Por fechas (este mes, la semana pasada)</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">¿Usas motes o abreviaturas para tus clientes? <span class="hint">Importante: si dices «los de Rubí» o «Baix-Mont» en vez del nombre completo, el asistente tiene que entenderlo.</span></label>
+  <textarea name="Motes clientes" placeholder="Ej: a Contenidors Baix-Mont le digo Baix-Mont; a Sircat Recycling le digo los de Rubí..."></textarea>
+ </div>
+</section>
+
+<!-- 4 -->
+<section class="card">
+ <h2><span class="n">4</span>Cómo quieres que te conteste</h2>
+ <p class="sub">Sobre todo si lo vas a usar conduciendo.</p>
+ <div class="q"><label class="t">Cuando preguntes por voz, ¿cómo prefieres la respuesta?</label>
+  <div class="opts">
+   <label><input type="radio" name="Formato respuesta" value="Corta en voz y detalle escrito">Corta en voz, y el detalle por escrito para leerlo luego</label>
+   <label><input type="radio" name="Formato respuesta" value="Todo en voz aunque sea largo">Todo en voz, aunque sea largo</label>
+   <label><input type="radio" name="Formato respuesta" value="Solo texto">Solo texto, la voz no me hace falta</label>
+  </div>
+ </div>
+ <div class="note">💡 <b>Por qué lo preguntamos:</b> conduciendo no puedes mirar la pantalla, pero una respuesta de 20 segundos tampoco se retiene. Lo normal es que el audio diga lo esencial y el texto tenga el detalle.</div>
+ <div class="q"><label class="t">Los números de serie en voz alta («EMC guion dos seis cero nueve…») son difíciles de retener. ¿Qué prefieres?</label>
+  <div class="opts">
+   <label><input type="radio" name="Series en voz" value="No decirlas en voz">Que no los diga en voz, solo en el texto</label>
+   <label><input type="radio" name="Series en voz" value="Decirlas siempre">Que los diga siempre</label>
+   <label><input type="radio" name="Series en voz" value="Solo si son pocas">Solo si son una o dos</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">¿Cómo quieres que te hable?</label>
+  <div class="opts">
+   <label><input type="radio" name="Tono" value="Directo y seco">Directo y al grano</label>
+   <label><input type="radio" name="Tono" value="Normal">Normal, como un compañero</label>
+   <label><input type="radio" name="Tono" value="Formal">Formal</label>
+  </div>
+ </div>
+</section>
+
+<!-- 5 -->
+<section class="card">
+ <h2><span class="n">5</span>Qué quieres que haga, no solo que consulte</h2>
+ <p class="sub">Esto llegará después de las consultas, pero queremos saber el orden.</p>
+ <div class="q"><label class="t">¿Qué te gustaría poder pedirle que HAGA? <span class="hint">Marca lo que te interese y numéralo abajo por orden.</span></label>
+  <div class="opts" data-group="Acciones deseadas">
+   <label><input type="checkbox" value="Crear ofertas dictando">Crear una oferta dictándola</label>
+   <label><input type="checkbox" value="Crear borrador de factura">Preparar un borrador de factura</label>
+   <label><input type="checkbox" value="Cambiar estado de oferta">Cambiar el estado de una oferta</label>
+   <label><input type="checkbox" value="Enviar documentacion a cliente">Mandarle la documentación a un cliente</label>
+   <label><input type="checkbox" value="Enviar pedido a Holded">Enviar un pedido de compra a Holded</label>
+   <label><input type="checkbox" value="Apuntar notas en una maquina">Apuntar una nota en una máquina o un pedido</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">De lo que has marcado, ¿cuáles son las 3 primeras por orden de importancia?</label>
+  <input type="text" name="Top 3 acciones" placeholder="1. ...   2. ...   3. ...">
+ </div>
+ <div class="q"><label class="t">Antes de crear algo de verdad, el asistente te enseñará lo que va a hacer y te pedirá confirmación. ¿Te parece bien o te resulta pesado?</label>
+  <div class="opts">
+   <label><input type="radio" name="Confirmacion" value="Siempre confirmar">Siempre que me confirme, aunque tarde más</label>
+   <label><input type="radio" name="Confirmacion" value="Solo cosas importantes">Solo en lo importante (facturas, pedidos a Ecopress)</label>
+   <label><input type="radio" name="Confirmacion" value="Confiar sin confirmar">Que lo haga sin preguntar</label>
+  </div>
+ </div>
+</section>
+
+<!-- 6 -->
+<section class="card">
+ <h2><span class="n">6</span>Informes</h2>
+ <p class="sub">Dijiste que querías poder pedirle informes de lo que ya está en la app o en Holded.</p>
+ <div class="q"><label class="t">¿Qué informes te gustaría pedirle?</label>
+  <div class="opts" data-group="Informes">
+   <label><input type="checkbox" value="Facturado del mes">Lo facturado en el mes</label>
+   <label><input type="checkbox" value="Pendiente de cobro">Lo que está pendiente de cobro</label>
+   <label><input type="checkbox" value="Ofertas abiertas">Ofertas abiertas y en qué estado</label>
+   <label><input type="checkbox" value="Maquinas vendidas por modelo">Máquinas vendidas por modelo</label>
+   <label><input type="checkbox" value="Comparativa con el ano pasado">Comparativa con el año pasado</label>
+   <label><input type="checkbox" value="Ranking de clientes">Qué clientes compran más</label>
+   <label><input type="checkbox" value="Pedidos pendientes de Ecopress">Pedidos pendientes de recibir de Ecopress</label>
+   <label><input type="checkbox" value="Margen por operacion">Margen de cada operación</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">¿Cómo prefieres recibir un informe?</label>
+  <div class="opts">
+   <label><input type="radio" name="Formato informe" value="Resumen hablado">Resumen hablado con lo esencial</label>
+   <label><input type="radio" name="Formato informe" value="Mensaje escrito">Un mensaje escrito con los números</label>
+   <label><input type="radio" name="Formato informe" value="PDF o Excel">Un PDF o un Excel que pueda guardar</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">¿Hay algún informe que ahora te montes a mano y te lleve tiempo?</label>
+  <textarea name="Informe manual actual"></textarea>
+ </div>
+</section>
+
+<!-- 7 -->
+<section class="card">
+ <h2><span class="n">7</span>Seguimiento de ofertas</h2>
+ <p class="sub">Lo que comentaste por teléfono: que te avise de ofertas lanzadas y sin contestar.</p>
+ <div class="q"><label class="t">¿A partir de cuántos días sin respuesta quieres que te avise?</label>
+  <div class="opts">
+   <label><input type="radio" name="Dias aviso oferta" value="7 dias">A los 7 días</label>
+   <label><input type="radio" name="Dias aviso oferta" value="15 dias">A los 15 días</label>
+   <label><input type="radio" name="Dias aviso oferta" value="30 dias">Al mes</label>
+   <label><input type="radio" name="Dias aviso oferta" value="Depende del cliente">Depende del cliente</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">Cuando una oferta lleve tiempo parada, ¿qué prefieres?</label>
+  <div class="opts">
+   <label><input type="radio" name="Que hacer oferta parada" value="Solo avisarme">Que solo me avise y ya decido yo</label>
+   <label><input type="radio" name="Que hacer oferta parada" value="Proponerme un email">Que me proponga un email y yo lo apruebe</label>
+   <label><input type="radio" name="Que hacer oferta parada" value="Enviarlo solo">Que lo mande él directamente</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">Escribe cómo redactarías tú un email de seguimiento <span class="hint">Con tus palabras, como se lo escribirías a un cliente de verdad. Así aprende tu forma de escribir.</span></label>
+  <textarea name="Ejemplo email seguimiento" style="min-height:120px" placeholder="Hola [cliente], te escribo por la oferta que te pasamos el..."></textarea>
+ </div>
+ <div class="q"><label class="t">¿Con qué frecuencia quieres un resumen de lo que está parado?</label>
+  <div class="opts">
+   <label><input type="radio" name="Frecuencia resumen" value="Todos los dias">Todos los días</label>
+   <label><input type="radio" name="Frecuencia resumen" value="Los lunes">Los lunes</label>
+   <label><input type="radio" name="Frecuencia resumen" value="Una vez al mes">Una vez al mes</label>
+   <label><input type="radio" name="Frecuencia resumen" value="Solo si pregunto">Solo cuando yo lo pida</label>
+  </div>
+ </div>
+</section>
+
+<!-- 8 -->
+<section class="card">
+ <h2><span class="n">8</span>Por dónde le hablas</h2>
+ <p class="sub">Nuestra recomendación es Telegram, pero queremos tu opinión.</p>
+ <div class="q"><label class="t">¿Usas Telegram hoy?</label>
+  <div class="opts">
+   <label><input type="radio" name="Usa Telegram" value="Si, a diario">Sí, a diario</label>
+   <label><input type="radio" name="Usa Telegram" value="Lo tengo pero casi no">Lo tengo instalado pero casi no lo uso</label>
+   <label><input type="radio" name="Usa Telegram" value="No lo tengo">No lo tengo</label>
+  </div>
+ </div>
+ <div class="note">💡 <b>Por qué Telegram:</b> es lo único que permite que el asistente te busque a ti (avisos de ofertas paradas, resúmenes) sin que tengas que abrir nada. Dentro de la app solo puede contestar cuando tú entras.</div>
+ <div class="q"><label class="t">¿Te parece bien usarlo por Telegram?</label>
+  <div class="opts">
+   <label><input type="radio" name="Acepta Telegram" value="Si, perfecto">Sí, perfecto</label>
+   <label><input type="radio" name="Acepta Telegram" value="Prefiero WhatsApp">Preferiría WhatsApp</label>
+   <label><input type="radio" name="Acepta Telegram" value="Prefiero dentro de la app">Preferiría que fuera dentro de la app</label>
+   <label><input type="radio" name="Acepta Telegram" value="Me da igual">Me da igual, lo que sea mejor</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">¿Quieres que los avisos te lleguen también fuera del horario de oficina?</label>
+  <div class="opts">
+   <label><input type="radio" name="Horario avisos" value="Solo en horario laboral">Solo en horario laboral</label>
+   <label><input type="radio" name="Horario avisos" value="Cualquier hora">A cualquier hora</label>
+   <label><input type="radio" name="Horario avisos" value="No fines de semana">Entre semana sí, fines de semana no</label>
+  </div>
+ </div>
+</section>
+
+<!-- 9 -->
+<section class="card">
+ <h2><span class="n">9</span>Lo que NO quieres que haga</h2>
+ <p class="sub">Tan importante como lo anterior. Esto define los límites de seguridad.</p>
+ <div class="q"><label class="t">¿Hay algo que prefieras que el asistente NO pueda hacer nunca?</label>
+  <div class="opts" data-group="Prohibido">
+   <label><input type="checkbox" value="Enviar emails a clientes solo">Mandar emails a clientes sin que yo lo vea</label>
+   <label><input type="checkbox" value="Crear facturas en Holded">Crear facturas directamente en Holded</label>
+   <label><input type="checkbox" value="Borrar nada">Borrar nada</label>
+   <label><input type="checkbox" value="Enviar pedidos a Ecopress">Enviar pedidos a Ecopress</label>
+   <label><input type="checkbox" value="Dar precios de compra">Decir precios de compra o márgenes en voz alta</label>
+   <label><input type="checkbox" value="Cambiar precios">Cambiar precios de una oferta</label>
+  </div>
+ </div>
+ <div class="q"><label class="t">¿Algo más que te preocupe?</label>
+  <textarea name="Preocupaciones"></textarea>
+ </div>
+</section>
+
+<!-- 10 -->
+<section class="card">
+ <h2><span class="n">10</span>Prioridades</h2>
+ <p class="sub">Para saber por dónde empezamos y qué dejamos para las mejoras de cada mes.</p>
+ <div class="q"><label class="t">Si solo pudiéramos hacer UNA cosa este mes, ¿cuál sería? <span class="req">*</span></label>
+  <input type="text" name="Prioridad numero 1" required placeholder="Ej: poder preguntar por el estado de cualquier pedido mientras conduzco">
+ </div>
+ <div class="q"><label class="t">Ordena de 1 a 5 lo que más te urge <span class="hint">1 = lo primero</span></label>
+  <textarea name="Orden prioridades" placeholder="Consultar estado de pedidos&#10;Informes&#10;Crear ofertas dictando&#10;Seguimiento de ofertas paradas&#10;Enviar documentación a clientes"></textarea>
+ </div>
+ <div class="q"><label class="t">¿Cuánto tiempo al día calculas que pierdes hoy buscando esta información? <span class="hint">Aunque sea a ojo.</span></label>
+  <div class="opts">
+   <label><input type="radio" name="Tiempo perdido" value="Menos de 15 min">Menos de 15 minutos</label>
+   <label><input type="radio" name="Tiempo perdido" value="Entre 15 y 30 min">Entre 15 y 30 minutos</label>
+   <label><input type="radio" name="Tiempo perdido" value="Entre 30 min y 1h">Entre media hora y una hora</label>
+   <label><input type="radio" name="Tiempo perdido" value="Mas de 1h">Más de una hora</label>
+  </div>
+ </div>
+</section>
+
+<!-- 11 -->
+<section class="card">
+ <h2><span class="n">11</span>Para terminar</h2>
+ <div class="q"><label class="t">¿Hay algo más que quieras contarme o que se me haya olvidado preguntar?</label>
+  <textarea name="Comentarios finales"></textarea>
+ </div>
+ <div class="q"><label class="t">¿Cómo prefieres que te cuente los avances?</label>
+  <div class="opts">
+   <label><input type="radio" name="Contacto preferido" value="Email">Email</label>
+   <label><input type="radio" name="Contacto preferido" value="Telefono">Teléfono</label>
+   <label><input type="radio" name="Contacto preferido" value="WhatsApp">WhatsApp</label>
+   <label><input type="radio" name="Contacto preferido" value="Videollamada">Videollamada cada X</label>
+  </div>
+ </div>
+ <div class="note">🎤 <b>Lo más útil que puedes hacer ahora:</b> durante los próximos días, cada vez que se te ocurra algo que le preguntarías al asistente, mándamelo por WhatsApp aunque sea una nota de voz de diez segundos. Esas frases reales valen más que cualquier cuestionario.</div>
+</section>
+
+<div class="submit">
+ <button type="submit" id="btn">Enviar respuestas</button>
+ <div id="err">Falta tu email para poder responderte.</div>
+</div>
+</form>
+</div>
+
+<footer>Cuestionario preparado por <b>iAgusto.app</b> · La Pobla de Vallbona (Valencia)</footer>
+
+<script>
+const f=document.getElementById('f'),bar=document.getElementById('progress');
+function upd(){const s=[...document.querySelectorAll('section.card')];const done=s.filter(sec=>[...sec.querySelectorAll('input,textarea')].some(i=>((i.type==='radio'||i.type==='checkbox')?i.checked:(i.value.trim()!==''&&i.defaultValue!==i.value)))).length;bar.style.width=(done/s.length*100)+'%';}
+f.addEventListener('input',upd);f.addEventListener('change',upd);
+f.addEventListener('submit',e=>{
+ const em=f.querySelector('[name=_replyto]');
+ if(!em.value.trim()){e.preventDefault();document.getElementById('err').style.display='block';em.scrollIntoView({behavior:'smooth',block:'center'});em.focus();return;}
+ document.querySelectorAll('[data-group]').forEach(g=>{
+  const cbs=[...g.querySelectorAll('input[type=checkbox]')];if(!cbs.length)return;
+  const v=cbs.filter(c=>c.checked).map(c=>c.value).join(' | ');
+  const h=document.createElement('input');h.type='hidden';h.name=g.dataset.group;h.value=v||'(nada marcado)';f.appendChild(h);
+ });
+ document.getElementById('btn').disabled=true;document.getElementById('btn').textContent='Enviando…';
+});
+</script>
+</body>
+</html>
