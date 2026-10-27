@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedidos online para centros · COSUES · iAgusto.app</title>
+<meta name="description" content="Propuesta de iAgusto.app para COSUES: formulario de pedido con todo el catálogo, buscador, precios y pedido automático hasta la factura y el ERP.">
+<link rel="canonical" href="https://iagusto.app/propuesta-cosues-pedidos.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pedidos online para centros · Propuesta para COSUES">
+<meta property="og:description" content="Del Word rellenado a mano al pedido automático: catálogo con buscador, precios en vivo, factura y ERP.">
+<meta property="og:image" content="https://iagusto.app/preview-cosues-pedidos.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://iagusto.app/propuesta-cosues-pedidos.html">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="iAgusto.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pedidos online para centros · Propuesta para COSUES">
+<meta name="twitter:description" content="Del Word rellenado a mano al pedido automático: catálogo con buscador, precios en vivo, factura y ERP.">
+<meta name="twitter:image" content="https://iagusto.app/preview-cosues-pedidos.jpg">
+<meta name="theme-color" content="#1A3A5C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A3A5C;--navy-dark:#0f2338;--navy-light:#2a5080;--orange:#E87722;--orange-light:#F4955A;--orange-pale:#FEF0E6;--ink:#1d2733;--muted:#5d6b7a;--line:#e3e8ee;--bg:#f6f8fa;--ok:#1f8a5b;--warn:#b7791f;--bad:#c0392b}
+*{box-sizing:border-box}
+body{margin:0;font-family:"DM Sans",sans-serif;color:var(--ink);background:#fff;line-height:1.55;font-size:16px}
+h1,h2,h3{font-family:"DM Serif Display",serif;font-weight:400;line-height:1.15;text-wrap:balance}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+nav{background:var(--navy-dark);color:#fff;position:sticky;top:0;z-index:20}
+nav .wrap{display:flex;align-items:center;gap:24px;height:58px}
+.brand{font-weight:700;color:var(--orange);font-size:19px}
+nav .links{display:flex;gap:20px;margin-left:auto;font-size:14px}
+nav a{color:#cdd6e1;text-decoration:none}nav a:hover{color:#fff}
+.hero{background:linear-gradient(160deg,var(--navy-dark),var(--navy));color:#fff;border-top:6px solid var(--orange)}
+.hero .wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;padding-block:72px}
+.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--orange-light);font-weight:700}
+.hero h1{font-size:clamp(34px,5vw,54px);margin:12px 0 18px}
+.hero p{color:#d5deea;font-size:18px;max-width:58ch}
+.meta{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:26px;font-size:14px;color:#b8c5d6}
+.price-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:28px;align-self:center}
+.price-card .big{font-family:"DM Serif Display",serif;font-size:52px;color:#fff;line-height:1}
+.price-card .sub{color:var(--orange-light);font-weight:700;margin-top:6px}
+.price-card ul{margin:18px 0 0;padding-left:18px;color:#d5deea;font-size:15px}
+section{padding-block:72px}
+section.alt{background:var(--bg)}
+h2{font-size:clamp(28px,4vw,40px);margin:8px 0 14px;color:var(--navy)}
+.lead{color:var(--muted);max-width:68ch;font-size:17px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px}
+.card h3{font-size:22px;margin:0 0 8px;color:var(--navy)}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.pain .n{font-family:"DM Serif Display",serif;font-size:34px;color:var(--orange)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:32px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.steps div{padding:20px;border-right:1px solid var(--line)}
+.steps div:last-child{border-right:0}
+.steps b{display:block;color:var(--navy);margin-bottom:4px}
+.steps span{font-size:14px;color:var(--muted)}
+.steps .bad b{color:var(--bad)}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--orange-pale);color:var(--orange)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:28px}
+.flow .node{background:var(--navy);color:#fff;border-radius:10px;padding:12px 16px;font-weight:500;font-size:15px}
+.flow .arrow{color:var(--orange);font-weight:700}
+/* mockup */
+.tabs{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}
+.tab-btn{border:1px solid var(--line);background:#fff;padding:10px 16px;border-radius:8px;font:inherit;font-weight:500;cursor:pointer;color:var(--navy)}
+.tab-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.app{margin-top:14px;border-radius:14px;overflow:hidden;border:1px solid #cfd8e3;box-shadow:0 18px 40px -20px rgba(15,35,56,.35);background:#eef2f6}
+.app-top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:12px 18px;font-size:14px}
+.app-top .logo{font-weight:700}.app-top .who{margin-left:auto;color:#c6d2e0}
+.app-body{display:grid;grid-template-columns:200px 1fr;min-height:480px}
+.side{background:var(--navy-dark);color:#b9c6d6;padding:16px 0;font-size:14px}
+.side div{padding:9px 18px}.side .on{background:rgba(232,119,34,.18);color:#fff;border-left:3px solid var(--orange)}
+.main{padding:18px;min-width:0}
+.pane{display:none}.pane.active{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.kpi{background:#fff;border-radius:10px;padding:12px 14px;border:1px solid var(--line)}
+.kpi small{color:var(--muted);font-size:12px}.kpi b{display:block;font-size:22px;color:var(--navy);font-variant-numeric:tabular-nums}
+.toolbar{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.toolbar input,.toolbar select{height:38px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font:inherit;background:#fff;min-width:0}
+.toolbar input{flex:1 1 220px}
+.tbl{background:#fff;border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:#f3f6f9;color:var(--muted);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.desc{white-space:normal;min-width:220px}
+tr.sel{background:var(--orange-pale)}
+.q{width:62px;height:30px;border:1px solid var(--line);border-radius:6px;text-align:right;padding:0 6px;font:inherit}
+.st{font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px}
+.st.ok{background:#e3f4ec;color:var(--ok)}.st.warn{background:#fbf0dc;color:var(--warn)}.st.bad{background:#fbe5e2;color:var(--bad)}
+.cartbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--navy);color:#fff;border-radius:10px;padding:12px 16px;margin-top:12px}
+.cartbar b{font-size:20px;font-variant-numeric:tabular-nums}
+.cartbar button{margin-left:auto;background:var(--orange);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
+.mini{font-size:12px;color:var(--muted);margin-top:8px}
+/* inversión */
+.inv{display:grid;grid-template-columns:1.4fr 1fr;gap:24px;margin-top:32px;align-items:start}
+.lines .row{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.lines .row p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.lines .row .p{font-weight:700;color:var(--navy);white-space:nowrap;font-variant-numeric:tabular-nums}
+.total{background:var(--navy);color:#fff;border-radius:14px;padding:28px}
+.total .big{font-family:"DM Serif Display",serif;font-size:50px;line-height:1}
+.total .m{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.2)}
+.total .m .big{font-size:36px;color:var(--orange-light)}
+.total ul{padding-left:18px;color:#d5deea;font-size:14px;margin:10px 0 0}
+.note{font-size:14px;color:var(--muted);margin-top:16px}
+/* plan */
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+.timeline .card{border-top:4px solid var(--orange)}
+.timeline .w{font-size:13px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.06em}
+.team .logo-ph{display:inline-block;background:var(--navy);color:#fff;font-weight:700;padding:8px 12px;border-radius:8px;margin-bottom:12px}
+.team .logo-ph.o{color:var(--orange)}
+.cta{background:linear-gradient(160deg,var(--navy-dark),var(--navy));color:#fff;text-align:center}
+.cta h2{color:#fff}.cta p{color:#d5deea}
+.btn{display:inline-block;background:var(--orange);color:#fff;text-decoration:none;font-weight:700;padding:16px 28px;border-radius:10px;margin-top:18px}
+.cond{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px auto 0;max-width:900px;text-align:left}
+.cond div{background:rgba(255,255,255,.07);border-radius:10px;padding:16px;font-size:14px;color:#d5deea}
+.cond b{color:#fff;display:block;margin-bottom:4px}
+footer{background:var(--navy-dark);color:#8fa1b6;font-size:13px;padding-block:24px;text-align:center}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+@media (max-width:900px){
+  nav .links{display:none}
+  .hero .wrap,.grid3,.grid2,.inv,.timeline,.cond{grid-template-columns:1fr}
+  .price-card{display:none}
+  .steps{grid-template-columns:1fr 1fr}.steps div{border-bottom:1px solid var(--line)}
+  .app-body{grid-template-columns:1fr}.side{display:none}
+  .kpis{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap"><span class="brand">iAgusto.app</span>
+<div class="links"><a href="#diagnostico">Diagnóstico</a><a href="#solucion">Solución</a><a href="#demo">Vista previa</a><a href="#inversion">Inversión</a><a href="#plan">Plan</a></div></div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <div class="eyebrow">Propuesta para COSUES · Catarroja</div>
+    <h1>Que un colegio haga su pedido en cinco minutos y a vosotros os llegue ya grabado</h1>
+    <p>Un formulario con todo vuestro catálogo, buscador, precios y totales en vivo. Al enviarlo, el pedido entra solo en vuestra web, se genera la factura y pasa al ERP. Sin hojas en Word, sin teclear referencias y sin llamadas para preguntar precios.</p>
+    <div class="meta"><span>Preparada por César iAgusto · iagusto.app</span><span>25 de octubre de 2026</span><span>Vigencia: 30 días</span></div>
+  </div>
+  <aside class="price-card">
+    <div class="eyebrow">Inversión</div>
+    <div class="big">3.000 €</div>
+    <div class="sub">+ 300 €/mes de mantenimiento y mejora continua</div>
+    <ul><li>Precio cerrado, sin horas</li><li>Puesta en marcha en unas 8 semanas</li><li>IVA no incluido</li></ul>
+  </aside>
+</div></header>
+
+<section id="diagnostico"><div class="wrap">
+  <div class="eyebrow" style="color:var(--orange)">Diagnóstico</div>
+  <h2>Así se hace hoy un pedido de un colegio</h2>
+  <p class="lead">Lo hemos vivido haciendo un pedido real para una clase de infantil de 3 años. La hoja de pedido es un Word en blanco: referencia, cantidad, descripción, precio y total, todo a mano.</p>
+  <div class="steps">
+    <div class="bad"><b>1. Buscar</b><span>El maestro recorre la web o el PDF del catálogo ficha por ficha para encontrar cada referencia.</span></div>
+    <div class="bad"><b>2. Copiar</b><span>Copia a mano referencia, descripción y precio en el Word. Las variantes (colores, tamaños) son otra referencia en otra fila.</span></div>
+    <div class="bad"><b>3. Calcular</b><span>Multiplica y suma él mismo. No sabe si el precio es por unidad, por caja o por pack.</span></div>
+    <div class="bad"><b>4. Enviar</b><span>Manda el Word por correo o WhatsApp y vuestro equipo lo vuelve a teclear en el sistema.</span></div>
+  </div>
+  <div class="grid3 pain">
+    <div class="card"><div class="n">3 h</div><h3>por profesor y pedido</h3><p>Es lo que lleva a cada profesor buscar, comprobar y rellenar su pedido. En un centro, sumando todos sus profesores, son muchas horas más en cada campaña. Y suelen salir de su tiempo libre, fuera del horario de clase.</p></div>
+    <div class="card"><div class="n">2 veces</div><h3>se teclea cada pedido</h3><p>Una vez el maestro en el Word y otra vuestro equipo al grabarlo. Cada tecleo es una ocasión de error en referencias y cantidades.</p></div>
+    <div class="card"><div class="n">Dudas</div><h3>que acaban en llamada</h3><p>En el pedido de prueba aparecieron referencias que ya no estaban en la web, variantes sin precio visible y formatos (caja de 100, pack de 15) que no se ven a primera vista.</p></div>
+  </div>
+</div></section>
+
+<section id="solucion" class="alt"><div class="wrap">
+  <div class="eyebrow" style="color:var(--orange)">Solución</div>
+  <h2>Un portal de pedidos conectado de punta a punta</h2>
+  <p class="lead">El centro entra con su usuario, ve su tarifa y marca lo que necesita. Vosotros recibís el pedido ya validado y listo para servir.</p>
+  <div class="flow"><span class="node">Catálogo COSUES</span><span class="arrow">→</span><span class="node">Formulario de pedido</span><span class="arrow">→</span><span class="node">Pedido en la web</span><span class="arrow">→</span><span class="node">Factura</span><span class="arrow">→</span><span class="node">ERP</span><span class="arrow">→</span><span class="node">Aviso al centro</span></div>
+  <div class="grid3">
+    <div class="card"><span class="tag">Catálogo</span><h3>Todo el catálogo, siempre al día</h3><p>Sincronizado con vuestra web y ERP: referencias, variantes, formato (unidad, caja, pack), stock y plazo. Si un artículo se descataloga, deja de aparecer.</p></div>
+    <div class="card"><span class="tag">Buscador</span><h3>Encontrar en segundos</h3><p>Por nombre, referencia, marca o familia, con filtros por categoría. Las variantes de color o tamaño se eligen dentro de la misma línea.</p></div>
+    <div class="card"><span class="tag">Pago</span><h3>Pasarela de pago</h3><p>Opcional: que el centro o la familia paguen al cerrar el pedido, con tarjeta, Bizum o transferencia. Se presupuesta aparte según cómo queráis cobrar.</p></div>
+    <div class="card"><span class="tag">Precios</span><h3>Precio unitario y total en vivo</h3><p>Con la tarifa del centro si ha iniciado sesión o la general si no. Cada línea muestra su subtotal y el pedido su total con IVA.</p></div>
+    <div class="card"><span class="tag">Pedido</span><h3>Enviar es cerrar el pedido</h3><p>Con los datos del centro, la clase y las observaciones. El pedido entra en vuestra tienda online como cualquier otro, sin teclearlo.</p></div>
+    <div class="card"><span class="tag">Factura y ERP</span><h3>Factura generada y ERP actualizado</h3><p>Se emite la factura a nombre del solicitante (útil para ayudas y deducciones) y se crea el pedido en el ERP con su stock reservado.</p></div>
+    <div class="card"><span class="tag">Extra</span><h3>Plantillas, listas y avisos</h3><p>Pedidos tipo por curso que se repiten cada año, lotes de material del alumnado, aviso de stock y plazo, y seguimiento del pedido para el centro.</p></div>
+  </div>
+</div></section>
+
+<section id="demo"><div class="wrap">
+  <div class="eyebrow" style="color:var(--orange)">Vista previa</div>
+  <h2>Cómo lo vería un centro y cómo lo veríais vosotros</h2>
+  <p class="lead">Maqueta interactiva con artículos de ejemplo. Prueba a buscar ("témpera", "letra") y a cambiar cantidades.</p>
+  <div class="tabs">
+    <button class="tab-btn active" data-t="centro">Vista del centro</button>
+    <button class="tab-btn" data-t="cosues">Vista de COSUES</button>
+  </div>
+  <div class="app">
+    <div class="app-top"><span class="logo">COSUES · Pedidos</span><span class="who" id="who">CEIP Ejemplo · Infantil 3 años B</span></div>
+    <div class="app-body">
+      <div class="side" id="side"></div>
+      <div class="main">
+        <div class="pane active" id="p-centro">
+          <div class="toolbar"><input id="q" type="search" placeholder="Buscar por nombre, referencia o marca" aria-label="Buscar"><select id="fam" aria-label="Familia"><option value="">Todas las familias</option></select></div>
+          <div class="tbl"><table><thead><tr><th>Ref.</th><th>Descripción</th><th>Formato</th><th>Plazo</th><th class="num">Precio</th><th class="num">Cant.</th><th class="num">Subtotal</th></tr></thead><tbody id="rows"></tbody></table></div>
+          <div class="cartbar"><span id="nl">0 líneas</span><b id="tot">0,00 €</b><span style="color:#c6d2e0;font-size:13px">IVA incluido</span><button type="button" id="send">Enviar pedido</button></div>
+          <div class="mini" id="msg">Al enviar: pedido en la web, factura y alta en el ERP, sin teclear nada.</div>
+        </div>
+        <div class="pane" id="p-cosues">
+          <div class="kpis">
+            <div class="kpi"><small>Pedidos hoy</small><b>14</b></div>
+            <div class="kpi"><small>Importe hoy</small><b>3.982 €</b></div>
+            <div class="kpi"><small>Pendientes de stock</small><b>3</b></div>
+            <div class="kpi"><small>Facturados</small><b>11</b></div>
+          </div>
+          <div class="tbl"><table><thead><tr><th>Pedido</th><th>Centro</th><th>Clase</th><th class="num">Líneas</th><th class="num">Importe</th><th>Estado</th></tr></thead><tbody>
+            <tr><td>P-26-1041</td><td>CEIP Ejemplo (Sagunto)</td><td>Infantil 3 años B</td><td class="num">42</td><td class="num">328,03 €</td><td><span class="st ok">Facturado · en ERP</span></td></tr>
+            <tr><td>P-26-1040</td><td>CEIP Ejemplo (Paterna)</td><td>1.º Primaria</td><td class="num">18</td><td class="num">142,70 €</td><td><span class="st ok">Facturado · en ERP</span></td></tr>
+            <tr><td>P-26-1039</td><td>Escola Ejemplo (Torrent)</td><td>Infantil 4 años</td><td class="num">27</td><td class="num">265,10 €</td><td><span class="st warn">2 líneas a +7 días</span></td></tr>
+            <tr><td>P-26-1038</td><td>IES Ejemplo (Catarroja)</td><td>Dpto. Plástica</td><td class="num">9</td><td class="num">412,55 €</td><td><span class="st bad">Sin stock: 1 línea</span></td></tr>
+            <tr><td>P-26-1037</td><td>CEIP Ejemplo (Alzira)</td><td>Infantil 5 años</td><td class="num">35</td><td class="num">301,20 €</td><td><span class="st ok">Facturado · en ERP</span></td></tr>
+          </tbody></table></div>
+          <div class="mini">Centros y pedidos de ejemplo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="inversion" class="alt"><div class="wrap">
+  <div class="eyebrow" style="color:var(--orange)">Inversión</div>
+  <h2>Precio cerrado por entregable</h2>
+  <div class="inv">
+    <div class="lines">
+      <div class="row"><div><b>Portal de pedidos con catálogo completo</b><p>Formulario con buscador, filtros, variantes, precio unitario, subtotales y total. Acceso por centro con su tarifa.</p></div><span class="p">1.400 €</span></div>
+      <div class="row"><div><b>Sincronización del catálogo</b><p>Carga y actualización automática de referencias, precios, formatos, stock y plazos desde vuestra web o ERP.</p></div><span class="p">800 €</span></div>
+      <div class="row"><div><b>Automatización del pedido y la factura</b><p>El pedido entra en vuestra tienda online y se genera la factura a nombre del solicitante, con aviso por correo al centro.</p></div><span class="p">800 €</span></div>
+      <div class="row"><div><b>Integración con el ERP</b><p>Alta del pedido, reserva de stock y estado de vuelta al portal.</p></div><span class="p">Incluida</span></div>
+      <div class="row"><div><b>Pasarela de pago (opcional)</b><p>Cobro al cerrar el pedido con tarjeta, Bizum o transferencia.</p></div><span class="p">Aparte</span></div>
+      <p class="note">La pasarela de pago se presupuesta aparte según cómo queráis cobrar. La oferta incluye todo junto. Cualquier cambio tendrá que volver a presupuestarse en conjunto.</p>
+    </div>
+    <div class="total">
+      <div class="eyebrow">Implantación</div>
+      <div class="big">3.000 €</div>
+      <div style="color:#d5deea;margin-top:6px;font-size:14px">50 % a la firma · 50 % en la entrega de la v1.0</div>
+      <div class="m">
+        <div class="eyebrow">Mantenimiento y mejora continua</div>
+        <div class="big">300 €/mes</div>
+        <ul><li>Alojamiento, copias y actualizaciones de seguridad</li><li>Vigilancia de la sincronización y del enlace con el ERP</li><li>Corrección de incidencias</li><li>Mejoras continuas cada mes: nuevos filtros, plantillas por curso, informes</li></ul>
+      </div>
+      <div style="color:#9fb0c4;font-size:13px;margin-top:16px">Importes sin IVA.</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="plan"><div class="wrap">
+  <div class="eyebrow" style="color:var(--orange)">Plan de trabajo</div>
+  <h2>En marcha en unas 8 semanas</h2>
+  <div class="timeline">
+    <div class="card"><div class="w">Semanas 1-2</div><h3>Análisis y catálogo</h3><p>Revisión de vuestra web, ERP y tarifas. Primera carga del catálogo.</p></div>
+    <div class="card"><div class="w">Semanas 3-4</div><h3>Portal de pedidos</h3><p>Formulario, buscador, precios y acceso de centros. Prueba con un centro piloto.</p></div>
+    <div class="card"><div class="w">Semanas 5-6</div><h3>Pedido, factura y ERP</h3><p>Automatización completa desde el envío hasta el ERP. Pruebas con pedidos reales.</p></div>
+    <div class="card"><div class="w">Semanas 7-8</div><h3>Entrega v1.0</h3><p>Ajustes, formación a vuestro equipo y salida a todos los centros.</p></div>
+  </div>
+  <p class="note">El plazo depende de que tengamos acceso a la web y al ERP en las dos primeras semanas.</p>
+</div></section>
+
+<section class="alt team"><div class="wrap">
+  <div class="eyebrow" style="color:var(--orange)">Equipo</div>
+  <h2>Quién lo hace</h2>
+  <div class="grid2">
+    <div class="card"><span class="logo-ph o">iAgusto.app</span><h3>César iAgusto · iagusto.app</h3><p>Análisis del proceso, dirección técnica, desarrollo, automatizaciones, despliegue y soporte. Software a medida y automatización con IA para pymes españolas.</p></div>
+  </div>
+</div></section>
+
+<section class="cta"><div class="wrap">
+  <h2>¿Lo ponemos en marcha?</h2>
+  <p>Una reunión de 30 minutos con vuestro equipo de pedidos es suficiente para arrancar.</p>
+  <a class="btn" href="mailto:cesar@iagusto.app?subject=Propuesta%20COSUES%20-%20Acepto&body=Hola%20C%C3%A9sar%2C%0A%0AConfirmo%20la%20aceptaci%C3%B3n%20de%20la%20propuesta%20de%20pedidos%20online%20para%20centros.%0A%0ASaludos">Acepto la propuesta → Arranquemos</a>
+  <a class="btn" style="background:transparent;border:2px solid var(--orange-light);margin-left:10px" href="mailto:cesar@iagusto.app?subject=Propuesta%20COSUES%20-%20Tengo%20una%20duda&body=Hola%20C%C3%A9sar%2C%0A%0ATengo%20una%20duda%20sobre%20la%20propuesta%3A%0A%0A">Tengo una duda</a>
+  <p style="font-size:14px;margin-top:14px">cesar@iagusto.app</p>
+  <div class="cond">
+    <div><b>Vigencia</b>30 días desde la fecha de la propuesta.</div>
+    <div><b>Impuestos</b>Importes sin IVA (21 %).</div>
+    <div><b>Mantenimiento</b>Mensual, sin permanencia. Se cancela con 30 días de preaviso.</div>
+  </div>
+</div></section>
+
+<footer>iAgusto.app · Software a medida y automatización con IA · La Pobla de Vallbona (Valencia)</footer>
+
+<script>
+const P=[
+["91400","Lápiz HB Staedtler Noris jumbo 119","Escritura","Caja 12",13.23,"ok"],
+["91472","Lápiz Stabilo Woody 3 en 1 surtidos","Escritura","Estuche 6",9.83,"ok"],
+["91479","Lápiz Stabilo Woody 3 en 1 Pastel + sacapuntas","Escritura","Estuche 6",13.78,"ok"],
+["91656","Kit escolar Giotto Turbo Maxi","Escritura","Kit 108",37.50,"ok"],
+["90201-01","Cartulina A4 Descom Blanco","Papel","Paq. 100 h.",7.38,"ok"],
+["90472-01","Rollo gomets Apli círculos 20 mm Blanco","Gomets","Rollo",3.69,"ok"],
+["90486-74","Rollo gomets estrellas metalizadas 33 mm Oro","Gomets","Rollo",5.60,"ok"],
+["42726","Barra pegamento 40 g Descom","Adhesivos","Unidad",1.11,"ok"],
+["90946","Cola blanca Descom 250 g","Adhesivos","Unidad",2.21,"ok"],
+["91050-99","Plastilina Jovi 150 g surtida","Modelado","Caja 15",21.73,"ok"],
+["92100-01","Témpera líquida Jovi 500 ml Blanco","Pintura","Bote",3.73,"ok"],
+["92100-09","Témpera líquida Jovi 500 ml Rojo","Pintura","Bote",3.73,"ok"],
+["92100-17","Témpera líquida Jovi 500 ml Azul claro","Pintura","Bote",3.73,"ok"],
+["92282","Pincel infantil Milan 213","Pintura","Unidad",1.77,"ok"],
+["93731A","Letra A papel maché 20 cm","Manualidades","Unidad",1.95,"warn"],
+["93731D","Letra D papel maché 20 cm","Manualidades","Unidad",1.95,"ok"],
+["12356-00","Sobre pp. broche Descom A5 transparente","Archivo","Unidad",0.35,"ok"],
+["53305","Carteras plastificar 125 micras A4","Archivo","Caja 100",15.97,"ok"],
+["91142","Arena para modelar Jovi","Modelado","Bote 3,5 kg",36.60,"warn"]
+];
+const q={};
+const eur=v=>v.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
+const fams=[...new Set(P.map(p=>p[2]))];
+const fam=document.getElementById("fam");
+fams.forEach(f=>{const o=document.createElement("option");o.value=f;o.textContent=f;fam.appendChild(o)});
+function render(){
+  const t=document.getElementById("q").value.trim().toLowerCase(),f=fam.value;
+  const tb=document.getElementById("rows");tb.innerHTML="";
+  P.forEach(p=>{
+    if(f&&p[2]!==f)return;
+    if(t&&!(p[0]+" "+p[1]).toLowerCase().includes(t))return;
+    const n=q[p[0]]||0,tr=document.createElement("tr");if(n)tr.className="sel";
+    tr.innerHTML=`<td>${p[0]}</td><td class="desc">${p[1]}</td><td>${p[3]}</td><td>${p[5]==="ok"?'<span class="st ok">Stock</span>':'<span class="st warn">+7 días</span>'}</td><td class="num">${eur(p[4])}</td><td class="num"><input class="q" type="number" min="0" value="${n}" aria-label="Cantidad ${p[1]}"></td><td class="num">${n?eur(n*p[4]):"—"}</td>`;
+    tr.querySelector("input").addEventListener("change",e=>{q[p[0]]=Math.max(0,parseInt(e.target.value)||0);render()});
+    tb.appendChild(tr);
+  });
+  let tot=0,nl=0;P.forEach(p=>{const n=q[p[0]]||0;if(n){nl++;tot+=n*p[4]}});
+  document.getElementById("tot").textContent=eur(tot);
+  document.getElementById("nl").textContent=nl+(nl===1?" línea":" líneas");
+}
+q["92100-01"]=1;q["92282"]=20;q["42726"]=5;q["91472"]=2;
+document.getElementById("q").addEventListener("input",render);fam.addEventListener("change",render);
+document.getElementById("send").addEventListener("click",()=>{document.getElementById("msg").textContent="Pedido enviado (simulación): entra en la web, se emite la factura y se da de alta en el ERP.";});
+const side=document.getElementById("side");
+function setSide(v){side.innerHTML=v==="centro"?'<div class="on">Nuevo pedido</div><div>Mis pedidos</div><div>Plantillas por curso</div><div>Facturas</div>':'<div class="on">Pedidos de centros</div><div>Catálogo y sincronización</div><div>Facturación</div><div>Enlace con ERP</div>';
+document.getElementById("who").textContent=v==="centro"?"CEIP Ejemplo · Infantil 3 años B":"Equipo de pedidos COSUES";}
+document.querySelectorAll(".tab-btn").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tab-btn").forEach(x=>x.classList.toggle("active",x===b));
+  document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("active",p.id==="p-"+b.dataset.t));setSide(b.dataset.t);
+}));
+setSide("centro");render();
+</script>
+</body>
+</html>
