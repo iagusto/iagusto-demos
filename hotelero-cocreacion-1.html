@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software para el sector hotelero · Construimos juntos · iAgusto.app</title>
+<meta name="description" content="Desarrollo conjunto de software para hoteles: tú aportas los dolores reales del sector y validas, nosotros construimos.">
+<meta name="theme-color" content="#1A3A5C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Software para el sector hotelero · Construimos juntos">
+<meta property="og:description" content="Tú aportas los dolores reales del sector y validas cada paso. Nosotros construimos.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="iAgusto.app">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A3A5C;--navy-dark:#0f2338;--navy-light:#2a5080;--orange:#E87722;--orange-light:#F4955A;--orange-pale:#FEF0E6;--bg:#f4f6f9;--line:#dde3ea;--ink:#1d2733;--mut:#5d6b7a}
+*{box-sizing:border-box}
+body{margin:0;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400;margin:0}
+.hero{background:linear-gradient(180deg,var(--navy),var(--navy-dark));color:#fff;padding:48px 20px 56px;border-top:8px solid var(--orange)}
+.wrap{max-width:920px;margin:0 auto;padding:0 16px}
+.hero .wrap{padding:0}
+.brand{font-weight:700;letter-spacing:.08em;color:var(--orange);font-size:14px;margin-bottom:26px}
+.hero h1{font-size:clamp(30px,6vw,46px);line-height:1.1;margin-bottom:12px}
+.hero p{color:#cfd9e4;max-width:660px;font-size:17px;margin:8px 0}
+.tag{display:inline-block;background:var(--orange);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin:16px 0}
+.pale{background:var(--orange-pale);border-left:5px solid var(--orange)}
+h2.sec{font-size:28px;margin:40px 0 4px;color:var(--navy)}
+.lead{color:var(--mut);margin:0 0 6px}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.role{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}
+.role b{color:var(--navy);display:block;font-size:17px;margin-bottom:4px}
+.role.o{border-top:4px solid var(--orange)}.role.n{border-top:4px solid var(--navy)}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.step{flex:1;min-width:150px;background:var(--navy);color:#fff;border-radius:10px;padding:10px 12px;font-size:14px}
+.step i{font-style:normal;color:var(--orange-light);font-weight:700;display:block;font-size:12px;letter-spacing:.06em}
+.q{margin:16px 0}
+.q label.t{display:block;font-weight:700;margin-bottom:4px}
+.q .h{font-size:13px;color:var(--mut);margin:0 0 6px}
+.opt{display:block;padding:6px 10px;border:1px solid var(--line);border-radius:8px;margin:4px 0;cursor:pointer;font-size:15px}
+.opt:hover{background:#f8fafc}
+.opt input{margin-right:8px}
+input[type=text],textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+textarea{min-height:84px;resize:vertical}
+.scale{display:flex;gap:6px}
+.scale label{flex:1;text-align:center;border:2px solid var(--line);border-radius:10px;padding:8px 0;cursor:pointer;font-weight:700}
+.scale input{display:none}
+.scale label:has(input:checked){background:var(--orange);border-color:var(--orange);color:#fff}
+.scalel{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-top:3px}
+details.area{background:#fff;border:1px solid var(--line);border-radius:14px;margin:12px 0;overflow:hidden}
+details.area>summary{list-style:none;cursor:pointer;padding:16px 20px;background:var(--navy);color:#fff;display:flex;gap:12px;align-items:center}
+details.area>summary::-webkit-details-marker{display:none}
+details.area .num{background:var(--orange);border-radius:50%;width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700}
+details.area summary h3{font-size:21px;flex:1}
+details.area summary:after{content:"＋";font-size:20px;color:var(--orange-light)}
+details.area[open]>summary:after{content:"－"}
+.ab{padding:6px 20px 20px}
+.think{background:#eaf0f7;border-radius:10px;padding:10px 14px;font-size:14px;color:var(--navy);margin:14px 0 4px}
+.free{background:var(--orange-pale);border-radius:10px;padding:12px;margin-top:16px}
+.free label{font-weight:700;display:block;margin-bottom:6px}
+.hyp{border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0;background:#fff}
+.hyp b{color:var(--navy);display:block;margin-bottom:2px}
+.hyp p{margin:0 0 8px;color:var(--mut);font-size:14px}
+.btn{background:var(--orange);color:#fff;border:0;border-radius:10px;padding:14px 26px;font:inherit;font-weight:700;font-size:17px;cursor:pointer}
+.btn:disabled{opacity:.6}
+#msg{margin-top:14px;font-weight:700}
+footer{background:var(--navy-dark);color:#9fb0c3;text-align:center;padding:26px 16px;margin-top:40px;font-size:14px}
+footer b{color:var(--orange)}
+@media(max-width:700px){.roles{grid-template-columns:1fr}details.area summary h3{font-size:18px}}
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="wrap">
+  <div class="brand">IAGUSTO.APP</div>
+  <span class="tag">Desarrollo conjunto · Sector hotelero</span>
+  <h1>Construimos juntos el software que un hotel necesita de verdad</h1>
+  <p>Alejandro: la idea es crear un producto para hoteles, no un traje a medida para uno solo. Tú aportas lo que nadie que no haya dirigido un hotel sabe: los dolores concretos, los históricos, los errores caros. Y validas cada paso del desarrollo. Nosotros lo construimos.</p>
+</div></div>
+
+<div class="wrap">
+
+<h2 class="sec">Cómo trabajaremos</h2>
+<div class="card">
+  <div class="roles">
+    <div class="role o"><b>Tu papel: experto del sector</b>
+      Cuentas qué duele, cuánto cuesta y cómo se vive en un hotel. Revisas lo que vamos haciendo con ojos de director y nos dices "esto no es así" o "esto sí, pero falta esto". Con tu criterio decidimos qué se construye primero.</div>
+    <div class="role n"><b>Nuestro papel: desarrollo</b>
+      Traducimos tus dolores a un producto que funciona: automatizaciones, aplicación web, IA con datos reales y cálculos fiables. Te enseñamos avances pronto y a menudo, sin esperar a que esté "perfecto".</div>
+  </div>
+  <div class="steps">
+    <div class="step"><i>1 · AHORA</i>Tú cuentas los dolores (este documento)</div>
+    <div class="step"><i>2</i>Nosotros priorizamos y proponemos un primer módulo</div>
+    <div class="step"><i>3</i>Prototipo con datos ficticios para que lo valides</div>
+    <div class="step"><i>4</i>Pruebas con datos reales del hotel</div>
+    <div class="step"><i>5</i>Ajustes y siguiente módulo</div>
+  </div>
+</div>
+
+<div class="card pale">
+  <b>Cómo rellenarlo</b>
+  <ul style="margin:8px 0 0;padding-left:20px">
+    <li>No hace falta contestarlo todo ni de una vez. Se guarda en tu navegador.</li>
+    <li>Lo más valioso son los <b>casos reales</b>: "el mes pasado pasó esto y nos costó tanto".</li>
+    <li>Cada cuadro de texto libre es tuyo: datos, cifras, manías del sector, cosas que viste en otros hoteles. Escribe todo lo que se te ocurra.</li>
+    <li>Si algo de lo que preguntamos no tiene sentido, dilo. Eso también nos sirve.</li>
+  </ul>
+</div>
+
+<h2 class="sec">1 · Tu experiencia</h2>
+<p class="lead">Para saber desde dónde nos hablas y qué tipo de hotel puede beneficiarse.</p>
+<div class="card" id="perfil"></div>
+
+<h2 class="sec">2 · Mapa de dolores por departamento</h2>
+<p class="lead">Abre los departamentos donde más sufres. Los que no te digan nada, déjalos cerrados. La puntuación sirve para ordenar: 1 = molesta poco, 5 = nos hace perder mucho tiempo o dinero.</p>
+<div id="areas"></div>
+
+<h2 class="sec">3 · Los dolores de siempre</h2>
+<p class="lead">Lo que atraviesa todo el hotel y solo se sabe con años de oficio.</p>
+<div class="card" id="historico"></div>
+
+<h2 class="sec">4 · Tu ejemplo: The Total Profit Journey</h2>
+<p class="lead">Nos pasaste esta referencia y la hemos estudiado. Esto es lo que entendemos y lo que queremos contrastar contigo.</p>
+
+<div class="card pale">
+  <b>La idea de fondo: Total Profit Management</b>
+  <p style="margin:6px 0">En vez de gestionar cada departamento por separado, se mide la rentabilidad total del hotel. Ejemplo: una habitación vendida a 250 €. ¿Cuánto fue de comisión por conseguir la reserva? ¿Cuánto costó prepararla y limpiarla? ¿Cuánto gastó el cliente en restaurante, bar y spa? ¿Qué margen dejaron esos servicios? ¿Qué beneficio extra habría con una oferta personalizada? El objetivo no es llenar a cualquier precio, sino que cada reserva aporte el máximo beneficio.</p>
+  <p style="margin:6px 0 0"><b>Lo que ellos hacen y nosotros no copiaremos:</b> sus productos de revenue y de ventas adicionales ya existen a precios bajos. <b>Donde sí vemos hueco:</b> conectar los datos de todo el hotel (reservas, restauración, spa, compras, facturas) y personalizarlo para un hotel boutique, con cálculos exactos y una IA que solo explica, no inventa.</p>
+</div>
+
+<div class="card">
+  <b>Lo que venden (según su propia documentación comercial; precios y cifras sin verificar de forma independiente)</b>
+  <div id="productos"></div>
+</div>
+
+<div class="card">
+  <b>UTOPIA: la IA conectada a todo el hotel</b>
+  <p style="margin:6px 0">Anunciaron en octubre un conector para Claude que permite preguntar a los datos de revenue, operaciones, compras, contabilidad y finanzas a la vez. Por ejemplo: "¿qué proveedores han subido precios este trimestre y cómo ha afectado a la rentabilidad?" o "¿qué departamento está hundiendo el margen este mes?". No hemos encontrado una demostración pública que lo confirme, así que lo tomamos como idea, no como hecho.</p>
+  <div id="tpj"></div>
+</div>
+
+<div class="card" id="optimizar"></div>
+
+<h2 class="sec">5 · Ideas de producto a validar</h2>
+<p class="lead">Son hipótesis, no promesas. Dinos cuáles resuelven un dolor real y cuáles son humo.</p>
+<div id="hipotesis"></div>
+
+<h2 class="sec">6 · Datos y sistemas</h2>
+<p class="lead">De esto depende qué se puede construir y con qué fiabilidad. Un panel con datos malos solo da respuestas bonitas y equivocadas.</p>
+<div class="card" id="sistemas"></div>
+
+<h2 class="sec">7 · Validar y vender</h2>
+<p class="lead">Si el producto funciona en Hacienda de Abajo, ¿funcionaría en otros hoteles?</p>
+<div class="card" id="mercado"></div>
+
+<h2 class="sec">Para cerrar</h2>
+<div class="card" id="cierre"></div>
+
+<div class="card">
+  <button class="btn" id="enviar">Enviar mis respuestas</button>
+  <div id="msg"></div>
+  <p style="color:var(--mut);font-size:14px;margin-bottom:0">Las respuestas llegan directamente a César. Puedes volver a enviarlas si añades algo después.</p>
+</div>
+
+</div>
+<footer>©S.A.® <b>IAGUSTO</b> · iAgusto.app</footer>
+
+<script>
+var FORM_URL="https://formspree.io/f/xqenkjpv";
+var STORE="hotelero_cocreacion_v1";
+var LABELS={};
+
+/* t=texto, a=área, r=una opción, c=varias, s=escala 1-5 */
+var PERFIL=[
+ {id:"nombre",t:"t",l:"Tu nombre y cargo actual"},
+ {id:"anos",t:"t",l:"¿Cuántos años llevas en el sector y en qué puestos has trabajado (recepción, dirección, revenue, F&B...)?"},
+ {id:"tipos",t:"a",l:"¿En qué tipos de hotel has trabajado? (tamaño, categoría, vacacional/urbano, independiente/cadena, destinos)"},
+ {id:"diferencia",t:"a",l:"¿Qué cosas se hacen distinto en un hotel boutique independiente como Hacienda de Abajo respecto a uno de cadena o de gran tamaño?"},
+ {id:"disp",t:"r",l:"¿Qué disponibilidad realista tienes para validar el desarrollo?",o:["Una llamada corta cada semana","Una sesión cada dos semanas","Revisiones puntuales cuando haya avances","Depende de la temporada"]},
+ {id:"canal",t:"r",l:"¿Cómo prefieres que te enseñemos los avances?",o:["Videollamada con pantalla compartida","Un enlace para probarlo tú solo","Vídeos cortos que veas cuando puedas","Presencial en el hotel"]}
+];
+
+var AREAS=[
+ {id:"reservas",n:"Reservas y recepción",think:"Overbooking, cambios y cancelaciones, no-shows, preparación de la llegada, peticiones especiales, doble trabajo entre sistemas, comunicación con el huésped."},
+ {id:"revenue",n:"Precios, distribución y revenue",think:"Fijar tarifas, paridad, comisiones de OTAs, cancelaciones tardías, previsión de ocupación, mirar a la competencia, saber por qué se vende menos que el año pasado."},
+ {id:"fb",n:"Restauración y bar",think:"Carta y menú del día, coste de producto, mermas, reservas de mesa, turnos, ventas por servicio, proveedores, rentabilidad por plato."},
+ {id:"spa",n:"Spa y bienestar",think:"Citas y cabinas, ocupación, cancelaciones, venta cruzada con el alojamiento, consumibles, personal."},
+ {id:"hk",n:"Pisos y mantenimiento",think:"Reparto de habitaciones, averías sin seguimiento, lencería, mantenimiento preventivo, objetos olvidados, comunicación entre departamentos."},
+ {id:"compras",n:"Compras, almacén y proveedores",think:"Pedidos, albaranes y facturas, subidas de precio que no se detectan, stock, inventarios, devoluciones, comparar proveedores."},
+ {id:"eventos",n:"Bodas, eventos y grupos",think:"Solicitudes por varios canales, presupuestos, seguimiento comercial, organización del día, coordinación con restauración y alojamiento, qué eventos dejan margen."},
+ {id:"finanzas",n:"Administración y finanzas",think:"Cierres, conciliación de cobros, comisiones, informes para propiedad o gestoría, tesorería, saber el resultado real por área."},
+ {id:"personal",n:"Personal y turnos",think:"Planificar con estacionalidad, horas extra, ausencias, contratación de temporada, formación, rotación."},
+ {id:"marketing",n:"Marketing, reputación y fidelización",think:"Reseñas, base de clientes que no se aprovecha, clientes que repiten, venta directa frente a OTAs, campañas, web propia."},
+ {id:"direccion",n:"Dirección y propiedad",think:"Qué cifras miras cada día, cada semana y cada mes, cuánto tardas en tenerlas, decisiones tomadas a ojo, reuniones de seguimiento."}
+];
+var AREAQ=[
+ {id:"dolor",t:"a",l:"¿Cuál es el principal dolor en esta área?"},
+ {id:"hoy",t:"a",l:"¿Cómo se hace hoy? (programas, Excel, papel, WhatsApp, a mano) ¿Quién lo hace y cuánto tiempo le lleva?"},
+ {id:"hist",t:"a",l:"¿Desde cuándo ocurre y qué se ha intentado antes? ¿Por qué no funcionó?"},
+ {id:"caso",t:"a",l:"Un caso real reciente o muy típico: qué pasó, qué consecuencia tuvo (dinero, tiempo, un cliente perdido...)"},
+ {id:"coste",t:"t",l:"Si tuvieras que estimar lo que cuesta al año (en horas o en euros), ¿cuánto sería? Aunque sea a ojo."},
+ {id:"grave",t:"s",l:"Gravedad del dolor",h:"1 = molesta poco · 5 = nos hace perder mucho"}
+];
+
+var HISTORICO=[
+ {id:"errores",t:"a",l:"Los errores más caros que has visto cometer en un hotel (tuyos o de otros)."},
+ {id:"datos",t:"a",l:"Decisiones que se tomaron mal por no tener los datos a tiempo."},
+ {id:"temporada",t:"a",l:"¿Cómo cambia el hotel entre temporada alta y baja, y qué se rompe en cada una?"},
+ {id:"herramientas",t:"a",l:"Programas o herramientas que se probaron y se abandonaron. ¿Qué falló: precio, complicado, no encajaba, el equipo no lo usó?"},
+ {id:"resistencia",t:"a",l:"¿Qué cosas el equipo NO va a querer cambiar nunca, aunque las mejoremos? ¿Y qué cambiarían encantados?"},
+ {id:"mitos",t:"a",l:"Mitos del sector que una persona de fuera daría por ciertos y tú sabes que no son así."}
+];
+
+var OPTIMIZAR=[
+ {id:"objetivos",t:"c",l:"Para ti, optimizar un hotel es sobre todo (marca hasta 3):",o:["Vender más caro","Llenar más en temporada baja","Vender más servicios a cada huésped","Reducir costes de compra","Reducir el trabajo administrativo","Reducir errores y reclamaciones","Tomar decisiones con datos fiables","Mejorar la experiencia del huésped","Ahorrar tiempo a dirección","Mejorar el trabajo del equipo"]},
+ {id:"medida",t:"a",l:"¿Cómo sabrías que una herramienta funciona? ¿Qué cifra tendría que cambiar y cuánto?"},
+ {id:"nunca",t:"a",l:"¿Qué NO debería hacer nunca un software de este tipo en un hotel? (por confianza, por trato al cliente, por imagen)"}
+];
+
+var HIPOTESIS=[
+ {id:"h_rentab",n:"Cuadro de mando de rentabilidad total",d:"Ingresos, costes y margen de habitaciones, restaurante, spa y eventos en un solo sitio, con cálculos exactos y trazables hasta el dato de origen. (Es el enfoque de Total Profit Management.)"},
+ {id:"h_upsell",n:"Asistente de ventas adicionales al huésped",d:"Propuestas personalizadas antes y durante la estancia (cenas, spa, experiencias) conectadas a la disponibilidad real. (Equivalente a DeepUpsell, pero adaptado a los servicios concretos del hotel.)"},
+ {id:"h_compras",n:"Control de compras y coste de producto",d:"Alertas de subidas de precio, comparación entre proveedores y coste real de cada plato."},
+ {id:"h_eventos",n:"Gestión comercial de bodas y eventos",d:"Un único panel de solicitudes, presupuestos automáticos con tus tarifas y seguimiento."},
+ {id:"h_bonos",n:"Bonos regalo y experiencias online",d:"Compra, pago, emisión con QR y canje controlado, sin trabajo manual."},
+ {id:"h_informe",n:"Informe diario de dirección con alertas",d:"Cada mañana en tu móvil: lo importante de hoy y lo que se sale de lo normal."},
+ {id:"h_asistente",n:"Asistente de dirección en lenguaje natural",d:"Preguntar \"¿por qué vendemos menos que el año pasado en noviembre?\" y recibir una respuesta basada en datos reales. (Equivalente a Revtool AI y UTOPIA.)"},
+ {id:"h_operativa",n:"Incidencias de mantenimiento y reseñas",d:"Avisos de avería por voz o foto con seguimiento, y reseñas centralizadas con borradores de respuesta."}
+];
+var HQ={t:"r",o:["Dolor real, lo necesito","Útil, pero no urgente","No lo veo claro","Otro hotel lo pagaría, yo no"]};
+
+var PRODUCTOS=[
+ {id:"p_revtool",n:"Revtool",d:"Ingresos, ocupación, previsiones y precios de la competencia. Su versión con IA permite preguntar y programa informes cada mañana. Desde 275 €/mes."},
+ {id:"p_upsell",n:"DeepUpsell",d:"IA que recomienda servicios a cada huésped antes y durante la estancia. Anuncian +5 % de ingreso por habitación y más de un 20 % de conversión. Desde 50 €/mes."},
+ {id:"p_overgop",n:"Overgop",d:"Cruza datos comerciales y contables: ingresos, costes, resultado y flujo de caja. Pensado para grupos de 4 o más hoteles. Desde 525 €/mes."},
+ {id:"p_flow",n:"Hoteldataflow / Benchmark M&A / The Flow",d:"Business intelligence para grupos, valoración de activos hoteleros y alineación de equipos. Desde 95 €/mes hasta 12.000 € por hotel."}
+];
+var PQ={o:["Lo usamos","Lo conozco, no lo usamos","No lo conocía"]};
+
+var TPJ=[
+ {id:"vio",t:"a",l:"¿Qué viste tú en The Total Profit Journey que te hizo pensar que valía la pena construir algo propio?"},
+ {id:"gusta",t:"a",l:"De lo que hacen, ¿qué es lo mejor y qué te parece humo?"},
+ {id:"falta",t:"a",l:"¿Qué le falta a lo que ofrecen para un hotel como el vuestro?"},
+ {id:"datos_reserva",t:"c",l:"Pensando en el ejemplo de la habitación de 250 €: ¿de cuáles de estos datos disponéis hoy por reserva o por cliente?",o:["Comisión pagada por canal","Coste de limpieza y preparación","Gasto del cliente en restaurante","Gasto del cliente en bar","Gasto del cliente en spa","Margen de esos servicios","Historial del cliente (visitas anteriores)","Ninguno de forma fiable"]},
+ {id:"revenue",t:"r",l:"En precios y revenue ya existen herramientas baratas. ¿Tendría sentido que nosotros entráramos ahí?",o:["No, mejor no competir ahí","Solo como parte de un panel más amplio","Sí, lo que hay no me convence","No lo sé"]},
+ {id:"hueco",t:"a",l:"Nuestra apuesta es el hotel boutique, personalizado y conectado a los servicios reales del hotel. ¿Te parece un hueco real o ya está cubierto?"},
+ {id:"preguntas",t:"a",l:"Escribe 5 preguntas reales que te gustaría hacerle a un asistente que conociera todos los datos de tu hotel."},
+ {id:"fiabilidad",t:"r",l:"Los cálculos (márgenes, previsiones) los haría el sistema con fórmulas exactas y la IA solo los explicaría. ¿Te da confianza?",o:["Sí, es lo correcto","Me da igual mientras acierte","Preferiría que decidiera la IA","Quiero ver ejemplos antes"]}
+];
+
+var SISTEMAS=[
+ {id:"pms",t:"t",l:"¿Qué PMS usáis y está en la nube o instalado en el hotel?"},
+ {id:"pms_datos",t:"r",l:"¿Se pueden sacar datos del PMS (reservas, huéspedes, tarifas)?",o:["Exportación a Excel/CSV","API o conexión con otros programas","Solo informes en pantalla o impresos","No lo sé"]},
+ {id:"motor",t:"t",l:"Motor de reservas y principales canales de venta (web propia, OTAs, directo, agencias...)."},
+ {id:"tpv",t:"t",l:"TPV de restaurante, bar y spa. ¿Cargan a habitación automáticamente?"},
+ {id:"citas",t:"t",l:"¿Cómo se gestionan las citas del spa y las reservas de mesa?"},
+ {id:"conta",t:"t",l:"Contabilidad: ¿qué programa usa la gestoría y qué información os devuelve?"},
+ {id:"excel",t:"a",l:"Hojas de Excel, libretas o WhatsApps con información importante que no está en ningún programa."},
+ {id:"muestra",t:"r",l:"¿Podrías darnos exportaciones de ejemplo (anonimizadas si hace falta) para probar con datos reales?",o:["Sí, sin problema","Sí, pero tengo que consultarlo con la propiedad","Mejor más adelante","No creo que se pueda"]},
+ {id:"equipo",t:"a",l:"¿Quién usaría estas herramientas en el día a día y con qué nivel de manejo informático?"}
+];
+
+var MERCADO=[
+ {id:"otros",t:"a",l:"¿A qué tipo de hoteles les pasa lo mismo que a vosotros? (tamaño, categoría, destino)"},
+ {id:"conocidos",t:"r",l:"¿Conoces a otros directores o propietarios que se interesarían por algo así?",o:["Sí, varios","Alguno","Tendría que preguntar","No"]},
+ {id:"decide",t:"a",l:"En un hotel como el tuyo, ¿quién decide una compra de software y qué necesita ver para decir que sí?"},
+ {id:"precio",t:"t",l:"¿Qué cuota mensual te parecería razonable por una herramienta que resolviera tu dolor número 1? (orientativo, nos ayuda a calibrar)"},
+ {id:"frena",t:"a",l:"¿Qué frena a un hotel independiente a contratar software nuevo?"}
+];
+
+var CIERRE=[
+ {id:"top1",t:"a",l:"Si solo pudiéramos construir UNA cosa en los próximos 2 meses, ¿cuál sería y por qué?"},
+ {id:"nolista",t:"a",l:"¿Qué dolor importante no está en nada de lo anterior?"},
+ {id:"ideas",t:"a",l:"Tus propias ideas: lo que has visto en otros hoteles, lo que te piden los clientes, lo que siempre has querido tener."},
+ {id:"libre",t:"a",l:"Todo lo demás que quieras contarnos: datos, anécdotas, advertencias, contactos."},
+ {id:"sigue",t:"r",l:"¿Cómo prefieres seguir?",o:["Llamada de 30 minutos para comentarlo","Que os escriba por email o WhatsApp","Visita presencial","Primero termino de rellenar y luego hablamos"]}
+];
+
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+
+function qHTML(pre,q,label){
+ var n=pre+"__"+q.id;
+ LABELS[n]=(label?"["+label+"] ":"")+q.l;
+ var h='<div class="q"><label class="t">'+esc(q.l)+'</label>';
+ if(q.h)h+='<p class="h">'+esc(q.h)+'</p>';
+ if(q.t==="t")h+='<input type="text" name="'+n+'">';
+ else if(q.t==="a")h+='<textarea name="'+n+'"></textarea>';
+ else if(q.t==="s"){
+  h+='<div class="scale">';
+  for(var i=1;i<=5;i++)h+='<label><input type="radio" name="'+n+'" value="'+i+'">'+i+'</label>';
+  h+='</div>';
+ }else{
+  var ty=q.t==="r"?"radio":"checkbox";
+  q.o.forEach(function(o){h+='<label class="opt"><input type="'+ty+'" name="'+n+'" value="'+esc(o)+'">'+esc(o)+'</label>'});
+ }
+ return h+'</div>';
+}
+function bloque(id,arr,pre,label){
+ document.getElementById(id).innerHTML=arr.map(function(q){return qHTML(pre,q,label)}).join("");
+}
+
+(function render(){
+ bloque("perfil",PERFIL,"perfil","Perfil");
+ bloque("historico",HISTORICO,"historico","Dolores históricos");
+ bloque("tpj",TPJ,"tpj","Total Profit Journey");
+ bloque("optimizar",OPTIMIZAR,"optimizar","Optimizar");
+ document.getElementById("productos").innerHTML=PRODUCTOS.map(function(x){
+  LABELS[x.id+"__v"]="[Total Profit Journey] "+x.n+" - conocimiento";
+  LABELS[x.id+"__c"]="[Total Profit Journey] "+x.n+" - comentario";
+  var h='<div class="hyp"><b>'+esc(x.n)+'</b><p>'+esc(x.d)+'</p>';
+  PQ.o.forEach(function(o){h+='<label class="opt"><input type="radio" name="'+x.id+'__v" value="'+esc(o)+'">'+esc(o)+'</label>'});
+  h+='<textarea name="'+x.id+'__c" style="min-height:56px;margin-top:8px" placeholder="Si lo conoces o lo usas: qué tal funciona, qué le falta"></textarea></div>';
+  return h;
+ }).join("");
+ bloque("sistemas",SISTEMAS,"sistemas","Sistemas");
+ bloque("mercado",MERCADO,"mercado","Mercado");
+ bloque("cierre",CIERRE,"cierre","Cierre");
+
+ document.getElementById("areas").innerHTML=AREAS.map(function(a,i){
+  var h='<details class="area"><summary><div class="num">'+(i+1)+'</div><h3>'+esc(a.n)+'</h3></summary><div class="ab">';
+  h+='<div class="think"><b>Piensa en:</b> '+esc(a.think)+'</div>';
+  h+=AREAQ.map(function(q){return qHTML(a.id,q,a.n)}).join("");
+  h+='<div class="scalel" style="display:none"></div>';
+  h+='<div class="free"><label>Lo que quieras añadir sobre '+esc(a.n.toLowerCase())+': datos, cifras, matices, ideas</label><textarea name="'+a.id+'__libre"></textarea></div>';
+  LABELS[a.id+"__libre"]="["+a.n+"] Libre";
+  return h+'</div></details>';
+ }).join("");
+
+ document.getElementById("hipotesis").innerHTML=HIPOTESIS.map(function(x){
+  LABELS[x.id+"__v"]="[Hipótesis] "+x.n+" - valoración";
+  LABELS[x.id+"__c"]="[Hipótesis] "+x.n+" - comentario";
+  var h='<div class="hyp"><b>'+esc(x.n)+'</b><p>'+esc(x.d)+'</p>';
+  HQ.o.forEach(function(o){h+='<label class="opt"><input type="radio" name="'+x.id+'__v" value="'+esc(o)+'">'+esc(o)+'</label>'});
+  h+='<textarea name="'+x.id+'__c" style="min-height:56px;margin-top:8px" placeholder="Comentario libre: matices, riesgos, cómo lo harías tú"></textarea></div>';
+  return h;
+ }).join("");
+
+ try{
+  var s=JSON.parse(localStorage.getItem(STORE)||"{}");
+  Object.keys(s).forEach(function(k){
+   document.getElementsByName(k).forEach(function(el){
+    if(el.type==="radio"||el.type==="checkbox")el.checked=(s[k]||[]).indexOf(el.value)>-1;
+    else el.value=s[k][0]||"";
+   });
+  });
+ }catch(e){}
+})();
+
+function recoger(){
+ var d={};
+ document.querySelectorAll("input,textarea").forEach(function(el){
+  if(!el.name)return;
+  if(el.type==="radio"||el.type==="checkbox"){if(el.checked)(d[el.name]=d[el.name]||[]).push(el.value)}
+  else if(el.value.trim())d[el.name]=[el.value.trim()];
+ });
+ return d;
+}
+function guardar(){try{localStorage.setItem(STORE,JSON.stringify(recoger()))}catch(e){}}
+document.addEventListener("input",guardar);
+document.addEventListener("change",guardar);
+
+document.getElementById("enviar").onclick=function(){
+ var b=this,m=document.getElementById("msg"),d=recoger(),keys=Object.keys(d);
+ if(!keys.length){m.style.color="#b3261e";m.textContent="Todavía no has contestado nada.";return}
+ var payload={_subject:"Co-creación software hotelero · Respuestas de Alejandro (Hacienda de Abajo)"};
+ keys.forEach(function(k){payload[(LABELS[k]||k)+" ("+k+")"]=d[k].join(" | ")});
+ b.disabled=true;m.style.color="#5d6b7a";m.textContent="Enviando…";
+ fetch(FORM_URL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)})
+ .then(function(r){if(!r.ok)throw 0;m.style.color="#1b7f3b";m.textContent="Enviado. Gracias, Alejandro. Con esto empezamos a priorizar."})
+ .catch(function(){m.style.color="#b3261e";m.textContent="No se ha podido enviar. Inténtalo de nuevo; tus respuestas siguen guardadas en este navegador."})
+ .then(function(){b.disabled=false});
+};
+</script>
+</body>
+</html>
