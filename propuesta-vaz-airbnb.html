@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatización de alojamientos turísticos · Vaz · iAgusto.app</title>
+<meta name="description" content="Ejemplos de lo que podemos automatizar en la gestión de inmuebles en Airbnb: reservas, mensajes, limpiezas, incidencias y rentabilidad.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Automatización de alojamientos turísticos · Vaz">
+<meta property="og:description" content="Qué podemos automatizar en tu gestión de Airbnb, con espacio para tus problemas e ideas.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="iAgusto.app">
+<meta name="theme-color" content="#1A3A5C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A3A5C;--navy-dark:#0f2338;--navy-light:#2a5080;--orange:#E87722;--orange-light:#F4955A;--orange-pale:#FEF0E6;--bg:#f4f6f9;--ok:#2e9e5b;--warn:#d99a1e;--bad:#d64545}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:#1d2733;background:#fff;line-height:1.55}
+h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
+nav{position:sticky;top:0;z-index:50;background:var(--navy-dark);display:flex;align-items:center;justify-content:space-between;padding:12px 32px}
+nav .brand{color:#fff;font-weight:700;letter-spacing:.3px}nav .brand b{color:var(--orange)}
+nav .links a{color:#cfd9e6;text-decoration:none;font-size:14px;margin-left:22px}nav .links a:hover{color:var(--orange-light)}
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;padding:90px 32px 80px;border-top:8px solid var(--orange)}
+.wrap{max-width:1100px;margin:0 auto}
+.hero .tag{display:inline-block;background:rgba(232,119,34,.18);color:var(--orange-light);padding:5px 14px;border-radius:20px;font-size:13px;margin-bottom:22px}
+.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.1;max-width:800px}
+.hero h1 em{color:var(--orange);font-style:normal}
+.hero p{max-width:640px;margin-top:20px;color:#cfd9e6;font-size:18px}
+.hero .meta{margin-top:34px;display:flex;gap:34px;flex-wrap:wrap;font-size:14px;color:#9fb3cc}.hero .meta b{display:block;color:#fff;font-size:16px}
+section{padding:72px 32px}
+section.alt{background:var(--bg)}
+.eyebrow{color:var(--orange);font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+h2{font-size:clamp(28px,3.5vw,40px);color:var(--navy);margin-bottom:14px}
+.lead{max-width:720px;color:#4a5a6b;margin-bottom:34px}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid #e3e9f0;border-radius:14px;padding:24px;box-shadow:0 2px 8px rgba(26,58,92,.05)}
+.card .ic{font-size:28px;margin-bottom:10px}
+.card h3{font-size:21px;color:var(--navy);margin-bottom:8px}
+.card p{font-size:15px;color:#4a5a6b}
+.card ul{margin:10px 0 0 18px;font-size:14px;color:#4a5a6b}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;margin-top:12px;background:var(--orange-pale);color:var(--orange)}
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-top:10px}
+.flow div{flex:1;min-width:130px;background:var(--navy);color:#fff;padding:18px 12px;text-align:center;font-size:14px;font-weight:500;position:relative;margin-right:18px;border-radius:10px}
+.flow div:last-child{margin-right:0;background:var(--orange)}
+.flow div:not(:last-child)::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--orange);font-weight:700;width:18px;text-align:center}
+.flow small{display:block;font-weight:400;opacity:.75;font-size:12px;margin-top:3px}
+.note{background:var(--orange-pale);border-left:4px solid var(--orange);padding:16px 20px;border-radius:8px;font-size:14px;margin-top:26px;color:#5b3a1f}
+/* mockups */
+.mockup-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab-btn{border:1px solid #cdd7e3;background:#fff;color:var(--navy);padding:9px 18px;border-radius:22px;cursor:pointer;font:500 14px 'DM Sans',sans-serif}
+.tab-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.app{border-radius:14px;overflow:hidden;border:1px solid #cdd7e3;box-shadow:0 10px 30px rgba(15,35,56,.15);background:var(--bg)}
+.topbar{background:var(--navy);color:#fff;padding:12px 18px;display:flex;justify-content:space-between;font-size:14px}
+.topbar b{color:var(--orange-light)}
+.shell{display:flex;min-height:380px}
+.side{width:170px;background:var(--navy-dark);color:#9fb3cc;padding:16px 0;font-size:13px}
+.side div{padding:9px 18px}.side .on{background:var(--navy-light);color:#fff;border-left:3px solid var(--orange)}
+.main{flex:1;padding:20px;overflow-x:auto}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #e3e9f0}
+.kpi small{color:#6a7a8c;font-size:12px}.kpi b{display:block;font-size:22px;color:var(--navy)}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13px}
+th{background:#e9eef5;text-align:left;padding:9px 12px;color:var(--navy);font-weight:700}
+td{padding:9px 12px;border-top:1px solid #edf1f6}
+.pill{padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;color:#fff}
+.p-ok{background:var(--ok)}.p-warn{background:var(--warn)}.p-bad{background:var(--bad)}
+.chat{display:flex;flex-direction:column;gap:10px;max-width:560px}
+.msg{padding:10px 14px;border-radius:14px;font-size:13px;max-width:82%}
+.msg.g{background:#fff;border:1px solid #e3e9f0}.msg.ai{background:var(--navy);color:#fff;align-self:flex-end}
+.msg small{display:block;opacity:.65;font-size:11px;margin-top:4px}
+.bars{display:flex;align-items:flex-end;gap:10px;height:140px;background:#fff;padding:14px;border-radius:10px;border:1px solid #e3e9f0}
+.bars div{flex:1;background:var(--navy);border-radius:5px 5px 0 0;position:relative}
+.bars div:nth-child(odd){background:var(--orange)}
+.bars span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:11px;color:#6a7a8c}
+.tabpane{display:none}.tabpane.active{display:block}
+/* blank spaces */
+.tu{border:2px dashed var(--orange);background:#fffaf5;border-radius:14px;padding:22px;margin-top:26px}
+.tu h3{font-size:22px;color:var(--navy);margin-bottom:4px}
+.tu>p{font-size:14px;color:#6a5a4b;margin-bottom:12px}
+.lines{min-height:130px;outline:none;font-size:15px;line-height:32px;padding:0 4px;background-image:repeating-linear-gradient(transparent,transparent 31px,#e5d3c2 31px,#e5d3c2 32px);color:#1d2733}
+.lines:focus{background-color:#fff}
+.lines:empty::before{content:attr(data-ph);color:#b9a58f}
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pairs .tu{margin-top:0}
+.team .card{text-align:center}
+.team .logo{display:inline-block;padding:10px 20px;background:var(--navy);color:#fff;border-radius:8px;font-weight:700;margin-bottom:12px;letter-spacing:.5px}
+.team .logo b{color:var(--orange)}
+.cta{background:var(--navy-dark);color:#fff;text-align:center}
+.cta h2{color:#fff}
+.btn{display:inline-block;background:var(--orange);color:#fff;text-decoration:none;font-weight:700;padding:15px 34px;border-radius:30px;margin-top:18px}
+.btn:hover{background:var(--orange-light)}
+footer{background:#08141f;color:#7d92aa;text-align:center;padding:22px;font-size:13px}
+.toolbar{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;gap:8px}
+.toolbar button{background:var(--navy);color:#fff;border:0;padding:10px 16px;border-radius:22px;font:500 13px 'DM Sans',sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+@media (max-width:900px){.g2,.g3,.g4,.pairs{grid-template-columns:1fr}.side{display:none}nav .links{display:none}.kpis{grid-template-columns:repeat(2,1fr)}section{padding:52px 20px}.flow div{margin-right:0;margin-bottom:22px;flex-basis:100%}.flow div:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-22px;transform:translateX(-50%)}}
+@media print{nav,.toolbar{display:none}section{padding:30px 20px;break-inside:avoid}.tabpane{display:block!important;margin-bottom:16px}.mockup-tabs{display:none}}
+</style>
+</head>
+<body>
+
+<nav><div class="brand">i<b>Agusto</b>.app</div>
+<div class="links"><a href="#donde">Dónde estamos</a><a href="#casos">Qué podemos hacer</a><a href="#demo">Vista previa</a><a href="#tuturno">Tu turno</a></div></nav>
+
+<header class="hero"><div class="wrap">
+<span class="tag">Sesión de ideas · Gestión de alojamientos turísticos</span>
+<h1>Tu negocio de Airbnb, <em>funcionando solo</em> mientras tú decides lo importante</h1>
+<p>Ejemplos reales de lo que se puede automatizar con software a medida y IA. Y varios espacios en blanco para que cuentes qué te quita el sueño: ahí es donde construimos lo que de verdad te hace falta.</p>
+<div class="meta"><div>Preparado para<b>Vázquez (VAZ)</b></div><div>Preparado por<b>César · iAgusto.app</b></div><div>Fecha<b>29 octubre 2026</b></div></div>
+</div></header>
+
+<section id="donde"><div class="wrap">
+<div class="eyebrow">Punto de partida</div>
+<h2>Cómo se conecta todo con Airbnb</h2>
+<p class="lead">Airbnb no deja conectar cualquier software directamente a su API: exige acuerdos y revisión de seguridad. El camino práctico es usar un gestor de alojamientos (channel manager) ya homologado, que sí da acceso a reservas, calendario, precios y mensajes.</p>
+<div class="flow">
+<div>Airbnb<small>reservas y mensajes</small></div>
+<div>Channel manager<small>Beds24 / Smoobu</small></div>
+<div>Automatización<small>n8n + webhooks</small></div>
+<div>Agente IA<small>decide y redacta</small></div>
+<div>Acciones<small>limpieza, avisos, informes</small></div>
+</div>
+<div class="note"><b>Por confirmar antes de comprometer nada:</b> permisos exactos de cada channel manager, costes mensuales y condiciones para ofrecerlo a terceros. Esta información proviene de documentación consultada de forma preliminar y hay que validarla con cada proveedor. Si Vaz ya usa alguno, partimos de ahí.</div>
+</div></section>
+
+<section class="alt" id="casos"><div class="wrap">
+<div class="eyebrow">Qué podemos hacer</div>
+<h2>Ocho ejemplos para ponerle nombre a tus problemas</h2>
+<p class="lead">Son ejemplos, no un paquete cerrado. Marca mentalmente cuáles te duelen más; abajo tienes sitio para escribirlo.</p>
+<div class="grid g4">
+<div class="card"><div class="ic">📥</div><h3>Reserva → todo listo</h3><p>Al entrar una reserva se registra, se avisa al equipo y se prepara la llegada sin que toques nada.</p><span class="chip">Reservas</span></div>
+<div class="card"><div class="ic">💬</div><h3>Agente de huéspedes</h3><p>Responde en el chat de Airbnb: wifi, parking, cómo llegar. Si hay queja grave, te avisa a ti.</p><span class="chip">Mensajes</span></div>
+<div class="card"><div class="ic">🧹</div><h3>Limpiezas coordinadas</h3><p>Cada salida genera su turno de limpieza, asignado y confirmado por Telegram o WhatsApp.</p><span class="chip">Operativa</span></div>
+<div class="card"><div class="ic">🔑</div><h3>Check-in sin fricción</h3><p>Instrucciones de acceso, pre-check-in y recogida de datos del huésped en el momento justo.</p><span class="chip">Llegadas</span></div>
+<div class="card"><div class="ic">🛠️</div><h3>Incidencias</h3><p>“No funciona el aire”: la IA clasifica, avisa al técnico y te informa del estado.</p><span class="chip">Mantenimiento</span></div>
+<div class="card"><div class="ic">📊</div><h3>Rentabilidad por inmueble</h3><p>Ocupación, ingresos, costes de limpieza y margen real de cada apartamento en un panel.</p><span class="chip">Dirección</span></div>
+<div class="card"><div class="ic">🏷️</div><h3>Precios dinámicos</h3><p>Reglas propias para subir o bajar tarifas según ocupación, temporada o eventos.</p><span class="chip">Ingresos</span></div>
+<div class="card"><div class="ic">🧾</div><h3>Facturas y propietarios</h3><p>Liquidaciones mensuales automáticas a los dueños de los inmuebles y control de gastos.</p><span class="chip">Administración</span></div>
+</div>
+
+<div class="tu"><h3>✍️ ¿Qué te falta aquí?</h3><p>Algo que hagas a mano cada día, un cuello de botella, una idea que no está en las tarjetas.</p>
+<div class="lines" contenteditable="true" data-k="a1" data-ph="Escribe aquí…"></div></div>
+</div></section>
+
+<section id="demo"><div class="wrap">
+<div class="eyebrow">Vista previa</div>
+<h2>Así podría verse tu panel</h2>
+<p class="lead">Pantallas de ejemplo con datos ficticios. Lo real se diseña con tus inmuebles y tu forma de trabajar.</p>
+<div class="mockup-tabs">
+<button class="tab-btn active" data-t="t1">Reservas</button>
+<button class="tab-btn" data-t="t2">Mensajes con IA</button>
+<button class="tab-btn" data-t="t3">Limpiezas e incidencias</button>
+<button class="tab-btn" data-t="t4">Rentabilidad</button>
+</div>
+<div class="app">
+<div class="topbar"><span><b>Panel</b> · Cartera Vaz</span><span>12 inmuebles · hoy</span></div>
+<div class="shell">
+<div class="side"><div class="on">Resumen</div><div>Reservas</div><div>Mensajes</div><div>Limpiezas</div><div>Incidencias</div><div>Informes</div></div>
+<div class="main">
+
+<div class="tabpane active" id="t1">
+<div class="kpis"><div class="kpi"><small>Llegadas hoy</small><b>3</b></div><div class="kpi"><small>Salidas hoy</small><b>2</b></div><div class="kpi"><small>Ocupación mes</small><b>82%</b></div><div class="kpi"><small>Pendientes</small><b>4</b></div></div>
+<table><tr><th>Inmueble</th><th>Huésped</th><th>Entrada</th><th>Salida</th><th>Estado</th></tr>
+<tr><td>Ático Centro</td><td>M. Dupont</td><td>29 oct</td><td>02 nov</td><td><span class="pill p-ok">Check-in enviado</span></td></tr>
+<tr><td>Loft Ruzafa</td><td>J. Smith</td><td>29 oct</td><td>31 oct</td><td><span class="pill p-warn">Falta pre-check-in</span></td></tr>
+<tr><td>Casa Playa 2</td><td>L. Rossi</td><td>30 oct</td><td>05 nov</td><td><span class="pill p-ok">Limpieza lista</span></td></tr>
+<tr><td>Estudio Mercado</td><td>A. Gómez</td><td>30 oct</td><td>01 nov</td><td><span class="pill p-bad">Sin limpiador</span></td></tr></table>
+</div>
+
+<div class="tabpane" id="t2">
+<div class="chat">
+<div class="msg g">¿Hay parking cerca del apartamento? Llegamos en coche a las 22:00.<small>Huésped · 18:42</small></div>
+<div class="msg ai">¡Hola! Hay parking público a 150 m (Calle Mayor, 14 €/noche). Os dejo la ruta y las instrucciones de acceso autónomo para esta noche.<small>Agente IA · respondido en 8 s</small></div>
+<div class="msg g">La ducha no calienta y es muy tarde…<small>Huésped · 22:31</small></div>
+<div class="msg ai">Lo siento mucho. He avisado ahora mismo al técnico de guardia y a Vaz. Te confirmo en unos minutos.<small>Agente IA · incidencia creada · aviso enviado</small></div>
+</div></div>
+
+<div class="tabpane" id="t3">
+<table><tr><th>Tipo</th><th>Inmueble</th><th>Responsable</th><th>Estado</th></tr>
+<tr><td>Limpieza salida</td><td>Ático Centro</td><td>Equipo A</td><td><span class="pill p-ok">Confirmada</span></td></tr>
+<tr><td>Limpieza salida</td><td>Estudio Mercado</td><td>—</td><td><span class="pill p-bad">Sin asignar</span></td></tr>
+<tr><td>Incidencia: aire acond.</td><td>Loft Ruzafa</td><td>Técnico externo</td><td><span class="pill p-warn">En camino</span></td></tr>
+<tr><td>Incidencia: wifi</td><td>Casa Playa 2</td><td>Vaz</td><td><span class="pill p-ok">Resuelta</span></td></tr></table>
+</div>
+
+<div class="tabpane" id="t4">
+<div class="kpis"><div class="kpi"><small>Ingresos mes</small><b>18.450 €</b></div><div class="kpi"><small>Costes limpieza</small><b>2.310 €</b></div><div class="kpi"><small>Margen medio</small><b>61%</b></div><div class="kpi"><small>Mejor inmueble</small><b>Ático</b></div></div>
+<div class="bars" style="padding-bottom:26px"><div style="height:85%"><span>Ático</span></div><div style="height:62%"><span>Loft</span></div><div style="height:74%"><span>Playa 2</span></div><div style="height:38%"><span>Estudio</span></div><div style="height:55%"><span>Casa Sur</span></div><div style="height:68%"><span>Duplex</span></div></div>
+</div>
+
+</div></div></div>
+<p style="font-size:13px;color:#6a7a8c;margin-top:10px">Datos ficticios con fines ilustrativos.</p>
+</div></section>
+
+<section class="alt" id="tuturno"><div class="wrap">
+<div class="eyebrow">Tu turno, Vaz</div>
+<h2>Cuéntame qué te cuesta tiempo o dinero</h2>
+<p class="lead">Puedes escribir directamente en los recuadros durante la reunión (se guardan en este navegador) o imprimir la página y rellenarla a mano.</p>
+<div class="pairs">
+<div class="tu"><h3>🔥 Mis 3 mayores problemas</h3><p>Lo que más tiempo te come hoy.</p><div class="lines" contenteditable="true" data-k="b1" data-ph="1.&#10;2.&#10;3."></div></div>
+<div class="tu"><h3>💡 Ideas que se me han ocurrido</h3><p>Aunque suenen raras o imposibles.</p><div class="lines" contenteditable="true" data-k="b2" data-ph="…"></div></div>
+<div class="tu"><h3>🧰 Herramientas que uso ahora</h3><p>Channel manager, hojas de cálculo, WhatsApp, etc.</p><div class="lines" contenteditable="true" data-k="b3" data-ph="…"></div></div>
+<div class="tu"><h3>👥 Quién interviene en el día a día</h3><p>Limpieza, técnicos, propietarios, equipo.</p><div class="lines" contenteditable="true" data-k="b4" data-ph="…"></div></div>
+<div class="tu"><h3>⚠️ Errores o quejas que se repiten</h3><p>Lo que te gustaría que no volviera a pasar.</p><div class="lines" contenteditable="true" data-k="b5" data-ph="…"></div></div>
+<div class="tu"><h3>📈 Si pudiera medir una cosa…</h3><p>Los números que hoy no tienes claros.</p><div class="lines" contenteditable="true" data-k="b6" data-ph="…"></div></div>
+</div>
+<div class="tu"><h3>📝 Notas libres de la reunión</h3><p>Espacio abierto.</p><div class="lines" style="min-height:260px" contenteditable="true" data-k="b7" data-ph="…"></div></div>
+</div></section>
+
+<section><div class="wrap team">
+<div class="eyebrow">Quién está detrás</div>
+<h2>Equipo</h2>
+<div class="grid g2" style="margin-top:20px">
+<div class="card"><div class="logo">i<b>Agusto</b>.app</div><h3>César Moya</h3><p>Dirección técnica, desarrollo de software a medida, automatización con n8n e IA, despliegue y soporte.</p></div>
+<div class="card"><div class="logo">JF CONSULTING</div><h3>José Fonta</h3><p>Consultoría de procesos, análisis funcional y acompañamiento al cliente.</p></div>
+</div></div></section>
+
+<section class="cta"><div class="wrap">
+<h2>¿Hablamos de lo que has escrito?</h2>
+<p style="color:#cfd9e6;max-width:560px;margin:0 auto">Con tus problemas delante, preparo una propuesta cerrada y a medida.</p>
+<a class="btn" href="mailto:cesar@iagusto.app?subject=Vaz%20-%20Automatizaci%C3%B3n%20Airbnb&body=Hola%20C%C3%A9sar%2C%0A%0AMe%20interesa%20que%20preparemos%20una%20propuesta.%0A">Quiero una propuesta a medida →</a>
+</div></section>
+
+<footer>© 2026 iAgusto.app · Documento orientativo, sin compromiso</footer>
+
+<div class="toolbar"><button onclick="window.print()">🖨️ Imprimir</button><button onclick="resetAll()">Borrar notas</button></div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){
+document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active')});
+document.querySelectorAll('.tabpane').forEach(function(x){x.classList.remove('active')});
+b.classList.add('active');document.getElementById(b.dataset.t).classList.add('active');});});
+var P='vaz_';
+document.querySelectorAll('.lines').forEach(function(el){
+try{var v=localStorage.getItem(P+el.dataset.k);if(v)el.innerText=v;}catch(e){}
+el.addEventListener('input',function(){try{localStorage.setItem(P+el.dataset.k,el.innerText);}catch(e){}});});
+function resetAll(){if(!confirm('¿Borrar todas las notas?'))return;document.querySelectorAll('.lines').forEach(function(el){el.innerText='';try{localStorage.removeItem(P+el.dataset.k);}catch(e){}});}
+</script>
+</body>
+</html>
