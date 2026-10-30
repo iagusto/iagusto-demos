@@ -1,0 +1,230 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Carta El Sitio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Karla:wght@400;600&display=swap">
+<style>
+/* Layout: carta impresa (papel) a la izquierda, chat de la jefa de sala a la derecha; en móvil se apilan */
+:root{
+  --bg:#eef0ec; --paper:#fffdf8; --ink:#1f2a24; --muted:#6b756e; --line:#d6dbd4;
+  --accent:#2f5d4a; --accent-soft:#e3ece6; --warn:#a2541c; --bubble:#ffffff;
+  --display:"Cormorant Garamond",Georgia,serif; --body:"Karla",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141916; --paper:#1d2420; --ink:#e7ece8; --muted:#9aa59d; --line:#2f3832;
+  --accent:#7fb89c; --accent-soft:#233229; --warn:#e0965e; --bubble:#242c27; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141916; --paper:#1d2420; --ink:#e7ece8; --muted:#9aa59d; --line:#2f3832;
+  --accent:#7fb89c; --accent-soft:#233229; --warn:#e0965e; --bubble:#242c27; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:860px){.wrap{grid-template-columns:1fr}}
+header.top{max-width:1180px;margin:0 auto 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+header.top h1{font-family:var(--display);font-weight:600;font-size:28px;margin:0}
+header.top p{margin:0;color:var(--muted);font-size:13px}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tabs button,.btn{font:600 13px var(--body);border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:7px 12px;border-radius:999px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.btn:focus-visible,.tabs button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.paper{background:var(--paper);border:1px solid var(--line);padding:36px clamp(18px,5vw,48px);box-shadow:0 1px 0 var(--line)}
+.paper h2{font-family:var(--display);font-weight:600;font-size:30px;text-align:center;letter-spacing:.04em;margin:26px 0 14px}
+.paper h2:first-child{margin-top:0}
+.dish{display:flex;gap:12px;justify-content:space-between;align-items:baseline;font-family:var(--display);font-size:19px;line-height:1.35;padding:6px 0;transition:background .6s}
+.dish .n{min-width:0}
+.dish .p{font-variant-numeric:tabular-nums;white-space:nowrap}
+.dish.new{background:var(--accent-soft)}
+.note{font-family:var(--display);font-style:italic;font-size:15px;color:var(--muted);text-align:center;margin:14px auto;max-width:58ch}
+.sign{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:22px;font-size:13px;color:var(--muted)}
+.side{position:sticky;top:12px;display:flex;flex-direction:column;gap:12px}
+.chat{background:var(--paper);border:1px solid var(--line);display:flex;flex-direction:column;height:min(560px,70vh)}
+.chat .hd{padding:12px 14px;border-bottom:1px solid var(--line);font-weight:600}
+.chat .hd small{display:block;font-weight:400;color:var(--muted)}
+.log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:88%;padding:9px 12px;border-radius:12px;line-height:1.45;white-space:pre-wrap}
+.msg.u{align-self:flex-end;background:var(--accent);color:var(--paper)}
+.msg.b{align-self:flex-start;background:var(--bubble);border:1px solid var(--line)}
+.msg .acts{display:flex;gap:6px;margin-top:8px}
+.form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+textarea{flex:1;min-width:0;resize:none;font:15px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px}
+.btn.pri{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.hint{font-size:12px;color:var(--muted);line-height:1.5}
+.hint b{color:var(--ink)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font:12px var(--body);border:1px dashed var(--line);background:transparent;color:var(--muted);padding:5px 9px;border-radius:8px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.dish{transition:none}}
+</style>
+
+<header class="top">
+  <h1>Restaurante El Sitio · Carta</h1>
+  <p>Hotel Hacienda de Abajo · demo de actualización por voz</p>
+</header>
+
+<div class="wrap">
+  <section>
+    <div class="tabs" role="group" aria-label="Idioma">
+      <button data-l="es" aria-pressed="true">Español</button>
+      <button data-l="en" aria-pressed="false">English</button>
+      <button data-l="de" aria-pressed="false">Deutsch</button>
+    </div>
+    <article class="paper" id="paper"></article>
+  </section>
+
+  <aside class="side">
+    <div class="chat">
+      <div class="hd">Asistente de sala<small>Dicta el cambio: el bot lo identifica, lo confirma y actualiza los 3 idiomas</small></div>
+      <div class="log" id="log"></div>
+      <form class="form" id="f">
+        <textarea id="t" rows="2" placeholder="Ej.: quita el pulpo y pon calamar a la plancha con alioli, 19 euros"></textarea>
+        <button class="btn pri" type="submit">Enviar</button>
+      </form>
+    </div>
+    <div class="chips" id="chips">
+      <button>Hoy no hay rabil, ponemos atún rojo a la brasa con boniato, 29 €</button>
+      <button>Sube el lomo alto a 38</button>
+      <button>Añade de entrante croquetas de cherne, 12 euros</button>
+    </div>
+    <div class="row">
+      <button class="btn" id="dl">Descargar carta para imprimir</button>
+      <button class="btn" id="reset">Restaurar carta original</button>
+    </div>
+    <p class="hint"><b>Voz:</b> pulsa el micrófono del teclado del móvil y dicta. En producción, la jefa de sala manda un audio por Telegram o WhatsApp.<br><b>Imprimir:</b> descarga la carta del idioma visible y se imprime con el formato de la carta.</p>
+  </aside>
+</div>
+
+<script>
+const ORIGINAL={
+ es:{sec:["Entrantes","Principales"],bread:"Servicio de pan artesanal 3.00",
+  allerg:"Disponemos de una carta con los alérgenos de cada plato, según lo establecido en el Reglamento (UE) N.º 1169/2011 y el Real Decreto 126/2015. Consúltela si lo desea.",
+  anis:"Nuestros pescados se sirven libres de anisakis, conforme al Reglamento (CE) Nº 853/2004 y al Real Decreto 1021/2022, que establecen la congelación a -20 °C durante al menos 24 horas para garantizar su seguridad.",
+  sign:["José Alberto Díaz, Jefe de Cocina","Milda Costa, Jefe de Sala"]},
+ en:{sec:["Starters","Main courses"],bread:"Artisanal bread service 3.00",
+  allerg:"We offer a menu listing all allergens present in each dish, in accordance with Regulation (EU) No 1169/2011 and Spanish Royal Decree 126/2015. Please ask to consult it if needed.",
+  anis:"Our fish is served free of anisakis, in accordance with Regulation (EC) No 853/2004 and Spanish Royal Decree 1021/2022, which require freezing at -20 °C for at least 24 hours to ensure safety.",
+  sign:["José Alberto Díaz, Head Chef","Milda Costa, Maître d’Hôtel"]},
+ de:{sec:["Vorspeisen","Hauptgerichte"],bread:"Hausgebackenes Brot 3.00",
+  allerg:"Eine Karte mit den Allergenen jedes Gerichts gemäß Verordnung (EU) Nr. 1169/2011 und dem spanischen Königlichen Dekret 126/2015 liegt für Sie bereit. Fragen Sie gerne danach.",
+  anis:"Unser Fisch wird frei von Anisakis serviert, gemäß Verordnung (EG) Nr. 853/2004 und dem spanischen Königlichen Dekret 1021/2022, die ein Einfrieren bei -20 °C für mindestens 24 Stunden vorschreiben.",
+  sign:["José Alberto Díaz, Küchenchef","Milda Costa, Restaurantleiterin"]},
+ dishes:[
+  {s:0,p:"9.50",x:{es:"Brioche de anchoa de Hazas (por unidad)",en:"Hazas anchovy brioche (per piece)",de:"Brioche mit Sardelle aus Hazas (pro Stück)"}},
+  {s:0,p:"17.00",x:{es:"Sopa fría de fresones con langostinos crujientes y helado de yogur",en:"Cold strawberry soup with crispy prawns and yogurt ice cream",de:"Kalte Erdbeersuppe mit knusprigen Garnelen und Joghurteis"}},
+  {s:0,p:"17.00",x:{es:"Carpaccio de pepino con vinagreta de yogur, manzana y piñones",en:"Cucumber carpaccio with yogurt vinaigrette, apple and pine nuts",de:"Gurken-Carpaccio mit Joghurt-Vinaigrette, Apfel und Pinienkernen"}},
+  {s:0,p:"22.00",x:{es:"Terrina de foie de pato caramelizado con mermelada de tomate y almendra",en:"Caramelized duck foie terrine with tomato and almond jam",de:"Karamellisierte Entenleber-Terrine mit Tomaten-Mandel-Konfitüre"}},
+  {s:0,p:"22.00",x:{es:"Pulpo en tempura de tinta calamar sobre crema de pimientos asados",en:"Octopus in squid ink tempura on roasted pepper cream",de:"Oktopus im Tintenfischtinten-Tempura auf Creme von gerösteter Paprika"}},
+  {s:0,p:"26.00",x:{es:"Ceviche “peruano” con langostinos y mango-parchita",en:"“Peruvian” ceviche with prawns and mango-passion fruit",de:"„Peruanisches“ Ceviche mit Garnelen und Mango-Maracuja"}},
+  {s:0,p:"24.00",x:{es:"Steak tartar “El Sitio”, con huevo frito",en:"Steak tartare “El Sitio” with fried egg",de:"Steak Tatar „El Sitio“ mit Spiegelei"}},
+  {s:1,p:"18.00",x:{es:"Albóndigas de garbanzos, curry amarillo, leche de coco y lima",en:"Chickpea meatballs, yellow curry, coconut milk and lime",de:"Kichererbsenbällchen, gelbes Curry, Kokosmilch und Limette"}},
+  {s:1,p:"27.00",x:{es:"Bacalao confitado con crema de bacalao, mojo verde y tinta de calamar",en:"Cod confit with cod cream, green mojo sauce and squid ink",de:"Konfierter Kabeljau mit Kabeljaucreme, grüner Mojo-Sauce und Tintenfischtinte"}},
+  {s:1,p:"26.00",x:{es:"Rabil con boniato asado y vinagreta de frutos secos",en:"Yellowfin tuna with roasted sweet potato and nut vinaigrette",de:"Gelbflossenthun mit gerösteter Süßkartoffel und Nuss-Vinaigrette"}},
+  {s:1,p:"27.50",x:{es:"Cherne con emulsión de mojo verde y vinagreta de tomates asados",en:"Wreckfish with green mojo emulsion and roasted tomato vinaigrette",de:"Wrackbarsch mit grüner Mojo-Emulsion und Vinaigrette von gerösteten Tomaten"}},
+  {s:1,p:"28.00",x:{es:"Fideuá de cerdo ibérico y foie",en:"Iberian pork and foie gras fideuá",de:"Fideuá mit iberischem Schwein und Foie gras"}},
+  {s:1,p:"36.00",x:{es:"Lomo alto de vaca nacional madurado, pimientos de piquillo y papas",en:"Aged national beef ribeye with piquillo peppers and potatoes",de:"Gereiftes spanisches Rinder-Ribeye mit Piquillo-Paprika und Kartoffeln"}},
+  {s:1,p:"25.00",x:{es:"Taco de cerdo ibérico con salsa agridulce y puré de calabaza y boniato",en:"Iberian pork taco with sweet and sour sauce, pumpkin and sweet potato purée",de:"Iberisches Schweinefleisch-Stück mit süß-saurer Sauce und Kürbis-Süßkartoffel-Püree"}}
+ ]};
+
+const KEY="carta-el-sitio-v1";
+let state, lang="es", pending=null, flash=-1;
+function load(){try{const s=localStorage.getItem(KEY);if(s)return JSON.parse(s)}catch(e){}return JSON.parse(JSON.stringify(ORIGINAL.dishes))}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+state=load();
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function cartaHTML(l){
+  const t=ORIGINAL[l];let h="";
+  [0,1].forEach(s=>{
+    h+=`<h2>${t.sec[s]}</h2>`;
+    state.forEach((d,i)=>{if(d.s===s)h+=`<div class="dish${i===flash?" new":""}"><span class="n">${esc(d.x[l])}</span><span class="p">${esc(d.p)}</span></div>`});
+    h+= s===0?`<p class="note">“${t.bread}”</p><p class="note">${t.allerg}</p>`:`<p class="note">${t.anis}</p>`;
+  });
+  return h+`<div class="sign"><span>${t.sign[0]}</span><span>${t.sign[1]}</span></div>`;
+}
+function render(){document.getElementById("paper").innerHTML=cartaHTML(lang)}
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()});
+
+const log=document.getElementById("log");
+function say(text,who="b",acts){
+  const m=document.createElement("div");m.className="msg "+who;m.textContent=text;
+  if(acts){const a=document.createElement("div");a.className="acts";acts.forEach(([l,fn,pri])=>{const b=document.createElement("button");b.className="btn"+(pri?" pri":"");b.textContent=l;b.onclick=()=>{a.remove();fn()};a.appendChild(b)});m.appendChild(a)}
+  log.appendChild(m);log.scrollTop=log.scrollHeight;return m;
+}
+say("Hola Milda. Dime qué cambia hoy en la carta y lo actualizo en español, inglés y alemán.");
+
+let sample=null;
+(async()=>{try{sample=await claude.use("sample")}catch(e){}})();
+
+const SYS=`Eres el asistente de sala del restaurante El Sitio (Hotel Hacienda de Abajo, La Palma). La jefa de sala dicta cambios de la carta en español, a veces con errores de dictado por voz.
+Recibes la carta actual como JSON (índice, sección 0=Entrantes 1=Principales, precio, nombre ES).
+Devuelve SOLO JSON con esta forma:
+{"ops":[{"op":"replace"|"add"|"remove"|"price","index":número o null,"s":0|1,"p":"27.00","es":"...","en":"...","de":"..."}],"resumen":"frase corta en español describiendo el cambio","duda":null o "pregunta si no está claro qué plato es"}
+Reglas:
+- Identifica el plato aunque lo nombren de forma aproximada (ej. "el pulpo", "el rabil", "la carne").
+- Precios siempre con dos decimales y punto: "19.00".
+- En "replace" y "add" redacta el nombre en español con el estilo de la carta (descriptivo, sin mayúsculas innecesarias, ortografía perfecta) y tradúcelo a inglés británico gastronómico y a alemán gastronómico correcto, con mayúsculas alemanas correctas. Revisa la ortografía antes de responder.
+- Términos canarios: mojo verde→green mojo / grüne Mojo; papas→potatoes / Kartoffeln; cherne→wreckfish / Wrackbarsch; rabil→yellowfin tuna / Gelbflossenthun; parchita→passion fruit / Maracuja.
+- En "price" solo cambia el precio (incluye index y p). En "remove" solo index.
+- Si no queda claro, devuelve ops vacío y rellena "duda".`;
+
+async function interpret(text){
+  const carta=state.map((d,i)=>({i,s:d.s,p:d.p,es:d.x.es}));
+  return await sample.json([{role:"user",content:SYS+"\n\nCARTA ACTUAL:\n"+JSON.stringify(carta)+"\n\nORDEN DE LA JEFA DE SALA:\n"+text}],{cache:false});
+}
+function apply(ops){
+  let last=-1;
+  const rm=[];
+  ops.forEach(o=>{
+    if(o.op==="price"&&state[o.index]){state[o.index].p=o.p;last=o.index}
+    else if(o.op==="replace"&&state[o.index]){state[o.index]={s:state[o.index].s,p:o.p||state[o.index].p,x:{es:o.es,en:o.en,de:o.de}};last=o.index}
+    else if(o.op==="add"){const d={s:o.s??0,p:o.p,x:{es:o.es,en:o.en,de:o.de}};let pos=state.map(x=>x.s).lastIndexOf(d.s)+1;state.splice(pos,0,d);last=pos}
+    else if(o.op==="remove"&&state[o.index])rm.push(o.index);
+  });
+  rm.sort((a,b)=>b-a).forEach(i=>state.splice(i,1));
+  flash=last;save();render();
+  setTimeout(()=>{flash=-1;render()},2500);
+}
+function preview(ops){
+  return ops.map(o=>{
+    if(o.op==="price")return `• ${state[o.index]?.x.es} → ${o.p} €`;
+    if(o.op==="remove")return `• Quitar: ${state[o.index]?.x.es}`;
+    const head=o.op==="add"?"• Añadir":"• Cambiar "+(state[o.index]?.x.es||"")+" por";
+    return `${head}\n  ES: ${o.es} · ${o.p} €\n  EN: ${o.en}\n  DE: ${o.de}`;
+  }).join("\n");
+}
+
+document.getElementById("f").onsubmit=async e=>{
+  e.preventDefault();const t=document.getElementById("t");const text=t.value.trim();if(!text)return;t.value="";
+  say(text,"u");
+  if(!sample){say("No puedo interpretar el cambio en esta vista. Abre la carta en claude.ai y acepta el permiso del asistente.");return}
+  const w=say("Leyendo el cambio…");
+  try{
+    const r=await interpret(text);w.remove();
+    if(r.duda||!r.ops?.length){say(r.duda||"No he identificado el cambio. ¿Puedes repetirlo indicando el plato?");return}
+    pending=r.ops;
+    say(`${r.resumen}\n\n${preview(r.ops)}\n\n¿Lo aplico?`,"b",[
+      ["Sí, aplicar",()=>{apply(pending);pending=null;say("Hecho. Carta actualizada en los 3 idiomas. Revísala y descárgala para imprimir.")},true],
+      ["No",()=>{pending=null;say("Cancelado. Dime el cambio de otra forma.")}]
+    ]);
+  }catch(err){w.remove();say(err?.code==="rate_limited"?"Demasiadas peticiones seguidas. Espera unos segundos.":"No he podido procesar el cambio. Inténtalo de nuevo.")}
+};
+document.getElementById("t").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();document.getElementById("f").requestSubmit()}});
+document.querySelectorAll("#chips button").forEach(b=>b.onclick=()=>{document.getElementById("t").value=b.textContent;document.getElementById("f").requestSubmit()});
+
+document.getElementById("reset").onclick=()=>{state=JSON.parse(JSON.stringify(ORIGINAL.dishes));save();render();say("Carta original restaurada.")};
+
+document.getElementById("dl").onclick=async()=>{
+  const names={es:"ESPAÑOL",en:"INGLES",de:"ALEMAN"};
+  const doc=`<!doctype html><html><head><meta charset="utf-8"><title>Carta El Sitio ${names[lang]}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap">
+<style>@page{size:A4;margin:18mm}body{font-family:"Cormorant Garamond",Georgia,serif;color:#1f2a24;max-width:170mm;margin:0 auto}
+h2{text-align:center;font-weight:600;font-size:26pt;letter-spacing:.04em;margin:14mm 0 5mm}h2:first-child{margin-top:0}
+.dish{display:flex;justify-content:space-between;gap:10mm;font-size:14pt;padding:1.6mm 0}.p{white-space:nowrap}
+.note{font-style:italic;font-size:10.5pt;color:#555;text-align:center;margin:4mm auto}.sign{display:flex;justify-content:space-between;margin-top:10mm;font-size:10pt}</style>
+</head><body onload="window.print()">${cartaHTML(lang).replace(/ new"/g,'"')}</body></html>`;
+  try{const dl=await claude.use("downloads");if(!dl){say("La descarga no está disponible en esta vista.");return}
+    await dl.save({filename:`Carta EL SITIO ${names[lang]}.html`,data:new Blob([doc],{type:"text/html"})});
+  }catch(e){}
+};
+render();
+</script>
+
+</body></html>
