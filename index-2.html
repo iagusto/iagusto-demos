@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpinApp · Cuestionario desarrollos de chapa</title>
+<style>
+:root{--navy:#0A1B3D;--p:#007BFF;--ph:#0066D6;--g:#F4F7FB;--b:#E3E8F0;--t2:#5B6B86}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--g);color:var(--navy)}
+header{background:var(--navy);color:#fff;padding:28px 16px}header div{max-width:760px;margin:auto}
+h1{margin:0 0 6px;font-weight:800;letter-spacing:-.02em;font-size:26px}header p{margin:0;color:#c9d6ee}
+main{max-width:760px;margin:20px auto;padding:0 16px 60px}
+.q{background:#fff;border:1px solid var(--b);border-radius:12px;padding:18px;margin-bottom:14px}
+.q h2{font-size:16px;margin:0 0 4px}.q .h{color:var(--t2);font-size:14px;margin:0 0 10px}
+label.o{display:block;padding:8px 10px;border:1px solid var(--b);border-radius:8px;margin:6px 0;cursor:pointer}
+label.o:has(input:checked){border-color:var(--p);background:#eef5ff}
+textarea,input[type=text]{width:100%;border:1px solid var(--b);border-radius:8px;padding:10px;font:inherit;margin-top:6px}
+textarea{min-height:70px}
+button{background:var(--p);color:#fff;border:0;border-radius:10px;padding:14px 22px;font:inherit;font-weight:700;cursor:pointer;width:100%}
+button:hover{background:var(--ph)}small{color:var(--t2)}
+</style></head><body>
+<header><div><h1>Desarrollos de chapa · Factor K</h1><p>Javi, con esto definimos cómo SpinApp saca los planos desplegados. Solo para socios.</p></div></header>
+<main>
+<form action="https://formspree.io/f/xqenkjpv" method="POST">
+<input type="hidden" name="_subject" value="SpinApp · Cuestionario desarrollos de chapa (Javi)">
+<input type="text" name="_gotcha" style="display:none">
+
+<div class="q"><h2>1. ¿Qué tiene que salir?</h2>
+<label class="o"><input type="radio" name="1_salida" value="Solo DXF del desplegado para láser"> Solo el DXF del desplegado para láser</label>
+<label class="o"><input type="radio" name="1_salida" value="DXF láser + plano acotado para taller"> DXF para láser + plano acotado para taller</label>
+<label class="o"><input type="radio" name="1_salida" value="Desplegado dentro del mismo plano de la pieza"> El desplegado dentro del mismo plano de la pieza</label>
+<textarea name="1_comentario" placeholder="Comentario (opcional)"></textarea></div>
+
+<div class="q"><h2>2. Líneas de pliegue en el desplegado</h2><p class="h">Marca todo lo que quieras.</p>
+<label class="o"><input type="checkbox" name="2_pliegue" value="Capa aparte"> En una capa aparte</label>
+<label class="o"><input type="checkbox" name="2_pliegue" value="Angulo escrito"> Con el ángulo escrito</label>
+<label class="o"><input type="checkbox" name="2_pliegue" value="Sentido arriba/abajo"> Con el sentido (arriba / abajo)</label>
+<label class="o"><input type="checkbox" name="2_pliegue" value="Radio interior escrito"> Con el radio interior escrito</label>
+<textarea name="2_comentario" placeholder="Tipo de línea, color, cómo lo pones tú…"></textarea></div>
+
+<div class="q"><h2>3. Tabla de pliegues (orden, ángulo, radio)</h2>
+<label class="o"><input type="radio" name="3_tabla" value="Si"> Sí, en el plano</label>
+<label class="o"><input type="radio" name="3_tabla" value="No, basta con las lineas"> No, con las líneas basta</label>
+<label class="o"><input type="radio" name="3_tabla" value="Opcional"> Opcional, que la active el usuario</label></div>
+
+<div class="q"><h2>4. Factor K</h2><p class="h">Partimos de la tabla de CATIA V5 y el usuario puede cambiarla. ¿Qué valores usas tú?</p>
+<label class="o"><input type="radio" name="4_k" value="Valores CATIA me valen"> Los de CATIA me valen</label>
+<label class="o"><input type="radio" name="4_k" value="Uso mis valores"> Uso los míos (ponlos abajo)</label>
+<textarea name="4_valores" placeholder="Material · espesor · K (o la deducción que uses)"></textarea></div>
+
+<div class="q"><h2>5. Radio interior de plegado</h2>
+<label class="o"><input type="radio" name="5_radio" value="Del modelo 3D"> El del modelo 3D</label>
+<label class="o"><input type="radio" name="5_radio" value="Fijo por espesor (utillaje)"> Uno fijo por espesor, según el utillaje</label>
+<textarea name="5_comentario" placeholder="Si es fijo, ¿qué radio para cada espesor?"></textarea></div>
+
+<div class="q"><h2>6. Cotas del desplegado</h2><p class="h">Marca todo lo que quieras.</p>
+<label class="o"><input type="checkbox" name="6_cotas" value="Exteriores generales"> Cotas exteriores generales</label>
+<label class="o"><input type="checkbox" name="6_cotas" value="Posicion de cada linea de pliegue"> Posición de cada línea de pliegue</label>
+<label class="o"><input type="checkbox" name="6_cotas" value="Taladros"> Taladros y recortes</label>
+<label class="o"><input type="checkbox" name="6_cotas" value="Sin cotas (solo laser)"> Sin cotas (solo para láser)</label></div>
+
+<div class="q"><h2>7. Taladros cerca de un pliegue</h2>
+<label class="o"><input type="radio" name="7_aviso" value="Avisar"> Avisar si están demasiado cerca</label>
+<label class="o"><input type="radio" name="7_aviso" value="No hace falta"> No hace falta</label>
+<textarea name="7_distancia" placeholder="¿Qué distancia mínima usas? (p. ej. 2 × espesor + radio)"></textarea></div>
+
+<div class="q"><h2>8. Alivios / escotes en esquinas</h2>
+<label class="o"><input type="radio" name="8_alivio" value="Respetar los del modelo"> Respetar los que vengan en el modelo</label>
+<label class="o"><input type="radio" name="8_alivio" value="Anadir automaticamente"> Añadirlos automáticamente si faltan</label>
+<label class="o"><input type="radio" name="8_alivio" value="Solo avisar"> Solo avisar si faltan</label>
+<textarea name="8_forma" placeholder="Forma y tamaño que usas"></textarea></div>
+
+<div class="q"><h2>9. Materiales y espesores más habituales</h2>
+<textarea name="9_materiales" placeholder="p. ej. S235 de 2–6 mm, inox 304 de 1,5–3 mm…"></textarea></div>
+
+<div class="q"><h2>10. Chapa curvada (virolas, conos, tolvas)</h2>
+<label class="o"><input type="radio" name="10_curvada" value="Tambien desde el principio"> También desde el principio</label>
+<label class="o"><input type="radio" name="10_curvada" value="De momento solo plegadas"> De momento solo las plegadas</label></div>
+
+<div class="q"><h2>11. Piezas para comparar</h2><p class="h">¿Puedes pasarnos 2–3 piezas plegadas con tu desarrollo (STEP + DXF)?</p>
+<label class="o"><input type="radio" name="11_piezas" value="Si, las mando"> Sí, las mando</label>
+<label class="o"><input type="radio" name="11_piezas" value="Usad las del banco"> Usad las que ya tenéis</label>
+<textarea name="11_cuales" placeholder="¿Cuáles?"></textarea></div>
+
+<div class="q"><h2>12. Algo más</h2><textarea name="12_otros" placeholder="Lo que no hayamos preguntado"></textarea></div>
+
+<button type="submit">Enviar respuestas</button>
+<p><small>Las respuestas le llegan a César.</small></p>
+</form></main></body></html>
