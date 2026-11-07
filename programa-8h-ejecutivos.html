@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programa 8 h · IA aplicada para directivos</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Exo+2:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07080a;--card:#101317;--line:#1e242b;--g:#00FF88;--p:#FF3D7F;--o:#E87722;--t:#e9ecef;--m:#8a939c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:'Exo 2',sans-serif;line-height:1.6}
+.wrap{max-width:980px;margin:0 auto;padding:60px 24px}
+h1,h2,h3{font-family:'Black Han Sans',sans-serif;font-weight:400}
+.tag{font-family:'Share Tech Mono';color:var(--g);font-size:.85rem;margin-bottom:10px}
+h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1}
+h1 span{color:var(--g)}
+.intro{color:var(--m);margin:18px 0 30px;max-width:720px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:50px}
+.meta div{background:var(--card);border:1px solid var(--line);padding:8px 14px;border-radius:8px;font-size:.9rem}
+.mod{display:grid;grid-template-columns:120px 1fr;gap:20px;border-top:1px solid var(--line);padding:28px 0}
+.mod .h{font-family:'Share Tech Mono';color:var(--o)}
+.mod .h b{display:block;font-family:'Black Han Sans';font-weight:400;font-size:2rem;color:var(--t)}
+.mod h3{font-size:1.5rem;margin-bottom:6px}
+.mod .obj{color:var(--m);margin-bottom:10px}
+.mod ul{list-style:none}.mod li{padding:3px 0;font-size:.95rem}.mod li::before{content:"▸ ";color:var(--g)}
+.mod .out{margin-top:10px;font-size:.88rem;color:var(--o)}
+.break{text-align:center;font-family:'Share Tech Mono';color:var(--m);padding:14px;border-top:1px dashed var(--line);font-size:.85rem}
+.mine{background:linear-gradient(135deg,rgba(0,255,136,.1),rgba(255,61,127,.1));border:1px solid var(--g);border-radius:16px;padding:28px;margin:6px 0}
+.mine .badge{display:inline-block;background:var(--g);color:#000;font-weight:800;font-size:.75rem;padding:3px 10px;border-radius:20px;margin-bottom:8px}
+.talk{margin-top:60px;background:var(--card);border:1px solid var(--p);border-radius:20px;padding:40px}
+.talk h2{font-size:2.2rem;margin-bottom:4px}.talk h2 span{color:var(--p)}
+.talk .st{color:var(--m);margin-bottom:24px}
+.agenda{display:grid;gap:10px}
+.agenda div{display:grid;grid-template-columns:90px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.agenda .t{font-family:'Share Tech Mono';color:var(--g)}
+.agenda p{color:var(--m);font-size:.92rem}
+.key{margin-top:24px;padding:18px;border-left:3px solid var(--o);color:var(--t)}
+@media(max-width:600px){.mod{grid-template-columns:1fr}.agenda div{grid-template-columns:1fr}}
+@media print{body{background:#fff;color:#111}.mod .obj,.agenda p,.intro{color:#444}}
+</style>
+</head>
+<body><div class="wrap">
+
+<div class="tag">// programa de formación para directivos · 8 horas</div>
+<h1>IA aplicada a la empresa:<br><span>de la curiosidad al resultado</span></h1>
+<p class="intro">Un programa práctico para que el comité de dirección entienda qué puede hacer hoy la IA, dónde está el retorno en su propia empresa y cómo liderar su implantación sin depender de modas ni de proveedores.</p>
+<div class="meta"><div>⏱ 8 h (2 jornadas de 4 h o 1 intensiva)</div><div>👥 Directivos y mandos</div><div>💻 Práctico, con portátil</div><div>🎯 Sale con un plan de 90 días</div></div>
+
+<div class="mod"><div class="h">H1<b>1 h</b></div><div>
+<h3>El mapa: qué es (y qué no es) la IA hoy</h3>
+<p class="obj">Quitar el ruido y situar a todos en el mismo punto de partida.</p>
+<ul><li>IA generativa, agentes y automatización: diferencias claras</li><li>Estado actual de los modelos y del mercado</li><li>Mitos, riesgos reales y límites</li><li>Demo en directo: lo que hace un asistente en 5 minutos</li></ul>
+</div></div>
+
+<div class="mod"><div class="h">H2<b>1 h</b></div><div>
+<h3>Productividad directiva con IA</h3>
+<p class="obj">Que cada directivo gane tiempo desde mañana.</p>
+<ul><li>Análisis de documentos, contratos e informes</li><li>Preparación de reuniones, correos y presentaciones</li><li>Prompts eficaces y asistentes personalizados</li><li>Ejercicio: resolver una tarea real de su semana</li></ul>
+</div></div>
+
+<div class="mod"><div class="h">H3<b>1 h</b></div><div>
+<h3>Datos y decisión</h3>
+<p class="obj">Pasar de la intuición al dato sin depender de IT.</p>
+<ul><li>Preguntar a un Excel o un ERP en lenguaje natural</li><li>Dashboards e informes automáticos</li><li>Calidad de datos: el verdadero cuello de botella</li><li>Ejercicio con datos de ejemplo del sector</li></ul>
+</div></div>
+
+<div class="break">☕ PAUSA</div>
+
+<div class="mod"><div class="h">H4<b>1 h</b></div><div>
+<h3>Automatización de procesos</h3>
+<p class="obj">Entender cómo se eliminan las tareas repetitivas.</p>
+<ul><li>Make y n8n explicados para directivos</li><li>Correo → pedido → ERP: anatomía de una automatización</li><li>Cómo detectar qué procesos automatizar primero</li><li>Demo: construir una automatización en vivo</li></ul>
+</div></div>
+
+<div class="mod"><div class="h">H5<b>1 h</b></div><div class="mine">
+<span class="badge">PONENCIA · CÉSAR MOYA</span>
+<h3>El Consultor Aumentado: problemas endémicos, soluciones a medida</h3>
+<p class="obj">Casos reales de apps y agentes construidos con IA, y el método para encontrar dónde está el dinero en tu sector. (Detalle abajo.)</p>
+</div></div>
+
+<div class="mod"><div class="h">H6<b>1 h</b></div><div>
+<h3>Gobierno, riesgos y cumplimiento</h3>
+<p class="obj">Implantar IA sin sustos.</p>
+<ul><li>Reglamento Europeo de IA (AI Act) y RGPD: lo que afecta al directivo</li><li>Política interna de uso de IA</li><li>Seguridad de datos y elección de proveedores</li><li>Plantilla de política lista para adaptar</li></ul>
+</div></div>
+
+<div class="break">☕ PAUSA</div>
+
+<div class="mod"><div class="h">H7<b>1 h</b></div><div>
+<h3>Personas y cultura del cambio</h3>
+<p class="obj">La tecnología es fácil; las personas, no.</p>
+<ul><li>Cómo comunicar la IA al equipo sin generar miedo</li><li>Roles nuevos y formación interna</li><li>Medir adopción y retorno</li><li>Casos de implantaciones que fallaron y por qué</li></ul>
+</div></div>
+
+<div class="mod"><div class="h">H8<b>1 h</b></div><div>
+<h3>Taller final: tu hoja de ruta de 90 días</h3>
+<p class="obj">Cada participante sale con un plan concreto.</p>
+<ul><li>Matriz impacto / esfuerzo de sus procesos</li><li>Elegir 1 quick win y 1 proyecto estratégico</li><li>Presupuesto, responsables y métricas</li><li>Presentación en grupo y feedback</li></ul>
+<p class="out">Entregable: hoja de ruta IA de 90 días por participante.</p>
+</div></div>
+
+<!-- PONENCIA CÉSAR -->
+<div class="talk">
+<div class="tag">// la hora de César · módulo H5</div>
+<h2>El Consultor Aumentado: <span>no compres IA, compra soluciones</span></h2>
+<p class="st">Foco: cómo encontrar los problemas que sufre todo tu sector y resolverlos con software construido con IA, junto a quien mejor conoce el negocio.</p>
+<div class="agenda">
+<div><span class="t">0–10'</span><p><b>El gancho.</b> El Excel de una semana que pasó a un minuto. Por qué el valor no está en la herramienta, sino en el proceso.</p></div>
+<div><span class="t">10–25'</span><p><b>Casos reales con números.</b> Equipo comercial que duplica visitas, merma operativa −80 %, cobros automatizados, facturas y albaranes leídos por IA.</p></div>
+<div><span class="t">25–40'</span><p><b>El método.</b> Detectar el problema endémico del sector → aliarse con un experto → construir en semanas → escalar a producto. Casos ATAJIUM (construcción) y SpinApp/PLANIA (industria).</p></div>
+<div><span class="t">40–50'</span><p><b>Demo en directo.</b> Construir con IA una mini-app o agente sobre un problema que proponga la sala.</p></div>
+<div><span class="t">50–60'</span><p><b>Ejercicio y cierre.</b> Cada directivo identifica "el Excel de su empresa": su proceso endémico. Visión: el experto del sector vuelve al centro.</p></div>
+</div>
+<div class="key"><b>Mensaje clave:</b> la IA ha abaratado construir software. Lo escaso ya no es la tecnología, es saber qué problema resolver. Y eso lo saben ustedes, los directivos.</div>
+</div>
+
+</div></body></html>
