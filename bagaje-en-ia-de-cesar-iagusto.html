@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>César iAgusto · iAgusto.app — El Consultor Aumentado</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Exo+2:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07080a;--card:#101317;--line:#1e242b;--g:#00FF88;--p:#FF3D7F;--o:#E87722;--t:#e9ecef;--m:#8a939c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:'Exo 2',sans-serif;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 15% 10%,rgba(0,255,136,.08),transparent 40%),radial-gradient(circle at 85% 60%,rgba(255,61,127,.07),transparent 40%);pointer-events:none;z-index:0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.mono{font-family:'Share Tech Mono',monospace}
+h1,h2,h3{font-family:'Black Han Sans',sans-serif;font-weight:400;letter-spacing:.5px}
+section{padding:80px 0;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--g);border:1px solid var(--g);padding:4px 12px;border-radius:30px;margin-bottom:18px}
+/* HERO */
+.hero{min-height:92vh;display:flex;align-items:center}
+.hero h1{font-size:clamp(3rem,9vw,7rem);line-height:.95}
+.hero h1 span{color:var(--g);text-shadow:0 0 30px rgba(0,255,136,.4)}
+.hero .sub{font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--m);max-width:720px;margin:24px 0 32px}
+.hero .sub b{color:var(--t)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{background:var(--card);border:1px solid var(--line);padding:8px 16px;border-radius:8px;font-size:.9rem}
+.chip.hl{border-color:var(--o);color:var(--o)}
+.typed{color:var(--p)}
+.cursor{display:inline-block;width:10px;background:var(--p);animation:b 1s infinite;margin-left:4px}
+@keyframes b{50%{opacity:0}}
+/* SECTION HEADERS */
+.sh{font-size:clamp(2rem,5vw,3.4rem);margin-bottom:12px}
+.sh em{font-style:normal;color:var(--p)}
+.lead{color:var(--m);max-width:760px;margin-bottom:40px;font-size:1.1rem}
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;position:relative;overflow:hidden;transition:.3s}
+.kpi:hover{transform:translateY(-4px);border-color:var(--g)}
+.kpi .n{font-family:'Black Han Sans';font-size:2.8rem;color:var(--g);line-height:1}
+.kpi .l{font-weight:600;margin:8px 0 6px}
+.kpi .d{color:var(--m);font-size:.9rem}
+.kpi::after{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:var(--g);opacity:.06}
+.kpi.p .n{color:var(--p)}.kpi.o .n{color:var(--o)}
+/* TIMELINE */
+.tl{border-left:2px solid var(--line);margin-left:8px}
+.tli{position:relative;padding:0 0 30px 30px}
+.tli::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--g);box-shadow:0 0 12px var(--g)}
+.tli .y{font-family:'Share Tech Mono';color:var(--o);font-size:.85rem}
+.tli h3{font-size:1.3rem;margin:2px 0}
+.tli p{color:var(--m)}
+/* METHOD */
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;counter-reset:s}
+.step{background:linear-gradient(160deg,#12171c,#0b0d10);border:1px solid var(--line);border-radius:14px;padding:28px;counter-increment:s}
+.step::before{content:"0" counter(s);font-family:'Share Tech Mono';color:var(--p);font-size:1rem;display:block;margin-bottom:10px}
+.step h3{font-size:1.4rem;margin-bottom:8px}
+.step p{color:var(--m);font-size:.95rem}
+/* PRODUCTS */
+.prods{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+.prod{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;transition:.3s}
+.prod:hover{border-color:var(--p);box-shadow:0 0 40px rgba(255,61,127,.12)}
+.prod .sec{font-family:'Share Tech Mono';font-size:.78rem;color:var(--o);text-transform:uppercase}
+.prod h3{font-size:1.8rem;margin:6px 0 10px}
+.prod .pain{border-left:3px solid var(--p);padding-left:12px;margin:12px 0;color:var(--t);font-size:.95rem}
+.prod ul{list-style:none;color:var(--m);font-size:.92rem}
+.prod li{padding:3px 0}.prod li::before{content:"▸ ";color:var(--g)}
+.prod .ex{margin-top:14px;font-size:.85rem;color:var(--m)}.prod .ex b{color:var(--g)}
+/* CAPS */
+.caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.cap{border:1px solid var(--line);border-radius:12px;padding:20px;background:rgba(255,255,255,.02)}
+.cap .i{font-size:1.6rem}
+.cap h4{font-weight:800;margin:6px 0 4px}
+.cap p{color:var(--m);font-size:.88rem}
+/* VISION */
+.vision{background:linear-gradient(135deg,rgba(0,255,136,.08),rgba(255,61,127,.08));border:1px solid var(--line);border-radius:20px;padding:50px}
+.vision blockquote{font-family:'Black Han Sans';font-size:clamp(1.6rem,3.6vw,2.6rem);line-height:1.2;margin-bottom:28px}
+.vision blockquote span{color:var(--g)}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.vgrid div h4{color:var(--o);font-weight:800;margin-bottom:6px}
+.vgrid div p{color:var(--m);font-size:.95rem}
+/* STACK */
+.stack{display:flex;flex-wrap:wrap;gap:8px}
+.stack span{font-family:'Share Tech Mono';font-size:.85rem;padding:6px 12px;border:1px solid var(--line);border-radius:6px;color:var(--m)}
+footer{padding:50px 0;text-align:center;color:var(--m)}
+footer h2{color:var(--t);font-size:2rem;margin-bottom:6px}
+footer a{color:var(--g);text-decoration:none}
+.rev{opacity:1}
+.rev.on{opacity:1;transform:none}
+@media print{.rev{opacity:1;transform:none}body::before{display:none}section{page-break-inside:avoid}}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.links a{color:#000;background:var(--g);text-decoration:none;font-weight:800;padding:9px 16px;border-radius:8px;font-size:.9rem}
+.links a.alt{background:transparent;color:var(--g);border:1px solid var(--g)}
+.plink{display:inline-block;margin-top:14px;color:var(--p);text-decoration:none;font-weight:800}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap">
+  <div class="tag">// iAgusto.app · consultoría y desarrollo con IA</div>
+  <h1>CÉSAR<br><span>IAGUSTO</span></h1>
+  <p class="sub">El <b>consultor aumentado</b>: busco <b>problemas endémicos de sectores concretos</b>, me alío con quien más sabe de ese sector y los resuelvo con <span class="typed" id="typed"></span><span class="cursor">&nbsp;</span></p>
+  <div class="chips">
+    <div class="chip hl">OpenAI Select Partner</div>
+    <div class="chip">Fundador de iAgusto.app</div>
+    <a class="chip" style="color:inherit;text-decoration:none" href="https://ebfmurcia.com/master-business-artificial-intelligence/" target="_blank">Profesor de Automatizaciones y Vibecoding · EBF</a>
+    <div class="chip">Ponente · "El Consultor Aumentado"</div>
+    <div class="chip">Valencia · España</div>
+  </div>
+  <div class="links">
+    <a href="https://iagusto.app" target="_blank">🌐 iagusto.app</a>
+    <a href="https://iagusto.app/ponencia-consultor-aumentado" target="_blank">🎤 Ponencia "El Consultor Aumentado"</a>
+    <a class="alt" href="https://www.youtube.com/@IAGUSTO-VLC" target="_blank">▶ YouTube @IAGUSTO-VLC</a>
+    <a class="alt" href="https://www.youtube.com/watch?v=PFDR0VcSOTI" target="_blank">🎙 Podcast Modo Inteligente</a>
+  </div>
+</div></section>
+
+<!-- LOGROS -->
+<section><div class="wrap rev">
+  <div class="tag">01 · resultados</div>
+  <h2 class="sh">No vendo IA. <em>Vendo tardes libres.</em></h2>
+  <p class="lead">Lo que importa no es la herramienta, es lo que le cambia al director comercial, al financiero, al de operaciones y a la persona que se pasa la semana con el Excel.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="n">1 sem → 1 min</div><div class="l">El Excel que nadie quería hacer</div><div class="d">Liquidación fiscal mensual de una exportadora de fruta: de una semana de trabajo manual a un minuto con un agente de IA.</div></div>
+    <div class="kpi p"><div class="n">×2</div><div class="l">Capacidad comercial</div><div class="d">Equipo de ventas que duplica las visitas posibles al quitarle la preparación y el papeleo.</div></div>
+    <div class="kpi o"><div class="n">−80%</div><div class="l">Merma operativa</div><div class="d">Reducción del desperdicio en operaciones gracias al control automatizado del proceso.</div></div>
+    <div class="kpi"><div class="n">0 morosos</div><div class="l">Cobros en piloto automático</div><div class="d">Reclamación de impagados y seguimiento de vencimientos sin que nadie tenga que acordarse.</div></div>
+  </div>
+</div></section>
+
+<!-- TRAYECTORIA -->
+<section><div class="wrap rev">
+  <div class="tag">02 · trayectoria</div>
+  <h2 class="sh">De la ignorancia <em>a la excelencia</em></h2>
+  <p class="lead">Una carrera construida resolviendo problemas reales, no haciendo demos de laboratorio.</p>
+  <div class="tl">
+    <div class="tli"><div class="y">EL CLIC</div><h3>Dejar de ver herramientas y empezar a ver procesos</h3><p>Primeras automatizaciones con Make y n8n en pymes: correo, pedidos, ofertas, facturas.</p></div>
+    <div class="tli"><div class="y">EL SALTO</div><h3>De automatizar a construir software</h3><p>Apps a medida multi-tenant construidas con IA (React + Supabase + agentes) para industria, construcción, hostelería, logística y medio ambiente.</p></div>
+    <div class="tli"><div class="y">EL MÉTODO</div><h3>Producto vertical con experto sectorial</h3><p>Nacen ATAJIUM y SpinApp/PLANIA: soluciones a dolores que comparten todas las empresas de un sector.</p></div>
+    <div class="tli"><div class="y">HOY</div><h3>Formación, ponencias y partnership</h3><p>Profesor de Automatizaciones y Vibecoding en European Business Factory (EBF), en el curso transversal y en el <a href="https://ebfmurcia.com/master-business-artificial-intelligence/" target="_blank" style="color:var(--g)">Máster MBAI (Business Artificial Intelligence)</a>. Ponente de "El Consultor Aumentado" y designado OpenAI Select Partner.</p></div>
+  </div>
+</div></section>
+
+<!-- MÉTODO -->
+<section><div class="wrap rev">
+  <div class="tag">03 · cómo trabajamos</div>
+  <h2 class="sh">Problemas endémicos. <em>Expertos reales.</em></h2>
+  <p class="lead">No reinvento cada empresa: busco el dolor que se repite en todo un sector y lo ataco con expertos con muchos años en el sector.</p>
+  <div class="method">
+    <div class="step"><h3>Detectar</h3><p>Encontrar el proceso que en todo el sector se hace igual de mal: Excel, PDFs, correos, copia-pega.</p></div>
+    <div class="step"><h3>Aliarse</h3><p>Sumar a un experto del sector que valida cada decisión. Él pone el criterio; yo, la velocidad.</p></div>
+    <div class="step"><h3>Construir</h3><p>Software con IA en semanas, no en años. Lógica determinista donde hace falta precisión, IA donde aporta.</p></div>
+    <div class="step"><h3>Escalar</h3><p>Lo que funciona en un cliente se convierte en producto para todo el sector.</p></div>
+  </div>
+</div></section>
+
+<!-- PRODUCTOS -->
+<section><div class="wrap rev">
+  <div class="tag">04 · proyectos</div>
+  <h2 class="sh">Lo que <em>ya está en producción</em></h2>
+  <p class="lead">Software real, usado a diario por empresas reales. Tres productos propios y proyectos a medida en sectores muy distintos.</p>
+
+  <h3 style="font-size:1.6rem;margin:10px 0 18px;color:var(--g)">Productos propios</h3>
+  <div class="prods">
+    <div class="prod">
+      <div class="sec">Construcción · departamentos de estudios</div>
+      <h3>ATAJIUM PRO</h3>
+      <div class="pain">Dolor: comparar presupuestos de obra y ofertas de proveedores a mano, partida a partida, en cada licitación.</div>
+      <ul><li>Lectura de presupuestos BC3/FIEBDC-3 y PDF, y exportación a BC3</li><li>7 módulos: auditor, semáforo de riesgo, simulador de margen, histórico de precios, ranking de proveedores, comparador e informes</li><li>Petición masiva de ofertas por familias de compra</li><li>Baremador precio/fiabilidad con el Top 3 de ofertas por partida</li><li>Base de precios BCCA cargada (+15.000 conceptos)</li></ul>
+      <div class="ex">Resultado: <b>~40 h ahorradas por licitación</b> · constructora ya trabajando con él · SaaS multi-empresa por suscripción</div><a class="plink" href="https://atajiumpro.iagusto.app" target="_blank">→ Ver ATAJIUM PRO</a>
+    </div>
+    <div class="prod">
+      <div class="sec">Industria · calderería y fabricación</div>
+      <h3>SpinApp / PLANIA</h3>
+      <div class="pain">Dolor: convertir un modelo 3D en planos de fabricación se lleva horas de delineación por pieza.</div>
+      <ul><li>Lee el modelo STEP (ISO 10303) y genera el plano DXF/PDF de fabricación</li><li>Detección de taladros, perfiles y cotas</li><li>Desarrollado y validado junto a un delineante profesional</li><li>Colaboración en tiempo real sobre el mismo plano</li></ul>
+      <div class="ex">Método: <b>el experto del sector valida cada familia de piezas</b></div>
+    </div>
+    <div class="prod">
+      <div class="sec">Hostelería · administración</div>
+      <h3>FACTURRA</h3>
+      <div class="pain">Dolor: teclear las facturas y albaranes de decenas de proveedores y cuadrarlos a mano.</div>
+      <ul><li>Lectura con IA de facturas, albaranes y vales (foto, PDF o email)</li><li>Cuadre fiscal y cruce automático factura ↔ albarán</li><li>Clasificación por familias de compra y control de stock</li><li>Exportación de compras para contabilidad</li></ul>
+      <div class="ex">En producción en un <b>hotel</b>; ampliado con chatbot que actualiza la carta del restaurante por voz</div><a class="plink" href="https://iagusto.app/facturra-demo.html" target="_blank">→ Ver demo de FACTURRA</a>
+    </div>
+  </div>
+
+  <h3 style="font-size:1.6rem;margin:40px 0 18px;color:var(--o)">Proyectos para empresas</h3>
+  <div class="prods">
+    <div class="prod">
+      <div class="sec">Distribución · supermercados</div>
+      <h3>Grupo Bemalu</h3>
+      <div class="pain">Dolor: revisar a mano facturas de proveedores de cientos de líneas contra albaranes y tarifas.</div>
+      <ul><li>Verificación automática factura ↔ albarán ↔ tarifa del ERP</li><li>IA ejecutada 100 % en los servidores del cliente (sin nube, por privacidad)</li><li>Lectores por proveedor + IA local para PDF escaneados</li><li>Integración con el ERP para cargos y disconformidades</li></ul>
+    </div>
+    <div class="prod">
+      <div class="sec">Industria química · adhesivos</div>
+      <h3>Adhesivos Orcajada</h3>
+      <div class="pain">Dolor: un buzón de presupuestos saturado que alguien tiene que leer y repartir a mano.</div>
+      <ul><li>Asistente IA que lee, clasifica y asigna cada correo a la comercial correcta</li><li>Avisos automáticos con el resumen del pedido</li><li>Panel en tiempo real de la carga por comercial</li></ul>
+      <div class="ex">En producción desde <b>septiembre de 2026</b></div>
+    </div>
+    <div class="prod">
+      <div class="sec">Obra civil · plantas de tratamiento</div>
+      <h3>Vialterra · DIA D+</h3>
+      <div class="pain">Dolor: controlar la trazabilidad ambiental de todas las obras a mano, factura a factura.</div>
+      <ul><li>Recibe por email las facturas de todas sus obras y las procesa automáticamente</li><li>Calcula indicadores de trazabilidad: folios por euro, litros de agua por euro…</li><li>KPIs automáticos para ISO 14001, EMAS y huella de carbono</li><li>Control de certificados ambientales y caducidades</li></ul>
+    </div>
+    <div class="prod">
+      <div class="sec">Maquinaria · dirección</div>
+      <h3>ORDIAPP · VIMAR Environment</h3>
+      <div class="pain">Dolor: el director no puede tener a la vista todo el negocio cuando no está en la oficina.</div>
+      <ul><li>App directiva multifunción conectada con Holded</li><li>Chatbot orquestador por voz: el director controla contabilidad/finanzas, comercial, proveedores y clientes mientras conduce</li><li>Dashboards en tiempo real a petición</li><li>Pedidos, descargas en clientes, pagos, ingresos y trazabilidad de maquinaria</li></ul>
+    </div>
+  </div>
+
+  <div class="caps" style="margin-top:24px">
+    <div class="cap"><div class="i">🍊</div><h4>Exportación agrícola</h4><p>Liquidación fiscal mensual en Excel: de una semana a un minuto con un agente.</p></div>
+    <div class="cap"><div class="i">💧</div><h4>Tratamiento de aguas</h4><p>Portal IoT con datos de equipos en tiempo real y asistente IA técnico.</p></div>
+    <div class="cap"><div class="i">🧪</div><h4>Ingeniería sanitaria</h4><p>Generador de XML para carga masiva en una plataforma del Ministerio.</p></div>
+    <div class="cap"><div class="i">♻️</div><h4>Gestión de residuos</h4><p>Generador automático de ofertas comerciales.</p></div>
+    <div class="cap"><div class="i">🏨</div><h4>Hoteles</h4><p>Check-in digital de huéspedes y software de optimización hotelera en co-creación con un director.</p></div>
+    <div class="cap"><div class="i">📊</div><h4>Comercio exterior</h4><p>Declaraciones INTRASTAT automatizadas desde facturas.</p></div>
+  </div>
+</div></section>
+
+<!-- CAPACIDADES -->
+<section><div class="wrap rev">
+  <div class="tag">05 · lo que somos capaces de hacer</div>
+  <h2 class="sh">Mejorar empresas <em>desde dentro</em></h2>
+  <div class="caps">
+    <div class="cap"><div class="i">⚡</div><h4>Automatización</h4><p>Flujos Make y n8n: correo, pedidos, ERP, CRM, Holded, Business Central.</p></div>
+    <div class="cap"><div class="i">🧠</div><h4>Agentes de IA</h4><p>Agentes que leen, clasifican, deciden y responden con criterio de negocio.</p></div>
+    <div class="cap"><div class="i">🧩</div><h4>Apps a medida</h4><p>Portales de pedidos, de clientes, de proveedores; multi-tenant y seguras.</p></div>
+    <div class="cap"><div class="i">📄</div><h4>Documentos → datos</h4><p>Facturas, albaranes, presupuestos, planos y certificados convertidos en información.</p></div>
+    <div class="cap"><div class="i">📡</div><h4>IoT y dashboards</h4><p>Datos de máquinas en tiempo real con asistente IA para operaciones.</p></div>
+    <div class="cap"><div class="i">🎓</div><h4>Formación</h4><p>Profesor de Automatizaciones y Vibecoding en EBF: curso transversal y <a href="https://ebfmurcia.com/master-business-artificial-intelligence/" target="_blank" style="color:var(--g)">Máster MBAI</a>.</p></div>
+  </div>
+  <div style="margin-top:30px" class="stack"><span>Claude</span><span>OpenAI</span><span>Gemini</span><span>n8n</span><span>Make</span><span>Supabase</span><span>React</span><span>Vercel</span><span>MCP</span><span>Claude Code</span></div>
+</div></section>
+
+<!-- VISIÓN -->
+<section><div class="wrap rev">
+  <div class="tag">06 · visión</div>
+  <div class="vision">
+    <blockquote>El futuro no es la empresa que <span>usa IA</span>.<br>Es la empresa que ha <span>dejado de sufrir</span> sus procesos.</blockquote>
+    <div class="vgrid">
+      <div><h4>Software vertical, no genérico</h4><p>Cada sector tiene 3-4 dolores comunes. Quien los resuelva con un experto al lado se queda el mercado.</p></div>
+      <div><h4>El experto vuelve al centro</h4><p>La IA abarata construir. Lo escaso ahora es saber qué construir: el conocimiento del sector.</p></div>
+      <div><h4>El directivo como constructor</h4><p>Los directivos que entiendan cómo se construye con IA decidirán más rápido y mejor que su competencia.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <h2>Dime con qué proceso resoplas y te lo convierto en un suspiro</h2>
+  <p>César iAgusto</p><div class="links" style="justify-content:center">
+<a href="https://iagusto.app" target="_blank">iagusto.app</a>
+<a class="alt" href="https://iagusto.app/consultoria-ia-valencia" target="_blank">Consultoría IA</a>
+<a class="alt" href="https://iagusto.app/desarrollo-apps-ia" target="_blank">Desarrollo de apps con IA</a>
+<a class="alt" href="https://iagusto.app/ponencia-consultor-aumentado" target="_blank">Ponencia</a>
+<a class="alt" href="https://www.youtube.com/@IAGUSTO-VLC" target="_blank">YouTube</a></div>
+</div></footer>
+
+<script>
+const w=["agentes de IA.","apps construidas con IA.","automatizaciones.","software vertical."];let i=0,j=0,d=false;const el=document.getElementById('typed');
+(function t(){const s=w[i];el.textContent=s.slice(0,j);if(!d&&j<s.length)j++;else if(d&&j>0)j--;else{d=!d;if(!d)i=(i+1)%w.length;setTimeout(t,d?1600:300);return}setTimeout(t,d?35:70)})();
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on')}),{threshold:.15});
+document.querySelectorAll('.rev').forEach(r=>io.observe(r));
+</script>
+</body>
+</html>
