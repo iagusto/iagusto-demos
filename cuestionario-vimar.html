@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuatro preguntas antes de empezar</title>
+<style>
+  :root {
+    --azul: #1d4ed8;
+    --azul-oscuro: #1e3a8a;
+    --texto: #1f2937;
+    --suave: #6b7280;
+    --borde: #cbd5e1;
+    --fondo: #f1f5f9;
+    --error: #b91c1c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 19px;
+    line-height: 1.5;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 18px 48px;
+  }
+  .tarjeta {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 22px;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, .08);
+    border-top: 6px solid var(--azul);
+  }
+  h1 {
+    font-size: 1.7rem;
+    line-height: 1.25;
+    margin: 0 0 12px;
+    color: var(--azul-oscuro);
+  }
+  .intro { margin: 0 0 28px; color: var(--suave); }
+  .pregunta { margin-bottom: 28px; }
+  label.enunciado {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .num {
+    display: inline-block;
+    min-width: 1.9em;
+    height: 1.9em;
+    line-height: 1.9em;
+    text-align: center;
+    border-radius: 50%;
+    background: var(--azul);
+    color: #fff;
+    font-size: .85em;
+    margin-right: 8px;
+  }
+  select, input[type="text"] {
+    width: 100%;
+    font-size: 1.05rem;
+    padding: 14px 12px;
+    border: 2px solid var(--borde);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--texto);
+    font-family: inherit;
+  }
+  select:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(29, 78, 216, .2);
+  }
+  .otra { display: none; margin-top: 10px; }
+  .otra.visible { display: block; }
+  button {
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 18px;
+    border: none;
+    border-radius: 12px;
+    background: var(--azul);
+    color: #fff;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  button:hover { background: var(--azul-oscuro); }
+  button:disabled { opacity: .6; cursor: wait; }
+  .aviso {
+    display: none;
+    margin-bottom: 16px;
+    padding: 14px;
+    border-radius: 10px;
+    background: #fef2f2;
+    border: 2px solid var(--error);
+    color: var(--error);
+    font-weight: 600;
+  }
+  .aviso.visible { display: block; }
+  .gracias { display: none; text-align: center; padding: 24px 0; }
+  .gracias.visible { display: block; }
+  .gracias h2 { color: var(--azul-oscuro); font-size: 1.6rem; margin: 0 0 8px; }
+  .gracias p { margin: 0; color: var(--suave); }
+</style>
+</head>
+<body>
+<main>
+  <div class="tarjeta">
+    <div id="contenido">
+      <h1>Cuatro preguntas antes de empezar</h1>
+      <p class="intro">Gracias por el tiempo de la reunión. Con estas cuatro preguntas rápidas me aseguro de construir justo lo que necesita. Elija la opción que más se parezca a lo que quiere; si ninguna encaja, escriba la suya.</p>
+
+      <form id="formulario" novalidate>
+        <input type="hidden" name="cliente" value="VIMAR">
+        <input type="hidden" name="_subject" value="DEMO CLASE - Respuestas del cuestionario">
+
+        <div class="pregunta">
+          <label class="enunciado" for="s1"><span class="num">1</span>Cuando el circuito de ofertas y pedidos ya funcione bien, ¿qué quiere que hagamos primero?</label>
+          <select id="s1" required>
+            <option value="">Elija una opción…</option>
+            <option>Un calendario de cobros (cuándo me llega el dinero de cada cliente)</option>
+            <option>El seguimiento de impagos (avisar y reclamar a quien no paga)</option>
+            <option>Poder pedir las ofertas hablando con un chat</option>
+            <option value="__otra__">Otra (la escribo)</option>
+          </select>
+          <div class="otra"><input type="text" placeholder="Escriba aquí su respuesta" aria-label="Otra respuesta a la pregunta 1"></div>
+        </div>
+
+        <div class="pregunta">
+          <label class="enunciado" for="s2"><span class="num">2</span>Cuando un cliente le paga, o le entrega un pagaré, ¿cómo quiere dejarlo anotado?</label>
+          <select id="s2" required>
+            <option value="">Elija una opción…</option>
+            <option>Lo anoto yo a mano en un comentario (por ejemplo, «pagaré nº tal, vence el…»)</option>
+            <option>Que se marque solo cuando Holded registre el cobro</option>
+            <option>Que se marque solo y yo pueda añadir un comentario si hace falta</option>
+            <option value="__otra__">Otra (la escribo)</option>
+          </select>
+          <div class="otra"><input type="text" placeholder="Escriba aquí su respuesta" aria-label="Otra respuesta a la pregunta 2"></div>
+        </div>
+
+        <div class="pregunta">
+          <label class="enunciado" for="s3"><span class="num">3</span>Si una factura pasa de fecha sin cobrar, ¿cuándo y a quién quiere que se avise?</label>
+          <select id="s3" required>
+            <option value="">Elija una opción…</option>
+            <option>Solo avisarme a mí, el mismo día en que vence</option>
+            <option>Avisarme a mí a los 7 días de haberse pasado</option>
+            <option>Un recordatorio amable al cliente a los 7 días y otro más firme a los 30</option>
+            <option value="__otra__">Otra (la escribo)</option>
+          </select>
+          <div class="otra"><input type="text" placeholder="Escriba aquí su respuesta" aria-label="Otra respuesta a la pregunta 3"></div>
+        </div>
+
+        <div class="pregunta">
+          <label class="enunciado" for="s4"><span class="num">4</span>Cuando entrega una máquina pero aún no la factura (por ejemplo, a final de trimestre), ¿cómo quiere verlo?</label>
+          <select id="s4" required>
+            <option value="">Elija una opción…</option>
+            <option>Un estado «Entregada» aparte del de «Facturada» en cada máquina</option>
+            <option>Solo el estado de facturación, con un comentario mío</option>
+            <option>Un aviso con las máquinas entregadas que aún no están facturadas</option>
+            <option value="__otra__">Otra (la escribo)</option>
+          </select>
+          <div class="otra"><input type="text" placeholder="Escriba aquí su respuesta" aria-label="Otra respuesta a la pregunta 4"></div>
+        </div>
+
+        <div id="aviso" class="aviso" role="alert"></div>
+        <button type="submit" id="boton">Enviar mis respuestas</button>
+      </form>
+    </div>
+
+    <div id="gracias" class="gracias" role="status">
+      <h2>Gracias, ya tengo lo que necesito</h2>
+      <p>En cuanto lo revise me pongo con ello.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  var ENDPOINT = "https://formspree.io/f/xqenkjpv";
+  var PREGUNTAS = [
+    "Cuando el circuito de ofertas y pedidos ya funcione bien, ¿qué quiere que hagamos primero?",
+    "Cuando un cliente le paga, o le entrega un pagaré, ¿cómo quiere dejarlo anotado?",
+    "Si una factura pasa de fecha sin cobrar, ¿cuándo y a quién quiere que se avise?",
+    "Cuando entrega una máquina pero aún no la factura (por ejemplo, a final de trimestre), ¿cómo quiere verlo?"
+  ];
+
+  var form = document.getElementById("formulario");
+  var boton = document.getElementById("boton");
+  var aviso = document.getElementById("aviso");
+  var bloques = Array.prototype.slice.call(document.querySelectorAll(".pregunta"));
+
+  function mostrarAviso(texto) {
+    aviso.textContent = texto;
+    aviso.classList.add("visible");
+  }
+  function ocultarAviso() {
+    aviso.classList.remove("visible");
+  }
+
+  bloques.forEach(function (b) {
+    var sel = b.querySelector("select");
+    var caja = b.querySelector(".otra");
+    var campo = caja.querySelector("input");
+    sel.addEventListener("change", function () {
+      var esOtra = sel.value === "__otra__";
+      caja.classList.toggle("visible", esOtra);
+      if (esOtra) { campo.focus(); } else { campo.value = ""; }
+      sel.style.borderColor = "";
+      campo.style.borderColor = "";
+    });
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    ocultarAviso();
+
+    var datos = new FormData();
+    datos.append("cliente", "VIMAR");
+    datos.append("_subject", "DEMO CLASE - Respuestas del cuestionario");
+
+    var primeraFalta = null;
+    for (var i = 0; i < bloques.length; i++) {
+      var sel = bloques[i].querySelector("select");
+      var campo = bloques[i].querySelector(".otra input");
+      var respuesta = "";
+
+      if (!sel.value) {
+        sel.style.borderColor = "#b91c1c";
+        if (!primeraFalta) primeraFalta = sel;
+      } else if (sel.value === "__otra__") {
+        var txt = campo.value.trim();
+        if (!txt) {
+          campo.style.borderColor = "#b91c1c";
+          if (!primeraFalta) primeraFalta = campo;
+        } else {
+          respuesta = "Otra: " + txt;
+        }
+      } else {
+        respuesta = sel.value;
+      }
+
+      datos.append("p" + (i + 1), respuesta);
+      datos.append("p" + (i + 1) + "_pregunta", PREGUNTAS[i]);
+    }
+
+    if (primeraFalta) {
+      mostrarAviso("Falta contestar alguna pregunta. Revise las marcadas en rojo.");
+      primeraFalta.focus();
+      return;
+    }
+
+    boton.disabled = true;
+    boton.textContent = "Enviando…";
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      body: datos,
+      headers: { "Accept": "application/json" }
+    }).then(function (resp) {
+      if (resp.ok) {
+        document.getElementById("contenido").style.display = "none";
+        document.getElementById("gracias").classList.add("visible");
+        window.scrollTo(0, 0);
+      } else {
+        throw new Error("Respuesta no válida");
+      }
+    }).catch(function () {
+      mostrarAviso("No se han podido enviar sus respuestas. Compruebe la conexión e inténtelo de nuevo.");
+      boton.disabled = false;
+      boton.textContent = "Enviar mis respuestas";
+    });
+  });
+})();
+</script>
+</body>
+</html>
