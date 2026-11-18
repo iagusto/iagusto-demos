@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario · Automatización Plan de Pensiones · iAgusto</title>
+<meta property="og:title" content="Cuestionario · Automatización Plan de Pensiones">
+<meta property="og:description" content="Cuestionario previo para automatizar la generación mensual de aportaciones y altas del plan de pensiones.">
+<meta property="og:type" content="website">
+<style>
+:root{--navy:#1A3A5C;--orange:#E87722;--bg:#f4f6f9;--txt:#1f2937;--muted:#6b7280;--line:#e5e7eb}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5}
+header{background:var(--navy);color:#fff;padding:22px 20px;display:flex;align-items:center;gap:14px}
+header .logo{height:64px;width:64px;border-radius:12px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:26px}
+header h1{margin:0;font-size:20px}
+header p{margin:2px 0 0;opacity:.85;font-size:14px}
+.wrap{max-width:860px;margin:0 auto;padding:20px}
+.intro{background:#fff;border-left:5px solid var(--orange);padding:16px 18px;border-radius:8px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.progress{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--orange);transition:width .3s}
+.ptxt{font-size:12px;color:var(--muted);margin-top:4px;text-align:right}
+section{background:#fff;border-radius:10px;padding:18px 20px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+section h2{margin:0 0 14px;color:var(--navy);font-size:18px;border-bottom:2px solid var(--orange);padding-bottom:6px}
+.q{margin-bottom:18px}
+.q label.t{display:block;font-weight:700;margin-bottom:6px}
+.q .h{font-size:13px;color:var(--muted);margin:-2px 0 8px}
+input[type=text],input[type=email],input[type=number],textarea,select{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;background:#fff}
+textarea{min-height:80px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(232,119,34,.15)}
+.opts label{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;cursor:pointer}
+.opts label:hover{border-color:var(--orange)}
+.opts input{margin-top:3px;accent-color:var(--orange)}
+table.map{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px}
+table.map th{background:var(--navy);color:#fff;text-align:left;padding:8px}
+table.map td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.map tr:nth-child(even) td{background:#f8fafc}
+table.map input{padding:7px 9px}
+button{background:var(--orange);color:#fff;border:0;padding:14px 28px;font-size:16px;font-weight:700;border-radius:8px;cursor:pointer;width:100%}
+button:hover{filter:brightness(.95)}
+.ok{display:none;background:#ecfdf5;border-left:5px solid #10b981;padding:18px;border-radius:8px;margin-top:16px}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:13px}
+footer .mini{display:inline-flex;height:34px;width:34px;border-radius:8px;background:var(--navy);color:#fff;align-items:center;justify-content:center;font-weight:700;vertical-align:middle;margin-right:6px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">iA</div>
+  <div>
+    <h1>Automatización del Plan de Pensiones</h1>
+    <p>Cuestionario previo · Asesoría Miguel Paz · ©S.A.® IAGUSTO</p>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="intro">
+  <strong>Hola Miguel.</strong> Con estas respuestas podremos dejar cerrado el alcance de la automatización: generar cada mes, por empresa, el Excel de aportaciones del plan, detectar a los trabajadores nuevos y preparar su Excel de alta. Son unos 10 minutos. Si alguna pregunta no la sabes, déjala en blanco y la vemos en la llamada.
+</div>
+
+<div class="progress"><div class="bar"><i id="pb"></i></div><div class="ptxt" id="pt">0 % completado</div></div>
+
+<form id="f" action="https://formspree.io/f/xqenkjpv" method="POST">
+<input type="hidden" name="_subject" value="Cuestionario Plan de Pensiones — Asesoría Miguel Paz">
+<input type="hidden" name="proyecto" value="Automatización Plan de Pensiones (Miguel Paz)">
+
+<section>
+<h2>1. Datos de contacto</h2>
+<div class="q"><label class="t">Nombre de quien responde</label><input type="text" name="nombre" required></div>
+<div class="q"><label class="t">Email</label><input type="email" name="email" required></div>
+<div class="q"><label class="t">Persona del despacho que hará el proceso cada mes (si no eres tú)</label><input type="text" name="responsable_mensual"></div>
+</section>
+
+<section>
+<h2>2. Volumen y calendario</h2>
+<div class="q"><label class="t">¿Cuántas empresas de construcción están en el plan?</label><input type="number" name="num_empresas" min="0"></div>
+<div class="q"><label class="t">¿Cuántos trabajadores suele tener cada empresa? (aprox., mínimo y máximo)</label><input type="text" name="trabajadores_por_empresa" placeholder="Ej.: entre 5 y 60"></div>
+<div class="q"><label class="t">¿Hay más empresas que puedan entrar en el plan en el futuro?</label>
+<div class="opts">
+<label><input type="radio" name="crecimiento" value="Sí, previsiblemente">Sí, previsiblemente</label>
+<label><input type="radio" name="crecimiento" value="No, son fijas">No, son fijas</label>
+<label><input type="radio" name="crecimiento" value="No lo sé">No lo sé</label>
+</div></div>
+<div class="q"><label class="t">¿Qué día del mes hay que subir los ficheros y cuál es el plazo límite?</label><input type="text" name="fecha_limite"></div>
+<div class="q"><label class="t">¿Hay meses con más de una subida (pagas extra, atrasos, regularizaciones)?</label>
+<div class="opts">
+<label><input type="radio" name="multiples_subidas" value="No, siempre una al mes">No, siempre una al mes</label>
+<label><input type="radio" name="multiples_subidas" value="Sí, en pagas extra">Sí, en pagas extra</label>
+<label><input type="radio" name="multiples_subidas" value="Sí, por atrasos o regularizaciones">Sí, por atrasos o regularizaciones</label>
+</div></div>
+<div class="q"><label class="t">¿Cuánto tiempo os lleva hoy hacerlo a mano cada mes (todas las empresas)?</label><input type="text" name="tiempo_actual" placeholder="Ej.: 4 horas"></div>
+</section>
+
+<section>
+<h2>3. Fichero de aportaciones (Documento 2)</h2>
+<div class="q"><label class="t">En el listado de A3 (Doc. 3) aparecen trabajadores que no salen en el fichero que subís (Doc. 1). ¿Por qué se quedan fuera?</label>
+<div class="h">Ej.: el 42189685A está en A3 con 39,34 € pero no en el fichero subido. Puede que el Doc. 1 sea de otro mes.</div>
+<textarea name="criterio_exclusion"></textarea></div>
+<div class="q"><label class="t">Trabajadores que salen en A3 sin importe (vacío o 0): ¿se excluyen siempre?</label>
+<div class="opts">
+<label><input type="radio" name="sin_importe" value="Sí, se excluyen">Sí, se excluyen</label>
+<label><input type="radio" name="sin_importe" value="No, van con 0">No, van con 0</label>
+<label><input type="radio" name="sin_importe" value="Depende">Depende (explícalo abajo)</label>
+</div></div>
+<div class="q"><label class="t">Las columnas de "Obligatorio Partícipe", "Voluntario Partícipe" y "Voluntario Flexible": ¿se usan alguna vez o siempre va solo el Obligatorio Promotor?</label><textarea name="columnas_importes"></textarea></div>
+<div class="q"><label class="t">En el listado de A3, ¿la columna de importe es siempre el mismo concepto de nómina? ¿Cuál?</label><input type="text" name="concepto_a3"></div>
+<div class="q"><label class="t">El nombre del fichero es <code>AAAAMMDD_679_CIF.xlsx</code>. ¿Qué es cada parte? ¿La fecha es la de subida o la del periodo? ¿El 679 es fijo para todas las empresas?</label><textarea name="nomenclatura"></textarea></div>
+</section>
+
+<section>
+<h2>4. Trabajadores nuevos y altas (Documento 4)</h2>
+<div class="q"><label class="t">¿Cuándo se considera "nuevo" a un trabajador?</label>
+<div class="opts">
+<label><input type="radio" name="criterio_nuevo" value="No estaba el mes anterior">No estaba el mes anterior</label>
+<label><input type="radio" name="criterio_nuevo" value="Nunca ha estado dado de alta en el plan">Nunca ha estado dado de alta en el plan (puede haber reingresos)</label>
+<label><input type="radio" name="criterio_nuevo" value="No lo sé">No lo sé</label>
+</div></div>
+<div class="q"><label class="t">Si un trabajador se va y vuelve meses después, ¿hay que darlo de alta otra vez?</label><input type="text" name="reingresos"></div>
+<div class="q"><label class="t">¿Las bajas también hay que comunicarlas en la plataforma? ¿Con qué fichero?</label><textarea name="bajas"></textarea></div>
+<div class="q"><label class="t">¿El alta se sube antes que las aportaciones, el mismo día o se puede subir todo a la vez?</label><input type="text" name="orden_subida"></div>
+
+<p style="margin:6px 0 10px"><strong>El Excel de altas pide datos que el listado de A3 (Doc. 5) no trae.</strong> Indica para cada uno de dónde sale o qué valor fijo lleva:</p>
+<table class="map">
+<tr><th>Campo del alta</th><th>¿De dónde sale / valor por defecto?</th></tr>
+<tr><td>Código postal</td><td><input type="text" name="campo_cp" placeholder="¿Se puede añadir al listado de A3?"></td></tr>
+<tr><td>Idioma</td><td><input type="text" name="campo_idioma" placeholder="¿Siempre CASTELLANO?"></td></tr>
+<tr><td>Fecha alta plan</td><td><input type="text" name="campo_fecha_alta" placeholder="¿Fecha de ingreso en la empresa u otra?"></td></tr>
+<tr><td>Código empleado</td><td><input type="text" name="campo_cod_empleado" placeholder="¿Se rellena o va vacío?"></td></tr>
+<tr><td>Ingresos superiores a…</td><td><input type="text" name="campo_ingresos" placeholder="¿Siempre N? ¿Cuál es el umbral?"></td></tr>
+<tr><td>Email</td><td><input type="text" name="campo_email" placeholder="¿Está en A3? ¿Obligatorio?"></td></tr>
+<tr><td>Móvil</td><td><input type="text" name="campo_movil" placeholder="¿Teléfono 1 de A3?"></td></tr>
+<tr><td>Nacionalidad</td><td><input type="text" name="campo_nacionalidad" placeholder="A3 da país (ESPAÑA, CUBA); el alta pide gentilicio (ESPAÑOLA)"></td></tr>
+</table>
+<div class="q"><label class="t">¿Se puede ampliar el listado del Documento 5 en A3 para que incluya los campos que faltan?</label>
+<div class="opts">
+<label><input type="radio" name="ampliar_a3" value="Sí">Sí</label>
+<label><input type="radio" name="ampliar_a3" value="No">No</label>
+<label><input type="radio" name="ampliar_a3" value="No lo sé">No lo sé</label>
+</div></div>
+<div class="q"><label class="t">En A3 hay datos incompletos (fechas 00/00/0000, calles vacías…). Si a un trabajador nuevo le falta un dato obligatorio, ¿qué prefieres?</label>
+<div class="opts">
+<label><input type="radio" name="datos_incompletos" value="Generar igualmente y avisar">Generar el fichero y avisar del dato que falta</label>
+<label><input type="radio" name="datos_incompletos" value="No generar hasta corregir en A3">No generarlo hasta que se corrija en A3</label>
+</div></div>
+</section>
+
+<section>
+<h2>5. La plataforma donde se sube</h2>
+<div class="q"><label class="t">¿Cuál es la plataforma o entidad gestora del plan?</label><input type="text" name="plataforma"></div>
+<div class="q"><label class="t">¿La subida es manual (entrar, elegir fichero, enviar) o tiene alguna opción de envío masivo?</label><textarea name="forma_subida"></textarea></div>
+<div class="q"><label class="t">¿Os gustaría que en una segunda fase también se automatizara la subida a la web?</label>
+<div class="opts">
+<label><input type="radio" name="automatizar_subida" value="Sí">Sí</label>
+<label><input type="radio" name="automatizar_subida" value="No, la subida la hacemos nosotros">No, la subida la hacemos nosotros</label>
+<label><input type="radio" name="automatizar_subida" value="Más adelante">Más adelante</label>
+</div></div>
+<div class="q"><label class="t">¿La plataforma os devuelve un justificante o un error cuando algo falla? ¿Qué errores son los más habituales?</label><textarea name="errores_plataforma"></textarea></div>
+</section>
+
+<section>
+<h2>6. Cómo queréis trabajar</h2>
+<div class="q"><label class="t">¿Dónde guardáis hoy los ficheros?</label>
+<div class="opts">
+<label><input type="radio" name="almacenamiento" value="Carpeta en red del despacho">Carpeta en red del despacho</label>
+<label><input type="radio" name="almacenamiento" value="OneDrive / SharePoint">OneDrive / SharePoint</label>
+<label><input type="radio" name="almacenamiento" value="Google Drive">Google Drive</label>
+<label><input type="radio" name="almacenamiento" value="En el PC de cada uno">En el PC de cada uno</label>
+</div></div>
+<div class="q"><label class="t">¿Qué forma de uso os encaja mejor?</label>
+<div class="opts">
+<label><input type="radio" name="modo_uso" value="Web: subo los ficheros de A3 y descargo todo">Web: subo los ficheros de A3 y descargo un ZIP con todo ya rellenado y con su nombre</label>
+<label><input type="radio" name="modo_uso" value="Carpeta vigilada">Dejo los ficheros en una carpeta y aparecen solos los resultados</label>
+<label><input type="radio" name="modo_uso" value="Por email">Los envío por email y me llegan de vuelta</label>
+</div></div>
+<div class="q"><label class="t">¿Sacáis de A3 un listado por empresa o uno con todas las empresas juntas?</label>
+<div class="opts">
+<label><input type="radio" name="exportacion_a3" value="Uno por empresa">Uno por empresa</label>
+<label><input type="radio" name="exportacion_a3" value="Uno con todas juntas">Uno con todas juntas</label>
+<label><input type="radio" name="exportacion_a3" value="Se podría sacar de las dos formas">Se podría sacar de las dos formas</label>
+</div></div>
+<div class="q"><label class="t">¿Os interesa un resumen mensual (altas nuevas, total aportado por empresa, diferencias con el mes anterior) para revisar antes de subir?</label>
+<div class="opts">
+<label><input type="radio" name="resumen" value="Sí">Sí</label>
+<label><input type="radio" name="resumen" value="No hace falta">No hace falta</label>
+</div></div>
+<div class="q"><label class="t">¿Queréis avisos si cambia el importe de un trabajador respecto al mes anterior (posible error de nómina)?</label>
+<div class="opts">
+<label><input type="radio" name="aviso_importes" value="Sí">Sí</label>
+<label><input type="radio" name="aviso_importes" value="No">No</label>
+</div></div>
+<div class="q"><label class="t">¿Tenéis guardados los ficheros subidos de meses anteriores? (Nos sirven como punto de partida para comparar)</label><input type="text" name="historico"></div>
+</section>
+
+<section>
+<h2>7. Otros procesos parecidos</h2>
+<div class="q"><label class="t">¿Hay otros trámites mensuales en los que paséis datos de A3 a una plantilla Excel o a una web (mutuas, convenios, otros planes, seguros colectivos…)?</label><textarea name="otros_procesos"></textarea></div>
+<div class="q"><label class="t">¿Algo más que debamos saber?</label><textarea name="comentarios"></textarea></div>
+</section>
+
+<button type="submit">Enviar respuestas</button>
+<div class="ok" id="ok"><strong>¡Gracias!</strong> Hemos recibido tus respuestas. Las revisamos y te llamamos para cerrar el alcance.</div>
+</form>
+</div>
+
+<footer><span class="mini">iA</span>©S.A.® IAGUSTO · iagusto.app</footer>
+
+<script>
+const f=document.getElementById('f');
+function prog(){const names=[...new Set([...f.querySelectorAll('input:not([type=hidden]),textarea')].map(e=>e.name))];
+let done=0;names.forEach(n=>{const els=f.querySelectorAll('[name="'+n+'"]');if([...els].some(e=>(e.type==='radio'?e.checked:e.value.trim()!=='')))done++;});
+const p=Math.round(done/names.length*100);document.getElementById('pb').style.width=p+'%';document.getElementById('pt').textContent=p+' % completado';}
+f.addEventListener('input',prog);f.addEventListener('change',prog);
+f.addEventListener('submit',async e=>{e.preventDefault();const b=f.querySelector('button');b.disabled=true;b.textContent='Enviando…';
+try{const r=await fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});
+if(r.ok){document.getElementById('ok').style.display='block';b.style.display='none';}else{throw 0}}
+catch(_){b.disabled=false;b.textContent='Enviar respuestas';alert('No se pudo enviar. Inténtalo de nuevo.');}});
+</script>
+</body>
+</html>
