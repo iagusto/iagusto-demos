@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatización del Plan de Pensiones · Asesoría Miguel Plaza · iAgusto.app</title>
+<meta name="description" content="Propuesta para automatizar cada mes los ficheros de aportaciones y altas del plan de pensiones de las 65 empresas de construcción de Asesoría Miguel Plaza.">
+<link rel="canonical" href="https://iagusto.github.io/iagusto-demos/propuesta-miguel-plaza-plan-pensiones.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Automatización del Plan de Pensiones · Asesoría Miguel Plaza">
+<meta property="og:description" content="De 30 horas al mes a unos minutos: aportaciones y altas del plan generadas automáticamente desde A3.">
+<meta property="og:image" content="https://iagusto.github.io/iagusto-demos/preview-miguel-plaza-plan-pensiones.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://iagusto.github.io/iagusto-demos/propuesta-miguel-plaza-plan-pensiones.html">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="iAgusto.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Automatización del Plan de Pensiones · Asesoría Miguel Plaza">
+<meta name="twitter:description" content="Aportaciones y altas del plan generadas automáticamente desde A3.">
+<meta name="twitter:image" content="https://iagusto.github.io/iagusto-demos/preview-miguel-plaza-plan-pensiones.jpg">
+<meta name="theme-color" content="#1A3A5C">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A3A5C;--navy-dark:#0f2338;--navy-light:#2a5080;--orange:#E87722;--orange-light:#F4955A;--orange-pale:#FEF0E6;--bg:#f5f7fa;--txt:#1f2937;--muted:#6b7280;--line:#e5e7eb;--green:#10b981;--amber:#f59e0b;--red:#ef4444}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:'DM Sans',sans-serif;color:var(--txt);background:#fff;line-height:1.6}
+h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400;margin:0}
+nav{position:sticky;top:0;z-index:20;background:var(--navy-dark);display:flex;align-items:center;justify-content:space-between;padding:12px 28px}
+nav .brand{color:#fff;font-weight:700;display:flex;align-items:center;gap:10px}
+nav .brand span.b{background:var(--orange);border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+nav .links a{color:#cbd5e1;text-decoration:none;margin-left:20px;font-size:14px}
+nav .links a:hover{color:var(--orange-light)}
+.hero{background:linear-gradient(135deg,var(--navy-dark),var(--navy));color:#fff;padding:70px 28px}
+.hero .in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center}
+.tag{display:inline-block;background:rgba(232,119,34,.18);color:var(--orange-light);padding:5px 12px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:16px}
+.hero h1{font-size:48px;line-height:1.1}
+.hero p.sub{font-size:19px;opacity:.88;margin-top:14px}
+.hero .meta{margin-top:22px;font-size:14px;opacity:.75}
+.pcard{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:26px}
+.pcard .l{font-size:13px;opacity:.7;text-transform:uppercase;letter-spacing:.05em}
+.pcard .v{font-family:'DM Serif Display',serif;font-size:40px;color:var(--orange-light)}
+.pcard hr{border:0;border-top:1px solid rgba(255,255,255,.15);margin:14px 0}
+section{padding:64px 28px}
+section .in{max-width:1100px;margin:0 auto}
+section.alt{background:var(--bg)}
+.kicker{color:var(--orange);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+section h2{font-size:36px;color:var(--navy);margin:6px 0 24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.card h3{font-size:21px;color:var(--navy);margin-bottom:8px}
+.card .ic{width:44px;height:44px;border-radius:10px;background:var(--orange-pale);color:var(--orange);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+.stat{font-family:'DM Serif Display',serif;font-size:44px;color:var(--orange)}
+.box{background:var(--orange-pale);border-left:5px solid var(--orange);padding:16px 20px;border-radius:8px;margin-top:22px}
+.flow{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:10px}
+.flow .st{flex:1;min-width:170px;background:#fff;border:1px solid var(--line);border-top:4px solid var(--orange);border-radius:10px;padding:14px}
+.flow .st b{color:var(--navy);display:block;margin-bottom:4px}
+.flow .st small{color:var(--muted)}
+/* mockup */
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tab-btn{border:1px solid var(--navy);background:#fff;color:var(--navy);padding:8px 16px;border-radius:8px;cursor:pointer;font:inherit;font-weight:700}
+.tab-btn.active{background:var(--navy);color:#fff}
+.app{border-radius:14px;overflow:hidden;box-shadow:0 12px 40px rgba(15,35,56,.18);border:1px solid var(--line)}
+.app .top{background:var(--navy);color:#fff;padding:10px 16px;font-size:14px;display:flex;justify-content:space-between}
+.app .body{display:grid;grid-template-columns:190px 1fr;min-height:400px}
+.app .side{background:var(--navy-dark);color:#cbd5e1;padding:14px;font-size:14px}
+.app .side div{padding:8px 10px;border-radius:6px;margin-bottom:4px}
+.app .side .on{background:rgba(232,119,34,.2);color:#fff}
+.app .main{background:#f1f4f8;padding:18px}
+.tab{display:none}.tab.on{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:#fff;border-radius:10px;padding:12px}
+.kpi small{color:var(--muted);font-size:12px}
+.kpi b{display:block;font-size:24px;color:var(--navy)}
+table.t{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13px}
+table.t th{background:var(--navy);color:#fff;text-align:left;padding:9px}
+table.t td{padding:8px 9px;border-bottom:1px solid var(--line)}
+table.t tr:nth-child(even) td{background:#f8fafc}
+.pill{padding:2px 9px;border-radius:12px;font-size:12px;font-weight:700}
+.ok{background:#d1fae5;color:#065f46}.warn{background:#fef3c7;color:#92400e}.bad{background:#fee2e2;color:#991b1b}
+.drop{border:2px dashed var(--orange);border-radius:12px;background:#fff;padding:26px;text-align:center;margin-bottom:14px;color:var(--navy)}
+.btn{display:inline-block;background:var(--orange);color:#fff;padding:10px 18px;border-radius:8px;font-weight:700;text-decoration:none}
+/* precios */
+table.p{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+table.p th{background:var(--navy);color:#fff;text-align:left;padding:12px 14px}
+table.p td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+table.p tr:nth-child(even) td{background:#f8fafc}
+table.p td.r,table.p th.r{text-align:right;white-space:nowrap;font-weight:700}
+table.p td small{color:var(--muted)}
+.total{background:var(--navy);color:#fff;border-radius:14px;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;margin:16px 0 30px;flex-wrap:wrap;gap:10px}
+.total .v{font-family:'DM Serif Display',serif;font-size:38px;color:var(--orange-light)}
+.phase-h{display:flex;align-items:center;gap:10px;margin:26px 0 12px}
+.phase-h span{background:var(--orange);color:#fff;border-radius:6px;padding:3px 10px;font-weight:700;font-size:13px}
+.phase-h h3{color:var(--navy);font-size:24px}
+ul.ch{padding-left:0;list-style:none;margin:8px 0}
+ul.ch li{padding-left:24px;position:relative;margin-bottom:6px}
+ul.ch li:before{content:"✓";position:absolute;left:0;color:var(--orange);font-weight:700}
+/* timeline */
+.tl{border-left:3px solid var(--orange);margin-left:10px;padding-left:24px}
+.tl .it{position:relative;margin-bottom:24px}
+.tl .it:before{content:"";position:absolute;left:-33px;top:4px;width:15px;height:15px;border-radius:50%;background:var(--orange);border:3px solid #fff;box-shadow:0 0 0 2px var(--orange)}
+.tl .it b{color:var(--navy)}
+.team{display:flex;gap:16px;align-items:center}
+.team .lg{width:70px;height:70px;border-radius:14px;background:var(--navy);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.cta{background:linear-gradient(135deg,var(--navy-dark),var(--navy));color:#fff;text-align:center}
+.cta h2{color:#fff}
+.cta .btn{font-size:18px;padding:16px 30px;margin-top:18px}
+footer{background:var(--navy-dark);color:#94a3b8;text-align:center;padding:24px;font-size:13px}
+footer .lg{display:inline-flex;width:32px;height:32px;border-radius:8px;background:var(--orange);color:#fff;font-weight:700;align-items:center;justify-content:center;margin-right:8px;vertical-align:middle}
+@media(max-width:900px){nav .links{display:none}.hero .in,.grid3,.grid2{grid-template-columns:1fr}.pcard{display:none}.hero h1{font-size:34px}.app .body{grid-template-columns:1fr}.app .side{display:none}.kpis{grid-template-columns:repeat(2,1fr)}section h2{font-size:28px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><span class="b">iA</span>iAgusto.app</div>
+  <div class="links"><a href="#diagnostico">Diagnóstico</a><a href="#solucion">Solución</a><a href="#demo">Vista previa</a><a href="#inversion">Inversión</a><a href="#plan">Plan</a></div>
+</nav>
+
+<header class="hero">
+  <div class="in">
+    <div>
+      <div class="tag">Propuesta · Asesoría Miguel Plaza</div>
+      <h1>Automatización del Plan de Pensiones</h1>
+      <p class="sub">Cada mes, las 65 empresas con su fichero de aportaciones y sus altas listas para subir a La Caixa, generadas directamente desde A3.</p>
+      <div class="meta">La Palma · 18 de noviembre de 2026 · iAgusto.app</div>
+    </div>
+    <div class="pcard">
+      <div class="l">Fase 1 · Implantación</div><div class="v">1.800 €</div>
+      <div class="l">Servicio mensual</div><div class="v">250 €/mes</div>
+      <hr><div class="l">Fase 2 · Asistente de subida (opcional)</div><div class="v" style="font-size:30px">500 €</div>
+    </div>
+  </div>
+</header>
+
+<section id="diagnostico">
+  <div class="in">
+    <div class="kicker">01 · Diagnóstico</div>
+    <h2>Un trámite mensual que se come 30 horas de equipo</h2>
+    <div class="grid3">
+      <div class="card"><div class="stat">65</div><h3>Empresas</h3><p>De 1 a 30 trabajadores cada una, y previsiblemente irán entrando más.</p></div>
+      <div class="card"><div class="stat">30 h</div><h3>Cada mes</h3><p>5 horas por cada una de las 6 personas del equipo, entre el día 10 y el 25.</p></div>
+      <div class="card"><div class="stat">0</div><h3>Margen de error</h3><p>La plataforma rechaza el fichero entero si hay un solo fallo de formato.</p></div>
+    </div>
+    <div class="box"><strong>El problema de fondo:</strong> A3 ya tiene todos los datos, pero hay que pasarlos a mano a la plantilla de la entidad, empresa por empresa, revisar quién es nuevo en el plan y preparar su alta por separado. Es trabajo repetitivo, sin valor y con riesgo de error.</div>
+  </div>
+</section>
+
+<section id="solucion" class="alt">
+  <div class="in">
+    <div class="kicker">02 · Solución</div>
+    <h2>Exportáis de A3, la herramienta hace el resto</h2>
+    <div class="flow">
+      <div class="st"><b>1. Exportar de A3</b><small>Listado de aportaciones (concepto 256) y listado de trabajadores, uno por empresa.</small></div>
+      <div class="st"><b>2. Subir a la herramienta</b><small>Arrastrar los ficheros. Reconoce cada empresa por su CIF.</small></div>
+      <div class="st"><b>3. Revisar el resumen</b><small>Altas nuevas, totales y avisos antes de subir nada.</small></div>
+      <div class="st"><b>4. Descargar y subir</b><small>Un ZIP con altas y aportaciones, cada fichero con su nombre correcto.</small></div>
+    </div>
+    <div class="grid3" style="margin-top:24px">
+      <div class="card"><div class="ic">📄</div><h3>Fichero de aportaciones</h3><p>Rellena la plantilla oficial con CIF y NIF de cada trabajador e importe obligatorio del promotor. Lo guarda como <code>AAAAMMDD_679_CIF.xlsx</code> con la fecha de subida.</p></div>
+      <div class="card"><div class="ic">👤</div><h3>Altas automáticas</h3><p>Detecta los trabajadores que nunca han estado en el plan con esa empresa y genera su Excel de alta. Si alguien vuelve a la misma empresa, no se le da de alta otra vez.</p></div>
+      <div class="card"><div class="ic">🗂️</div><h3>Histórico por empresa</h3><p>Registro de todos los partícipes de cada empresa desde el primer día. Lo cargamos con los ficheros que ya tenéis de meses anteriores.</p></div>
+      <div class="card"><div class="ic">🔄</div><h3>Formatos de la entidad</h3><p>Convierte sexo, nacionalidad, tipo de vía y fechas al formato que pide La Caixa. Aplica los valores fijos acordados: idioma castellano, "N" en ingresos y fecha de alta en la empresa.</p></div>
+      <div class="card"><div class="ic">⚠️</div><h3>Avisos y validación</h3><p>Avisa de los datos que faltan (fechas 00/00/0000, CP vacío…) y de los importes que cambian respecto al mes anterior. Así se corrige en A3 antes de que la plataforma rechace el fichero.</p></div>
+      <div class="card"><div class="ic">📊</div><h3>Resumen mensual</h3><p>Por empresa: trabajadores, total aportado, altas nuevas y diferencias con el mes anterior. El orden de trabajo queda claro: primero las altas y, otro día, las aportaciones.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="in">
+    <div class="kicker">03 · Vista previa</div>
+    <h2>Así lo verá vuestro equipo</h2>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('carga',this)">Carga del mes</button>
+      <button class="tab-btn" onclick="showTab('resumen',this)">Resumen y avisos</button>
+      <button class="tab-btn" onclick="showTab('altas',this)">Altas pendientes</button>
+    </div>
+    <div class="app">
+      <div class="top"><span>Plan de Pensiones · Asesoría Miguel Plaza</span><span>Noviembre 2026</span></div>
+      <div class="body">
+        <div class="side"><div class="on">Carga del mes</div><div>Resumen</div><div>Altas</div><div>Histórico</div><div>Empresas</div></div>
+        <div class="main">
+          <div class="tab on" id="t-carga">
+            <div class="drop"><strong>Arrastra aquí las exportaciones de A3</strong><br><small>Aportaciones y trabajadores · varias empresas a la vez</small></div>
+            <table class="t"><tr><th>Empresa (CIF)</th><th>Aportaciones</th><th>Trabajadores</th><th>Estado</th></tr>
+              <tr><td>Construcciones Ejemplo Norte · B00000001</td><td>✓</td><td>✓</td><td><span class="pill ok">Listo</span></td></tr>
+              <tr><td>Obras y Reformas Ejemplo · B00000002</td><td>✓</td><td>✓</td><td><span class="pill warn">2 avisos</span></td></tr>
+              <tr><td>Estructuras Ejemplo Sur · B00000003</td><td>✓</td><td>—</td><td><span class="pill bad">Falta listado trabajadores</span></td></tr>
+              <tr><td>Albañilería Ejemplo · B00000004</td><td>✓</td><td>✓</td><td><span class="pill ok">Listo</span></td></tr>
+            </table>
+          </div>
+          <div class="tab" id="t-resumen">
+            <div class="kpis">
+              <div class="kpi"><small>Empresas procesadas</small><b>63 / 65</b></div>
+              <div class="kpi"><small>Partícipes</small><b>812</b></div>
+              <div class="kpi"><small>Altas nuevas</small><b>9</b></div>
+              <div class="kpi"><small>Avisos</small><b>5</b></div>
+            </div>
+            <table class="t"><tr><th>Empresa</th><th>Aviso</th><th>Nivel</th></tr>
+              <tr><td>B00000002</td><td>Importe de un trabajador pasa de 37,04 € a 18,52 €</td><td><span class="pill warn">Revisar</span></td></tr>
+              <tr><td>B00000002</td><td>Trabajador nuevo sin fecha de nacimiento (00/00/0000)</td><td><span class="pill bad">Corregir en A3</span></td></tr>
+              <tr><td>B00000007</td><td>2 trabajadores a 0 € (baja médica), excluidos del fichero</td><td><span class="pill ok">Info</span></td></tr>
+              <tr><td>B00000011</td><td>Reingreso: ya fue partícipe en 2025, no necesita alta</td><td><span class="pill ok">Info</span></td></tr>
+            </table>
+            <p style="margin-top:14px"><a class="btn" href="#demo">Descargar ZIP de aportaciones</a></p>
+          </div>
+          <div class="tab" id="t-altas">
+            <table class="t"><tr><th>Empresa</th><th>NIF</th><th>Nombre</th><th>Fecha alta</th><th>Estado</th></tr>
+              <tr><td>B00000001</td><td>00000001A</td><td>Trabajador Ejemplo Uno</td><td>03/11/2026</td><td><span class="pill ok">Completo</span></td></tr>
+              <tr><td>B00000002</td><td>00000002B</td><td>Trabajador Ejemplo Dos</td><td>10/11/2026</td><td><span class="pill bad">Falta fecha nacimiento</span></td></tr>
+              <tr><td>B00000005</td><td>X0000003C</td><td>Trabajador Ejemplo Tres</td><td>01/11/2026</td><td><span class="pill ok">Completo</span></td></tr>
+            </table>
+            <p style="margin-top:14px"><a class="btn" href="#demo">Descargar ZIP de altas</a> <small style="color:var(--muted)">Subir antes que las aportaciones</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-top:10px">Datos ficticios con fines ilustrativos.</p>
+  </div>
+</section>
+
+<section id="inversion" class="alt">
+  <div class="in">
+    <div class="kicker">04 · Inversión</div>
+    <h2>Precio cerrado por entregable</h2>
+
+    <div class="phase-h"><span>FASE 1</span><h3>Generación automática de ficheros</h3></div>
+    <table class="p">
+      <tr><th>Partida</th><th class="r">Importe</th></tr>
+      <tr><td><strong>Lectura de las exportaciones de A3</strong><br><small>Aportaciones (concepto 256) y trabajadores, varias empresas a la vez, reconocimiento por CIF y limpieza de datos.</small></td><td class="r">450 €</td></tr>
+      <tr><td><strong>Generador del fichero de aportaciones</strong><br><small>Plantilla oficial por empresa, exclusión de importes a cero y nombre <code>AAAAMMDD_679_CIF</code>.</small></td><td class="r">350 €</td></tr>
+      <tr><td><strong>Histórico de partícipes por empresa</strong><br><small>Registro permanente y carga inicial con los ficheros de meses anteriores.</small></td><td class="r">350 €</td></tr>
+      <tr><td><strong>Generador de altas</strong><br><small>Detección de partícipes nuevos, conversión de formatos, valores por defecto y aviso de datos incompletos.</small></td><td class="r">350 €</td></tr>
+      <tr><td><strong>Resumen mensual y avisos de importes</strong><br><small>Totales por empresa, altas del mes y cambios de importe respecto al mes anterior.</small></td><td class="r">200 €</td></tr>
+      <tr><td><strong>Puesta en marcha y formación</strong><br><small>Validación con un mes real y sesión con el equipo.</small></td><td class="r">100 €</td></tr>
+    </table>
+    <div class="total"><span>Total implantación Fase 1</span><span class="v">1.800 €</span></div>
+
+    <div class="grid2">
+      <div class="card"><h3>Servicio mensual · 250 €/mes</h3>
+        <ul class="ch"><li>Alojamiento, base de datos y copias de seguridad</li><li>Empresas y trabajadores ilimitados</li><li>Adaptación si La Caixa o A3 cambian la plantilla o el listado</li><li>Mantenimiento y soporte al equipo</li><li>Incorporación de empresas nuevas al plan</li></ul>
+      </div>
+      <div class="card"><h3>Fase 2 · Asistente de subida · 500 €</h3>
+        <p>Opcional. Sube los ficheros a la plataforma de La Caixa en lugar de hacerlo uno por uno. Vuestro equipo solo introduce el código de verificación SMS al entrar y el asistente se encarga del resto.</p>
+        <p style="color:var(--muted);font-size:14px">Depende de cómo funcione la web de la entidad. Se valida su viabilidad técnica antes de empezar y, si no fuese viable, no se factura.</p>
+      </div>
+    </div>
+
+    <div class="box"><strong>Forma de pago:</strong> 50 % a la firma y 50 % a la entrega de la v1.0 de cada fase. El servicio mensual empieza a facturarse a la entrega de la Fase 1. Impuestos indirectos no incluidos. La oferta incluye todo junto: cualquier cambio tendrá que volver a presupuestarse en conjunto.</div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="in">
+    <div class="kicker">05 · Plan de trabajo</div>
+    <h2>Listo para el siguiente cierre mensual</h2>
+    <div class="tl">
+      <div class="it"><b>Semana 1 · Arranque</b><br>Recepción de las exportaciones de A3 ampliadas (con código postal) y del histórico de ficheros subidos. Configuración de las empresas.</div>
+      <div class="it"><b>Semana 2 · Fase 1 v1.0</b><br>Generadores de aportaciones y altas, histórico, resumen y avisos. Pruebas con datos reales de un mes ya presentado.</div>
+      <div class="it"><b>Semana 3 · Puesta en marcha</b><br>Formación al equipo y primer mes real en paralelo con el proceso actual.</div>
+      <div class="it"><b>Fase 2 (opcional)</b><br>Validación técnica de la plataforma de La Caixa y entrega del asistente de subida en unas 2 semanas.</div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="in">
+    <div class="kicker">06 · Equipo</div>
+    <h2>Quién lo desarrolla</h2>
+    <div class="card team"><div class="lg">iA</div><div><h3>iAgusto.app · César Moya</h3><p>Dirección técnica, desarrollo, automatización, despliegue y soporte. Ya trabajamos con el despacho en la app interna de gestión.</p></div></div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="in">
+    <h2>¿Lo dejamos funcionando para el próximo mes?</h2>
+    <p>Propuesta válida durante 30 días desde su fecha.</p>
+    <a class="btn" href="mailto:cesar@iagusto.app?subject=Propuesta%20Plan%20de%20Pensiones%20-%20Acepto&body=Hola%20C%C3%A9sar%2C%0A%0AConfirmo%20la%20aceptaci%C3%B3n%20de%20la%20propuesta%20de%20automatizaci%C3%B3n%20del%20plan%20de%20pensiones%3A%0A%0A%5B%20%5D%20Fase%201%20(1.800%20%E2%82%AC%20%2B%20250%20%E2%82%AC%2Fmes)%0A%5B%20%5D%20Fase%202%20(500%20%E2%82%AC)%0A%0AUn%20saludo.">Acepto la propuesta → Arranquemos</a>
+  </div>
+</section>
+
+<footer><span class="lg">iA</span>©S.A.® IAGUSTO · iagusto.app</footer>
+
+<script>
+function showTab(id,b){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.getElementById('t-'+id).classList.add('on');document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');}
+</script>
+</body>
+</html>
